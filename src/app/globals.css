@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand palette — light theme */
+  --color-red: #ff2d3b;
+  --color-red-hover: #e51e2b;
+  --color-red-soft: #ff6b74;
+  --color-ink: #17171b;
+  --color-ink-soft: #45454d;
+  --color-muted: #74747e;
+  --color-line: #ececee;
+  --color-paper: #ffffff;
+  --color-cream: #f8f7f5;
+  --color-cream-2: #f2f1ee;
+
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-red);
+  color: #fff;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  font-weight: 600;
+}
+
+.font-mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-red);
+  font-weight: 500;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: #d9d9dd;
+  border-radius: 999px;
+  border: 2px solid var(--color-cream);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-red-soft);
+}
+
+/* Grid backdrop */
+.grid-bg {
+  background-image: linear-gradient(
+      to right,
+      rgba(23, 23, 27, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(23, 23, 27, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 60% at 50% 0%,
+    #000 30%,
+    transparent 75%
+  );
+  mask-image: radial-gradient(
+    ellipse 80% 60% at 50% 0%,
+    #000 30%,
+    transparent 75%
+  );
+}
+
+.dot-bg {
+  background-image: radial-gradient(rgba(23, 23, 27, 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Aurora blobs */
+.aurora {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(70px);
+  opacity: 0.55;
+  animation: drift 16s ease-in-out infinite;
+}
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(40px, -30px) scale(1.12);
+  }
+  66% {
+    transform: translate(-30px, 20px) scale(0.94);
+  }
+}
+
+/* Marquee */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Rising particles in the mark */
+@keyframes rise {
+  0% {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-14px);
+    opacity: 0;
+  }
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(120deg, var(--color-ink) 30%, var(--color-red));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Animated conic ring */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.shadow-soft {
+  box-shadow: 0 1px 2px rgba(23, 23, 27, 0.04),
+    0 12px 32px -12px rgba(23, 23, 27, 0.12);
+}
+.shadow-lift {
+  box-shadow: 0 1px 2px rgba(23, 23, 27, 0.05),
+    0 24px 60px -20px rgba(23, 23, 27, 0.18);
+}
+.shadow-red {
+  box-shadow: 0 10px 30px -8px rgba(255, 45, 59, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

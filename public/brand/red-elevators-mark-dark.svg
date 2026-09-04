@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="78" viewBox="2 16 56 78" fill="none" role="img" aria-label="Red Elevators mark">
+  <!-- three ascending bars -->
+  <rect x="4" y="74" width="12" height="16" rx="4" fill="#FF2D3B"/>
+  <rect x="22" y="64" width="12" height="26" rx="4" fill="#FF2D3B"/>
+  <rect x="40" y="46" width="12" height="44" rx="4" fill="#FF2D3B"/>
+  <!-- particles rising off the tallest bar -->
+  <circle cx="46" cy="38" r="4" fill="#FF2D3B" opacity="0.85"/>
+  <circle cx="54" cy="30" r="3.2" fill="#FF2D3B" opacity="0.55"/>
+  <circle cx="44" cy="22" r="2.6" fill="#FF0000"/>
+</svg>
