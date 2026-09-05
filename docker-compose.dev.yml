@@ -1,0 +1,22 @@
+# Local development compose file.
+#
+# Usage:
+#   docker compose -f docker-compose.dev.yml up --build
+#
+# Runs `next dev` inside the container with the source bind-mounted, so
+# edits on the host hot-reload without rebuilding the image.
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    environment:
+      - WATCHPACK_POLLING=true
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next

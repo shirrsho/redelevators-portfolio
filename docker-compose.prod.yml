@@ -1,0 +1,21 @@
+# Production / deployment compose file, used on the VPS.
+#
+# Deployed by .github/workflows/deploy.yml, which:
+#   1. builds & pushes the image to Docker Hub,
+#   2. copies this file to /home/<user>/redelevators/redelevators-portfolio/
+#      on the VPS,
+#   3. writes .env there from the ENV_FILE secret,
+#   4. runs `docker compose -f docker-compose.prod.yml pull && up -d`.
+#
+# The container listens on port 3000 internally; the host exposes it on 6000.
+services:
+  web:
+    image: itzwasik/redelevators-portfolio:latest
+    restart: unless-stopped
+    ports:
+      - "6000:3000"
+    env_file:
+      - .env
+    environment:
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
