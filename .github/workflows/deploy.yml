@@ -115,6 +115,16 @@ jobs:
             ${{ secrets.ENV_FILE }}
             ENV_EOF
 
+            # The Cloudflare Tunnel token is kept in its own secret rather
+            # than inside ENV_FILE, so rotating the tunnel never risks
+            # clobbering the app's runtime variables. The cloudflared
+            # service reads it as TUNNEL_TOKEN via env_file.
+            cat >> .env <<'TUNNEL_EOF'
+            TUNNEL_TOKEN=${{ secrets.CLOUDFLARE_TUNNEL_TOKEN }}
+            TUNNEL_EOF
+
+            chmod 600 .env
+
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
             docker compose -f docker-compose.prod.yml pull

@@ -4,18 +4,41 @@
 #   1. builds & pushes the image to Docker Hub,
 #   2. copies this file to /home/<user>/redelevators/redelevators-portfolio/
 #      on the VPS,
-#   3. writes .env there from the ENV_FILE secret,
+#   3. writes .env there from the ENV_FILE + CLOUDFLARE_TUNNEL_TOKEN secrets,
 #   4. runs `docker compose -f docker-compose.prod.yml pull && up -d`.
 #
-# The container listens on port 3000 internally; the host exposes it on 6000.
+# Public traffic reaches the app through a Cloudflare Tunnel, not through an
+# open port: the `cloudflared` sidecar dials out to Cloudflare and forwards
+# requests to `web` over the compose network. The tunnel is remotely managed,
+# so its ingress rules live in the Cloudflare Zero Trust dashboard and must
+# point redelevators.com at `http://web:3000`.
 services:
   web:
     image: itzwasik/redelevators-portfolio:latest
     restart: unless-stopped
+    expose:
+      # Reachable as http://web:3000 from other services on this network.
+      # Not published to the host: the tunnel is the only ingress path.
+      - "3000"
     ports:
-      - "6000:3000"
+      # Loopback-only, for debugging over an SSH tunnel. Port 6000 is in the
+      # range browsers refuse to connect to (ERR_UNSAFE_PORT), so this is
+      # deliberately 6001.
+      - "127.0.0.1:6001:3000"
     env_file:
       - .env
     environment:
       - PORT=3000
       - HOSTNAME=0.0.0.0
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    # TUNNEL_TOKEN comes from .env (written by the deploy workflow from the
+    # CLOUDFLARE_TUNNEL_TOKEN secret). It identifies the tunnel *and* is its
+    # credential, so it never belongs in this file.
+    command: tunnel --no-autoupdate run
+    env_file:
+      - .env
+    depends_on:
+      - web
