@@ -1,4 +1,5 @@
 import { Wordmark } from "./Mark";
+import { EmailLink } from "./EmailLink";
 import { nav } from "@/lib/content";
 
 export function Footer() {
@@ -34,16 +35,16 @@ export function Footer() {
               <div className="font-mono-label !text-muted">Contact</div>
               <ul className="mt-4 space-y-2.5 text-sm">
                 <li>
-                  <a
-                    href="mailto:hello@redelevators.com"
+                  <EmailLink
+                    email="contact@redelevators.com"
                     className="text-ink-soft transition-colors hover:text-red"
-                  >
-                    hello@redelevators.com
-                  </a>
+                  />
                 </li>
                 <li>
                   <a
-                    href="#contact"
+                    href="https://calendly.com/redelevators/30min"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-ink-soft transition-colors hover:text-red"
                   >
                     Book a call
