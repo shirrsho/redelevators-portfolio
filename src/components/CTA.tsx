@@ -52,7 +52,9 @@ export function CTA() {
           <Reveal delay={0.15}>
             <div className="mt-9 flex flex-wrap gap-3">
               <a
-                href="mailto:hello@redelevators.com"
+                href="https://calendly.com/redelevators/30min"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-red transition-transform hover:scale-[1.03] active:scale-95"
               >
                 Book a free Call
