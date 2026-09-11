@@ -17,7 +17,7 @@ export function Footer() {
 
           <div className="flex gap-16">
             <div>
-              <div className="font-mono-label !text-muted">Explore</div>
+              <div className="font-mono-label text-muted">Explore</div>
               <ul className="mt-4 space-y-2.5 text-sm">
                 {nav.map((n) => (
                   <li key={n.href}>
@@ -32,7 +32,7 @@ export function Footer() {
               </ul>
             </div>
             <div>
-              <div className="font-mono-label !text-muted">Contact</div>
+              <div className="font-mono-label text-muted">Contact</div>
               <ul className="mt-4 space-y-2.5 text-sm">
                 <li>
                   <EmailLink
@@ -56,10 +56,10 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-line pt-8 sm:flex-row sm:items-center">
-          <span className="font-mono-label !text-muted !tracking-[0.18em]">
+          <span className="font-mono-label text-muted tracking-[0.18em]">
             © 2026 Red Elevators
           </span>
-          <span className="font-mono-label !text-muted !tracking-[0.18em]">
+          <span className="font-mono-label text-muted tracking-[0.18em]">
             Growth on Autopilot
           </span>
         </div>

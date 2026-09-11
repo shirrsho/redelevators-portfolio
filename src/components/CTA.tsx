@@ -34,7 +34,7 @@ export function CTA() {
 
         <div className="relative max-w-xl">
           <Reveal>
-            <span className="font-mono-label !text-white/80">
+            <span className="font-mono-label text-white/80">
               Growth on Autopilot
             </span>
           </Reveal>

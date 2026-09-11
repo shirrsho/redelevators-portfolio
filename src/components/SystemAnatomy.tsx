@@ -30,7 +30,7 @@ export function SystemAnatomy({ nodes }: { nodes: AnatomyNode[] }) {
             className="anat-node flex min-w-0 flex-1 flex-col gap-1.5 rounded-xl border border-line bg-white p-4"
             style={{ "--i": i } as React.CSSProperties}
           >
-            <span className="font-mono-label !text-[0.625rem] !tracking-[0.16em] !text-muted">
+            <span className="font-mono-label text-[0.625rem] tracking-[0.16em] text-muted">
               {n.step}
             </span>
             <span className="font-[family-name:var(--font-display)] text-base font-semibold tracking-[-0.03em] text-ink">

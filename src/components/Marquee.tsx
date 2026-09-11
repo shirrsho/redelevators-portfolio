@@ -5,7 +5,7 @@ export function Marquee() {
   return (
     <section className="border-y border-line bg-cream/60 py-7">
       <div className="mx-auto max-w-6xl px-6">
-        <p className="mb-5 text-center font-mono-label !text-muted">
+        <p className="mb-5 text-center font-mono-label text-muted">
           Wired into the tools your team already runs on
         </p>
         <div className="marquee relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]">

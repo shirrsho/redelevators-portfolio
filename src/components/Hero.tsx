@@ -41,8 +41,8 @@ export function Hero() {
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-6 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ y: 16 }}
+            animate={{ y: 0 }}
             transition={{ duration: 0.6, ease }}
             className="inline-flex items-center gap-2 rounded-full border border-line bg-white/70 px-3.5 py-1.5 backdrop-blur"
           >
@@ -50,7 +50,7 @@ export function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-red" />
             </span>
-            <span className="font-mono-label !text-ink-soft">
+            <span className="font-mono-label text-ink-soft">
               Automation Agency
             </span>
           </motion.div>
@@ -60,8 +60,8 @@ export function Hero() {
               <motion.span
                 key={i}
                 className="block"
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ y: 24 }}
+                animate={{ y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 + i * 0.08, ease }}
               >
                 {line}
@@ -69,8 +69,8 @@ export function Hero() {
             ))}
             <motion.span
               className="block text-gradient"
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ y: 24 }}
+              animate={{ y: 0 }}
               transition={{ duration: 0.7, delay: 0.28, ease }}
             >
               autopilot.
@@ -78,8 +78,8 @@ export function Hero() {
           </h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ y: 16 }}
+            animate={{ y: 0 }}
             transition={{ duration: 0.7, delay: 0.4, ease }}
             className="mt-6 max-w-md text-lg text-muted"
           >
@@ -88,8 +88,8 @@ export function Hero() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ y: 16 }}
+            animate={{ y: 0 }}
             transition={{ duration: 0.7, delay: 0.5, ease }}
             className="mt-9 flex flex-wrap items-center gap-3"
           >
@@ -114,8 +114,8 @@ export function Hero() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, scale: reduce ? 1 : 0.94, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
+          initial={{ scale: reduce ? 1 : 0.94, y: 20 }}
+          animate={{ scale: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.2, ease }}
         >
           <HeroVisual />

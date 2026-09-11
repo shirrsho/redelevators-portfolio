@@ -49,9 +49,9 @@ export function HeroVisual() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-red" />
             </span>
-            <span className="font-mono-label !text-muted">Speed-to-lead · live</span>
+            <span className="font-mono-label text-muted">Speed-to-lead · live</span>
           </div>
-          <span className="rounded-full bg-red/10 px-2.5 py-1 font-mono-label !text-red">
+          <span className="rounded-full bg-red/10 px-2.5 py-1 font-mono-label text-red">
             6 steps
           </span>
         </div>
@@ -137,7 +137,7 @@ export function HeroVisual() {
               <div className="font-[family-name:var(--font-display)] text-sm font-semibold text-ink">
                 {s.v}
               </div>
-              <div className="font-mono-label !text-[0.6rem] !text-muted">
+              <div className="font-mono-label text-[0.6rem] text-muted">
                 {s.k}
               </div>
             </motion.div>

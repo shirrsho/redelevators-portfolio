@@ -56,7 +56,7 @@ export function Process() {
             {steps.map((s) => (
               <Reveal key={s.num} y={30}>
                 <div className="group relative">
-                  <span className="absolute -left-10 top-0 flex h-7 w-7 items-center justify-center rounded-full border border-white/20 bg-ink font-mono-label !text-[0.6rem] !text-white transition-colors group-hover:border-red group-hover:bg-red sm:-left-14 sm:h-9 sm:w-9 sm:!text-xs">
+                  <span className="absolute -left-10 top-0 flex h-7 w-7 items-center justify-center rounded-full border border-white/20 bg-ink font-mono-label text-[0.6rem] text-white transition-colors group-hover:border-red group-hover:bg-red sm:-left-14 sm:h-9 sm:w-9 sm:text-xs">
                     {s.num}
                   </span>
                   <h3 className="text-2xl font-semibold">{s.title}</h3>
