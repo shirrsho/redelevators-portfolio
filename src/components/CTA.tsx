@@ -60,10 +60,10 @@ export function CTA() {
                 Book a free Call
               </a>
               <a
-                href="#work"
+                href="#systems"
                 className="rounded-xl border border-white/40 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
               >
-                See case studies
+                See how it works
               </a>
             </div>
           </Reveal>

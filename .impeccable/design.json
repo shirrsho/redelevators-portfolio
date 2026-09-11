@@ -1,0 +1,569 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-10T10:54:46Z",
+  "title": "Design System: Red Elevators",
+  "extensions": {
+    "colorMeta": {
+      "red": {
+        "role": "primary",
+        "displayName": "Elevator Red",
+        "canonical": "#FF2D3B",
+        "purpose": "The system's only chromatic voice. Primary actions, live indicators, mono labels, headline metrics, the scroll progress bar.",
+        "tonalRamp": [
+          "oklch(15.0% 0.1613 24.6)",
+          "oklch(27.0% 0.1848 24.6)",
+          "oklch(39.0% 0.2083 24.6)",
+          "oklch(51.0% 0.2319 24.6)",
+          "oklch(62.0% 0.2260 24.6)",
+          "oklch(73.0% 0.2044 24.6)",
+          "oklch(84.0% 0.1828 24.6)",
+          "oklch(95.0% 0.1613 24.6)"
+        ]
+      },
+      "red-hover": {
+        "role": "primary",
+        "displayName": "Elevator Red Deep",
+        "canonical": "#E51E2B",
+        "purpose": "Hover and pressed state of the primary red only. Never a resting color.",
+        "tonalRamp": [
+          "oklch(15.0% 0.1524 25.6)",
+          "oklch(27.0% 0.1746 25.6)",
+          "oklch(39.0% 0.1969 25.6)",
+          "oklch(51.0% 0.2191 25.6)",
+          "oklch(62.0% 0.2136 25.6)",
+          "oklch(73.0% 0.1932 25.6)",
+          "oklch(84.0% 0.1728 25.6)",
+          "oklch(95.0% 0.1524 25.6)"
+        ]
+      },
+      "red-soft": {
+        "role": "primary",
+        "displayName": "Ember",
+        "canonical": "#FF6B74",
+        "purpose": "Soft tint for atmosphere only — aurora blurs, scrollbar thumb hover, tertiary dots. Never text, never an action.",
+        "tonalRamp": [
+          "oklch(15.0% 0.1214 19.3)",
+          "oklch(27.0% 0.1392 19.3)",
+          "oklch(39.0% 0.1569 19.3)",
+          "oklch(51.0% 0.1746 19.3)",
+          "oklch(62.0% 0.1702 19.3)",
+          "oklch(73.0% 0.1539 19.3)",
+          "oklch(84.0% 0.1377 19.3)",
+          "oklch(95.0% 0.1214 19.3)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "#17171B",
+        "purpose": "Body text, the dark section ground, and the nav's persistent dark CTA.",
+        "tonalRamp": [
+          "oklch(15.0% 0.0053 285.7)",
+          "oklch(27.0% 0.0061 285.7)",
+          "oklch(39.0% 0.0068 285.7)",
+          "oklch(51.0% 0.0076 285.7)",
+          "oklch(62.0% 0.0074 285.7)",
+          "oklch(73.0% 0.0067 285.7)",
+          "oklch(84.0% 0.0060 285.7)",
+          "oklch(95.0% 0.0053 285.7)"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Slate",
+        "canonical": "#45454D",
+        "purpose": "Secondary text — nav links at rest, footer links, chip labels.",
+        "tonalRamp": [
+          "oklch(15.0% 0.0090 285.8)",
+          "oklch(27.0% 0.0103 285.8)",
+          "oklch(39.0% 0.0116 285.8)",
+          "oklch(51.0% 0.0129 285.8)",
+          "oklch(62.0% 0.0126 285.8)",
+          "oklch(73.0% 0.0114 285.8)",
+          "oklch(84.0% 0.0102 285.8)",
+          "oklch(95.0% 0.0090 285.8)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Smoke",
+        "canonical": "#71717B",
+        "purpose": "Tertiary text — paragraphs under headings, metric captions. The lowest-contrast text the system permits, sitting deliberately at the WCAG AA floor: 4.83:1 on Paper, 4.51:1 on Chalk. No headroom to lighten it.",
+        "tonalRamp": [
+          "oklch(15.0% 0.0103 285.9)",
+          "oklch(27.0% 0.0118 285.9)",
+          "oklch(39.0% 0.0133 285.9)",
+          "oklch(51.0% 0.0148 285.9)",
+          "oklch(62.0% 0.0145 285.9)",
+          "oklch(73.0% 0.0131 285.9)",
+          "oklch(84.0% 0.0117 285.9)",
+          "oklch(95.0% 0.0103 285.9)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#ECECEE",
+        "purpose": "Every border, divider and grid line in the system. The only border color on light grounds.",
+        "tonalRamp": [
+          "oklch(15.0% 0.0018 286.3)",
+          "oklch(27.0% 0.0021 286.3)",
+          "oklch(39.0% 0.0023 286.3)",
+          "oklch(51.0% 0.0026 286.3)",
+          "oklch(62.0% 0.0025 286.3)",
+          "oklch(73.0% 0.0023 286.3)",
+          "oklch(84.0% 0.0020 286.3)",
+          "oklch(95.0% 0.0018 286.3)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#FFFFFF",
+        "purpose": "Default page and card ground.",
+        "tonalRamp": [
+          "oklch(15.0% 0.0000 89.9)",
+          "oklch(27.0% 0.0000 89.9)",
+          "oklch(39.0% 0.0000 89.9)",
+          "oklch(51.0% 0.0000 89.9)",
+          "oklch(62.0% 0.0000 89.9)",
+          "oklch(73.0% 0.0000 89.9)",
+          "oklch(84.0% 0.0000 89.9)",
+          "oklch(95.0% 0.0000 89.9)"
+        ]
+      },
+      "cream": {
+        "role": "neutral",
+        "displayName": "Chalk",
+        "canonical": "#F8F7F5",
+        "purpose": "Alternate section ground; resting fill for chips, mini-stat tiles, secondary-button hover.",
+        "tonalRamp": [
+          "oklch(15.0% 0.0019 84.6)",
+          "oklch(27.0% 0.0022 84.6)",
+          "oklch(39.0% 0.0025 84.6)",
+          "oklch(51.0% 0.0028 84.6)",
+          "oklch(62.0% 0.0027 84.6)",
+          "oklch(73.0% 0.0024 84.6)",
+          "oklch(84.0% 0.0022 84.6)",
+          "oklch(95.0% 0.0019 84.6)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The hero statement only. One per page, animated in line by line. Renders at line-height 1.02, not the 0.98 its utility class requests — see The Unlayered Heading Rule."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Every section heading. Always preceded by a mono label."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card and list-item headings."
+      },
+      "metric": {
+        "displayName": "Metric",
+        "purpose": "Standalone numeric values. 2.25rem stepping to 3rem in stat grids, 3rem stepping to 3.75rem in feature cards. Set in Elevator Red on light grounds."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All running text. Intros step up to 1.125rem in Smoke; card copy steps down to 0.95rem."
+      },
+      "label": {
+        "displayName": "Mono Label",
+        "purpose": "Section eyebrows, step numbers, status readouts, footer column heads. Uppercase, 0.22em tracking."
+      }
+    },
+    "shadows": [
+      {
+        "name": "soft",
+        "value": "0 1px 2px rgba(23,23,27,0.04), 0 12px 32px -12px rgba(23,23,27,0.12)",
+        "purpose": "The scrolled nav bar, testimonial cards, and small floating chips. Present but nearly subliminal."
+      },
+      {
+        "name": "lift",
+        "value": "0 1px 2px rgba(23,23,27,0.05), 0 24px 60px -20px rgba(23,23,27,0.18)",
+        "purpose": "Hover state of every content card, and the resting state of the hero's floating panel."
+      },
+      {
+        "name": "red-glow",
+        "value": "0 10px 30px -8px rgba(255,45,59,0.45)",
+        "purpose": "The primary red button only. The system's single tinted shadow."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The system's standard easing — fast out, long settle. Every entrance, draw-on and state transition."
+      },
+      {
+        "name": "duration-entrance",
+        "value": "700ms",
+        "purpose": "Scroll-triggered reveals: 24px rise with fade, fired 80px before entering view, once only."
+      },
+      {
+        "name": "duration-state",
+        "value": "300ms",
+        "purpose": "Hover and focus transitions on buttons, cards and nav."
+      },
+      {
+        "name": "stagger-children",
+        "value": "80ms",
+        "purpose": "Delay between siblings in a staggered group."
+      },
+      {
+        "name": "spring-card-lift",
+        "value": "stiffness 300, damping 22",
+        "purpose": "The 6px hover lift on content cards. The system's tactile signature."
+      },
+      {
+        "name": "spring-scroll-rail",
+        "value": "stiffness 140, damping 30, restDelta 0.001",
+        "purpose": "Scroll-linked indicators — the top progress bar and the Process rail."
+      },
+      {
+        "name": "loop-aurora",
+        "value": "16s ease-in-out infinite",
+        "purpose": "Ambient drift of the blurred red atmosphere blobs."
+      },
+      {
+        "name": "loop-marquee",
+        "value": "32s linear infinite",
+        "purpose": "The tool logo strip. Pauses on hover."
+      },
+      {
+        "name": "loop-float",
+        "value": "4-6s ease-in-out infinite",
+        "purpose": "Gentle vertical bob on the hero panel and its floating label nodes."
+      },
+      {
+        "name": "counter-count-up",
+        "value": "1400ms, ease-out-expo, 2200ms safety snap",
+        "purpose": "Numeric values animate 0 to target on first view; snaps to final if the tab is backgrounded."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ],
+    "container": {
+      "maxWidth": "1152px",
+      "gutter": "24px",
+      "note": "Every section shares this container. Backgrounds may go full-bleed; content may not."
+    },
+    "reducedMotion": {
+      "css": "Global override in src/app/globals.css collapses all animation and transition durations to 0.001ms and disables smooth scrolling.",
+      "js": "Components additionally call useReducedMotion() to skip transforms and render final states directly.",
+      "note": "Both layers must be maintained — the CSS alone does not stop a JS-driven counter or a keyframed transform loop."
+    },
+    "verification": {
+      "method": "Computed styles sampled from the running dev server at http://localhost:3000 across 375, 540, 640, 700, 900 and 1440px viewports.",
+      "confirmed": [
+        "container max-width 1152px and 24px gutter",
+        "section padding 96px",
+        "radius ladder 8/12/16/24/32px and full",
+        "button padding 14x24px, nav CTA 10x16px, chip 4x10px, cards 28px and 32px",
+        "all ten hex color values",
+        "body 16px/1.6, mono label 11.52px at 0.22em tracking uppercase, h3 20px, headline and title line-height 1.02",
+        "service and feature cards carry no resting shadow; hero panel and testimonial cards do",
+        "shadow values soft, lift and red-glow exact as documented"
+      ],
+      "corrected": [
+        "display line-height is 1.02, not the 0.98 requested by the hero's utility class",
+        "metric has no clamp; it steps between fixed sizes across breakpoints",
+        "cream-2 (#F2F1EE) is declared in @theme but never referenced, so Tailwind v4 does not emit it — removed as a dead token"
+      ]
+    },
+    "planned": {
+      "note": "Confirmed commitments NOT yet built, listed so they are not re-invented. The signature component (System Anatomy) shipped 2026-09-09 and now lives in `components`. Requirements and build order in docs/site-plan.md.",
+      "gaps": [
+        {
+          "name": "Form controls",
+          "note": "No input, label, textarea, select, checkbox, error or success state exists anywhere. Required before a contact page."
+        },
+        {
+          "name": "Page header pattern",
+          "note": "The hero is bespoke and home-only. Non-home pages need a shorter header band carrying the mono-label + headline rhythm."
+        },
+        {
+          "name": "Long-form prose styles",
+          "note": "No paragraph rhythm, lists, pull quotes, inline links, image captions or code blocks. Required before any article ships."
+        },
+        {
+          "name": "Scaling navigation",
+          "note": "Nav is flat anchor links to one page. Six service pages plus resources needs routing, a dropdown or mega-menu, and an active-page state."
+        },
+        {
+          "name": "404, error and empty states",
+          "note": "None exist."
+        },
+        {
+          "name": "Focus-visible styling",
+          "note": "No :focus-visible treatment found anywhere in the codebase. See The Visible Focus Rule."
+        }
+      ]
+    },
+    "openQuestions": [
+      {
+        "name": "A11Y-1 — red as small text",
+        "body": "Elevator Red fails WCAG AA below 24px: 3.69:1 on Paper, 3.45:1 on Chalk. Affects every mono label. Options: a text-only red (#E2101E clears both grounds), neutral labels in Slate, or an accepted documented deviation. Brand decision. See docs/accessibility-audit-2026-09-10.md."
+      },
+      {
+        "name": "A11Y-2 — CTA panel white-on-red",
+        "body": "white/85 and white/80 on Elevator Red compute to 2.99:1 and 2.77:1, the worst on the site. Solid white takes both to 3.69:1; pair it with a darker panel red (#EA1826) or a 24px lede to clear AA."
+      },
+      {
+        "name": "A11Y-3 — marquee tool names",
+        "body": "ink/40 on Chalk composites to #9E9D9E, 2.52:1. Real content, fails even the large-text bar. Raising the rest state toward ink/60 fixes it, at the cost of the deliberate faded look."
+      },
+      {
+        "name": "Focus-visible",
+        "body": "No :focus-visible styling exists anywhere in the codebase. Designed in the styleguide, recorded as The Visible Focus Rule, unbuilt. Larger gap than any contrast failure."
+      },
+      {
+        "name": "Dark theme",
+        "body": "Deferred by decision; the site is light-only and may stay so. Unused dark brand assets in public/brand/ are out of scope, not a defect."
+      }
+    ],
+    "relatedDocs": [
+      {
+        "path": "PRODUCT.md",
+        "owns": "Product truth — users, positioning, proof strategy, evidence rules."
+      },
+      {
+        "path": "docs/site-plan.md",
+        "owns": "Approved strategy, workstreams and build order."
+      },
+      {
+        "path": "docs/changelog.md",
+        "owns": "What has shipped, and why."
+      },
+      {
+        "path": "docs/design-audit-2026-09-09.md",
+        "owns": "Verification record and open technical findings."
+      },
+      {
+        "path": "docs/accessibility-audit-2026-09-10.md",
+        "owns": "Contrast measurements and open brand decisions."
+      },
+      {
+        "path": "docs/brief-service-page.md",
+        "owns": "Confirmed brief for the service page template."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The page's single most important action. The only element in the system carrying a tinted resting shadow.",
+      "html": "<button class=\"ds-btn-primary\">Book a free Call</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--color-red, #FF2D3B);color:var(--color-paper, #FFFFFF);font-family:\"Inter\", ui-sans-serif, system-ui, sans-serif;font-size:.875rem;font-weight:600;line-height:1;padding:14px 24px;border:none;border-radius:12px;box-shadow:0 10px 30px -8px rgba(255,45,59,.45);cursor:pointer;transition:background .3s cubic-bezier(.16,1,.3,1),transform .2s cubic-bezier(.16,1,.3,1);}.ds-btn-primary:hover{background:var(--color-red-hover, #E51E2B);transform:scale(1.03);}.ds-btn-primary:active{transform:scale(.95);}.ds-btn-primary:focus-visible{outline:2px solid var(--color-ink, #17171B);outline-offset:3px;}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "The paired lower-commitment action. Same geometry as primary, hairline border instead of fill.",
+      "html": "<button class=\"ds-btn-secondary\">See our work</button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;background:var(--color-paper, #FFFFFF);color:var(--color-ink, #17171B);font-family:\"Inter\", ui-sans-serif, system-ui, sans-serif;font-size:.875rem;font-weight:600;line-height:1;padding:14px 24px;border:1px solid var(--color-line, #ECECEE);border-radius:12px;cursor:pointer;transition:background .2s,border-color .2s;}.ds-btn-secondary:hover{background:var(--color-cream, #F8F7F5);border-color:rgba(23,23,27,.3);}.ds-btn-secondary:active{transform:scale(.97);}.ds-btn-secondary:focus-visible{outline:2px solid var(--color-ink, #17171B);outline-offset:3px;}"
+    },
+    {
+      "name": "Nav CTA (Dark)",
+      "kind": "button",
+      "refersTo": "button-dark",
+      "description": "The persistent action in the floating nav. Stays visible after the hero's red button scrolls away, so the page always has exactly one visible primary action.",
+      "html": "<button class=\"ds-btn-dark\">Book a call</button>",
+      "css": ".ds-btn-dark{display:inline-flex;align-items:center;background:var(--color-ink, #17171B);color:var(--color-paper, #FFFFFF);font-family:\"Inter\", ui-sans-serif, system-ui, sans-serif;font-size:.875rem;font-weight:600;line-height:1;padding:10px 16px;border:none;border-radius:12px;cursor:pointer;transition:transform .2s cubic-bezier(.16,1,.3,1);}.ds-btn-dark:hover{transform:scale(1.03);}.ds-btn-dark:active{transform:scale(.95);}.ds-btn-dark:focus-visible{outline:2px solid var(--color-red, #FF2D3B);outline-offset:3px;}"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "In-page anchor in the floating nav bar. Fills with Chalk and darkens to Graphite on hover.",
+      "html": "<a class=\"ds-nav-link\" href=\"#services\">Services</a>",
+      "css": ".ds-nav-link{display:inline-block;font-family:\"Inter\", ui-sans-serif, system-ui, sans-serif;font-size:.875rem;font-weight:500;color:var(--color-ink-soft, #45454D);text-decoration:none;padding:8px 14px;border-radius:8px;transition:background .2s,color .2s;}.ds-nav-link:hover{background:var(--color-cream, #F8F7F5);color:var(--color-ink, #17171B);}.ds-nav-link:focus-visible{outline:2px solid var(--color-red, #FF2D3B);outline-offset:2px;}"
+    },
+    {
+      "name": "Mono Section Label",
+      "kind": "custom",
+      "description": "The system's connective tissue. Opens every section above its headline; also used for step numbers and status readouts.",
+      "html": "<span class=\"ds-label\">What we do</span>",
+      "css": ".ds-label{display:inline-block;font-family:\"JetBrains Mono\", ui-monospace, monospace;font-size:.72rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--color-red, #FF2D3B);}"
+    },
+    {
+      "name": "Tag Chip",
+      "kind": "chip",
+      "refersTo": "chip-tag",
+      "description": "Static descriptor on service cards. Labels only — chips never filter or toggle in this system.",
+      "html": "<span class=\"ds-chip\">Nurture</span>",
+      "css": ".ds-chip{display:inline-block;background:var(--color-cream, #F8F7F5);color:var(--color-ink-soft, #45454D);font-family:\"Inter\", ui-sans-serif, system-ui, sans-serif;font-size:.75rem;font-weight:500;line-height:1.4;padding:4px 10px;border-radius:9999px;}"
+    },
+    {
+      "name": "Service Card",
+      "kind": "card",
+      "refersTo": "card-service",
+      "description": "Standard 16px-radius content card. Flat with a hairline border at rest; lifts 6px, gains the Lift shadow, and its corner icon inverts to solid red on hover.",
+      "html": "<article class=\"ds-card-service\"><div class=\"ds-card-service__top\"><span class=\"ds-card-service__num\">01</span><span class=\"ds-card-service__icon\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 13L13 1M13 1H4M13 1V10\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span></div><h3 class=\"ds-card-service__title\">Marketing automation</h3><p class=\"ds-card-service__body\">Lead capture, nurture sequences, content pipelines and campaign reporting — running on autopilot.</p><div class=\"ds-card-service__tags\"><span class=\"ds-chip\">Nurture</span><span class=\"ds-chip\">Email</span><span class=\"ds-chip\">Attribution</span></div></article>",
+      "css": ".ds-card-service{display:block;background:var(--color-paper, #FFFFFF);border:1px solid var(--color-line, #ECECEE);border-radius:16px;padding:28px;transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s;}.ds-card-service:hover{transform:translateY(-6px);box-shadow:0 1px 2px rgba(23,23,27,.05),0 24px 60px -20px rgba(23,23,27,.18);}.ds-card-service__top{display:flex;align-items:center;justify-content:space-between;}.ds-card-service__num{font-family:\"JetBrains Mono\", ui-monospace, monospace;font-size:.72rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--color-red, #FF2D3B);}.ds-card-service__icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--color-line, #ECECEE);border-radius:9999px;color:var(--color-ink, #17171B);transition:background .3s,border-color .3s,color .3s;}.ds-card-service:hover .ds-card-service__icon{background:var(--color-red, #FF2D3B);border-color:var(--color-red, #FF2D3B);color:var(--color-paper, #FFFFFF);}.ds-card-service__title{margin:20px 0 0;font-family:\"Space Grotesk\", ui-sans-serif, system-ui, sans-serif;font-size:1.25rem;font-weight:600;letter-spacing:-.03em;line-height:1.02;color:var(--color-ink, #17171B);}.ds-card-service__body{margin:10px 0 0;font-family:\"Inter\", ui-sans-serif, system-ui, sans-serif;font-size:.95rem;line-height:1.6;color:var(--color-muted, #71717B);}.ds-card-service__tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}"
+    },
+    {
+      "name": "Feature Card",
+      "kind": "card",
+      "refersTo": "card-feature",
+      "description": "The larger 24px-radius card used for case studies. Leads with an oversized display-type metric and draws a hairline underline left-to-right on hover.",
+      "html": "<article class=\"ds-card-feature\"><span class=\"ds-card-feature__tag\">B2B SaaS</span><div class=\"ds-card-feature__metric\">2 min</div><div class=\"ds-card-feature__caption\">avg. first response, down from 9 hrs</div><h3 class=\"ds-card-feature__title\">Speed-to-lead engine</h3><p class=\"ds-card-feature__body\">AI qualification and instant routing wired straight into the CRM.</p><div class=\"ds-card-feature__rule\"></div></article>",
+      "css": ".ds-card-feature{display:block;background:var(--color-paper, #FFFFFF);border:1px solid var(--color-line, #ECECEE);border-radius:24px;padding:32px;transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s;}.ds-card-feature:hover{transform:translateY(-6px);box-shadow:0 1px 2px rgba(23,23,27,.05),0 24px 60px -20px rgba(23,23,27,.18);}.ds-card-feature__tag{display:inline-block;background:var(--color-cream, #F8F7F5);color:var(--color-ink-soft, #45454D);border:1px solid var(--color-line, #ECECEE);font-family:\"Inter\", ui-sans-serif, system-ui, sans-serif;font-size:.75rem;font-weight:500;padding:4px 12px;border-radius:9999px;}.ds-card-feature__metric{margin-top:32px;font-family:\"Space Grotesk\", ui-sans-serif, system-ui, sans-serif;font-size:3rem;font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--color-red, #FF2D3B);}.ds-card-feature__caption{margin-top:4px;font-family:\"Inter\", ui-sans-serif, system-ui, sans-serif;font-size:.875rem;color:var(--color-muted, #71717B);}.ds-card-feature__title{margin:32px 0 0;font-family:\"Space Grotesk\", ui-sans-serif, system-ui, sans-serif;font-size:1.25rem;font-weight:600;letter-spacing:-.03em;color:var(--color-ink, #17171B);}.ds-card-feature__body{margin:8px 0 0;font-family:\"Inter\", ui-sans-serif, system-ui, sans-serif;font-size:.95rem;line-height:1.6;color:var(--color-muted, #71717B);}.ds-card-feature__rule{height:1px;width:100%;margin-top:24px;background:var(--color-line, #ECECEE);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1);}.ds-card-feature:hover .ds-card-feature__rule{transform:scaleX(1);}"
+    },
+    {
+      "name": "Stat Cell",
+      "kind": "custom",
+      "description": "One cell of the divided stat band. Cells sit on a Hairline ground separated by a 1px gutter so the group reads as a single divided object, not four cards. The number animates 0 to target on first view.",
+      "html": "<div class=\"ds-stat\"><div class=\"ds-stat__value\">40+</div><div class=\"ds-stat__label\">Growth systems shipped</div></div>",
+      "css": ".ds-stat{background:var(--color-paper, #FFFFFF);padding:28px;transition:background .2s;}.ds-stat:hover{background:var(--color-cream, #F8F7F5);}.ds-stat__value{font-family:\"Space Grotesk\", ui-sans-serif, system-ui, sans-serif;font-size:2.25rem;font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--color-red, #FF2D3B);}.ds-stat__label{margin-top:8px;font-family:\"Inter\", ui-sans-serif, system-ui, sans-serif;font-size:.875rem;color:var(--color-muted, #71717B);}"
+    },
+    {
+      "name": "System Anatomy",
+      "kind": "custom",
+      "description": "The system's proof device: a workflow drawn end to end, each node naming the tool it runs in, with a red pulse travelling the wire. Server-rendered markup plus pure-CSS motion — it never depends on JavaScript. Horizontal from lg, stacked below; never scrolls sideways.",
+      "html": "<ol class=\"ds-anat\"><li class=\"ds-anat__node\" style=\"--i:0\"><span class=\"ds-anat__step\">Trigger</span><span class=\"ds-anat__act\">Form submit</span><span class=\"ds-anat__tool\">Webflow</span></li><li class=\"ds-anat__wire\" aria-hidden=\"true\"><span class=\"ds-anat__line\"></span><span class=\"ds-anat__dot\" style=\"--i:0\"></span></li><li class=\"ds-anat__node\" style=\"--i:1\"><span class=\"ds-anat__step\">Step 01</span><span class=\"ds-anat__act\">Enrich</span><span class=\"ds-anat__tool\">Segment</span></li><li class=\"ds-anat__wire\" aria-hidden=\"true\"><span class=\"ds-anat__line\"></span><span class=\"ds-anat__dot\" style=\"--i:1\"></span></li><li class=\"ds-anat__node\" style=\"--i:2\"><span class=\"ds-anat__step\">Step 02</span><span class=\"ds-anat__act\">Qualify</span><span class=\"ds-anat__tool\">OpenAI</span></li><li class=\"ds-anat__wire\" aria-hidden=\"true\"><span class=\"ds-anat__line\"></span><span class=\"ds-anat__dot\" style=\"--i:2\"></span></li><li class=\"ds-anat__node\" style=\"--i:3\"><span class=\"ds-anat__step\">Step 03</span><span class=\"ds-anat__act\">Route</span><span class=\"ds-anat__tool\">HubSpot</span></li></ol>",
+      "css": ".ds-anat{display:flex;flex-direction:column;list-style:none;margin:0;padding:0;}@media(min-width:1024px){.ds-anat{flex-direction:row;align-items:stretch;}}.ds-anat__node{display:flex;flex:1 1 0;min-width:0;flex-direction:column;gap:6px;background:var(--color-paper,#FFFFFF);border:1px solid var(--color-line,#ECECEE);border-radius:12px;padding:16px;}.ds-anat__step{font-family:\"JetBrains Mono\", ui-monospace, monospace;font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--color-muted,#71717B);}.ds-anat__act{font-family:\"Space Grotesk\", ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:600;letter-spacing:-.03em;color:var(--color-ink,#17171B);}.ds-anat__tool{font-family:\"JetBrains Mono\", ui-monospace, monospace;font-size:11px;color:var(--color-ink-soft,#45454D);}.ds-anat__wire{position:relative;display:flex;flex:0 0 34px;align-items:center;justify-content:center;}@media(min-width:1024px){.ds-anat__wire{flex:0 0 40px;}}.ds-anat__line{width:1px;height:26px;background:var(--color-line,#ECECEE);}@media(min-width:1024px){.ds-anat__line{width:100%;height:1px;}}.ds-anat__dot{position:absolute;width:7px;height:7px;border-radius:9999px;background:var(--color-red,#FF2D3B);opacity:0;}@media(prefers-reduced-motion:no-preference){.ds-anat__dot{animation:ds-anat-travel 5.4s linear infinite;animation-delay:calc(var(--i) * .6s);}.ds-anat__node{animation:ds-anat-light 5.4s linear infinite;animation-delay:calc(var(--i) * .6s);}}@keyframes ds-anat-travel{0%{opacity:0;transform:translateY(-13px)}4%{opacity:1}11%{opacity:1;transform:translateY(13px)}13%,100%{opacity:0;transform:translateY(13px)}}@keyframes ds-anat-light{0%,2%{border-color:var(--color-line,#ECECEE)}5%,12%{border-color:var(--color-red,#FF2D3B)}18%,100%{border-color:var(--color-line,#ECECEE)}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Live Ascent",
+    "overview": "Two ideas run this system at once, and neither one outranks the other. The site is a live readout — a pulsing status dot, numbers that count themselves up when they scroll into frame, a tool marquee that never stops, a rail that fills as you descend the process. And it is an ascent — three bars climbing in the mark with particles lifting off the tallest, cards that rise 6px under the cursor, a chart line that draws itself upward and to the right. An automation agency has to look like something already running, and a company called Red Elevators has to look like something going up. Every screen serves one of those two readings; the strongest screens serve both at once.\n\nThe ground is paper white and near-silent. Structure comes from hairline rules, generous air, and tonal shifts between sections rather than from boxes and borders fighting for attention. Against that quiet, a single hot red does all the chromatic work — there is no second accent color in this system, and adding one would dismantle it. Type carries the personality: geometric Space Grotesk set tight and heavy for statements, Inter for everything that has to be read calmly, and letter-spaced uppercase mono for the small machine-labels that make the whole thing feel instrumented.\n\nMotion is not decoration here, it is the argument. A static screenshot of this site under-sells it by design: the proof that these systems run without you is that the page itself is visibly running. That places a real obligation on new work — a page that sits perfectly still is off-brand in a way no color or type choice can rescue.",
+    "keyCharacteristics": [
+      "Paper-white ground with a single hot red as the only chromatic voice",
+      "Hairline structure (1px #ECECEE) instead of heavy containers or drop shadows at rest",
+      "Tight, geometric display type against calm, generous body type",
+      "Uppercase letter-spaced mono micro-labels as the system's connective tissue",
+      "Continuous ambient motion — pulses, counters, marquees, draw-ons, scroll-linked rails",
+      "Springy, generous hover response on every interactive surface",
+      "Radius that scales with the element: 12px controls up to 32px full-width panels"
+    ],
+    "rules": [
+      {
+        "name": "The Single Voice Rule",
+        "section": "colors",
+        "body": "Elevator Red is the only chromatic color in this system. Every other token is a neutral. When a new surface seems to need a second color — a success green, a chart palette, a category accent — the answer is a neutral, a tone of red, or a change of ground. A second hue is a redesign, not an addition."
+      },
+      {
+        "name": "The Signal Rule",
+        "section": "colors",
+        "body": "Red marks what is live, what is next, or what is the answer. It never decorates. If red appears on a surface where nothing is happening and nothing is being asked of the visitor, it is misapplied."
+      },
+      {
+        "name": "The Ground Change Rule",
+        "section": "colors",
+        "body": "Sections separate by changing ground — Paper, Chalk, Graphite, or the red CTA panel — not by stacking dividers. A heavy rule between two same-ground sections is the wrong tool; change the ground or increase the air."
+      },
+      {
+        "name": "The Light-Only Rule (provisional)",
+        "section": "colors",
+        "body": "The site ships light-only (color-scheme: light); there is no dark theme and no theme toggle. Dark brand assets exist at public/brand/*-dark.svg and the brand sheet defines a full dark palette, but neither is in play on the web surface. Do not introduce prefers-color-scheme handling, dark variants, or a toggle until this decision is reopened. Treat the unused dark assets as out of scope, not as a defect."
+      },
+      {
+        "name": "The Contrast Floor Rule",
+        "section": "colors",
+        "body": "Every text colour in this system has a measured ratio against the ground it sits on, recorded in docs/accessibility-audit-2026-09-10.md. Neutrals pass WCAG AA. Elevator Red does NOT pass as small text — 3.69:1 on Paper, 3.45:1 on Chalk — so red below 24px is a known open failure affecting every mono label, awaiting a brand decision. Do not introduce new small red text while that is unresolved, and never set a text colour by eye: compute it against its actual ground, flattening any opacity first."
+      },
+      {
+        "name": "The Three Voices Rule",
+        "section": "typography",
+        "body": "Space Grotesk states, Inter explains, JetBrains Mono labels. The jobs never swap. Mono is never body copy or a heading; Inter is never a display headline; Space Grotesk is never a paragraph."
+      },
+      {
+        "name": "The Tight Top Rule",
+        "section": "typography",
+        "body": "Display, headline, title and metric all run at -0.03em tracking and a line-height at or below 1.02 — headings are meant to feel compressed and machined. Body copy inherits none of it and stays at 1.6. Loosening a heading or tightening a paragraph both break the contrast the system depends on."
+      },
+      {
+        "name": "The Unlayered Heading Rule",
+        "section": "typography",
+        "body": "globals.css styles h1, h2, h3, h4 outside any cascade layer, so those declarations beat every Tailwind typography utility (which live in @layer utilities). Heading font-family, weight 600, tracking -0.03em and line-height 1.02 are fixed at the element level, and leading-*, tracking-* and font-* classes on a heading are silently ignored. Verified in-browser: the hero renders at 1.02 despite asking for leading-[0.98]. To change a heading's type, edit the global rule or wrap the text in a span/div — do not add a utility class and assume it landed."
+      },
+      {
+        "name": "The Label-First Rule",
+        "section": "typography",
+        "body": "Every section opens with a mono label above its headline. The label names the section in two or three words; the headline makes the claim. A section heading with no label above it is incomplete."
+      },
+      {
+        "name": "The One Column Rule",
+        "section": "layout",
+        "body": "Every section lives inside the same 1152px container with the same 24px gutter. Backgrounds may go full-bleed; content may not. A section that sets its own width breaks the alignment spine the whole page depends on."
+      },
+      {
+        "name": "The Flat-Until-Touched Rule",
+        "section": "elevation",
+        "body": "Content cards rest flat with a hairline border and gain the Lift shadow on hover. Exceptions are allowed where a surface genuinely floats above the page or is the single most important target on it — but the exception must be argued from the element's role, not applied to a grid by default. Testimonial cards are the one existing family that breaks this — they rest with the Soft shadow. That is an unresolved inconsistency in the current build, not a precedent to copy."
+      },
+      {
+        "name": "The Untinted Shadow Rule",
+        "section": "elevation",
+        "body": "Shadows are neutral Graphite at low alpha. The one tinted shadow in the system belongs to the primary button. A second colored glow dilutes it."
+      },
+      {
+        "name": "The Radius Ladder Rule",
+        "section": "shapes",
+        "body": "Radius is a function of size: 12px controls, 16px cards, 24px large cards, 32px full-width panels, full for pills. A 12px radius on a full-bleed panel or a 32px radius on a button both read as mistakes, because the corner arc no longer matches the edge it turns."
+      },
+      {
+        "name": "The One Hairline Rule",
+        "section": "shapes",
+        "body": "There is exactly one border color on light grounds (#ECECEE) at exactly one width (1px). Darker, thicker, or doubled borders are not part of this system; if an edge needs more presence, change the ground behind it."
+      },
+      {
+        "name": "The Reading Calm Rule",
+        "section": "components",
+        "body": "Ambient and reveal motion belongs to persuasion surfaces — the home page, service pages, the CTA. In reading contexts (articles, documentation, long-form prose, anything a visitor stays inside to comprehend), motion recedes to state feedback only: hover, focus and press. Reveal-on-scroll down a 2,000-word article is an obstacle, not a signature. The system's obligation to move is an obligation on surfaces that persuade, not on every page."
+      },
+      {
+        "name": "The Visible Focus Rule",
+        "section": "components",
+        "body": "Every interactive element carries a :focus-visible treatment, and it must remain visible on all four grounds — Paper, Chalk, Graphite and the red CTA panel. A single outline color cannot satisfy that; expect to invert it on dark and red grounds. No interactive element may rely on the browser default, and none may remove the outline without replacing it. Nothing in the codebase satisfies this yet — it is a confirmed requirement, not a description of the current state."
+      }
+    ],
+    "dos": [
+      "Do open every section with a mono label above the headline, and reuse the Section Heading composition rather than rebuilding it.",
+      "Do keep all content inside the 1152px container with a 24px gutter; let only backgrounds go full-bleed.",
+      "Do let cards rest flat with a hairline border and earn their shadow on hover — and where a surface genuinely floats or is the page's single most important target, give it a resting shadow deliberately.",
+      "Do scale radius to the element: 12px controls, 16px cards, 24px large cards, 32px panels.",
+      "Do make new sections move. Ambient motion is the system's core argument; a page that sits perfectly still is off-brand.",
+      "Do honor reduced motion in both layers — the global CSS override and useReducedMotion() inside any component that animates in JS.",
+      "Do keep the mark's clear space equal to one bar's width on all sides, per the brand sheet.",
+      "Do separate sections by changing ground (Paper to Chalk to Graphite to the red panel) rather than by stacking dividers.",
+      "Do give every interactive element a :focus-visible treatment that survives Paper, Chalk, Graphite and the red panel.",
+      "Do let motion recede to state feedback on reading surfaces, per The Reading Calm Rule.",
+      "Do prove capability by showing mechanism — the real chain, the real tools — rather than by asserting an outcome. The System Anatomy is the system's answer to a section that seems to need proof."
+    ],
+    "donts": [
+      "Don't introduce a second chromatic color. One red, everything else neutral. No success greens, no category palettes, no chart colors beyond red and Graphite.",
+      "Don't use red where nothing is live, next, or being asked of the visitor.",
+      "Don't add dark mode, prefers-color-scheme handling, or a theme toggle. The site is light-only until that decision is reopened, and the unused dark brand assets are not a defect.",
+      "Don't drift toward the generic AI-startup look: purple and blue gradients, frosted glass panels, dark-by-default surfaces, floating 3D shapes, glowing orbs. This is the single most likely failure mode for an automation agency site and the fastest way to look like everyone else.",
+      "Don't drift toward the corporate stock-photo agency look: smiling people in meeting rooms, handshake imagery, corporate blue, or abstract 'solutions' language.",
+      "Don't drift toward loud growth-hacker marketing: countdown timers, scarcity badges, neon slabs, arrows pointing at buttons, or urgency the product does not actually have.",
+      "Don't swap the type roles — no mono body copy, no Inter headlines, no Space Grotesk paragraphs.",
+      "Don't loosen heading tracking above -0.03em or tighten body line-height below 1.6.",
+      "Don't add a second border color or a border heavier than 1px. If an edge needs presence, change the ground behind it.",
+      "Don't tint a shadow. The red glow on the primary button is the system's only colored shadow.",
+      "Don't design a composition whose layout only holds together when filled with metrics, logos, or testimonials. Proof is scarce on this project (see PRODUCT.md) — a section must read as finished with its real content or with the slot honestly empty.",
+      "Don't add a heading typography utility and assume it applied. See The Unlayered Heading Rule; verify in the browser until the cascade-layer fix lands.",
+      "Don't invent a second proof device. If a surface needs credibility, it gets a System Anatomy, not a new badge, counter, logo wall, or rating widget."
+    ]
+  }
+}

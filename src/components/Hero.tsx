@@ -104,32 +104,13 @@ export function Hero() {
               </span>
             </a>
             <a
-              href="#work"
+              href="#systems"
               className="rounded-xl border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-cream"
             >
-              See our work
+              See how it works
             </a>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="mt-10 flex items-center gap-4 text-sm text-muted"
-          >
-            <div className="flex -space-x-2">
-              {["#FF2D3B", "#17171B", "#FF6B74", "#45454D"].map((c) => (
-                <span
-                  key={c}
-                  className="h-7 w-7 rounded-full border-2 border-white"
-                  style={{ background: c }}
-                />
-              ))}
-            </div>
-            <span>
-              Trusted by <strong className="text-ink">40+</strong> growing teams
-            </span>
-          </motion.div>
         </div>
 
         <motion.div

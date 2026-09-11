@@ -49,10 +49,10 @@ export function HeroVisual() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-red" />
             </span>
-            <span className="font-mono-label !text-muted">Pipeline · Live</span>
+            <span className="font-mono-label !text-muted">Speed-to-lead · live</span>
           </div>
           <span className="rounded-full bg-red/10 px-2.5 py-1 font-mono-label !text-red">
-            +34.8%
+            6 steps
           </span>
         </div>
 
@@ -123,9 +123,9 @@ export function HeroVisual() {
         {/* mini stats */}
         <div className="mt-4 grid grid-cols-3 gap-2">
           {[
-            { k: "Leads", v: "1,284" },
-            { k: "Replies", v: "< 2m" },
-            { k: "Saved", v: "18h/wk" },
+            { k: "Captured", v: "Webflow" },
+            { k: "Qualified", v: "OpenAI" },
+            { k: "Routed", v: "HubSpot" },
           ].map((s, i) => (
             <motion.div
               key={s.k}
@@ -134,7 +134,7 @@ export function HeroVisual() {
               transition={{ delay: 1.4 + i * 0.12, ease }}
               className="rounded-xl bg-cream px-3 py-2.5"
             >
-              <div className="font-[family-name:var(--font-display)] text-lg font-semibold text-ink">
+              <div className="font-[family-name:var(--font-display)] text-sm font-semibold text-ink">
                 {s.v}
               </div>
               <div className="font-mono-label !text-[0.6rem] !text-muted">

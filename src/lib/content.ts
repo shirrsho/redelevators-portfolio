@@ -1,15 +1,17 @@
 export const nav = [
   { label: "Services", href: "#services" },
   { label: "Process", href: "#process" },
-  { label: "Work", href: "#work" },
-  { label: "Results", href: "#results" },
+  { label: "Systems", href: "#systems" },
 ];
 
+// Capability figures only. Every value here is verifiable from this site or the
+// way the work is actually done — no outcome claims, no client results.
+// See PRODUCT.md -> Evidence on Hand before changing anything in this file.
 export const stats = [
-  { value: 40, suffix: "+", label: "Growth systems shipped" },
-  { value: 18, suffix: "hrs", label: "Avg. weekly hours saved / client" },
-  { value: 3.4, prefix: "", suffix: "×", label: "Avg. pipeline lift in 90 days" },
-  { value: 6, suffix: " wks", label: "To first system live" },
+  { value: 15, suffix: "", label: "Tools we build inside" },
+  { value: 6, suffix: "", label: "Service lines" },
+  { value: 4, suffix: "", label: "Stages, audit to handover" },
+  { value: 0, suffix: "", label: "New platforms to learn" },
 ];
 
 export const marquee = [
@@ -92,52 +94,59 @@ export const steps = [
   },
 ];
 
-export const work = [
-  {
-    tag: "B2B SaaS",
-    title: "Speed-to-lead engine",
-    metric: "2 min",
-    metricLabel: "avg. first response, down from 9 hrs",
-    desc: "AI qualification + instant routing wired straight into their CRM. Inbound reply time collapsed and win rate climbed.",
-    accent: "#FF2D3B",
-  },
-  {
-    tag: "E-commerce",
-    title: "Lifecycle on autopilot",
-    metric: "+38%",
-    metricLabel: "revenue from owned channels",
-    desc: "A full Klaviyo + first-party data flow that segments, personalizes and sends without a marketer touching it.",
-    accent: "#17171B",
-  },
-  {
-    tag: "Professional services",
-    title: "Reporting, automated",
-    metric: "18 hrs",
-    metricLabel: "saved every single week",
-    desc: "Cross-tool data sync feeding a live dashboard. The Monday-morning report now builds itself overnight.",
-    accent: "#FF2D3B",
-  },
-  {
-    tag: "Agency",
-    title: "Content pipeline agent",
-    metric: "5×",
-    metricLabel: "content output, same headcount",
-    desc: "A drafting agent that turns briefs into on-brand first drafts, routed for human review before publish.",
-    accent: "#17171B",
-  },
-];
+export type AnatomyNode = {
+  /** Position in the chain — "Trigger", "Step 01", "Result". */
+  step: string;
+  /** What happens at this node. One or two words. */
+  action: string;
+  /** The tool it runs in. Must be a tool we actually build inside. */
+  tool: string;
+};
 
-export const testimonials = [
+export type SystemAnatomy = {
+  label: string;
+  title: string;
+  desc: string;
+  nodes: AnatomyNode[];
+};
+
+// The proof device. These describe how the systems are wired, not results they
+// produced — the mechanism is the claim. Never attach a metric to one of these.
+export const systems: SystemAnatomy[] = [
   {
-    quote:
-      "Red Elevators automated our entire lead follow-up. We went from missing half our inbound to responding in under two minutes, every time.",
-    name: "Operations Lead",
-    role: "Mid-market services company",
+    label: "Sales & follow-up",
+    title: "A lead answered before it cools",
+    desc: "The form fires, the record fills itself in, the lead is qualified and routed, and the owner is told — before anyone has opened a tab.",
+    nodes: [
+      { step: "Trigger", action: "Form submit", tool: "Webflow" },
+      { step: "Step 01", action: "Enrich", tool: "Segment" },
+      { step: "Step 02", action: "Qualify", tool: "OpenAI" },
+      { step: "Step 03", action: "Route", tool: "HubSpot" },
+      { step: "Step 04", action: "Notify", tool: "Slack" },
+      { step: "Result", action: "Logged", tool: "Salesforce" },
+    ],
   },
   {
-    quote:
-      "It felt less like hiring an agency and more like installing a growth team that never sleeps. The systems just keep paying us back.",
-    name: "Founder",
-    role: "B2B SaaS, Series A",
+    label: "Ops & reporting",
+    title: "The Monday report builds itself overnight",
+    desc: "Numbers are pulled and reconciled while the office is empty, written up, and waiting in the same place the team already looks.",
+    nodes: [
+      { step: "Trigger", action: "Nightly", tool: "Schedule" },
+      { step: "Step 01", action: "Pull", tool: "Airtable" },
+      { step: "Step 02", action: "Normalize", tool: "Make" },
+      { step: "Step 03", action: "Compose", tool: "Claude" },
+      { step: "Result", action: "Published", tool: "Notion" },
+    ],
+  },
+  {
+    label: "Marketing automation",
+    title: "Briefs become drafts without a handoff",
+    desc: "A brief goes in, an on-brand first draft comes out, and a human approves it before anything reaches an audience.",
+    nodes: [
+      { step: "Trigger", action: "Brief filed", tool: "Notion" },
+      { step: "Step 01", action: "Draft", tool: "Claude" },
+      { step: "Step 02", action: "Review", tool: "Slack" },
+      { step: "Result", action: "Published", tool: "Webflow" },
+    ],
   },
 ];

@@ -10,11 +10,7 @@ export function Stats() {
           <StaggerItem key={s.label}>
             <div className="group h-full bg-white p-7 transition-colors hover:bg-cream">
               <div className="font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight text-red md:text-5xl">
-                <Counter
-                  value={s.value}
-                  prefix={s.prefix}
-                  suffix={s.suffix}
-                />
+                <Counter value={s.value} suffix={s.suffix} />
               </div>
               <div className="mt-2 text-sm text-muted">{s.label}</div>
             </div>

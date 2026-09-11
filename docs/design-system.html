@@ -1,0 +1,907 @@
+<title>Red Elevators Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* ---------------------------------------------------------------------------
+   Red Elevators design system reference.
+   Deliberately light-only: the system ships light-only by decision
+   (The Light-Only Rule), so this page commits to one visual world and paints
+   every color explicitly rather than adapting to the host theme.
+   --------------------------------------------------------------------------- */
+:root{
+  --red:#FF2D3B; --red-hover:#E51E2B; --red-soft:#FF6B74;
+  --ink:#17171B; --ink-soft:#45454D; --muted:#71717B;
+  --line:#ECECEE; --paper:#FFFFFF; --cream:#F8F7F5;
+  --font-display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;
+  --font-sans:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --shadow-soft:0 1px 2px rgba(23,23,27,.04),0 12px 32px -12px rgba(23,23,27,.12);
+  --shadow-lift:0 1px 2px rgba(23,23,27,.05),0 24px 60px -20px rgba(23,23,27,.18);
+  --shadow-red:0 10px 30px -8px rgba(255,45,59,.45);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-sans);line-height:1.6;margin:0}
+::selection{background:var(--red);color:#fff}
+
+/* base type — layered correctly here, unlike the incumbent globals.css (see F1) */
+h1,h2,h3,h4{font-family:var(--font-display);letter-spacing:-.03em;line-height:1.02;font-weight:600;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:4px}
+
+.wrap{max-width:1152px;margin:0 auto;padding-inline:24px}
+.label{font-family:var(--font-mono);font-size:.72rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--red)}
+.label--muted{color:var(--muted)}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+
+/* ---- scroll progress: a live instance of the real component ---- */
+#progress{position:fixed;inset-inline:0;top:0;height:3px;background:var(--red);transform:scaleX(0);transform-origin:left;z-index:60}
+
+/* ---- masthead ---- */
+.masthead{padding:72px 0 56px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.masthead__grid{display:grid;gap:48px;grid-template-columns:1fr;align-items:end}
+@media(min-width:900px){.masthead__grid{grid-template-columns:1.4fr .9fr}}
+.masthead h1{font-size:clamp(2.4rem,5.4vw,3.9rem);margin-top:18px}
+.masthead__lede{margin-top:20px;max-width:52ch;font-size:1.0625rem;color:var(--muted)}
+.northstar{border:1px solid var(--line);border-radius:16px;padding:24px;background:var(--cream)}
+.northstar__q{font-family:var(--font-display);font-size:1.375rem;font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-top:10px}
+.northstar p{margin-top:12px;font-size:.9375rem;color:var(--ink-soft)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.meta__item{font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);background:var(--cream);border:1px solid var(--line);border-radius:9999px;padding:5px 12px}
+
+/* ---- section nav ---- */
+.tocbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.toc{display:flex;gap:2px;overflow-x:auto;padding:10px 24px;max-width:1152px;margin:0 auto;scrollbar-width:thin}
+.toc a{flex:0 0 auto;font-size:.8125rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:8px 14px;border-radius:8px;transition:background .2s,color .2s;white-space:nowrap}
+.toc a:hover{background:var(--cream);color:var(--ink)}
+
+section{padding:88px 0;border-bottom:1px solid var(--line)}
+.sechead{max-width:60ch}
+.sechead h2{font-size:clamp(1.75rem,3.4vw,2.5rem);margin-top:16px}
+.sechead p{margin-top:16px;color:var(--muted);font-size:1.0625rem}
+.sub{margin-top:56px}
+.sub h3{font-size:1.125rem}
+.sub__note{margin-top:8px;color:var(--muted);font-size:.9375rem;max-width:70ch}
+
+/* ---- status chips ---- */
+.status{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:9999px;border:1px solid;vertical-align:middle}
+.status--built{color:var(--ink-soft);border-color:var(--line);background:var(--cream)}
+.status--proposed{color:var(--red);border-color:rgba(255,45,59,.3);background:rgba(255,45,59,.06)}
+.status--issue{color:#8a5a00;border-color:rgba(180,120,0,.28);background:rgba(255,184,0,.1)}
+.status i{width:5px;height:5px;border-radius:9999px;background:currentColor;display:block}
+
+/* ---- color ---- */
+.swatches{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));margin-top:28px}
+.sw{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--paper);display:flex;flex-direction:column}
+.sw__chip{height:88px;border-bottom:1px solid var(--line)}
+.sw__body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.sw__name{font-family:var(--font-display);font-weight:600;font-size:1rem;letter-spacing:-.02em}
+.sw__hex{font-family:var(--font-mono);font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.sw__role{font-size:.8125rem;color:var(--ink-soft);margin-top:2px}
+.ramp{display:flex;height:14px;margin-top:auto;padding-top:14px}
+.ramp span{flex:1}
+
+/* ---- type specimens ---- */
+.spec{border-top:1px solid var(--line);padding:28px 0;display:grid;gap:20px;grid-template-columns:1fr}
+@media(min-width:820px){.spec{grid-template-columns:170px 1fr;gap:32px;align-items:baseline}}
+.spec__meta{display:flex;flex-direction:column;gap:6px}
+.spec__vals{font-family:var(--font-mono);font-size:.6875rem;color:var(--muted);line-height:1.7;font-variant-numeric:tabular-nums}
+.spec__demo{min-width:0}
+.d-display{font-family:var(--font-display);font-weight:600;font-size:clamp(2.6rem,6.2vw,4.6rem);letter-spacing:-.03em;line-height:1.02}
+.d-headline{font-family:var(--font-display);font-weight:600;font-size:clamp(1.9rem,4vw,3rem);letter-spacing:-.03em;line-height:1.02}
+.d-metric{font-family:var(--font-display);font-weight:600;font-size:3rem;letter-spacing:-.03em;line-height:1;color:var(--red)}
+.d-title{font-family:var(--font-display);font-weight:600;font-size:1.25rem;letter-spacing:-.03em;line-height:1.02}
+.d-body{font-size:1rem;line-height:1.6;max-width:65ch;color:var(--ink)}
+
+/* ---- radius / spacing / shadow demos ---- */
+.ladder{display:flex;flex-wrap:wrap;gap:16px;margin-top:28px}
+.rung{flex:1 1 130px;border:1px solid var(--line);background:var(--cream);height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.rung b{font-family:var(--font-display);font-size:1rem;font-weight:600}
+.rung span{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center;padding:0 8px}
+.scale{display:flex;flex-direction:column;gap:12px;margin-top:28px}
+.scale__row{display:flex;align-items:center;gap:16px}
+.scale__bar{height:22px;background:var(--red);opacity:.16;border-radius:3px}
+.scale__lab{font-family:var(--font-mono);font-size:.75rem;color:var(--muted);min-width:150px;font-variant-numeric:tabular-nums}
+.shadows{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:28px}
+.shadowbox{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:24px;min-height:132px;display:flex;flex-direction:column;justify-content:space-between}
+.shadowbox code{font-family:var(--font-mono);font-size:.625rem;color:var(--muted);line-height:1.6;word-break:break-word}
+
+/* ---- buttons (live) ---- */
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:24px}
+.btn{font-family:var(--font-sans);font-size:.875rem;font-weight:600;line-height:1;border:none;cursor:pointer;border-radius:12px;padding:14px 24px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:background .3s var(--ease),transform .2s var(--ease),border-color .2s}
+.btn:active{transform:scale(.95)}
+.btn--primary{background:var(--red);color:#fff;box-shadow:var(--shadow-red)}
+.btn--primary:hover{background:var(--red-hover);transform:scale(1.03)}
+.btn--secondary{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+.btn--secondary:hover{background:var(--cream);border-color:rgba(23,23,27,.3)}
+.btn--dark{background:var(--ink);color:#fff;padding:10px 16px}
+.btn--dark:hover{transform:scale(1.03)}
+.btn--inverse{background:#fff;color:var(--red)}
+.btn--inverse:hover{transform:scale(1.03)}
+.onred{background:var(--red);border-radius:32px;padding:36px;margin-top:24px}
+.onred .label{color:rgba(255,255,255,.8)}
+.onred h4{font-family:var(--font-display);color:#fff;font-size:1.5rem;font-weight:600;letter-spacing:-.03em;margin-top:10px}
+.onred .row{margin-top:22px}
+.btn--ghostlight{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4)}
+.btn--ghostlight:hover{background:rgba(255,255,255,.1)}
+.onred :focus-visible{outline-color:#fff}
+
+/* ---- nav specimen ---- */
+.navdemo{margin-top:24px;border:1px solid var(--line);border-radius:16px;background:var(--cream);padding:20px}
+.navbar{display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(255,255,255,.8);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-soft);padding:10px 16px;flex-wrap:wrap}
+.navbar__links{display:flex;gap:2px;flex-wrap:wrap}
+.navlink{font-size:.875rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:8px 14px;border-radius:8px;transition:background .2s,color .2s}
+.navlink:hover{background:var(--cream);color:var(--ink)}
+.navlink[aria-current]{color:var(--ink);background:var(--cream)}
+.wordmark{display:flex;align-items:center;gap:10px}
+.wordmark__t{display:flex;flex-direction:column;line-height:1}
+.wordmark__n{font-family:var(--font-display);font-weight:700;font-size:17px;letter-spacing:-.03em}
+.wordmark__s{font-family:var(--font-mono);font-size:7.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+
+/* ---- chips ---- */
+.chip{display:inline-block;background:var(--cream);color:var(--ink-soft);font-size:.75rem;font-weight:500;line-height:1.4;padding:4px 10px;border-radius:9999px}
+.chip--bordered{border:1px solid var(--line);padding:4px 12px}
+
+/* ---- cards ---- */
+.cardgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));margin-top:24px}
+.card{position:relative;overflow:hidden;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:28px;transition:transform .3s var(--ease),box-shadow .3s}
+.card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lift)}
+.card__glow{position:absolute;inset:0;opacity:0;transition:opacity .3s;pointer-events:none;background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(255,45,59,.10),transparent 70%)}
+.card:hover .card__glow{opacity:1}
+.card__inner{position:relative}
+.card__top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card__icon{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--line);border-radius:9999px;color:var(--ink);transition:background .3s,border-color .3s,color .3s}
+.card:hover .card__icon{background:var(--red);border-color:var(--red);color:#fff}
+.card h4{margin-top:20px;font-family:var(--font-display);font-size:1.25rem;font-weight:600;letter-spacing:-.03em}
+.card p{margin-top:10px;font-size:.95rem;color:var(--muted)}
+.card__tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.fcard{position:relative;overflow:hidden;background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:32px;transition:transform .3s var(--ease),box-shadow .3s}
+.fcard:hover{transform:translateY(-6px);box-shadow:var(--shadow-lift)}
+.fcard__metric{margin-top:32px;font-family:var(--font-display);font-size:3rem;font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--red)}
+.fcard__cap{margin-top:4px;font-size:.875rem;color:var(--muted)}
+.fcard h4{margin-top:32px;font-family:var(--font-display);font-size:1.25rem;font-weight:600;letter-spacing:-.03em}
+.fcard p{margin-top:8px;font-size:.95rem;color:var(--muted)}
+.fcard__rule{height:1px;width:100%;margin-top:24px;background:var(--line);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.fcard:hover .fcard__rule{transform:scaleX(1)}
+
+/* ---- stat band ---- */
+.statband{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:24px;overflow:hidden;margin-top:24px}
+@media(min-width:820px){.statband{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--paper);padding:28px;transition:background .2s}
+.stat:hover{background:var(--cream)}
+.stat__v{font-family:var(--font-display);font-size:2.25rem;font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--red);font-variant-numeric:tabular-nums}
+.stat__l{margin-top:8px;font-size:.875rem;color:var(--muted)}
+
+/* ---- process rail ---- */
+.rail{position:relative;background:var(--ink);border-radius:24px;padding:44px 32px 44px 64px;margin-top:24px;overflow:hidden}
+.rail__line{position:absolute;left:32px;top:44px;bottom:44px;width:1px;background:rgba(255,255,255,.15)}
+.rail__fill{position:absolute;left:32px;top:44px;height:36%;width:1px;background:var(--red)}
+.rail__steps{display:flex;flex-direction:column;gap:34px}
+.rstep{position:relative}
+.rstep__n{position:absolute;left:-46px;top:-2px;display:flex;align-items:center;justify-content:center;width:29px;height:29px;border-radius:9999px;border:1px solid rgba(255,255,255,.2);background:var(--ink);font-family:var(--font-mono);font-size:.625rem;font-weight:500;letter-spacing:.1em;color:#fff}
+.rstep--on .rstep__n{background:var(--red);border-color:var(--red)}
+.rstep h4{color:#fff;font-size:1.375rem}
+.rstep p{margin-top:6px;color:rgba(255,255,255,.6);font-size:.9375rem;max-width:56ch}
+
+/* ---- testimonial ---- */
+.quote{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow-soft);max-width:520px;margin-top:24px}
+.quote blockquote{margin:20px 0 0;font-family:var(--font-display);font-size:1.5rem;font-weight:500;line-height:1.375;letter-spacing:-.03em}
+.quote figcaption{display:flex;align-items:center;gap:12px;margin-top:28px}
+.quote__av{width:44px;height:44px;border-radius:9999px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:600;font-size:.875rem}
+
+/* ---- SYSTEM ANATOMY (proposed) ---- */
+.anat{margin-top:24px;border:1px solid var(--line);border-radius:24px;background:var(--paper);padding:32px 24px}
+.anat__chain{display:flex;flex-direction:column;gap:0;margin-top:22px}
+@media(min-width:900px){.anat__chain{flex-direction:row;align-items:stretch}}
+.node{flex:1 1 0;min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px;transition:border-color .35s,box-shadow .35s}
+.node__step{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.node__act{font-family:var(--font-display);font-weight:600;font-size:1rem;letter-spacing:-.02em}
+.node__tool{font-family:var(--font-mono);font-size:.6875rem;color:var(--ink-soft)}
+.node.is-on{border-color:var(--red);box-shadow:0 6px 18px -10px rgba(255,45,59,.5)}
+.node.is-on .node__step{color:var(--red)}
+.wire{position:relative;flex:0 0 34px;display:flex;align-items:center;justify-content:center}
+.wire__t{background:var(--line);width:1px;height:26px}
+@media(min-width:900px){.wire{flex:0 0 40px}.wire__t{width:100%;height:1px}}
+.wire__dot{position:absolute;width:7px;height:7px;border-radius:9999px;background:var(--red);opacity:0}
+.anat__foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-top:22px}
+.anat__cap{font-size:.875rem;color:var(--muted)}
+@media(prefers-reduced-motion:no-preference){
+  .wire__dot{animation:travel 5.4s linear infinite;animation-delay:calc(var(--i) * .6s)}
+  .node{animation:lightup 5.4s linear infinite;animation-delay:calc(var(--i) * .6s)}
+}
+@keyframes travel{
+  0%{opacity:0;transform:translate(-14px,0)}
+  4%{opacity:1}
+  11%{opacity:1;transform:translate(14px,0)}
+  13%,100%{opacity:0;transform:translate(14px,0)}
+}
+@media(max-width:899px){
+  @keyframes travel{
+    0%{opacity:0;transform:translate(0,-13px)}
+    4%{opacity:1}
+    11%{opacity:1;transform:translate(0,13px)}
+    13%,100%{opacity:0;transform:translate(0,13px)}
+  }
+}
+@keyframes lightup{
+  0%,2%{border-color:var(--line)}
+  5%,12%{border-color:var(--red);box-shadow:0 6px 18px -10px rgba(255,45,59,.5)}
+  18%,100%{border-color:var(--line);box-shadow:none}
+}
+
+/* ---- forms (proposed) ---- */
+.formgrid{display:grid;gap:22px;grid-template-columns:1fr;margin-top:24px;max-width:560px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field>label{font-size:.8125rem;font-weight:600;color:var(--ink)}
+.field__hint{font-size:.75rem;color:var(--muted)}
+.input{font-family:var(--font-sans);font-size:.9375rem;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;width:100%;transition:border-color .2s,box-shadow .2s}
+.input::placeholder{color:var(--muted)}
+.input:hover{border-color:rgba(23,23,27,.3)}
+.input:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(255,45,59,.14)}
+textarea.input{min-height:104px;resize:vertical}
+.input--error{border-color:var(--red)}
+.field__err{font-size:.75rem;color:var(--red);display:flex;align-items:center;gap:6px}
+.field__ok{font-size:.75rem;color:#1c7c4a;display:flex;align-items:center;gap:6px}
+.check{display:flex;align-items:flex-start;gap:10px;font-size:.875rem;color:var(--ink-soft);cursor:pointer}
+.check input{appearance:none;flex:0 0 auto;width:18px;height:18px;border:1px solid var(--line);border-radius:6px;background:var(--paper);margin:2px 0 0;cursor:pointer;transition:background .15s,border-color .15s;display:grid;place-content:center}
+.check input:hover{border-color:rgba(23,23,27,.35)}
+.check input:checked{background:var(--red);border-color:var(--red)}
+.check input:checked::after{content:"";width:9px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translateY(-1px)}
+
+/* ---- focus grounds ---- */
+.grounds{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));margin-top:24px}
+.ground{border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px;align-items:flex-start;border:1px solid var(--line)}
+.ground__n{font-family:var(--font-mono);font-size:.625rem;letter-spacing:.16em;text-transform:uppercase}
+.g-paper{background:var(--paper)}
+.g-chalk{background:var(--cream)}
+.g-ink{background:var(--ink);border-color:var(--ink)}
+.g-red{background:var(--red);border-color:var(--red)}
+.g-paper .ground__n,.g-chalk .ground__n{color:var(--muted)}
+.g-ink .ground__n,.g-red .ground__n{color:rgba(255,255,255,.75)}
+.g-ink :focus-visible,.g-red :focus-visible{outline-color:#fff}
+.fdemo{font-family:var(--font-sans);font-size:.8125rem;font-weight:600;padding:10px 16px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.g-ink .fdemo,.g-red .fdemo{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
+
+/* ---- page header pattern (proposed) ---- */
+.pagehead{border:1px solid var(--line);border-radius:24px;background:var(--cream);padding:56px 32px;margin-top:24px}
+.pagehead h3{font-size:clamp(1.9rem,4vw,3rem);margin-top:16px}
+.pagehead p{margin-top:16px;color:var(--muted);max-width:58ch}
+
+/* ---- rules ---- */
+.rules{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-top:28px}
+.rule{border:1px solid var(--line);border-left:3px solid var(--red);border-radius:0 12px 12px 0;padding:18px 20px;background:var(--paper)}
+.rule__n{font-family:var(--font-display);font-weight:600;font-size:1rem;letter-spacing:-.02em}
+.rule__s{font-family:var(--font-mono);font-size:.5625rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px}
+.rule p{margin-top:8px;font-size:.875rem;color:var(--ink-soft);line-height:1.55}
+
+/* ---- dos and donts ---- */
+.dd{display:grid;gap:32px;grid-template-columns:1fr;margin-top:28px}
+@media(min-width:900px){.dd{grid-template-columns:1fr 1fr;gap:40px}}
+.dd ul{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+.dd li{font-size:.9375rem;color:var(--ink-soft);padding-left:26px;position:relative;line-height:1.55}
+.dd li::before{position:absolute;left:0;top:0;font-family:var(--font-mono);font-size:.8125rem;font-weight:600}
+.dd--do li::before{content:"+";color:#1c7c4a}
+.dd--dont li::before{content:"\2013";color:var(--red)}
+
+footer{padding:56px 0 72px}
+.foot{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.foot span{font-family:var(--font-mono);font-size:.6875rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+</style>
+
+<div id="progress" aria-hidden="true"></div>
+
+<header class="masthead">
+  <div class="wrap masthead__grid">
+    <div>
+      <span class="label">Design system · v2 · verified 10 Sep 2026</span>
+      <h1>Red Elevators</h1>
+      <p class="masthead__lede">The working reference for every surface we build. Foundations are measured from the shipped site, not transcribed from intent. Components are live — hover them, focus them, tab through them.</p>
+      <div class="meta">
+        <span class="meta__item">Light-only by decision</span>
+        <span class="meta__item">1152px container</span>
+        <span class="meta__item">One chromatic voice</span>
+        <span class="meta__item">Contrast measured 10 Sep</span>
+        <span class="meta__item">Space Grotesk · Inter · JetBrains Mono</span>
+      </div>
+    </div>
+    <div class="northstar">
+      <span class="label">North Star</span>
+      <p class="northstar__q">&ldquo;The Live Ascent&rdquo;</p>
+      <p>A live readout of a machine already running, and a system that climbs. An automation agency has to look like something already working; a company called Red Elevators has to look like something going up. The strongest screens do both.</p>
+    </div>
+  </div>
+</header>
+
+<nav class="tocbar" aria-label="Sections">
+  <div class="toc">
+    <a href="#color">Color</a>
+    <a href="#type">Typography</a>
+    <a href="#form">Shape &amp; space</a>
+    <a href="#depth">Depth</a>
+    <a href="#motion">Motion</a>
+    <a href="#components">Components</a>
+    <a href="#proposed">Proposed</a>
+    <a href="#rules">Rules</a>
+    <a href="#guardrails">Guardrails</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ================= COLOR ================= -->
+<section id="color">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="label">01 — Foundations</span>
+      <h2>One chromatic voice, eight neutrals.</h2>
+      <p>The palette's discipline is the point. With a single saturated color in play, red always means something: what is live, what is next, or what is the answer. Every value below is emitted by the running site and verified in-browser.</p>
+    </div>
+
+    <div class="swatches">
+      <div class="sw"><div class="sw__chip" style="background:#FF2D3B"></div><div class="sw__body">
+        <span class="sw__name">Elevator Red</span><span class="sw__hex">#FF2D3B · primary</span>
+        <span class="sw__role">The only chromatic voice. Primary actions, live indicators, mono labels, headline metrics, the scroll bar.</span>
+        <div class="ramp"><span style="background:oklch(15% .1613 24.6)"></span><span style="background:oklch(27% .1848 24.6)"></span><span style="background:oklch(39% .2083 24.6)"></span><span style="background:oklch(51% .2319 24.6)"></span><span style="background:oklch(62% .2260 24.6)"></span><span style="background:oklch(73% .2044 24.6)"></span><span style="background:oklch(84% .1828 24.6)"></span><span style="background:oklch(95% .1613 24.6)"></span></div>
+      </div></div>
+      <div class="sw"><div class="sw__chip" style="background:#E51E2B"></div><div class="sw__body">
+        <span class="sw__name">Elevator Red Deep</span><span class="sw__hex">#E51E2B · primary</span>
+        <span class="sw__role">Hover and pressed state of the primary red only. Never a resting color.</span>
+        <div class="ramp"><span style="background:oklch(15% .1524 25.6)"></span><span style="background:oklch(27% .1746 25.6)"></span><span style="background:oklch(39% .1969 25.6)"></span><span style="background:oklch(51% .2191 25.6)"></span><span style="background:oklch(62% .2136 25.6)"></span><span style="background:oklch(73% .1932 25.6)"></span><span style="background:oklch(84% .1728 25.6)"></span><span style="background:oklch(95% .1524 25.6)"></span></div>
+      </div></div>
+      <div class="sw"><div class="sw__chip" style="background:#FF6B74"></div><div class="sw__body">
+        <span class="sw__name">Ember</span><span class="sw__hex">#FF6B74 · primary</span>
+        <span class="sw__role">Atmosphere only — aurora blurs, scrollbar hover, tertiary dots. Never text, never an action.</span>
+        <div class="ramp"><span style="background:oklch(15% .1214 19.3)"></span><span style="background:oklch(27% .1392 19.3)"></span><span style="background:oklch(39% .1569 19.3)"></span><span style="background:oklch(51% .1746 19.3)"></span><span style="background:oklch(62% .1702 19.3)"></span><span style="background:oklch(73% .1539 19.3)"></span><span style="background:oklch(84% .1377 19.3)"></span><span style="background:oklch(95% .1214 19.3)"></span></div>
+      </div></div>
+      <div class="sw"><div class="sw__chip" style="background:#17171B"></div><div class="sw__body">
+        <span class="sw__name">Graphite</span><span class="sw__hex">#17171B · neutral</span>
+        <span class="sw__role">Body text, the dark section ground, and the nav's persistent dark CTA.</span>
+        <div class="ramp"><span style="background:oklch(15% .0053 285.7)"></span><span style="background:oklch(27% .0061 285.7)"></span><span style="background:oklch(39% .0068 285.7)"></span><span style="background:oklch(51% .0076 285.7)"></span><span style="background:oklch(62% .0074 285.7)"></span><span style="background:oklch(73% .0067 285.7)"></span><span style="background:oklch(84% .0060 285.7)"></span><span style="background:oklch(95% .0053 285.7)"></span></div>
+      </div></div>
+      <div class="sw"><div class="sw__chip" style="background:#45454D"></div><div class="sw__body">
+        <span class="sw__name">Slate</span><span class="sw__hex">#45454D · neutral</span>
+        <span class="sw__role">Secondary text — nav links at rest, footer links, chip labels.</span>
+        <div class="ramp"><span style="background:oklch(15% .0090 285.8)"></span><span style="background:oklch(27% .0103 285.8)"></span><span style="background:oklch(39% .0116 285.8)"></span><span style="background:oklch(51% .0129 285.8)"></span><span style="background:oklch(62% .0126 285.8)"></span><span style="background:oklch(73% .0114 285.8)"></span><span style="background:oklch(84% .0102 285.8)"></span><span style="background:oklch(95% .0090 285.8)"></span></div>
+      </div></div>
+      <div class="sw"><div class="sw__chip" style="background:#71717B"></div><div class="sw__body">
+        <span class="sw__name">Smoke</span><span class="sw__hex">#71717B · neutral</span>
+        <span class="sw__role">Tertiary text — paragraphs under headings, metric captions. Sits deliberately at the WCAG AA floor: 4.83:1 on Paper, 4.51:1 on Chalk. No headroom to lighten it.</span>
+        <div class="ramp"><span style="background:oklch(15% .0103 285.9)"></span><span style="background:oklch(27% .0118 285.9)"></span><span style="background:oklch(39% .0133 285.9)"></span><span style="background:oklch(51% .0148 285.9)"></span><span style="background:oklch(62% .0144 285.9)"></span><span style="background:oklch(73% .0130 285.9)"></span><span style="background:oklch(84% .0117 285.9)"></span><span style="background:oklch(95% .0103 285.9)"></span></div>
+      </div></div>
+      <div class="sw"><div class="sw__chip" style="background:#ECECEE"></div><div class="sw__body">
+        <span class="sw__name">Hairline</span><span class="sw__hex">#ECECEE · neutral</span>
+        <span class="sw__role">Every border, divider and grid line. The only border color on light grounds.</span>
+        <div class="ramp"><span style="background:oklch(15% .0018 286.3)"></span><span style="background:oklch(27% .0021 286.3)"></span><span style="background:oklch(39% .0023 286.3)"></span><span style="background:oklch(51% .0026 286.3)"></span><span style="background:oklch(62% .0025 286.3)"></span><span style="background:oklch(73% .0023 286.3)"></span><span style="background:oklch(84% .0020 286.3)"></span><span style="background:oklch(95% .0018 286.3)"></span></div>
+      </div></div>
+      <div class="sw"><div class="sw__chip" style="background:#FFFFFF;border-bottom:1px solid #ECECEE"></div><div class="sw__body">
+        <span class="sw__name">Paper</span><span class="sw__hex">#FFFFFF · neutral</span>
+        <span class="sw__role">Default page and card ground.</span>
+        <div class="ramp"><span style="background:oklch(15% 0 0)"></span><span style="background:oklch(27% 0 0)"></span><span style="background:oklch(39% 0 0)"></span><span style="background:oklch(51% 0 0)"></span><span style="background:oklch(62% 0 0)"></span><span style="background:oklch(73% 0 0)"></span><span style="background:oklch(84% 0 0)"></span><span style="background:oklch(95% 0 0)"></span></div>
+      </div></div>
+      <div class="sw"><div class="sw__chip" style="background:#F8F7F5"></div><div class="sw__body">
+        <span class="sw__name">Chalk</span><span class="sw__hex">#F8F7F5 · neutral</span>
+        <span class="sw__role">Alternate section ground; resting fill for chips, mini tiles, secondary-button hover.</span>
+        <div class="ramp"><span style="background:oklch(15% .0019 84.6)"></span><span style="background:oklch(27% .0022 84.6)"></span><span style="background:oklch(39% .0025 84.6)"></span><span style="background:oklch(51% .0028 84.6)"></span><span style="background:oklch(62% .0027 84.6)"></span><span style="background:oklch(73% .0024 84.6)"></span><span style="background:oklch(84% .0022 84.6)"></span><span style="background:oklch(95% .0019 84.6)"></span></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TYPE ================= -->
+<section id="type">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="label">02 — Foundations</span>
+      <h2>Three voices that never swap jobs.</h2>
+      <p>Space Grotesk states, Inter explains, JetBrains Mono labels. Space Grotesk is geometric and slightly mechanical — set tight and heavy it reads as engineered rather than corporate, which is the register an automation agency needs.</p>
+    </div>
+
+    <div class="spec">
+      <div class="spec__meta"><span class="label label--muted">Display</span><span class="spec__vals">Space Grotesk 600<br>clamp(2.6rem, 6.2vw, 4.6rem)<br>line-height 1.02<br>tracking -0.03em</span></div>
+      <div class="spec__demo"><div class="d-display">Your growth, running on autopilot.</div></div>
+    </div>
+    <div class="spec">
+      <div class="spec__meta"><span class="label label--muted">Headline</span><span class="spec__vals">Space Grotesk 600<br>clamp(1.9rem, 4vw, 3rem)<br>line-height 1.02<br>tracking -0.03em</span></div>
+      <div class="spec__demo"><div class="d-headline">If it&rsquo;s repetitive, it should run itself.</div></div>
+    </div>
+    <div class="spec">
+      <div class="spec__meta"><span class="label label--muted">Metric</span><span class="spec__vals">Space Grotesk 600<br>2.25rem &rarr; 3.75rem<br>line-height 1<br>Elevator Red on light</span></div>
+      <div class="spec__demo"><div class="d-metric">18 hrs</div></div>
+    </div>
+    <div class="spec">
+      <div class="spec__meta"><span class="label label--muted">Title</span><span class="spec__vals">Space Grotesk 600<br>1.25rem / 20px<br>line-height 1.02</span></div>
+      <div class="spec__demo"><div class="d-title">Marketing automation</div></div>
+    </div>
+    <div class="spec">
+      <div class="spec__meta"><span class="label label--muted">Body</span><span class="spec__vals">Inter 400<br>1rem / 16px<br>line-height 1.6<br>measure 65ch</span></div>
+      <div class="spec__demo"><p class="d-body">We embed with your team, map the manual work and the marketing that matters, then replace it with systems that run without you. Body copy never inherits the heading&rsquo;s tracking — the contrast between compressed headings and open paragraphs is what the system depends on.</p></div>
+    </div>
+    <div class="spec">
+      <div class="spec__meta"><span class="label label--muted">Mono label</span><span class="spec__vals">JetBrains Mono 500<br>0.72rem / 11.52px<br>tracking 0.22em<br>uppercase</span></div>
+      <div class="spec__demo"><span class="label">What we do</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SHAPE & SPACE ================= -->
+<section id="form">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="label">03 — Foundations</span>
+      <h2>Radius is a function of size.</h2>
+      <p>Nothing has a sharp corner, and nothing is a stadium unless it is a pill. The arc has to match the edge it turns: a 12px radius on a full-bleed panel and a 32px radius on a button are both mistakes.</p>
+    </div>
+
+    <div class="ladder">
+      <div class="rung" style="border-radius:8px"><b>8px</b><span>Nav links</span></div>
+      <div class="rung" style="border-radius:12px"><b>12px</b><span>Buttons, tiles, nodes</span></div>
+      <div class="rung" style="border-radius:16px"><b>16px</b><span>Cards, nav bar</span></div>
+      <div class="rung" style="border-radius:24px"><b>24px</b><span>Large cards, groups</span></div>
+      <div class="rung" style="border-radius:32px"><b>32px</b><span>Full-width panels</span></div>
+      <div class="rung" style="border-radius:9999px"><b>full</b><span>Pills, dots, avatars</span></div>
+    </div>
+
+    <div class="sub">
+      <h3>Spacing rhythm</h3>
+      <p class="sub__note">One centered column governs everything: 1152px maximum with a 24px gutter, so all left edges align down the full page. Only backgrounds go full-bleed.</p>
+      <div class="scale">
+        <div class="scale__row"><span class="scale__lab">16px · grid gutter</span><span class="scale__bar" style="width:16px"></span></div>
+        <div class="scale__row"><span class="scale__lab">24px · page gutter</span><span class="scale__bar" style="width:24px"></span></div>
+        <div class="scale__row"><span class="scale__lab">28px · card padding</span><span class="scale__bar" style="width:28px"></span></div>
+        <div class="scale__row"><span class="scale__lab">32px · large card</span><span class="scale__bar" style="width:32px"></span></div>
+        <div class="scale__row"><span class="scale__lab">56px · head to content</span><span class="scale__bar" style="width:56px"></span></div>
+        <div class="scale__row"><span class="scale__lab">80px · light section</span><span class="scale__bar" style="width:80px"></span></div>
+        <div class="scale__row"><span class="scale__lab">96px · section rhythm</span><span class="scale__bar" style="width:96px"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DEPTH ================= -->
+<section id="depth">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="label">04 — Foundations</span>
+      <h2>Flat at rest. Shadow is a response.</h2>
+      <p>Hairline borders define edges, ground-tone changes separate regions, and shadow arrives when the cursor does. If every card already floats, the lift has nothing to say. Exceptions are allowed where a surface genuinely hovers above the page or is the single most important target — argued from the element&rsquo;s role, never applied to a grid by default.</p>
+    </div>
+    <div class="shadows">
+      <div class="shadowbox" style="box-shadow:var(--shadow-soft)">
+        <div><span class="label label--muted">Soft</span><p style="margin-top:8px;font-size:.875rem;color:var(--ink-soft)">Scrolled nav bar, testimonial cards, floating chips. Nearly subliminal.</p></div>
+        <code>0 1px 2px rgba(23,23,27,.04), 0 12px 32px -12px rgba(23,23,27,.12)</code>
+      </div>
+      <div class="shadowbox" style="box-shadow:var(--shadow-lift)">
+        <div><span class="label label--muted">Lift</span><p style="margin-top:8px;font-size:.875rem;color:var(--ink-soft)">Hover state of every content card; resting state of the hero panel.</p></div>
+        <code>0 1px 2px rgba(23,23,27,.05), 0 24px 60px -20px rgba(23,23,27,.18)</code>
+      </div>
+      <div class="shadowbox" style="box-shadow:var(--shadow-red)">
+        <div><span class="label label--muted">Red glow</span><p style="margin-top:8px;font-size:.875rem;color:var(--ink-soft)">The primary button only. The system&rsquo;s single tinted shadow.</p></div>
+        <code>0 10px 30px -8px rgba(255,45,59,.45)</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MOTION ================= -->
+<section id="motion">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="label">05 — Foundations</span>
+      <h2>Motion is the argument, not the decoration.</h2>
+      <p>The proof that these systems run without you is that the page itself is visibly running. A page that sits perfectly still is off-brand in a way no color or type choice can rescue — on surfaces that persuade. In reading contexts, motion recedes to state feedback only.</p>
+    </div>
+    <div class="sub" style="display:grid;gap:32px;grid-template-columns:1fr">
+      <div style="display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+        <div style="border:1px solid var(--line);border-radius:16px;padding:24px">
+          <span class="label label--muted">Standard easing</span>
+          <svg viewBox="0 0 120 120" width="100%" height="150" style="margin-top:14px;overflow:visible" role="img" aria-label="Easing curve: fast out, long settle">
+            <rect x="0" y="0" width="120" height="120" fill="#F8F7F5" rx="8"></rect>
+            <line x1="0" y1="120" x2="120" y2="120" stroke="#ECECEE" stroke-width="1"></line>
+            <line x1="0" y1="0" x2="120" y2="0" stroke="#ECECEE" stroke-width="1"></line>
+            <path d="M0 120 C19.2 0, 36 36, 120 0" fill="none" stroke="#FF2D3B" stroke-width="2.5" stroke-linecap="round"></path>
+          </svg>
+          <p class="mono" style="margin-top:12px;font-size:.6875rem;color:var(--muted)">cubic-bezier(0.16, 1, 0.3, 1)</p>
+          <p style="margin-top:8px;font-size:.875rem;color:var(--ink-soft)">Fast out, long settle. Every entrance, draw-on and state transition.</p>
+        </div>
+        <div style="border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column">
+          <span class="label label--muted">Durations</span>
+          <ul style="list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:10px;font-size:.875rem;color:var(--ink-soft)">
+            <li><b class="mono" style="color:var(--ink)">700ms</b> &middot; entrance reveal, 24px rise + fade</li>
+            <li><b class="mono" style="color:var(--ink)">300ms</b> &middot; hover and focus transitions</li>
+            <li><b class="mono" style="color:var(--ink)">80ms</b> &middot; stagger between siblings</li>
+            <li><b class="mono" style="color:var(--ink)">1400ms</b> &middot; counter count-up</li>
+            <li><b class="mono" style="color:var(--ink)">16s / 32s</b> &middot; aurora drift / marquee</li>
+          </ul>
+          <p style="margin-top:auto;padding-top:16px;font-size:.875rem;color:var(--ink-soft)">Card lift is a spring: stiffness 300, damping 22. That 1.03 / 0.95 hover-and-press pair is the system&rsquo;s tactile signature.</p>
+        </div>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:16px;padding:24px;background:var(--cream)">
+        <span class="label label--muted">Reduced motion</span>
+        <p style="margin-top:10px;font-size:.9375rem;color:var(--ink-soft);max-width:80ch">Honored in two layers, and both must be maintained. The global CSS override collapses all animation and transition durations; components additionally check <span class="mono" style="font-size:.8125rem">useReducedMotion()</span> to skip transforms and render final states directly. The CSS alone does not stop a JS-driven counter or a keyframed transform loop. This page obeys the same rule — every animation on it stops under a reduced-motion preference.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMPONENTS ================= -->
+<section id="components">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="label">06 — Components</span>
+      <h2>Everything below is shipping today.</h2>
+      <p>Live instances, not screenshots. Hover them, press them, tab through them with the keyboard.</p>
+    </div>
+
+    <div class="sub">
+      <h3>Buttons <span class="status status--built"><i></i>Built</span></h3>
+      <p class="sub__note">Consistently 12px — never pill, never square. All buttons scale to 1.03 on hover and 0.95 on press.</p>
+      <div class="row">
+        <button class="btn btn--primary" type="button">Book a free Call</button>
+        <button class="btn btn--secondary" type="button">See our work</button>
+        <button class="btn btn--dark" type="button">Book a call</button>
+      </div>
+      <div class="onred">
+        <span class="label">Growth on Autopilot</span>
+        <h4>Ready to stop doing the repetitive work yourself?</h4>
+        <div class="row">
+          <button class="btn btn--inverse" type="button">Book a free Call</button>
+          <button class="btn btn--ghostlight" type="button">See case studies</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3>Navigation <span class="status status--built"><i></i>Built</span></h3>
+      <p class="sub__note">A floating 16px bar, transparent over the hero and filling with Paper at 80% plus a blur once scroll passes 24px. The dark CTA persists so the page always has exactly one visible primary action.</p>
+      <div class="navdemo">
+        <div class="navbar">
+          <div class="wordmark">
+            <svg width="27" height="37" viewBox="2 16 56 78" fill="none" role="img" aria-label="Red Elevators mark">
+              <rect x="4" y="74" width="12" height="16" rx="4" fill="#FF2D3B"></rect>
+              <rect x="22" y="64" width="12" height="26" rx="4" fill="#FF2D3B"></rect>
+              <rect x="40" y="46" width="12" height="44" rx="4" fill="#FF2D3B"></rect>
+              <circle cx="46" cy="38" r="4" fill="#FF2D3B" opacity=".85"></circle>
+              <circle cx="54" cy="30" r="3.2" fill="#FF2D3B" opacity=".55"></circle>
+              <circle cx="44" cy="22" r="2.6" fill="#FF0000"></circle>
+            </svg>
+            <span class="wordmark__t"><span class="wordmark__n">Red Elevators</span><span class="wordmark__s">Growth on Autopilot</span></span>
+          </div>
+          <div class="navbar__links">
+            <a class="navlink" href="#components" aria-current="page">Services</a>
+            <a class="navlink" href="#components">Process</a>
+            <a class="navlink" href="#components">Work</a>
+            <a class="navlink" href="#components">Results</a>
+          </div>
+          <button class="btn btn--dark" type="button">Book a call</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3>Section heading <span class="status status--built"><i></i>Built</span></h3>
+      <p class="sub__note">The system&rsquo;s most-reused composition, and the one to reuse rather than rebuild. A heading with no mono label above it is incomplete.</p>
+      <div style="margin-top:24px;border:1px solid var(--line);border-radius:16px;padding:32px;background:var(--cream)">
+        <div style="max-width:42rem">
+          <span class="label">Selected work</span>
+          <h4 style="font-family:var(--font-display);font-size:clamp(1.9rem,4vw,3rem);font-weight:600;letter-spacing:-.03em;line-height:1.02;margin-top:16px">Built once. Runs forever.</h4>
+          <p style="margin-top:16px;font-size:1.125rem;color:var(--muted)">Each of the three parts reveals independently at 0, 50 and 100 milliseconds.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3>Cards <span class="status status--built"><i></i>Built</span></h3>
+      <p class="sub__note">16px standard, 24px large. Flat with a hairline border at rest; springs up 6px and gains the Lift shadow on hover. Each card family gets one distinctive flourish — a cursor-tracked glow on service cards, a corner bloom and drawn underline on feature cards — and they are never mixed.</p>
+      <div class="cardgrid">
+        <article class="card js-glow">
+          <div class="card__glow"></div>
+          <div class="card__inner">
+            <div class="card__top">
+              <span class="label">01</span>
+              <span class="card__icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            </div>
+            <h4>Marketing automation</h4>
+            <p>Lead capture, nurture sequences, content pipelines and campaign reporting — running on autopilot.</p>
+            <div class="card__tags"><span class="chip">Nurture</span><span class="chip">Email</span><span class="chip">Attribution</span></div>
+          </div>
+        </article>
+        <article class="fcard">
+          <span class="chip chip--bordered">Professional services</span>
+          <div class="fcard__metric">18 hrs</div>
+          <div class="fcard__cap">saved every single week</div>
+          <h4>Reporting, automated</h4>
+          <p>Cross-tool data sync feeding a live dashboard. The Monday-morning report builds itself overnight.</p>
+          <div class="fcard__rule"></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3>Stat band <span class="status status--built"><i></i>Built</span></h3>
+      <p class="sub__note">Four cells on a Hairline ground with a 1px gutter, so the group reads as one divided object rather than four cards. Numbers count up on first view — and render their final value in the markup, so they are correct even if the script never runs.</p>
+      <div class="statband">
+        <div class="stat"><div class="stat__v" data-count="15" data-suffix=" tools">15 tools</div><div class="stat__l">Platforms we build inside</div></div>
+        <div class="stat"><div class="stat__v" data-count="6" data-suffix="">6</div><div class="stat__l">Service lines</div></div>
+        <div class="stat"><div class="stat__v" data-count="4" data-suffix=" stages">4 stages</div><div class="stat__l">Audit, Design, Build, Run</div></div>
+        <div class="stat"><div class="stat__v" data-count="1" data-suffix="">1</div><div class="stat__l">Destination: the 30-minute call</div></div>
+      </div>
+      <p class="sub__note" style="margin-top:14px"><span class="status status--built"><i></i>Shipping</span> &nbsp;These exact figures replaced the fabricated outcome stats on 9 Sep 2026. The markup carries the true value so the number is correct with no JavaScript; the count-up only takes over once the element is confirmed off-screen.</p>
+    </div>
+
+    <div class="sub">
+      <h3>Process rail <span class="status status--built"><i></i>Built</span></h3>
+      <p class="sub__note">The clearest single expression of the North Star: a hairline rail on Graphite with a red rail scaling over it as you scroll, spring-smoothed. Preserve it in spirit if the section is ever rebuilt.</p>
+      <div class="rail">
+        <div class="rail__line"></div>
+        <div class="rail__fill"></div>
+        <div class="rail__steps">
+          <div class="rstep rstep--on"><span class="rstep__n">01</span><h4>Audit</h4><p>We map every repetitive task and manual campaign, and put an hour and dollar figure on each one.</p></div>
+          <div class="rstep rstep--on"><span class="rstep__n">02</span><h4>Design</h4><p>We architect the workflow — what triggers it, what it touches, and exactly where a human still checks in.</p></div>
+          <div class="rstep"><span class="rstep__n">03</span><h4>Build</h4><p>We build inside your existing tools, not a separate platform you have to learn.</p></div>
+          <div class="rstep"><span class="rstep__n">04</span><h4>Run</h4><p>We monitor, refine and hand over full documentation.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3>Testimonial card <span class="status status--issue"><i></i>Removed from the site</span></h3>
+      <p class="sub__note">Deleted from the site in the truth pass of 9 Sep 2026, because no real testimonial has been collected. The pattern is kept here so it can return the day two real quotes arrive — and if it returns, it returns flat: it was the one card family resting on a shadow while service and feature cards rest flat. The quote below is structural placeholder text, marked as such.</p>
+      <figure class="quote">
+        <svg width="34" height="28" viewBox="0 0 34 28" fill="none" style="color:var(--red)" aria-hidden="true"><path d="M0 28V16.8C0 11.2 1.3 6.9 3.9 4.1 6.5 1.4 10.2 0 15 0v5.6c-2.5.2-4.4 1-5.6 2.4-1.2 1.4-1.8 3.3-1.8 5.7H14V28H0Zm20 0V16.8c0-5.6 1.3-9.9 3.9-12.7C26.5 1.4 30.2 0 35 0v5.6c-2.5.2-4.4 1-5.6 2.4-1.2 1.4-1.8 3.3-1.8 5.7H34V28H20Z" fill="currentColor" opacity=".9" transform="translate(-1)"></path></svg>
+        <blockquote>A real client quote goes here, in two or three sentences, once one has been collected and cleared.</blockquote>
+        <figcaption>
+          <span class="quote__av">&mdash;</span>
+          <div><div style="font-size:.875rem;font-weight:600">Awaiting a real quote</div><div style="font-size:.875rem;color:var(--muted)">Slot, not content</div></div>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROPOSED ================= -->
+<section id="proposed">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="label">07 — Proposed</span>
+      <h2>Designed here first, built next.</h2>
+      <p>Designed here so the decisions are made once, in the system, rather than improvised on whichever page needs them first. System Anatomy has since shipped; the three below are still unbuilt.</p>
+    </div>
+
+    <div class="sub">
+      <h3>System Anatomy <span class="status status--built"><i></i>Built &middot; shipping</span></h3>
+      <p class="sub__note">The signature component and the centrepiece of the proof strategy. Shipping on the home page since 9 Sep 2026 as <span class="mono" style="font-size:.8125rem">SystemAnatomy.tsx</span>, driven by data. A server component by design — nodes and wires are static markup and the pulse is pure CSS, so the diagram never depends on JavaScript. Every competitor writes &ldquo;we automate your funnel&rdquo;; almost none will show the wiring.</p>
+
+      <div class="anat">
+        <span class="label">Speed-to-lead &middot; shipping on the home page</span>
+        <div class="anat__chain">
+          <div class="node" style="--i:0"><span class="node__step">Trigger</span><span class="node__act">Form submit</span><span class="node__tool">Webflow</span></div>
+          <div class="wire"><span class="wire__t"></span><span class="wire__dot" style="--i:0"></span></div>
+          <div class="node" style="--i:1"><span class="node__step">Step 01</span><span class="node__act">Enrich</span><span class="node__tool">Segment</span></div>
+          <div class="wire"><span class="wire__t"></span><span class="wire__dot" style="--i:1"></span></div>
+          <div class="node" style="--i:2"><span class="node__step">Step 02</span><span class="node__act">Qualify</span><span class="node__tool">OpenAI</span></div>
+          <div class="wire"><span class="wire__t"></span><span class="wire__dot" style="--i:2"></span></div>
+          <div class="node" style="--i:3"><span class="node__step">Step 03</span><span class="node__act">Route</span><span class="node__tool">HubSpot</span></div>
+          <div class="wire"><span class="wire__t"></span><span class="wire__dot" style="--i:3"></span></div>
+          <div class="node" style="--i:4"><span class="node__step">Step 04</span><span class="node__act">Notify</span><span class="node__tool">Slack</span></div>
+          <div class="wire"><span class="wire__t"></span><span class="wire__dot" style="--i:4"></span></div>
+          <div class="node" style="--i:5"><span class="node__step">Result</span><span class="node__act">Logged</span><span class="node__tool">Salesforce</span></div>
+        </div>
+        <div class="anat__foot">
+          <p class="anat__cap">Six steps, six real tools, no claim about outcome. The specificity is the credibility.</p>
+        </div>
+      </div>
+
+      <div class="anat" style="margin-top:16px">
+        <span class="label">Reporting &middot; anatomy</span>
+        <div class="anat__chain">
+          <div class="node" style="--i:0"><span class="node__step">Trigger</span><span class="node__act">Nightly</span><span class="node__tool">Schedule</span></div>
+          <div class="wire"><span class="wire__t"></span><span class="wire__dot" style="--i:0"></span></div>
+          <div class="node" style="--i:1"><span class="node__step">Step 01</span><span class="node__act">Pull</span><span class="node__tool">Airtable</span></div>
+          <div class="wire"><span class="wire__t"></span><span class="wire__dot" style="--i:1"></span></div>
+          <div class="node" style="--i:2"><span class="node__step">Step 02</span><span class="node__act">Normalize</span><span class="node__tool">Make</span></div>
+          <div class="wire"><span class="wire__t"></span><span class="wire__dot" style="--i:2"></span></div>
+          <div class="node" style="--i:3"><span class="node__step">Step 03</span><span class="node__act">Compose</span><span class="node__tool">Claude</span></div>
+          <div class="wire"><span class="wire__t"></span><span class="wire__dot" style="--i:3"></span></div>
+          <div class="node" style="--i:4"><span class="node__step">Result</span><span class="node__act">Published</span><span class="node__tool">Notion</span></div>
+        </div>
+        <div class="anat__foot">
+          <p class="anat__cap">The same component with different data — proving it scales across six service pages instead of becoming six templates.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3>Form controls <span class="status status--proposed"><i></i>Proposed</span></h3>
+      <p class="sub__note">Not one input, label, textarea, checkbox, error or success state exists in the codebase today, because the only conversion path is Calendly. Fields take the 12px control radius. Focus is a red border plus a soft red ring — never a removed outline.</p>
+      <form class="formgrid" onsubmit="return false">
+        <div class="field">
+          <label for="f-name">Name</label>
+          <input class="input" id="f-name" type="text" placeholder="Alex Mercer">
+        </div>
+        <div class="field">
+          <label for="f-email">Work email</label>
+          <input class="input input--error" id="f-email" type="email" value="alex@" aria-describedby="f-email-err">
+          <span class="field__err" id="f-email-err">Add the rest of the domain, like alex@company.com</span>
+        </div>
+        <div class="field">
+          <label for="f-tool">Where does the work live today?</label>
+          <select class="input" id="f-tool">
+            <option>HubSpot</option><option>Salesforce</option><option>Airtable</option>
+            <option>Spreadsheets and email</option><option>Somewhere else</option>
+          </select>
+          <span class="field__hint">Optional — it helps us come to the call prepared.</span>
+        </div>
+        <div class="field">
+          <label for="f-msg">What is eating the most time?</label>
+          <textarea class="input" id="f-msg" placeholder="Rebuilding the same report every Monday morning."></textarea>
+          <span class="field__ok">Saved as a draft</span>
+        </div>
+        <label class="check"><input type="checkbox" checked> Send me the audit checklist we use on the first call.</label>
+        <div class="row" style="margin-top:0"><button class="btn btn--primary" type="submit">Book the call</button></div>
+      </form>
+    </div>
+
+    <div class="sub">
+      <h3>Focus states on every ground <span class="status status--proposed"><i></i>Proposed</span></h3>
+      <p class="sub__note">No <span class="mono" style="font-size:.8125rem">:focus-visible</span> treatment exists anywhere in the codebase today. A single outline color cannot serve this system — it has four grounds. Tab into the buttons below to see each one.</p>
+      <div class="grounds">
+        <div class="ground g-paper"><span class="ground__n">Paper</span><button class="fdemo" type="button">Tab to me</button></div>
+        <div class="ground g-chalk"><span class="ground__n">Chalk</span><button class="fdemo" type="button">Tab to me</button></div>
+        <div class="ground g-ink"><span class="ground__n">Graphite</span><button class="fdemo" type="button">Tab to me</button></div>
+        <div class="ground g-red"><span class="ground__n">Red panel</span><button class="fdemo" type="button">Tab to me</button></div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3>Page header <span class="status status--proposed"><i></i>Proposed</span></h3>
+      <p class="sub__note">The hero is bespoke and home-only. Every other page needs a shorter band carrying the same mono-label and headline rhythm without the chart — enough to establish the page, not enough to delay it.</p>
+      <div class="pagehead">
+        <span class="label">Services &middot; 03 of 06</span>
+        <h3>Sales &amp; follow-up</h3>
+        <p>Automated qualification, CRM updates and instant follow-up, so no lead goes cold while someone is in a meeting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RULES ================= -->
+<section id="rules">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="label">08 — Doctrine</span>
+      <h2>Sixteen rules, so the next page does not need a meeting.</h2>
+      <p>Named rules travel further than bullet lists. When something new comes up that no rule covers, reason from the North Star.</p>
+    </div>
+    <div class="rules">
+      <div class="rule"><span class="rule__s">Color</span><span class="rule__n">The Single Voice Rule</span><p>Elevator Red is the only chromatic color. When a surface seems to need a second, the answer is a neutral, a tone of red, or a change of ground. A second hue is a redesign, not an addition.</p></div>
+      <div class="rule"><span class="rule__s">Color</span><span class="rule__n">The Signal Rule</span><p>Red marks what is live, what is next, or what is the answer. It never decorates.</p></div>
+      <div class="rule"><span class="rule__s">Color</span><span class="rule__n">The Ground Change Rule</span><p>Sections separate by changing ground — Paper, Chalk, Graphite, red panel — not by stacking dividers.</p></div>
+      <div class="rule"><span class="rule__s">Color</span><span class="rule__n">The Light-Only Rule</span><p>No dark theme, no <span class="mono" style="font-size:.75rem">prefers-color-scheme</span> handling, no toggle. The unused dark brand assets are out of scope, not a defect. Provisional, by decision.</p></div>
+      <div class="rule"><span class="rule__s">Color</span><span class="rule__n">The Contrast Floor Rule</span><p>Every text colour has a measured ratio against its ground. Neutrals pass AA. <b>Elevator Red does not pass as small text</b> — 3.69:1 on Paper — so red below 24px is a known open failure awaiting a brand decision. Never set a text colour by eye, and flatten any opacity before measuring.</p></div>
+      <div class="rule"><span class="rule__s">Typography</span><span class="rule__n">The Three Voices Rule</span><p>Space Grotesk states, Inter explains, JetBrains Mono labels. The jobs never swap.</p></div>
+      <div class="rule"><span class="rule__s">Typography</span><span class="rule__n">The Tight Top Rule</span><p>Headings run at -0.03em and line-height 1.02. Body inherits none of it and stays at 1.6.</p></div>
+      <div class="rule"><span class="rule__s">Typography</span><span class="rule__n">The Unlayered Heading Rule</span><p>The site&rsquo;s <span class="mono" style="font-size:.75rem">globals.css</span> styles headings outside any cascade layer, so they beat every Tailwind utility. A typography class on a heading is silently discarded — verify in the browser until the layer fix lands.</p></div>
+      <div class="rule"><span class="rule__s">Typography</span><span class="rule__n">The Label-First Rule</span><p>Every section opens with a mono label above its headline. A heading without one is incomplete.</p></div>
+      <div class="rule"><span class="rule__s">Layout</span><span class="rule__n">The One Column Rule</span><p>Everything lives in the same 1152px container with a 24px gutter. Backgrounds may go full-bleed; content may not.</p></div>
+      <div class="rule"><span class="rule__s">Elevation</span><span class="rule__n">The Flat-Until-Touched Rule</span><p>Cards rest flat and gain the Lift shadow on hover. Exceptions must be argued from the element&rsquo;s role, not applied to a grid.</p></div>
+      <div class="rule"><span class="rule__s">Elevation</span><span class="rule__n">The Untinted Shadow Rule</span><p>Shadows are neutral Graphite at low alpha. The primary button owns the only colored glow.</p></div>
+      <div class="rule"><span class="rule__s">Shapes</span><span class="rule__n">The Radius Ladder Rule</span><p>12px controls, 16px cards, 24px large cards, 32px panels, full for pills. The arc matches the edge it turns.</p></div>
+      <div class="rule"><span class="rule__s">Shapes</span><span class="rule__n">The One Hairline Rule</span><p>One border color on light grounds, at one width. If an edge needs presence, change the ground behind it.</p></div>
+      <div class="rule"><span class="rule__s">Components</span><span class="rule__n">The Reading Calm Rule</span><p>Ambient motion belongs to surfaces that persuade. In articles and long-form prose it recedes to hover, focus and press. Reveal-on-scroll down 2,000 words is an obstacle, not a signature.</p></div>
+      <div class="rule"><span class="rule__s">Components</span><span class="rule__n">The Visible Focus Rule</span><p>Every interactive element carries a focus-visible treatment that survives all four grounds. Nothing may rely on the browser default, and nothing may remove the outline without replacing it.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GUARDRAILS ================= -->
+<section id="guardrails">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="label">09 — Guardrails</span>
+      <h2>What we do, and what we refuse.</h2>
+      <p>The refusals matter more than the prescriptions. Three named anti-references keep this site from drifting into the three looks every agency site drifts into.</p>
+    </div>
+    <div class="dd">
+      <div class="dd--do">
+        <span class="label">Do</span>
+        <ul>
+          <li>Open every section with a mono label above the headline, and reuse the section-heading composition rather than rebuilding it.</li>
+          <li>Keep content inside the 1152px container; let only backgrounds go full-bleed.</li>
+          <li>Let cards rest flat and earn their shadow on hover — and where a surface genuinely floats or is the page&rsquo;s single most important target, give it a resting shadow deliberately.</li>
+          <li>Scale radius to the element: 12px controls, 16px cards, 24px large cards, 32px panels.</li>
+          <li>Make new sections move. Ambient motion is the system&rsquo;s core argument.</li>
+          <li>Honor reduced motion in both layers — the global CSS override and the component-level check.</li>
+          <li>Keep the mark&rsquo;s clear space equal to one bar&rsquo;s width on all sides.</li>
+          <li>Give every interactive element a focus treatment that survives Paper, Chalk, Graphite and the red panel.</li>
+          <li>Prove capability by showing mechanism — the real chain, the real tools — rather than by asserting an outcome.</li>
+        </ul>
+      </div>
+      <div class="dd--dont">
+        <span class="label">Don&rsquo;t</span>
+        <ul>
+          <li>Introduce a second chromatic color. One red, everything else neutral.</li>
+          <li>Use red where nothing is live, next, or being asked of the visitor.</li>
+          <li>Add dark mode, theme handling, or a toggle.</li>
+          <li>Drift toward the generic AI-startup look: purple and blue gradients, frosted glass, dark-by-default surfaces, floating 3D shapes, glowing orbs. The likeliest failure mode for an automation agency.</li>
+          <li>Drift toward the corporate stock-photo agency look: meeting rooms, handshakes, corporate blue, abstract &ldquo;solutions&rdquo; language.</li>
+          <li>Drift toward loud growth-hacker marketing: countdown timers, scarcity badges, neon slabs, urgency the product does not have.</li>
+          <li>Swap the type roles — no mono body copy, no Inter headlines, no Space Grotesk paragraphs.</li>
+          <li>Add a second border color, or a border heavier than 1px.</li>
+          <li>Tint a shadow. The primary button owns the only colored glow.</li>
+          <li>Invent a number, client, logo, testimonial or date. Not as a placeholder, not as lorem, not &ldquo;to swap later.&rdquo;</li>
+          <li>Design a composition that only holds together when filled with metrics or testimonials. A section must read as finished with real content, or with the slot honestly empty.</li>
+          <li>Invent a second proof device. If a surface needs credibility, it gets a System Anatomy.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>Red Elevators &middot; Design system v1</span>
+    <span>Growth on Autopilot</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Scroll progress — a live instance of the shipped component.
+  var bar = document.getElementById('progress');
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? window.scrollY / h : 0;
+    bar.style.transform = 'scaleX(' + p + ')';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  // Cursor-tracked glow on service cards.
+  document.querySelectorAll('.js-glow').forEach(function(card){
+    card.addEventListener('mousemove', function(e){
+      var r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // Counters. The final value is already in the markup, so the numbers are
+  // correct even if this never runs — the pattern the hero should adopt.
+  if (!reduce) {
+    var counted = false;
+    var band = document.querySelector('.statband');
+    function runCounters(){
+      if (counted || !band) return;
+      var r = band.getBoundingClientRect();
+      if (r.top > window.innerHeight || r.bottom < 0) return;
+      counted = true;
+      document.querySelectorAll('[data-count]').forEach(function(el){
+        var target = parseFloat(el.getAttribute('data-count'));
+        var suffix = el.getAttribute('data-suffix') || '';
+        var start = performance.now();
+        (function step(now){
+          var t = Math.min((now - start) / 1400, 1);
+          var eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if (t < 1) requestAnimationFrame(step);
+          else el.textContent = target + suffix;
+        })(start);
+      });
+    }
+    window.addEventListener('scroll', runCounters, {passive:true});
+    runCounters();
+  }
+})();
+</script>

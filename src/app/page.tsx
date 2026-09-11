@@ -5,8 +5,7 @@ import { Marquee } from "@/components/Marquee";
 import { Stats } from "@/components/Stats";
 import { Services } from "@/components/Services";
 import { Process } from "@/components/Process";
-import { Work } from "@/components/Work";
-import { Testimonials } from "@/components/Testimonials";
+import { Systems } from "@/components/Systems";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 
@@ -21,8 +20,7 @@ export default function Home() {
         <Stats />
         <Services />
         <Process />
-        <Work />
-        <Testimonials />
+        <Systems />
         <CTA />
       </main>
       <Footer />
