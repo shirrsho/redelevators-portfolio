@@ -5,6 +5,8 @@ colors:
   red: "#FF2D3B"
   red-hover: "#E51E2B"
   red-soft: "#FF6B74"
+  red-text: "#E2101E"
+  red-panel: "#EA1826"
   ink: "#17171B"
   ink-soft: "#45454D"
   muted: "#71717B"
@@ -163,14 +165,22 @@ discipline is the point: with only one chromatic value in play, red always means
 ### Primary
 - **Elevator Red** (`#FF2D3B`): the system's only chromatic voice, and the brand's fixed primary.
   It marks the live thing, the next action, and the number that matters — primary buttons, the
-  scroll progress bar, the pulsing live dot, mono micro-labels, headline stat values, the filled
-  portion of the process rail, and the chart line in the hero. It is also used at full bleed as a
-  section ground exactly once, on the closing CTA panel.
+  scroll progress bar, the pulsing live dot, headline stat values, the filled portion of the
+  process rail, and the chart line in the hero. Never used as text below 24px — see Red Text below.
 - **Elevator Red Deep** (`#E51E2B`): the pressed and hovered state of the primary red only. It
   sweeps across the primary button on hover rather than swapping instantly. Never a resting color.
 - **Ember** (`#FF6B74`): the soft tint used for secondary atmosphere — the second aurora blur
   behind the hero, the scrollbar thumb on hover, tertiary indicator dots. It never carries an
   action and never appears as text.
+- **Red Text** (`#E2101E`): a text-only tone of the primary red, used exclusively for
+  `.font-mono-label` and any other red text below 24px — mono micro-labels, step numbers, section
+  eyebrows. Added 12 September 2026 to resolve A11Y-1 (`#FF2D3B` measured 3.69:1 on Paper, 3.45:1
+  on Chalk — both fail AA; `#E2101E` clears both at 4.5:1+). This is a tone of the same hue, not a
+  second color, so it does not breach The Single Voice Rule.
+- **Red Panel** (`#EA1826`): the closing CTA panel's ground only, one step darker than the primary
+  red so solid white text on it clears AA (4.51:1, was 2.99:1/2.77:1 at `white/85`/`white/80` on
+  `#FF2D3B` — A11Y-2). Not used anywhere else; the primary red stays the fill on every other
+  surface — buttons, the mark, dots, bars, rails, large numerals.
 
 ### Neutral
 - **Graphite** (`#17171B`): the brand's fixed secondary and the body text color. Doubles as a full
@@ -205,10 +215,10 @@ wrong tool; change the ground or increase the air.
 **The Contrast Floor Rule.** Every text colour in this system has a measured ratio against the
 ground it sits on, recorded in
 [`docs/accessibility-audit-2026-09-10.md`](docs/accessibility-audit-2026-09-10.md). Neutrals pass
-WCAG AA. **Elevator Red does not pass as small text** — 3.69:1 on Paper, 3.45:1 on Chalk — so red
-below 24px is a known open failure affecting every mono label, awaiting a brand decision. Do not
-introduce new small red text while that is unresolved, and never set a text colour by eye: compute
-it against its actual ground, flattening any opacity first.
+WCAG AA. Elevator Red itself does not pass as small text, which is why red text below 24px always
+uses Red Text (`#E2101E`), never the primary `#FF2D3B` — see above. The three A11Y findings from
+10 September (red-as-small-text, the CTA panel, the marquee) are all resolved as of 12 September.
+Never set a text colour by eye: compute it against its actual ground, flattening any opacity first.
 
 **The Light-Only Rule (provisional).** The site ships light-only (`color-scheme: light`); there is
 no dark theme and no theme toggle. Dark brand assets exist at `public/brand/*-dark.svg` and the
@@ -228,10 +238,10 @@ does the calm, unglamorous work of being read. JetBrains Mono appears only in sm
 bursts, and it is what makes the whole system feel instrumented rather than merely tidy.
 
 ### Hierarchy
-- **Display** (Space Grotesk 600, `clamp(2.6rem, 6.2vw, 4.6rem)`, line-height 1.02, tracking
-  -0.03em): the hero statement only. One per page, animated in line by line. Note that the hero's
-  `leading-[0.98]` and `tracking-tight` utilities do **not** apply — see The Unlayered Heading
-  Rule below.
+- **Display** (Space Grotesk 600, `clamp(2.6rem, 6.2vw, 4.6rem)`): the hero statement only. One per
+  page, animated in line by line. Renders at its own `leading-[0.98] tracking-tight` utilities
+  (line-height 0.98, tracking -0.025em) rather than the base heading values below, now that
+  utilities correctly win — see The Layered Heading Rule below.
 - **Headline** (Space Grotesk 600, `clamp(1.9rem, 4vw, 3rem)`, line-height 1.02, tracking
   -0.03em): every section heading. Always preceded by a mono label.
 - **Metric** (Space Grotesk 600, 2.25rem stepping to 3rem in stat grids, 3rem stepping to 3.75rem
@@ -256,13 +266,13 @@ line-height at or below 1.02 — headings are meant to feel compressed and machi
 inherits none of it and stays at 1.6. Loosening a heading or tightening a paragraph both break the
 contrast the system depends on.
 
-**The Unlayered Heading Rule.** `globals.css` styles `h1, h2, h3, h4` outside any cascade layer,
-so those declarations beat every Tailwind typography utility (which live in `@layer utilities`).
-Heading font-family, weight 600, tracking -0.03em and line-height 1.02 are therefore fixed at the
-element level, and `leading-*`, `tracking-*` and `font-*` classes on a heading are silently
-ignored. Verified in-browser: the hero renders at 1.02 despite asking for `leading-[0.98]`. To
-change a heading's type, edit the global rule or wrap the text in a `<span>`/`<div>` — do not add
-a utility class and assume it landed.
+**The Layered Heading Rule.** `globals.css` sets `h1, h2, h3, h4`'s defaults (font-family, weight
+600, tracking -0.03em, line-height 1.02) inside `@layer base`, so a Tailwind typography utility on
+a heading (`@layer utilities`, which always wins) correctly overrides them — fixed 12 September
+2026, previously these rules sat outside any layer and silently beat every utility. Verified
+in-browser: the hero now computes line-height 0.98 / tracking -0.025em, its own
+`leading-[0.98] tracking-tight`, instead of the base 1.02 / -0.03em. A heading with no typography
+utility still gets the base values above; add one to override them, and it will now land.
 
 **The Label-First Rule.** Every section opens with a mono label above its headline. The label
 names the section in two or three words; the headline makes the claim. A section heading with no

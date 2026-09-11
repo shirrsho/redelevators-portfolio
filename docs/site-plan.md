@@ -4,9 +4,9 @@ The working reference for what we are building and in what order. Product truth 
 [`PRODUCT.md`](../PRODUCT.md); visual rules live in [`DESIGN.md`](../DESIGN.md); the audit that
 produced the fix items lives in [`design-audit-2026-09-09.md`](design-audit-2026-09-09.md).
 
-**Status:** approved 9 September 2026. **Workstreams A, B and C are complete** (truth pass shipped,
-System Anatomy built, cascade layers and hero first-paint fixed). D, E and F remain. Shipped detail
-in [`changelog.md`](changelog.md).
+**Status:** approved 9 September 2026. **Workstreams A, B, C and F are complete** (truth pass
+shipped, System Anatomy built, cascade layers and hero first-paint fixed, all three open
+accessibility failures resolved). D and E remain. Shipped detail in [`changelog.md`](changelog.md).
 
 **Styleguide:** the system is viewable and interactive at
 <https://claude.ai/code/artifact/59fa371d-2124-4966-b133-508fdddf88fc> (private artifact,
@@ -167,24 +167,30 @@ Build in this order. Each page ships complete before the next starts.
 Every page keeps the single 1152px container and the one-destination rule: all paths resolve to
 the 30-minute call.
 
-### F — Accessibility (P1)
+### F — Accessibility (P1) — ✅ DONE 12 Sep 2026
 
 Colour contrast was measured on 10 September; full results and exact remediation values in
 [`accessibility-audit-2026-09-10.md`](accessibility-audit-2026-09-10.md).
 
-Neutral text passes WCAG AA. Smoke was darkened to `#71717B` to clear the Chalk ground. **Three
-failures remain open, and each needs an owner decision because each changes brand-visible colour or
-a deliberate aesthetic:**
+Neutral text passes WCAG AA. Smoke was darkened to `#71717B` to clear the Chalk ground. **All three
+open failures are now resolved, per owner decision on 12 September:**
 
-1. **A11Y-1 — Elevator Red as small text.** 3.69:1 on Paper, 3.45:1 on Chalk; affects every mono
-   label. Recommended fix is a text-only red (`#E2101E` clears both grounds) leaving `#FF2D3B`
-   untouched wherever it is a fill. This does not breach The Single Voice Rule — a tone of red is
-   permitted where a second hue is not.
-2. **A11Y-2 — CTA panel white-on-red.** `white/85` is 2.99:1, the worst on the site. Solid white
-   plus either a darker panel red or a 24px lede clears it.
-3. **A11Y-3 — marquee tool names.** `ink/40` on Chalk is 2.52:1.
+1. **A11Y-1 — Elevator Red as small text.** Was 3.69:1 on Paper, 3.45:1 on Chalk. Fixed with Option
+   A: a text-only red token (`--color-red-text: #E2101E`), used only by `.font-mono-label`, leaving
+   `#FF2D3B` untouched wherever it is a fill. Measured 4.85:1 on Paper. Does not breach The Single
+   Voice Rule — a tone of red, not a second hue.
+2. **A11Y-2 — CTA panel white-on-red.** Was 2.99:1. Fixed with solid white text plus a darker panel
+   ground (`--color-red-panel: #EA1826`, used only on the CTA panel). Measured 4.51:1 for both the
+   lede and the mono label — no need to enlarge the lede's type size.
+3. **A11Y-3 — marquee tool names.** Was 2.52:1. Fixed by raising the rest state from `ink/40` to
+   `ink/60`; the faded-strip aesthetic and hover-to-full-ink reveal are unchanged. Measured 4.60:1.
 
-Separately, **no `:focus-visible` styling exists anywhere** — a larger gap than any of the above.
+All three ratios were verified by compositing the actual rendered colours on canvas, not by reading
+`getComputedStyle` alone — Tailwind v4's opacity utilities resolve to `oklab()`, which is not a
+plain `rgb()` string.
+
+Separately, **no `:focus-visible` styling exists anywhere** — a larger gap than any of the above,
+and still open (workstream D, item 7).
 It is designed in the styleguide and is item 7 of workstream D.
 
 ---

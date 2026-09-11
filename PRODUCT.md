@@ -197,9 +197,10 @@ should not regress:
 
 - It is motion-heavy and honors `prefers-reduced-motion` globally in `src/app/globals.css`, with a
   second component-level check. Any new motion must keep both intact.
-- Colour contrast was measured on 10 September 2026. Neutral text passes WCAG AA. **Three failures
-  remain open, all requiring a brand decision** — red as small text, the CTA panel's white-on-red,
-  and the marquee. See [`docs/accessibility-audit-2026-09-10.md`](docs/accessibility-audit-2026-09-10.md).
+- Colour contrast was measured on 10 September 2026. Neutral text passes WCAG AA. **All three
+  failures found — red as small text, the CTA panel's white-on-red, and the marquee — were resolved
+  12 September 2026** via two new text/panel-only red tokens and a lightened marquee rest state. See
+  [`docs/accessibility-audit-2026-09-10.md`](docs/accessibility-audit-2026-09-10.md).
 
 There is also no `:focus-visible` styling anywhere in the codebase. It is designed in the
 styleguide and recorded as The Visible Focus Rule, but unbuilt — a larger gap than any contrast

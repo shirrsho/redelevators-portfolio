@@ -5,6 +5,41 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — Cascade layers, hero first paint, and all three accessibility fixes
+
+Workstreams C and F of the site plan.
+
+**Workstream C**
+
+- **Cascade layers (F1).** `globals.css` element defaults (`h1-h4`, `:root`, `body`, `::selection`)
+  moved into `@layer base`; custom classes (`.font-mono-label`, `.grid-bg`, `.aurora`,
+  `.marquee-track`, `.anat-dot`/`.anat-node`, `.text-gradient`, `.shadow-*`) moved into
+  `@layer components`. Tailwind utilities now correctly win regardless of source order. Removed all
+  12 now-redundant `!important` modifiers. Verified: the hero `<h1>` now computes line-height 0.98 /
+  tracking -0.025em (its own utilities) instead of the previously-forced 1.02 / -0.03em.
+- **Hero first paint (F4).** Every `motion` element in `Hero.tsx` now animates position only
+  (`translateY`/`scale`); opacity stays 1 from first paint. Confirmed in the served HTML — no
+  `opacity: 0` on any hero element — so the headline, subheadline, CTAs and hero visual are visible
+  before hydration or if JS fails.
+
+**Workstream F — accessibility, all three findings resolved**
+
+- **A11Y-1.** Added `--color-red-text: #E2101E`, used only by `.font-mono-label`; `#FF2D3B` stays
+  the fill everywhere else. 3.69:1 → 4.85:1 on Paper.
+- **A11Y-2.** Added `--color-red-panel: #EA1826` for the CTA panel ground only, and set its lede
+  and mono label to solid white. 2.99:1/2.77:1 → 4.51:1 for both.
+- **A11Y-3.** Marquee tool names raised from `ink/40` to `ink/60`. 2.52:1 → 4.60:1.
+
+All ratios measured by compositing the actual rendered colours on canvas rather than reading
+`getComputedStyle` alone, since Tailwind v4's opacity utilities resolve to `oklab()`.
+
+**Not fixed, flagged separately:** the same `#FF2D3B` failure also affects a few surfaces the 10
+September audit didn't enumerate — solid white on `bg-red` in the Hero and CTA primary buttons, and
+`text-red` on white in the CTA secondary button and Footer hover links. These touch core button
+branding, a bigger call than the three audited items, so left for a dedicated decision.
+
+---
+
 ## 2026-09-10 — Accessibility audit and two safe fixes
 
 Closes the accessibility gap the 9 Sep audit explicitly left open. Full findings and exact

@@ -4,6 +4,12 @@ Closes the gap the [9 Sep audit](design-audit-2026-09-09.md) explicitly left ope
 accessibility audit — no contrast ratios computed"). Scope here is **colour contrast only**.
 Keyboard traversal, screen-reader behaviour and focus order are still uncovered — see *Coverage*.
 
+**Status as of 12 September 2026: all three open findings (A11Y-1, A11Y-2, A11Y-3) are resolved.**
+Values below are as measured on 10 September; the *Resolved* note under each finding records what
+shipped and the new ratio, verified by compositing the actual rendered colours on canvas rather
+than reading `getComputedStyle` alone (Tailwind v4's opacity utilities resolve to `oklab()`, which
+does not parse as plain `rgb()`).
+
 **Method.** Every foreground/background pair actually used in the shipped page, computed to
 WCAG 2.1 relative luminance. Opacity-composited colours (`white/85`, `ink/40`) were flattened
 against their real backgrounds before measuring, because that is what a reader's eye receives.
@@ -23,11 +29,11 @@ against their real backgrounds before measuring, because that is what a reader's
 | Smoke `#71717B` on Paper | body copy, captions | **4.83:1** | PASS | fixed 10 Sep |
 | Smoke `#71717B` on Chalk | Systems section intro | **4.51:1** | PASS | fixed 10 Sep |
 | ~~Smoke `#74747E` on Chalk~~ | was failing | ~~4.32:1~~ | FAIL | **resolved** |
-| Elevator Red on Paper | every mono label | **3.69:1** | FAIL | **A11Y-1** |
-| Elevator Red on Chalk | mono labels on Chalk grounds | **3.45:1** | FAIL | **A11Y-1** |
-| `white/85` on Elevator Red | CTA panel lede | **2.99:1** | FAIL | **A11Y-2** |
-| `white/80` on Elevator Red | CTA panel mono label | **2.77:1** | FAIL | **A11Y-2** |
-| `ink/40` on Chalk | marquee tool names | **2.52:1** | FAIL | **A11Y-3** |
+| ~~Elevator Red on Paper~~ | was every mono label | ~~3.69:1~~ | FAIL | **A11Y-1 resolved** → Red Text `#E2101E` on Paper, **4.85:1** |
+| ~~Elevator Red on Chalk~~ | was mono labels on Chalk | ~~3.45:1~~ | FAIL | **A11Y-1 resolved** |
+| ~~`white/85` on Elevator Red~~ | was CTA panel lede | ~~2.99:1~~ | FAIL | **A11Y-2 resolved** → white on Red Panel `#EA1826`, **4.51:1** |
+| ~~`white/80` on Elevator Red~~ | was CTA panel mono label | ~~2.77:1~~ | FAIL | **A11Y-2 resolved** |
+| ~~`ink/40` on Chalk~~ | was marquee tool names | ~~2.52:1~~ | FAIL | **A11Y-3 resolved** → `ink/60`, **4.60:1** |
 
 ---
 
@@ -44,6 +50,10 @@ Graphite and Paper.
 
 **Severity: high.** It affects every mono label on the site, and The Label-First Rule mandates one
 above every heading.
+
+**Resolved 12 September 2026 — Option A.** Added `--color-red-text: #E2101E`, used only by
+`.font-mono-label`; `#FF2D3B` is untouched everywhere it is a fill. Measured on the rendered page:
+4.85:1 on Paper (was 3.69:1). See `DESIGN.md` → *Red Text*.
 
 Red text currently appears in two sizes, and only one of them fails:
 
@@ -80,6 +90,11 @@ labels stay. Then record it as a known, accepted deviation rather than leaving i
 **Severity: high.** The closing CTA is the page's single most important block, and its supporting
 copy is the least readable text on the page.
 
+**Resolved 12 September 2026.** Both fixes applied together: the panel ground darkened to a new
+`--color-red-panel: #EA1826` (used only there), and both the lede and mono label set to solid
+white. Measured: 4.51:1 for both — passes the lede's 4.5:1 requirement without needing to enlarge
+its type. See `DESIGN.md` → *Red Panel*.
+
 Two compounding causes: the panel red is only 3.69:1 against pure white to begin with, and the copy
 is then set at 85% and 80% opacity, dropping it to **2.99:1** and **2.77:1**.
 
@@ -97,9 +112,9 @@ The heading already passes as large text; only the lede and the mono label are a
 **Severity: medium.** `ink/40` on Chalk composites to `#9E9D9E` — **2.52:1**. These are real
 content (the tools you build inside), not decoration, and they fail even the 3:1 large-text bar.
 
-Raising the rest state toward `ink/60` or higher fixes it. Deliberately left alone because the
-faded strip with a mask and a hover-to-full-ink reveal is a considered aesthetic choice, and
-changing it alters how the section reads. Owner's call.
+**Resolved 12 September 2026.** Raised the rest state from `ink/40` to `ink/60`; the
+hover-to-full-ink reveal and the faded-strip aesthetic are untouched. Measured: 4.60:1 (was
+2.52:1).
 
 ---
 

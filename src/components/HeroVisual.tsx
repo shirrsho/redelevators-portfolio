@@ -51,7 +51,7 @@ export function HeroVisual() {
             </span>
             <span className="font-mono-label text-muted">Speed-to-lead · live</span>
           </div>
-          <span className="rounded-full bg-red/10 px-2.5 py-1 font-mono-label text-red">
+          <span className="rounded-full bg-red/10 px-2.5 py-1 font-mono-label">
             6 steps
           </span>
         </div>

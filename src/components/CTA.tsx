@@ -6,7 +6,7 @@ import { Reveal } from "./Reveal";
 export function CTA() {
   return (
     <section id="contact" className="px-4 py-16 sm:py-24">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-red px-6 py-20 text-white sm:px-16">
+      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-red-panel px-6 py-20 text-white sm:px-16">
         {/* animated bars backdrop */}
         <div className="pointer-events-none absolute inset-0 flex items-end justify-end gap-3 pr-6 opacity-20">
           {[0.3, 0.5, 0.4, 0.7, 0.55, 0.85, 0.65, 1].map((h, i) => (
@@ -34,7 +34,7 @@ export function CTA() {
 
         <div className="relative max-w-xl">
           <Reveal>
-            <span className="font-mono-label text-white/80">
+            <span className="font-mono-label text-white">
               Growth on Autopilot
             </span>
           </Reveal>
@@ -44,7 +44,7 @@ export function CTA() {
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="mt-5 max-w-md text-lg text-white/85">
+            <p className="mt-5 max-w-md text-lg text-white">
               Book a free 30-minute call. We&apos;ll tell you exactly what to
               automate first.
             </p>

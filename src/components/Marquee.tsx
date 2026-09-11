@@ -13,7 +13,7 @@ export function Marquee() {
             {items.map((m, i) => (
               <span
                 key={i}
-                className="whitespace-nowrap font-[family-name:var(--font-display)] text-xl font-medium text-ink/40 transition-colors hover:text-ink"
+                className="whitespace-nowrap font-[family-name:var(--font-display)] text-xl font-medium text-ink/60 transition-colors hover:text-ink"
               >
                 {m}
               </span>

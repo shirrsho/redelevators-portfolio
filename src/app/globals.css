@@ -5,6 +5,13 @@
   --color-red: #ff2d3b;
   --color-red-hover: #e51e2b;
   --color-red-soft: #ff6b74;
+  /* Text-only tone of red for text below 24px, where #ff2d3b fails AA
+     (3.69:1 on Paper). #ff2d3b stays the fill everywhere else — buttons,
+     the mark, dots, bars, rails, large numerals. A11Y-1. */
+  --color-red-text: #e2101e;
+  /* CTA panel ground only, one step darker than the brand red so solid
+     white text on it clears AA (4.51:1). A11Y-2. */
+  --color-red-panel: #ea1826;
   --color-ink: #17171b;
   --color-ink-soft: #45454d;
   --color-muted: #71717b;
@@ -68,7 +75,7 @@
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--color-red);
+    color: var(--color-red-text);
     font-weight: 500;
   }
 }
