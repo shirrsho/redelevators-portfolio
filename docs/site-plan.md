@@ -4,9 +4,9 @@ The working reference for what we are building and in what order. Product truth 
 [`PRODUCT.md`](../PRODUCT.md); visual rules live in [`DESIGN.md`](../DESIGN.md); the audit that
 produced the fix items lives in [`design-audit-2026-09-09.md`](design-audit-2026-09-09.md).
 
-**Status:** approved 9 September 2026. **Workstreams A and B are complete** (truth pass shipped,
-System Anatomy built). C, D, E and the new F remain. Shipped detail in
-[`changelog.md`](changelog.md).
+**Status:** approved 9 September 2026. **Workstreams A, B and C are complete** (truth pass shipped,
+System Anatomy built, cascade layers and hero first-paint fixed). D, E and F remain. Shipped detail
+in [`changelog.md`](changelog.md).
 
 **Styleguide:** the system is viewable and interactive at
 <https://claude.ai/code/artifact/59fa371d-2124-4966-b133-508fdddf88fc> (private artifact,
