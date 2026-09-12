@@ -5,6 +5,23 @@
 #
 # Runs `next dev` inside the container with the source bind-mounted, so
 # edits on the host hot-reload without rebuilding the image.
+#
+# ---------------------------------------------------------------------------
+# If a route 404s here but works in `npm run build && npm run start`, the
+# cache below is stale — clear it, don't debug the route:
+#
+#   docker compose -f docker-compose.dev.yml down -v
+#   docker compose -f docker-compose.dev.yml up -d
+#
+# Cost us a real false alarm on 12 Sep 2026: every /services/[slug] page
+# 404'd in this container while production, staging and a host `next dev`
+# all served them fine. The .next volume dated back to 5 September — before
+# those pages existed, when `generateStaticParams` correctly returned an
+# empty list — and `dynamicParams = false` turned that stale, empty param
+# list into a 404. The volumes are NAMED (not anonymous) so `down -v`
+# actually removes them; anonymous ones survive up/down forever and were
+# how this went unnoticed for a week.
+# ---------------------------------------------------------------------------
 services:
   web:
     build:
@@ -18,5 +35,12 @@ services:
       - WATCHPACK_POLLING=true
     volumes:
       - .:/app
-      - /app/node_modules
-      - /app/.next
+      # Both of these shadow the bind mount above, deliberately: the host's
+      # own node_modules and .next (this repo gets built on the host too)
+      # must not leak into the container's Linux runtime.
+      - dev_node_modules:/app/node_modules
+      - dev_next_cache:/app/.next
+
+volumes:
+  dev_node_modules:
+  dev_next_cache:

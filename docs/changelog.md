@@ -5,6 +5,37 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — False alarm: every service page 404'd in the dev container only
+
+Reported from the browser: clicking "See this service →" on `/systems` landed on the 404 page.
+**Not a bug in the app, and never broken for visitors.** Isolated by testing the same route in four
+places:
+
+| Where | Result |
+|---|---|
+| The local Docker dev container (`:3000`) | ❌ 404 |
+| A fresh `next dev` on the host | ✅ 200 |
+| `npm run build && npm run start` locally | ✅ 200 |
+| Staging (`:6003`) and **production (`:6001`)** | ✅ 200 |
+
+Only the container failed, which ruled out both the route code and any Next.js 16 dev-mode
+behaviour. Cause: `docker-compose.dev.yml` mounted `/app/.next` as an **anonymous** volume, and
+`docker inspect` dated that volume to **5 September** — before any service page existed, when
+`generateStaticParams` correctly returned an empty list. With `dynamicParams = false`, that stale
+empty param list is a 404 by design. Anonymous volumes survive `up`/`down` indefinitely, so the
+container had been serving a week-old route map while the bind-mounted source was current — which
+is why the nav showed the newest links while the pages behind them 404'd.
+
+Fixed by recreating the container (`down -v`), and hardened so it cannot recur silently:
+`dev_node_modules` and `dev_next_cache` are now **named** volumes, so `down -v` actually clears
+them, with the symptom and the one-line fix written at the top of the compose file. The shadowing
+itself is still deliberate — this repo gets built on the host too, and a macOS `node_modules` must
+never leak into the container's Linux runtime.
+
+**Rule of thumb recorded for next time:** a route that 404s in the dev container but builds fine is
+a cache problem, not a routing problem. Check `npm run build` output for the route before debugging
+the route.
+
 ## 2026-09-12 — Documentation sync, and two things found while doing it
 
 Brought the binding docs back in line with what is actually built, at the owner's request. No code

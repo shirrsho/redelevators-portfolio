@@ -64,6 +64,14 @@ instead of the top. Every internal `Link` in this app passes `scroll={false}` be
 `Nav.tsx` positions scroll itself instead. If you add a `Link` anywhere, give it `scroll={false}`
 too, or it'll fight Nav's own positioning. Full investigation: `docs/changelog.md`.
 
+**A route that 404s only in the dev container.** `docker-compose.dev.yml` shadows `/app/.next` with
+a volume, and a stale one serves a route map from whenever it was created — with
+`dynamicParams = false`, an out-of-date `generateStaticParams` result becomes a 404. Confirmed 12
+Sep 2026, when every `/services/[slug]` page 404'd at `localhost:3000` while production, staging
+and a host `next dev` all served them. Check `npm run build`'s route list first; if the route is
+there, clear the cache rather than debugging the route:
+`docker compose -f docker-compose.dev.yml down -v && docker compose -f docker-compose.dev.yml up -d`.
+
 ## Stack notes
 
 Next.js 16 App Router, React 19, Tailwind CSS v4 (tokens in `@theme` in `src/app/globals.css`, no
