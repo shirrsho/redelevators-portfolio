@@ -16,7 +16,7 @@ export function HeroVisual() {
     <div className="relative mx-auto w-full max-w-md">
       {/* floating nodes */}
       <FloatNode
-        className="-left-6 top-8"
+        className="-left-6 -top-6"
         label="New lead"
         dot="#FF2D3B"
         delay={1.1}
@@ -30,7 +30,7 @@ export function HeroVisual() {
         float={!!reduce}
       />
       <FloatNode
-        className="-left-2 bottom-10"
+        className="-left-2 -bottom-6"
         label="CRM updated"
         dot="#FF6B74"
         delay={1.6}
@@ -166,7 +166,14 @@ function FloatNode({
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, type: "spring", stiffness: 260, damping: 20 }}
-      className={`absolute z-20 ${className}`}
+      // Hidden below `lg` — these float just outside the card's edges,
+      // which only works once the hero's two-column layout gives them room.
+      // Below that breakpoint the card runs edge-to-edge, so the same
+      // negative offsets land the badge on top of the card's own content
+      // instead of beside it. Confirmed via screenshot: "New lead" covered
+      // the live label, "CRM updated" covered the Captured/Webflow tile.
+      // Fixed 12 Sep 2026 — user-reported.
+      className={`absolute z-20 hidden lg:block ${className}`}
     >
       <motion.div
         animate={float ? undefined : { y: [0, -8, 0] }}

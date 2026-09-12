@@ -5,6 +5,31 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — Hero panel's floating badges were covering their own content
+
+User-reported with a screenshot: the "New lead" / "Auto-qualified" / "CRM updated" badges that
+float around `HeroVisual`'s dashboard mockup were sitting on top of the "Speed-to-lead · live"
+label and the "Captured / Webflow" tile, obscuring them.
+
+Two separate problems, not one:
+
+1. **Not just a narrow-viewport issue.** My first fix (`hidden lg:block`) only hid the badges below
+   the breakpoint where they'd have zero clearance — but measuring actual bounding rects (not just
+   eyeballing a screenshot) showed "New lead" and "CRM updated" still overlapped their neighbors
+   even at 1280px wide. The offsets were positioning the badges *inside* the card's own content
+   area regardless of viewport, not just short of room on the outside.
+2. **Fixed the actual positions.** "New lead": `top-8` (32px into the card, landing on the header
+   row) → `-top-6` (fully above the card's top edge). "CRM updated": `bottom-10` (40px up from the
+   card's bottom edge, landing on the tile row) → `-bottom-6` (fully below it). "Auto-qualified" was
+   never the problem — it deliberately sits near the chart's peak as a data-point annotation, and
+   measuring confirmed it never touched the label or tile.
+
+Verified by measuring live `getBoundingClientRect()` overlap (not screenshots) at both 1280px, with
+an 8px margin added to account for the badges' continuous bob animation, and visually at 1100px and
+900px (below `lg`, where they stay hidden as before).
+
+---
+
 ## 2026-09-12 — The real navigation bug: Next.js 16's scroll management, not the app
 
 User-reported after the previous fix: every navigation now landed correctly on the right page, but
