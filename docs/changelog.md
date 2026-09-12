@@ -5,6 +5,29 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — Workstream E: Contact page shipped, deliberately form-free
+
+`/contact` (Workstream E, item 6). **Owner's call: no form yet.** The form system from workstream D
+exists (`Form.tsx`), but a submitted form needs somewhere to go, and no email API or form backend
+is set up — an unwired form that silently drops leads is worse than no form. The page ships on the
+two conversion paths that are real today: the Calendly booking and `contact@redelevators.com`
+(reusing `EmailLink`, tooltip clearance included), plus a "what happens next" restatement of the
+four `steps`. A real form goes in once a provider is chosen.
+
+Two things wired up alongside it:
+
+- **`id="contact"` moved onto the page's own booking section.** Nav's "Book a call" is a bare
+  `#contact` anchor that every other page satisfies by rendering `<CTA/>`. This page deliberately
+  doesn't render `<CTA/>` (a Book-a-call panel on the Book-a-call page is noise), so it carries the
+  id itself — same dead-anchor class of bug already fixed once on 12 Sep.
+- **Footer nav links are `Link`, not `<a>`.** Every `nav` entry is a real route now, so the bare
+  `<a>` tags were full-reloading the site on each footer click. `scroll={false}` for the usual
+  reason (see CLAUDE.md → *Known traps*).
+
+Nav is now Services · Approach · Systems · Contact + the Book a call button. Verified at 1440px,
+768px (all four fit, no crowding) and 700px (collapses to the hamburger cleanly): no overlaps, no
+horizontal overflow.
+
 ## 2026-09-12 — Workstream E: Systems/Teardowns page shipped
 
 `/systems` (Workstream E, item 4) — all 8 `systems` chains shown in full, each with its title,

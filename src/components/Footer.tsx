@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Wordmark } from "./Mark";
 import { EmailLink } from "./EmailLink";
 import { nav } from "@/lib/content";
@@ -19,14 +20,20 @@ export function Footer() {
             <div>
               <div className="font-mono-label text-muted">Explore</div>
               <ul className="mt-4 space-y-2.5 text-sm">
+                {/* Link, not <a> — every nav entry is a real route now (the
+                    last `/#anchor` went on 12 Sep 2026), and a bare <a> would
+                    full-reload the site on every footer click. scroll={false}
+                    for the same reason every other Link carries it: Nav.tsx
+                    owns scroll positioning (see CLAUDE.md, "Known traps"). */}
                 {nav.map((n) => (
                   <li key={n.href}>
-                    <a
+                    <Link
                       href={n.href}
+                      scroll={false}
                       className="text-ink-soft transition-colors hover:text-red"
                     >
                       {n.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

@@ -2,6 +2,7 @@ export const nav = [
   { label: "Services", href: "/services" },
   { label: "Approach", href: "/approach" },
   { label: "Systems", href: "/systems" },
+  { label: "Contact", href: "/contact" },
 ];
 
 // Capability figures only. Every value here is verifiable from this site or the
