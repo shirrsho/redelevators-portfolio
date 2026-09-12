@@ -1,10 +1,11 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { motion } from "motion/react";
 import { SectionHead } from "./SectionHead";
 import { Stagger, StaggerItem } from "./Reveal";
-import { services } from "@/lib/content";
+import { services, serviceDetails } from "@/lib/content";
 
 export function Services() {
   return (
@@ -30,16 +31,21 @@ export function Services() {
 
 function Card({
   num,
+  slug,
   title,
   desc,
   tags,
 }: {
   num: string;
+  slug: string;
   title: string;
   desc: string;
   tags: string[];
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  // Only link once the service page actually exists — same completeness
+  // check the page route itself gates on, so a card never points at a 404.
+  const hasPage = !!serviceDetails[slug]?.manualChain?.length;
 
   function onMove(e: React.MouseEvent) {
     const el = ref.current;
@@ -49,7 +55,7 @@ function Card({
     el.style.setProperty("--my", `${e.clientY - r.top}px`);
   }
 
-  return (
+  const card = (
     <motion.div
       ref={ref}
       onMouseMove={onMove}
@@ -93,5 +99,13 @@ function Card({
         </div>
       </div>
     </motion.div>
+  );
+
+  return hasPage ? (
+    <Link href={`/services/${slug}`} className="contents">
+      {card}
+    </Link>
+  ) : (
+    card
   );
 }

@@ -5,6 +5,18 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — 404 page, and the home page links to the live service page
+
+- **404 page** (`src/app/not-found.tsx`, workstream D item 5): mono-label, headline, two links
+  home. Reuses Nav/Footer so a wrong turn still feels like the site. Deliberately plain rather than
+  inventing a full error/empty-state system ahead of need.
+- **`Services.tsx` cards link out** the moment a service's page is real — same completeness check
+  (`serviceDetails[slug].manualChain`) the route itself gates on, so a card can never point at a
+  404. Right now that's true for none in the committed content, one once the pilot's manual chain
+  is supplied.
+
+---
+
 ## 2026-09-12 — Workstream E starts: service page template, blocked on one field
 
 `src/app/services/[slug]/page.tsx`, `src/components/Handover.tsx`, built per

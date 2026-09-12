@@ -6,10 +6,11 @@ produced the fix items lives in [`design-audit-2026-09-09.md`](design-audit-2026
 
 **Status:** approved 9 September 2026. **Workstreams A, B, C and F are complete** (truth pass
 shipped, System Anatomy built, cascade layers and hero first-paint fixed, all three open
-accessibility failures resolved). **D is partially done** — forms, the page header and
-focus-visible shipped 12 September; long-form typography, scaling navigation and error/empty
-states are still undesigned. **E has started:** the service page template is built and blocked on
-one real-content field (see workstream E). Shipped detail in [`changelog.md`](changelog.md).
+accessibility failures resolved). **D is mostly done** — forms, the page header, focus-visible and
+a 404 page shipped 12 September; long-form typography and scaling navigation are still undesigned.
+**E has started:** the service page template is built and blocked on one real-content field (see
+workstream E); the home page's service card links to it automatically once that field is real.
+Shipped detail in [`changelog.md`](changelog.md).
 
 **Styleguide:** the system is viewable and interactive at
 <https://claude.ai/code/artifact/59fa371d-2124-4966-b133-508fdddf88fc> (private artifact,
@@ -125,11 +126,11 @@ JS hydrates; if JS fails the page is blank above the fold. Animate from a visibl
 move the reveal to CSS, or mirror the safety-timeout pattern `Counter` already uses. Audit finding
 F4.
 
-### D — Design system gaps (P1) — items 1, 2, 6 and 7 ✅ DONE 12 Sep 2026
+### D — Design system gaps (P1) — items 1, 2, 5 (partial), 6 and 7 ✅ DONE 12 Sep 2026
 
 `DESIGN.md` documents a one-page site. These are the pieces a multi-page site needs. Build each one
 *into the system* — tokens, states, and a sidecar entry — not ad hoc on the page that first needs
-it. Items 3, 4 and 5 are still undesigned and remain open.
+it. Items 3 and 4 are still undesigned and remain open.
 
 1. **Forms — ✅ done.** `src/components/Form.tsx`: `Field`, `FieldLabel`, `FieldHint`,
    `FieldError`, `FieldOk`, `TextInput`, `Textarea`, `Select`, `Checkbox`, at the 12px control
@@ -142,7 +143,10 @@ it. Items 3, 4 and 5 are still undesigned and remain open.
 4. **Navigation that scales.** The nav is flat anchor links to sections of one page. Six service
    pages plus resources needs real routing, a dropdown or mega-menu, and an active-page state.
    Still undesigned.
-5. **404, error and empty states.** None exist. Still undesigned.
+5. **404, error and empty states — 404 ✅ done, error/empty still open.** `src/app/not-found.tsx`:
+   reuses Nav/Footer, mono-label + headline + two links home. Deliberately plain — a fuller
+   error-state system (form validation states already exist via workstream D item 1; a dedicated
+   empty-state pattern does not) stays undesigned rather than invented ahead of need.
 6. **A motion rule for reading contexts — ✅ recorded, nothing to build yet.** The Reading Calm Rule
    is documented in `DESIGN.md`; it governs long-form pages (gap 3), which don't exist yet, so
    there is no component to apply it to until then.
