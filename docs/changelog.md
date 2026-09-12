@@ -5,6 +5,18 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — Workstream E: Systems/Teardowns page shipped
+
+`/systems` (Workstream E, item 4) — all 8 `systems` chains shown in full, each with its title,
+description and complete `SystemAnatomy`, plus a "See this service →" link into the matching
+service page (guarded the same way `ServiceCard` guards its own links, so a card can never point at
+a 404). Anonymized and mechanism-led by design: no client name, no metric, only the real chain and
+the tools it runs on. The home page's `Systems.tsx` keeps its existing curated 3-item slice
+unchanged; its "View all" link and the global `CTA`'s "See how it works" now both point at this new
+page instead of the home teaser / `/services`. Nav's "Systems" entry repointed from `/#systems` to
+`/systems` for the same reason "Process" became "Approach" earlier today. Verified with the same
+`getBoundingClientRect()` overlap check, mobile and 1440px: zero overlaps.
+
 ## 2026-09-12 — `dev` merged to `main`; production redeployed
 
 Fast-forwarded `main` to `dev`'s tip and pushed. Every workstream shipped since 9 September — the

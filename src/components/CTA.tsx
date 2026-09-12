@@ -60,12 +60,12 @@ export function CTA() {
               >
                 Book a free Call
               </a>
-              {/* Absolute path via Link, not a bare `#systems` anchor — CTA
-                  renders on /services and /services/[slug] too, which have
-                  no element with id="systems". A bare anchor silently did
-                  nothing there. Fixed 12 Sep 2026. */}
+              {/* Points at the full /systems catalog (built 12 Sep 2026), not
+                  the home page's 3-item teaser — CTA renders on every page,
+                  and the full catalog is the stronger, complete answer to
+                  "See how it works" everywhere it appears. */}
               <Link
-                href="/#systems"
+                href="/systems"
                 scroll={false}
                 className="rounded-xl border border-white/40 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
               >
