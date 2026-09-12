@@ -89,18 +89,21 @@ product. Every primary CTA on the site currently resolves to that call.
 
 ## Capabilities and Constraints
 
-- **Site scope is a full multi-page site.** Confirmed architecture, in build order: Home (exists)
-  → Services index plus six service pages → Approach → Systems/Teardowns → About → Contact →
-  Blog/Resources (conditional). Every page keeps the single 1152px container and resolves to the
-  same 30-minute call. Sequencing, rationale and acceptance criteria live in
+- **Site scope is a full multi-page site.** As built, 12 September 2026: Home, `/services` plus
+  **eight** service detail pages (was six before the taxonomy rebuild), `/approach`, `/systems`,
+  `/contact`, and a 404. **`/about` is the only planned page not built** — it is blocked on real
+  biographical material, not on design; see *Evidence on Hand*. Blog/Resources remains conditional
+  and undecided. Every page keeps the single 1152px container and resolves to the same 30-minute
+  call. Sequencing, rationale and acceptance criteria live in
   [`docs/site-plan.md`](docs/site-plan.md).
 - **Case studies are replaced by Systems/Teardowns for now** — anonymized, mechanism-led pages
   that make no unverifiable claim. They convert into real case studies once results are measured
   and cleared. See *Proof strategy* above.
 - **The design system does not yet fully cover a multi-page site.** Form controls, the page-header
-  pattern and focus-visible styling shipped 12 September 2026. Still missing: long-form prose
-  styles, scaling navigation past anchor links, and 404/error/empty states. Tracked as workstream D
-  in the site plan.
+  pattern, focus-visible styling and a 404 page shipped 12 September 2026. Still missing: long-form
+  prose styles, navigation that scales past a flat link list (four links plus a CTA today — a
+  dropdown or mega-menu is undesigned), and error/empty states beyond the 404. Tracked as
+  workstream D in the site plan.
 - **Stack (existing, not up for re-decision):** Next.js 16 App Router, React 19, TypeScript,
   Tailwind CSS v4 (`@theme` tokens in `src/app/globals.css`), `motion` for animation.
   Content is centralized in `src/lib/content.ts`.
@@ -216,8 +219,43 @@ Until told otherwise:
   company's own positioning copy, not a proof claim, and the user explicitly asked for the
   taxonomy rebuild.
 - The stat band stays as-is (capability figures) — the user said not to touch it this round, not
-  that the real numbers above are cleared to replace it.
+  that the real numbers above are cleared to replace it. **See the drift warning below: two of its
+  four values have since gone stale and now need a decision.**
 - Ask before assuming clearance status has changed, even after the taxonomy work ships.
+
+### OPEN — the stat band drifted out of true, 12 September 2026
+
+Capability figures are only honest while they still describe the site. Two no longer do, and a
+visitor can disprove both by counting what is on the page:
+
+| Stat band claims | The site actually shows | |
+|---|---|---|
+| `15` Tools we build inside | **19** unique tools in the marquee | ❌ stale |
+| `6` Service lines | **8** services (2 pillars × 4) | ❌ stale |
+| `4` Stages, audit to handover | 4 stages | ✅ |
+| `0` New platforms to learn | positioning claim, not a count | ✅ |
+
+Both drifted on 12 September: the taxonomy rebuild took services 6 → 8, and four tools (HighLevel,
+Telegram, Canva, Shopify) were added to the marquee alongside the new System Anatomy chains. The
+numbers were correct when written and were not re-checked afterwards.
+
+This is a truth-rule breach of exactly the kind the 9 September pass was meant to end — the figures
+are *understated*, not inflated, which makes it a smaller sin but the same category. **Not fixed
+unilaterally** because the owner's standing instruction is not to touch the stat band. Fixing it is
+a two-value data edit in `src/lib/content.ts` (`6 → 8`, `15 → 19`); the alternative is replacing
+the counts with figures that cannot drift. Needs the owner's call.
+
+### BLOCKED — no material exists for an About page, 12 September 2026
+
+`docs/site-plan.md` says that with no case studies, "who we are *is* the trust asset." Nothing in
+this document or any other supports such a page: there is **no founding story, no team size, no
+location, no role or biography** on record anywhere. This is a genuine absence, not a clearance
+problem like the decks above — the facts are unknown rather than restricted.
+
+Owner's decision, 12 September 2026: **defer the page**, to be discussed with other members first.
+Do not write an About page from inference, atmosphere, or generic agency language in the meantime —
+that is inventing proof about the company itself, which the rules above forbid as firmly as
+inventing a client metric.
 
 ## Product Principles
 

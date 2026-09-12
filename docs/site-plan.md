@@ -8,11 +8,12 @@ produced the fix items lives in [`design-audit-2026-09-09.md`](design-audit-2026
 shipped, System Anatomy built, cascade layers and hero first-paint fixed, all three open
 accessibility failures resolved). **D is mostly done** — forms, the page header, focus-visible and
 a 404 page shipped 12 September; long-form typography and scaling navigation are still undesigned.
-**E is underway:** Home, the Services index + all 8 detail pages, Approach, Systems/Teardowns and
-Contact are live. **About is the only page left, and it is blocked** — the plan says "who we are
-*is* the trust asset", but no founding story, team or biography exists anywhere in these docs, and
-inventing one would breach the truth rules. It needs a conversation with the owner before anything
-is built. Shipped detail in [`changelog.md`](changelog.md).
+**E is all but done:** Home, the Services index + all 8 detail pages, Approach, Systems/Teardowns
+and Contact are built. **About is the only page left and is deferred by owner decision** — no
+founding story, team or biography exists anywhere in these docs, and inventing one would breach the
+truth rules; it will be discussed with other members first. **One open truth issue:** the stat band
+has drifted (`6` service lines vs 8 real, `15` tools vs 19) — flagged, not fixed, see `PRODUCT.md`
+→ *Evidence on Hand*. Shipped detail in [`changelog.md`](changelog.md).
 
 **Styleguide:** the system is viewable and interactive at
 <https://claude.ai/code/artifact/59fa371d-2124-4966-b133-508fdddf88fc> (private artifact,
@@ -177,7 +178,7 @@ Build in this order. Each page ships complete before the next starts.
 | 2 | **Services index + 8 service pages — ✅ ALL LIVE 12 Sep 2026** | SEO + depth | Index (`/services`) and all eight detail pages shipping. Taxonomy rebuilt around the real two pillars — AI Automation leads, then Marketing (site-wide ordering decision) — from the company's own portfolio decks, see `PRODUCT.md` → *Evidence on Hand*. Every service has a real, generic (not client-specific) manual chain, felt-cost line, human checkpoint and System Anatomy — see `brief-service-page.md`. Real case-study content (named clients, screenshots, metrics) exists but remains **explicitly not cleared for the public site** — never source detail-page content from the decks' client specifics. |
 | 3 | **Approach — ✅ LIVE 12 Sep 2026** | Credibility | `/approach` expands Audit → Design → Build → Run into a full page: two paragraphs of real detail plus a stated output per stage, one worked System Anatomy example, then the tool marquee and CTA. Needed no new proof — every line restates `PRODUCT.md` → *Operating Context*. Nav's old `#process` anchor link (home-page only) renamed "Approach" and repointed here. |
 | 4 | **Systems / Teardowns — ✅ LIVE 12 Sep 2026** | Case-study substitute | `/systems` shows all 8 chains in full — anonymized, mechanism-led, no client name or metric. Becomes real case studies later when permission and numbers exist. Each card links through to its matching service page. `Systems.tsx` still shows a curated 3-item slice on the home page (unchanged), now pointing its "View all" link at `/systems` instead of `/services`; the global `CTA`'s "See how it works" does the same. |
-| 5 | **About** | Trust | With no case studies, who we are *is* the trust asset. Do not skip it. |
+| 5 | **About — ⏸ DEFERRED 12 Sep 2026** | Trust | With no case studies, who we are *is* the trust asset — but **no founding story, team size, location or biography exists in any project document.** The material is absent, not uncleared. Owner is discussing it with other members before anything is written; do not fill the gap with generic agency language in the meantime. See `PRODUCT.md` → *Evidence on Hand*. |
 | 6 | **Contact — ✅ LIVE 12 Sep 2026, form deferred** | Convert | `/contact` ships on the two real conversion paths (Calendly + `EmailLink`) plus a "what happens next" restatement of the four stages. **No form, by owner's decision:** `Form.tsx` exists, but a submitted form needs a backend (email API or form service) that isn't set up, and an unwired form that drops leads is worse than none. Revisit once a provider is chosen. Carries `id="contact"` itself so Nav's `#contact` anchor isn't dead here. |
 | 7 | **Blog / Resources** | SEO | **Conditional — see open decisions.** |
 

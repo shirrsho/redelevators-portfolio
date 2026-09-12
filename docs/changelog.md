@@ -5,6 +5,42 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — Documentation sync, and two things found while doing it
+
+Brought the binding docs back in line with what is actually built, at the owner's request. No code
+changed in this pass.
+
+**Synced:**
+
+- `PRODUCT.md` → *Capabilities and Constraints*: the architecture line still said "Services index
+  plus **six** service pages" and listed every later page as unbuilt. Replaced with the real
+  inventory (8 detail pages, `/approach`, `/systems`, `/contact`, 404) and the one gap.
+- `PRODUCT.md` → workstream D status: the 404 has shipped; the nav gap is now "scales past a flat
+  link list", not "past anchor links", since the anchors are gone.
+- `DESIGN.md`: added **Service Card** (built 12 Sep, never documented) and a **Page architecture**
+  table covering all six route types, including which page carries `id="contact"` and why. Also
+  recorded the `scroll={false}` rule in the design system itself, not just `CLAUDE.md` — a new
+  `Link` without it silently fights `Nav.tsx`.
+
+**Found while checking — the stat band has drifted out of true.** Capability figures are only
+honest while they still describe the site, and two of the four no longer do:
+
+| Claims | Site actually shows | |
+|---|---|---|
+| `15` Tools we build inside | **19** unique marquee tools | ❌ |
+| `6` Service lines | **8** services | ❌ |
+
+Both drifted on 12 September — the taxonomy rebuild took services 6 → 8, and four tools were added
+to the marquee alongside the new chains. Nobody re-checked the band afterwards. A visitor can
+disprove both by counting what is on the page. **Deliberately not fixed:** the owner's standing
+instruction is not to touch the stat band, so this is flagged in `PRODUCT.md` → *Evidence on Hand*
+as an open decision rather than edited unilaterally. It is a two-value change if approved.
+
+**About page: deferred by owner decision.** No founding story, team size, location or biography
+exists in any project document — the material is absent, not merely uncleared. The owner will
+discuss it with other members before anything is written. Recorded in `PRODUCT.md` so the next
+session does not "solve" it by inventing a company history.
+
 ## 2026-09-12 — Workstream E: Contact page shipped, deliberately form-free
 
 `/contact` (Workstream E, item 6). **Owner's call: no form yet.** The form system from workstream D

@@ -525,11 +525,43 @@ and secondary CTAs. Renders the page's one `<h1>` — see The One Column Rule's 
 one `h1` per page," in `docs/brief-service-page.md`. A server component: nothing in it waits on
 hydration, applying the lesson of audit finding F4 up front rather than repeating the hero's mistake.
 
+### Service Card
+
+**Built** 12 September 2026 (`src/components/ServiceCard.tsx`), extracted from `Services.tsx`
+during the taxonomy rebuild so the home page and `/services` index share one card rather than
+drifting into two templates. A white card at the 16px radius with a red mouse-follow glow on hover
+(240px radial, 10% red), a 6px lift on a spring, and the arrow badge that fills red on hover.
+Carries its own link logic: it wraps itself in a `Link` **only** when the target service page
+actually has content (`serviceDetails[slug].manualChain`), so a card can never point at a 404 —
+the same completeness check the route itself gates on.
+
+### Page architecture — as built, 12 September 2026
+
+The system now spans six route types, not one page. All of them share `Nav`, `Footer`,
+`ScrollProgress`, the 1152px container, and resolve to the same 30-minute call.
+
+| Route | Opens with | Signature content |
+|---|---|---|
+| `/` | `Hero` + `HeroVisual` | Marquee, stat band, services grid, process rail, 3 curated systems, CTA |
+| `/services` | `PageHeader` | Both pillars, `ServiceCard` grid, CTA |
+| `/services/[slug]` | `PageHeader` | Felt cost → `Handover` → human checkpoint → tool chips → process rail → related services → CTA |
+| `/approach` | `PageHeader` | Four expanded stages, one worked `SystemAnatomy`, marquee, CTA |
+| `/systems` | `PageHeader` | All 8 `SystemAnatomy` chains in full, each linking to its service, CTA |
+| `/contact` | `PageHeader` | Booking card + email card, then the four stages. **Carries `id="contact"` itself** — it renders no `CTA`, and Nav's "Book a call" is a bare `#contact` anchor that every other page satisfies via `CTA` |
+| `/not-found` | plain heading | Two links home, plus `CTA` |
+
+**Every internal `Link` in the app passes `scroll={false}`.** This is not stylistic — see
+`CLAUDE.md` → *Known traps*: Next.js 16's post-navigation scroll management skips fixed/sticky
+top-level elements, and with `ScrollProgress` and `Nav` both fixed siblings of `<main>` it lands on
+`<footer>`, scrolling every navigation to the bottom. `Nav.tsx` positions scroll itself instead. A
+new `Link` without `scroll={false}` will fight it.
+
 ### Planned system extensions
 
 Still not designed, and deliberately not specified here — inventing values would be worse than the
 gap. Tracked as workstream D in [`docs/site-plan.md`](docs/site-plan.md): long-form prose styles, a
-navigation system that scales past anchor links, and 404/error/empty states.
+navigation that scales past a flat link list (four links plus a CTA today; a dropdown or mega-menu
+and an active-page state are undesigned), and error/empty states beyond the built 404.
 When each is built, add it to this section and re-run `/impeccable document`.
 
 ### Motion Grammar
