@@ -1,7 +1,7 @@
 export const nav = [
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "Systems", href: "#systems" },
+  { label: "Services", href: "/services" },
+  { label: "Process", href: "/#process" },
+  { label: "Systems", href: "/#systems" },
 ];
 
 // Capability figures only. Every value here is verifiable from this site or the
@@ -32,48 +32,86 @@ export const marquee = [
   "Segment",
 ];
 
-export const services = [
+export type Service = {
+  num: string;
+  slug: string;
+  category: "Marketing" | "AI Automation";
+  title: string;
+  desc: string;
+  tags: string[];
+};
+
+// The two real service pillars, rebuilt 12 Sep 2026 from the company's own
+// portfolio decks (Red-Elevators-Marketing-Portfolio.pdf,
+// Red-Elevators-AI-Portfolio.pdf) — titles and descriptions are the company's
+// own positioning copy, not invented here. Replaces the earlier six-line
+// structure, which didn't match either deck. See docs/changelog.md.
+export const services: Service[] = [
+  // Marketing
   {
     num: "01",
-    slug: "marketing-automation",
-    title: "Marketing automation",
-    desc: "Lead capture, nurture sequences, content pipelines and campaign reporting — running on autopilot.",
-    tags: ["Nurture", "Email", "Attribution"],
+    slug: "paid-social-advertising",
+    category: "Marketing",
+    title: "Paid Social Advertising",
+    desc: "Meta lead-gen, conversions and page growth that pay for themselves.",
+    tags: ["Meta Ads", "Lead-gen", "Conversions"],
   },
   {
     num: "02",
-    slug: "growth-paid-media",
-    title: "Growth & paid media",
-    desc: "Full-funnel campaigns across search, social and email — creative, targeting and optimization handled end to end.",
-    tags: ["Paid", "Creative", "CRO"],
+    slug: "creative-ad-design",
+    category: "Marketing",
+    title: "Creative & Ad Design",
+    desc: "Scroll-stopping static and video built to sell, not just to look good.",
+    tags: ["Static", "Video", "Creative"],
   },
   {
     num: "03",
-    slug: "sales-follow-up",
-    title: "Sales & follow-up",
-    desc: "Automated qualification, CRM updates and instant follow-up so no lead ever goes cold again.",
-    tags: ["CRM", "Routing", "Speed-to-lead"],
+    slug: "ecommerce-growth",
+    category: "Marketing",
+    title: "E-commerce Growth",
+    desc: "Shopify stores managed and tuned to turn traffic into paid orders.",
+    tags: ["Shopify", "CRO", "Growth"],
   },
   {
     num: "04",
-    slug: "ops-reporting",
-    title: "Ops & reporting",
-    desc: "Data entry, internal reporting and cross-tool syncing — replaced with workflows that just run.",
-    tags: ["Dashboards", "Sync", "RevOps"],
+    slug: "full-funnel-campaigns",
+    category: "Marketing",
+    title: "Full-Funnel Campaigns",
+    desc: "From first impression to purchase, across any vertical or niche.",
+    tags: ["Awareness", "Funnel", "Multi-channel"],
+  },
+  // AI Automation
+  {
+    num: "01",
+    slug: "workflow-crm-automation",
+    category: "AI Automation",
+    title: "Workflow & CRM Automation",
+    desc: "Inboxes, pipelines and repetitive tasks wired together into one system that runs quietly in the background, day and night.",
+    tags: ["CRM", "Workflows", "n8n"],
   },
   {
-    num: "05",
-    slug: "ai-agents",
-    title: "AI agents",
-    desc: "Task-specific agents that research, draft and decide inside the tools your team already uses.",
-    tags: ["Agents", "RAG", "Drafting"],
+    num: "02",
+    slug: "ai-assistants-chatbots",
+    category: "AI Automation",
+    title: "AI Assistants & Chatbots",
+    desc: "Assistants that handle email, calendar, tasks and customer messages in natural language, so your team stops doing the busywork.",
+    tags: ["Assistants", "Chatbots", "OpenAI"],
   },
   {
-    num: "06",
-    slug: "custom-internal-tools",
-    title: "Custom internal tools",
-    desc: "Lightweight apps and portals that connect your stack and give the team one place to work.",
-    tags: ["Apps", "Portals", "Integrations"],
+    num: "03",
+    slug: "sales-outreach-systems",
+    category: "AI Automation",
+    title: "Sales & Outreach Systems",
+    desc: "Leads researched and emailed with genuine personalization at scale, keeping your pipeline full without manual prospecting.",
+    tags: ["Outreach", "Lead research", "Personalization"],
+  },
+  {
+    num: "04",
+    slug: "content-engines",
+    category: "AI Automation",
+    title: "Content Engines",
+    desc: "SEO articles researched, written, illustrated and published on schedule, holding a steady cadence with no copywriter on payroll.",
+    tags: ["SEO", "Content", "Publishing"],
   },
 ];
 
@@ -177,14 +215,8 @@ export type ServicePage = {
   manualChain?: ManualStep[];
 };
 
-export const serviceDetails: Record<string, ServicePage> = {
-  "sales-follow-up": {
-    feltCost: [
-      "A form comes in, and it sits in an inbox until someone has five minutes.",
-      "By the time anyone replies, the lead has already talked to someone else.",
-    ],
-    humanCheckpoint:
-      "The system qualifies and routes the lead and pings the rep on Slack the moment it's ready — the rep still makes the actual call. Nothing sends an outreach message on a person's behalf.",
-    // manualChain: intentionally absent — see comment above.
-  },
-};
+// Empty until a service gets real, owner-supplied content — see the type
+// comment above. The old "sales-follow-up" entry was removed 12 Sep 2026
+// when the services taxonomy was rebuilt around the real Marketing / AI
+// Automation pillars; it no longer matches any current slug.
+export const serviceDetails: Record<string, ServicePage> = {};

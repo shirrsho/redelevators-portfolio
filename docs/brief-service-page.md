@@ -1,11 +1,13 @@
 # Design brief — service page
 
-**Status: built, 12 September 2026, one content dependency short of live.** The template exists —
-`src/app/services/[slug]/page.tsx`, `src/components/Handover.tsx`, `src/components/PageHeader.tsx`
-— pilot service **Sales & follow-up**. `generateStaticParams` only emits a page once
-`serviceDetails[slug].manualChain` (in `src/lib/content.ts`) is populated, so the route correctly
-404s until then — verified: `/services/sales-follow-up` returns 404 today. See open decision 2
-below; it's the one thing blocking this from going live.
+**Status: template built, no pilot service live.** The template exists —
+`src/app/services/[slug]/page.tsx`, `src/components/Handover.tsx`, `src/components/PageHeader.tsx`.
+The original pilot, **Sales & follow-up**, no longer exists as a service: the taxonomy was rebuilt
+12 September 2026 around two real pillars, Marketing and AI Automation, eight services total (see
+`PRODUCT.md` → *Evidence on Hand*). `generateStaticParams` only emits a page once
+`serviceDetails[slug].manualChain` (in `src/lib/content.ts`) is populated, and that map is
+currently empty, so `/services/[slug]` correctly generates zero pages. Open decision 1 below needs
+re-deciding against the new eight; decision 2 still blocks whichever one is chosen.
 
 Companion to [`site-plan.md`](site-plan.md) (workstream E, item 2). Product truth in
 [`../PRODUCT.md`](../PRODUCT.md); visual rules in [`../DESIGN.md`](../DESIGN.md); components in the
@@ -139,7 +141,11 @@ combination of them absent.
 
 **Open decisions — do not invent these**
 
-1. **Which service is the template — decided.** `Sales & follow-up`. Built.
+1. **Which service is the template — reopened.** The original choice, `Sales & follow-up`, no
+   longer exists post-taxonomy-rebuild (12 Sep 2026). Needs a fresh pick from the current eight —
+   `Sales & Outreach Systems` (AI Automation) is the closest match by name, but its actual mechanism
+   (outbound lead research + personalized email) differs from the old pilot's (inbound speed-to-lead
+   routing), so don't assume it's a like-for-like swap.
 2. **The manual "today" chain per service — still open, blocking.** Content dependency on the
    owner. `Sales & follow-up` has everything else — felt cost, the human checkpoint, tools, the
    automated chain — and is held at a 404 on this alone. Needed: 3-5 short steps, each naming who

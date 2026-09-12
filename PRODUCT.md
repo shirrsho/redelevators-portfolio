@@ -36,8 +36,13 @@ Red Elevators is a **marketing and automation agency**. It audits a client's rep
 sales and operations work, designs workflows to replace it, builds those workflows inside the
 client's existing tools, and hands over a running, documented system.
 
-Six service lines are shipped on the site today: marketing automation, growth and paid media,
-sales and follow-up, ops and reporting, AI agents, and custom internal tools.
+**Two service pillars, rebuilt 12 September 2026 from the company's own portfolio decks** (see
+`docs/changelog.md`), replacing an earlier six-line structure that didn't match either deck:
+
+- **Marketing** — Paid Social Advertising, Creative & Ad Design, E-commerce Growth, Full-Funnel
+  Campaigns.
+- **AI Automation** — Workflow & CRM Automation, AI Assistants & Chatbots, Sales & Outreach
+  Systems, Content Engines.
 
 Success for the business is a booked 30-minute call. Success for the client is work that used to
 require a person now running without one.
@@ -140,9 +145,12 @@ confirmed by the user:
   and "Founder, B2B SaaS, Series A").
 - The hero trust line, `Trusted by 40+ growing teams`.
 
-**What is actually true:** Red Elevators has delivered work for **a few real paying clients**.
-Those engagements were **never measured or written up** — there are no compiled results, no
-published metrics, and no cleared testimonials.
+**What is actually true, updated 12 September 2026:** Red Elevators has delivered work for real
+paying clients, and unlike the 9 September assessment, **real results now exist and are
+documented** — see *Real evidence exists, not yet cleared for the site* below. What is still
+missing is explicit clearance to publish specific client names, screenshots, or metrics on the
+public website. Treat that distinction precisely: "no evidence exists" and "evidence exists but
+isn't cleared for this surface" require different handling, and only the second is true now.
 
 Binding rules for all future work:
 
@@ -175,6 +183,29 @@ returns when those arrive — the component pattern is preserved in the stylegui
 
 The site currently makes **no** unverifiable claim. Keeping it that way is the standing constraint;
 the rules above are not a one-time cleanup.
+
+### Real evidence exists, not yet cleared for the site — 12 September 2026
+
+The user shared two portfolio decks (`Red-Elevators-Marketing-Portfolio.pdf`,
+`Red-Elevators-AI-Portfolio.pdf`) containing real, named client work, real screenshots (Meta Ads
+Manager tables, actual ad posts, a Shopify sales dashboard) and real metrics — five marketing
+clients (intrOs architects, Eshumi Bangladesh, Loopcart, EnScented, Khao San BD) and aggregate
+figures for both service pillars (5 brands scaled / 5 industries served for Marketing; 11
+businesses automated / 2k+ hours saved per month / 3× faster lead response / 40% lower operating
+cost / <14 days kickoff-to-live for AI Automation).
+
+**Explicitly not cleared for public site use as of this writing** — the user's words: "I still
+can't show real case studies with actual name, metric or screenshot." These decks are sales
+material shown to prospects directly; that is a different clearance bar than the public website.
+Until told otherwise:
+
+- Do not put any client name, screenshot, or specific metric from either deck on the site.
+- The two service pillars and eight service names/descriptions above **are** cleared — that's the
+  company's own positioning copy, not a proof claim, and the user explicitly asked for the
+  taxonomy rebuild.
+- The stat band stays as-is (capability figures) — the user said not to touch it this round, not
+  that the real numbers above are cleared to replace it.
+- Ask before assuming clearance status has changed, even after the taxonomy work ships.
 
 ## Product Principles
 

@@ -5,6 +5,33 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — Services rebuilt around the real two-pillar taxonomy
+
+The user shared two portfolio decks (`Red-Elevators-Marketing-Portfolio.pdf`,
+`Red-Elevators-AI-Portfolio.pdf`) — see `PRODUCT.md` → *Evidence on Hand* → "Real evidence exists,
+not yet cleared for the site". This entry covers only the taxonomy rebuild the user asked for; the
+decks' real client names, screenshots and metrics are explicitly **not** used anywhere below.
+
+- **`services` rebuilt** (`src/lib/content.ts`): 6 invented lines → 8 real ones under 2 pillars —
+  Marketing (Paid Social Advertising, Creative & Ad Design, E-commerce Growth, Full-Funnel
+  Campaigns) and AI Automation (Workflow & CRM Automation, AI Assistants & Chatbots, Sales &
+  Outreach Systems, Content Engines). Titles and descriptions are the company's own positioning
+  copy from the decks — not proof, not invented.
+- **New `/services` index page**, grouped by pillar, reusing the same card component as the home
+  page (extracted to `src/components/ServiceCard.tsx` so both stay one system).
+- **Home page now links out**: "View all services" under the grid, and the nav's Services link now
+  points at `/services` instead of the home-page anchor. `Process`/`Systems` nav links updated to
+  `/#process` / `/#systems` so they still resolve correctly from a non-home page.
+- **`serviceDetails` emptied.** The old `sales-follow-up` entry (including its dev-only placeholder
+  manual chain) is gone — that slug no longer exists. `/services/[slug]` now correctly generates
+  zero pages until a real service gets real content; that's honest, not broken.
+- **Not done, and explicitly out of scope this round:** any named case study, screenshot, or
+  specific metric from either deck — the user confirmed these aren't cleared for public site use
+  yet. Also not reconciled: the home page's `systems` (System Anatomy) data still uses the old
+  service names; flagged in `site-plan.md` workstream E rather than fixed here.
+
+---
+
 ## 2026-09-12 — 404 page, and the home page links to the live service page
 
 - **404 page** (`src/app/not-found.tsx`, workstream D item 5): mono-label, headline, two links
