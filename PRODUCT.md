@@ -150,8 +150,9 @@ product. Every primary CTA on the site currently resolves to that call.
 
 **This section governs. Read it before writing a single number onto a page.**
 
-Every quantitative and social proof claim currently on the site is **fabricated placeholder**,
-confirmed by the user:
+**Historical — this describes the site as found on 9 September 2026, before the truth pass. None of
+it is on the site today; see *Remediation* below.** Every quantitative and social proof claim was
+**fabricated placeholder**, confirmed by the user:
 
 - The four headline stats — `40+ growth systems shipped`, `18 hrs avg. weekly hours saved`,
   `3.4× avg. pipeline lift in 90 days`, `6 wks to first system live`.

@@ -4,6 +4,39 @@ The working reference for what we are building and in what order. Product truth 
 [`PRODUCT.md`](../PRODUCT.md); visual rules live in [`DESIGN.md`](../DESIGN.md); the audit that
 produced the fix items lives in [`design-audit-2026-09-09.md`](design-audit-2026-09-09.md).
 
+---
+
+## START HERE — state of play, 12 September 2026
+
+If you are picking this project up cold, read this box, then `PRODUCT.md` → *Evidence on Hand*,
+then stop and ask before writing any copy.
+
+**The site is live and multi-page.** Seven route types ship: `/`, `/services`, `/services/[slug]`
+(8 pages), `/approach`, `/systems`, `/contact`, and a 404. Everything below was deployed to
+production on 12 September 2026.
+
+**Branches.** `main` → production (`deploy.yml`, port 6001). `dev` → an internal staging preview
+(`deploy-dev.yml`, port 6003, `NOINDEX=true`, reachable at `dev.redelevators.com` once the owner's
+Cloudflare Tunnel ingress rule is in). Work lands on a feature branch → `dev` → `main`.
+
+**The three things that are NOT done, in priority order:**
+
+| # | Item | Why it's open | Who unblocks it |
+|---|---|---|---|
+| 1 | **Two real client testimonials** | The single highest-leverage change available. Has been open since 9 Sep. | **Owner only** — nobody else can ask the clients |
+| 2 | **Stat band has drifted out of true** | Claims `6` service lines (really 8) and `15` tools (really 19). A visitor can disprove both by counting. Two-value fix in `content.ts`; flagged not fixed, because the owner's standing instruction is not to touch the band. | Owner's call |
+| 3 | **`/about` page** | No founding story, team size, location or biography exists in *any* project doc. Material is absent, not uncleared. | Owner, after discussing with other members |
+
+**Do not "solve" #3 by writing generic agency copy.** That is inventing proof about the company
+itself, and it breaks the same rule as inventing a client metric.
+
+**Two live traps** that have already cost real debugging time — both written up in `CLAUDE.md` →
+*Known traps*: Next.js 16's post-navigation scroll management (every internal `Link` must pass
+`scroll={false}`), and the Docker dev container's `.next` cache going stale and 404-ing routes that
+build perfectly fine.
+
+---
+
 **Status:** approved 9 September 2026. **Workstreams A, B, C and F are complete** (truth pass
 shipped, System Anatomy built, cascade layers and hero first-paint fixed, all three open
 accessibility failures resolved). **D is mostly done** — forms, the page header, focus-visible and
@@ -17,9 +50,14 @@ has drifted (`6` service lines vs 8 real, `15` tools vs 19) — flagged, not fix
 
 **Styleguide:** the system is viewable and interactive at
 <https://claude.ai/code/artifact/59fa371d-2124-4966-b133-508fdddf88fc> (private artifact,
-source at [`design-system.html`](design-system.html)). Workstreams B and D are prototyped there —
-System Anatomy, form controls, focus states and the page-header pattern have been *designed*, and
-now need porting into React. Republish to the same URL after any edit.
+source at [`design-system.html`](design-system.html)). Republish to the same URL after any edit —
+publishing without it creates a competing artifact.
+
+⚠️ **The styleguide now lags the code.** Everything it prototyped — System Anatomy, form controls,
+focus states, the page-header pattern — has since been built in React, so it is a record of the
+design intent, not of the shipped system. It does **not** contain `ServiceCard`, the page
+architecture, or any of the 12 September page work. `DESIGN.md` is the accurate reference; treat
+the styleguide as the second source until someone re-runs `/impeccable document` and republishes.
 
 ---
 
