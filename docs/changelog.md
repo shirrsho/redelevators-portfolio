@@ -5,6 +5,27 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — `dev` merged to `main`; production redeployed
+
+Fast-forwarded `main` to `dev`'s tip and pushed. Every workstream shipped since 9 September — the
+truth pass, System Anatomy, cascade-layer and hero-paint fixes, all three accessibility fixes, the
+services rebuild (2 pillars × 4), the real navigation bug fixes, the site-wide overlap audit, and
+the isolated dev-deploy pipeline itself — is now live in production. Production's own deploy
+workflow (`deploy.yml`) ran unaffected: it still only reacts to `main` and only reads
+`docker-compose.prod.yml`, so `dev`'s staging-only files came along inertly.
+
+## 2026-09-12 — Workstream E: Approach page shipped
+
+`/approach` (Workstream E, item 3). Expands the existing `steps` teaser (Audit → Design → Build →
+Run) into a full page: each stage gets two paragraphs of real detail plus a stated output, all
+restating PRODUCT.md → *Operating Context* rather than adding any new claim. One real System
+Anatomy chain ("Workflow & CRM Automation") is shown in full as a worked example, followed by the
+existing `Marquee` and `CTA`. New `approachStages` data in `content.ts`; nav's "Process" entry
+(`/#process`, only ever reachable from the home page) renamed "Approach" and repointed at the new
+page — the home page keeps its own `#process` teaser section unchanged. Verified with the same
+`getBoundingClientRect()` overlap check used in the site-wide audit, at both mobile and 1440px
+widths: zero overlaps.
+
 ## 2026-09-12 — Dev environment moved to port 6003
 
 First deploy of the `dev` branch failed: `docker compose up -d` couldn't bind `127.0.0.1:6002` —

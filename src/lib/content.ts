@@ -1,6 +1,6 @@
 export const nav = [
   { label: "Services", href: "/services" },
-  { label: "Process", href: "/#process" },
+  { label: "Approach", href: "/approach" },
   { label: "Systems", href: "/#systems" },
 ];
 
@@ -147,6 +147,66 @@ export const steps = [
     num: "04",
     title: "Run",
     desc: "We monitor, refine and hand over full documentation. The system keeps running whether we're in the room or not.",
+  },
+];
+
+// Expanded copy for /approach — one entry per `steps` stage. Everything here
+// restates or elaborates PRODUCT.md -> Operating Context; no new claim, no
+// number that isn't already established elsewhere on the site.
+export type ApproachStage = {
+  num: string;
+  title: string;
+  summary: string;
+  detail: string[];
+  output: string;
+};
+
+export const approachStages: ApproachStage[] = [
+  {
+    num: "01",
+    title: "Audit",
+    summary:
+      "We map every repetitive task and manual campaign across your business, and put an hour and dollar figure on each one.",
+    detail: [
+      "We sit with the people who actually do the work, not just the person who signs off on it, and walk every tool, spreadsheet and hand-off in the current process.",
+      "Each repetitive task gets an hour cost and a dollar figure, so what gets built first is set by what it's actually costing you, not by what looks most impressive to automate.",
+    ],
+    output:
+      "A ranked list of what to fix first, in hours and dollars, before a single workflow is designed.",
+  },
+  {
+    num: "02",
+    title: "Design",
+    summary:
+      "We architect the workflow — what triggers it, what it touches, and exactly where a human still checks in.",
+    detail: [
+      "Every workflow gets a trigger, a defined path through the tools it touches, and at least one point where a person reviews or approves before anything goes out.",
+      "This is the stage where we decide what should run itself and what shouldn't — full automation isn't the goal on every task, correctness is.",
+    ],
+    output:
+      "A workflow diagram naming every tool, trigger and checkpoint, reviewed with you before we build anything.",
+  },
+  {
+    num: "03",
+    title: "Build",
+    summary:
+      "We build inside your existing tools, not a separate platform you have to learn. Live in weeks, not quarters.",
+    detail: [
+      "Nothing here requires your team to log into a new platform. We build using the CRM, ad accounts and automation tools you already run.",
+      "Each system ships live in weeks, tested against real data before it ever touches a live lead or campaign.",
+    ],
+    output: "A working system, running on real data, inside the tools your team already knows.",
+  },
+  {
+    num: "04",
+    title: "Run",
+    summary:
+      "We monitor, refine and hand over full documentation. The system keeps running whether we're in the room or not.",
+    detail: [
+      "We watch the system's first weeks live, fix what real usage exposes, and document exactly how it works and where the human checkpoints sit.",
+      "Handover isn't a PDF nobody reads — someone on your team can explain the system back to us before we call it done.",
+    ],
+    output: "A documented, running system your team owns and can maintain without us.",
   },
 ];
 

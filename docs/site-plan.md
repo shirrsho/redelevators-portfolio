@@ -8,9 +8,8 @@ produced the fix items lives in [`design-audit-2026-09-09.md`](design-audit-2026
 shipped, System Anatomy built, cascade layers and hero first-paint fixed, all three open
 accessibility failures resolved). **D is mostly done** — forms, the page header, focus-visible and
 a 404 page shipped 12 September; long-form typography and scaling navigation are still undesigned.
-**E has started:** the service page template is built and blocked on one real-content field (see
-workstream E); the home page's service card links to it automatically once that field is real.
-Shipped detail in [`changelog.md`](changelog.md).
+**E is underway:** Home, the Services index + all 8 detail pages, and Approach are live. Systems/
+Teardowns, About and Contact remain. Shipped detail in [`changelog.md`](changelog.md).
 
 **Styleguide:** the system is viewable and interactive at
 <https://claude.ai/code/artifact/59fa371d-2124-4966-b133-508fdddf88fc> (private artifact,
@@ -173,7 +172,7 @@ Build in this order. Each page ships complete before the next starts.
 |---|---|---|---|
 | 1 | **Home** | Convert | Exists. Cleaned by workstream A. |
 | 2 | **Services index + 8 service pages — ✅ ALL LIVE 12 Sep 2026** | SEO + depth | Index (`/services`) and all eight detail pages shipping. Taxonomy rebuilt around the real two pillars — AI Automation leads, then Marketing (site-wide ordering decision) — from the company's own portfolio decks, see `PRODUCT.md` → *Evidence on Hand*. Every service has a real, generic (not client-specific) manual chain, felt-cost line, human checkpoint and System Anatomy — see `brief-service-page.md`. Real case-study content (named clients, screenshots, metrics) exists but remains **explicitly not cleared for the public site** — never source detail-page content from the decks' client specifics. |
-| 3 | **Approach** | Credibility | Expands Audit → Design → Build → Run into a full page. Needs no proof, and it is the page that closes a hesitant buyer. |
+| 3 | **Approach — ✅ LIVE 12 Sep 2026** | Credibility | `/approach` expands Audit → Design → Build → Run into a full page: two paragraphs of real detail plus a stated output per stage, one worked System Anatomy example, then the tool marquee and CTA. Needed no new proof — every line restates `PRODUCT.md` → *Operating Context*. Nav's old `#process` anchor link (home-page only) renamed "Approach" and repointed here. |
 | 4 | **Systems / Teardowns** | Case-study substitute | Anonymized, mechanism-led, honest. Becomes real case studies later when permission and numbers exist. **Reconciled 12 Sep 2026:** `systems` (`src/lib/content.ts`) now has exactly 8 entries, one per real service, each `label` matching a `services[].title`. The 3 pre-rebuild entries ("Sales & follow-up" / "Ops & reporting" / "Marketing automation") were removed as superseded, not left alongside the new ones. `Systems.tsx` shows a curated 3-item slice on the home page rather than all 8, to avoid burying the section under detail-page-length content. |
 | 5 | **About** | Trust | With no case studies, who we are *is* the trust asset. Do not skip it. |
 | 6 | **Contact** | Convert | Currently Calendly + mailto only. Needs the form system from workstream D. |
