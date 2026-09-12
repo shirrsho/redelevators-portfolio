@@ -142,11 +142,16 @@ it. Items 3 and 4 are still undesigned and remain open.
    links, images with captions, code blocks. Required before any article ships. Still undesigned.
 4. **Navigation that scales.** The nav is flat anchor links to sections of one page. Eight service
    pages plus resources needs real routing, a dropdown or mega-menu, and an active-page state. The
-   dropdown/mega-menu/active-state redesign is still undesigned. **Fixed 12 Sep 2026, a correctness
-   bug, not the redesign:** every nav link and the logo were bare same-page anchors (`#top`,
-   `#systems`) that only worked on the page that happened to define that id — broken on every page
-   except home. Logo and nav links now use `next/link` with absolute paths; the logo smooth-scrolls
-   on the home page and navigates home from anywhere else. See `docs/changelog.md`.
+   dropdown/mega-menu/active-state redesign is still undesigned. **Two correctness bugs fixed 12
+   Sep 2026, not the redesign:** (1) every nav link and the logo were bare same-page anchors
+   (`#top`, `#systems`) that only worked on the page that happened to define that id. (2) User-
+   reported: after fixing (1), every navigation landed scrolled near the bottom of the destination
+   page instead of the top. Root cause was in Next.js 16 itself, not this app's markup alone — its
+   built-in post-navigation scroll management skips fixed/sticky top-level elements (documented
+   behavior), and with `ScrollProgress` and `Nav`'s header both `position: fixed` top-level
+   siblings of `<main>`, it fell through past `<main>` and landed on `<footer>`. Fixed by giving
+   every `Link` `scroll={false}` and taking scroll positioning over entirely in `Nav.tsx`. See
+   `docs/changelog.md` for the full investigation.
 5. **404, error and empty states — 404 ✅ done, error/empty still open.** `src/app/not-found.tsx`:
    reuses Nav/Footer, mono-label + headline + two links home. Deliberately plain — a fuller
    error-state system (form validation states already exist via workstream D item 1; a dedicated

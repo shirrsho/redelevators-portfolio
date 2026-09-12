@@ -3,6 +3,7 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 import { Nav } from "@/components/Nav";
 import { PageHeader } from "@/components/PageHeader";
 import { Handover } from "@/components/Handover";
+import { ServiceCard } from "@/components/ServiceCard";
 import { Process } from "@/components/Process";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
@@ -45,7 +46,7 @@ export default async function ServicePage({
       <Nav />
       <main>
         <PageHeader
-          label={`${service.category} · ${service.num} of 04`}
+          label={service.category}
           title={service.title}
           intro={service.desc}
           actions={
@@ -112,14 +113,7 @@ export default async function ServicePage({
           </h2>
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {related.map((s) => (
-              <div
-                key={s.slug}
-                className="rounded-2xl border border-line bg-white p-6"
-              >
-                <span className="font-mono-label">{s.num}</span>
-                <h3 className="mt-4 text-lg font-semibold text-ink">{s.title}</h3>
-                <p className="mt-2 text-sm text-muted">{s.desc}</p>
-              </div>
+              <ServiceCard key={s.slug} {...s} />
             ))}
           </div>
         </section>

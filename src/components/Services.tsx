@@ -25,6 +25,7 @@ export function Services() {
         <div className="mt-10 flex justify-center">
           <Link
             href="/services"
+            scroll={false}
             className="rounded-xl border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-cream"
           >
             View all services

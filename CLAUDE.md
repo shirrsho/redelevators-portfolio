@@ -55,6 +55,15 @@ outside a heading needs `tracking-[-0.03em]` written explicitly.
 `motion` hydrates (audit F4). `Counter` was fixed on 9 Sep to render its true value server-side —
 follow that pattern, not the hero's. Anything carrying a fact must be correct in the served HTML.
 
+**Next.js 16's post-navigation scroll management.** Per `Link`'s own docs (`node_modules/next/dist/docs`),
+Next skips `position: fixed`/sticky top-level elements when deciding what to scroll into view after
+a navigation. This app's `<ScrollProgress/>` and `<Nav/>`'s header are both fixed top-level
+siblings of `<main>` on every page — confirmed live (12 Sep 2026) that Next falls through `<main>`
+entirely and lands on `<footer>`, scrolling every navigation to the bottom of the destination page
+instead of the top. Every internal `Link` in this app passes `scroll={false}` because of this;
+`Nav.tsx` positions scroll itself instead. If you add a `Link` anywhere, give it `scroll={false}`
+too, or it'll fight Nav's own positioning. Full investigation: `docs/changelog.md`.
+
 ## Stack notes
 
 Next.js 16 App Router, React 19, Tailwind CSS v4 (tokens in `@theme` in `src/app/globals.css`, no

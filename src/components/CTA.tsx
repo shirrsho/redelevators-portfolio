@@ -66,6 +66,7 @@ export function CTA() {
                   nothing there. Fixed 12 Sep 2026. */}
               <Link
                 href="/#systems"
+                scroll={false}
                 className="rounded-xl border border-white/40 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
               >
                 See how it works

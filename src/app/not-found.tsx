@@ -29,12 +29,14 @@ export default function NotFound() {
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/"
+              scroll={false}
               className="rounded-xl bg-red px-6 py-3.5 text-sm font-semibold text-white shadow-red transition-transform hover:scale-[1.03] active:scale-95"
             >
               Back home
             </Link>
             <Link
               href="/#services"
+              scroll={false}
               className="rounded-xl border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-cream"
             >
               See what we do

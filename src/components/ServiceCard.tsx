@@ -84,7 +84,7 @@ export function ServiceCard({
   );
 
   return hasPage ? (
-    <Link href={`/services/${slug}`} className="contents">
+    <Link href={`/services/${slug}`} scroll={false} className="contents">
       {card}
     </Link>
   ) : (

@@ -5,6 +5,49 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — The real navigation bug: Next.js 16's scroll management, not the app
+
+User-reported after the previous fix: every navigation now landed correctly on the right page, but
+scrolled near the bottom instead of the top — "it opens up booking on the screen" (the CTA panel,
+which sits just above the footer).
+
+**Root cause, confirmed via `node_modules/next/dist/docs/`** (per `AGENTS.md`'s warning that this
+Next.js version has undocumented-in-training-data behavior changes) — `Link`'s `scroll` prop docs:
+
+> Next.js checks if `scroll: false`... it identifies the relevant DOM node for navigation and
+> inspects each top-level element. All non-scrollable elements... are bypassed, this includes
+> sticky or fixed positioned elements... Next.js then continues through siblings until it
+> identifies a scrollable element that is visible in the viewport.
+
+Every page renders `<ScrollProgress/>` and `<Nav/>` (whose header is `position: fixed`) as
+top-level siblings of `<main>` and `<Footer/>`. Both fixed elements get skipped per that
+documented behavior; instrumenting `Element.prototype.scrollIntoView` live in the browser (with a
+clean, uninstrumented click as a control, to rule out the instrumentation itself) confirmed Next
+calls it on `<footer>`, `<main>`, `<header>`, and the scroll-progress `<div>` in that order — i.e.
+it falls through `<main>` and lands on `<footer>` instead.
+
+**Fixed** by opting out of Next's scroll management entirely: every internal `Link` across the app
+(`Nav`, `ServiceCard`, `Services`, `Systems`, `CTA`, `not-found`) now passes `scroll={false}`, and
+`Nav.tsx` takes over positioning itself in a `pathname`-keyed effect — scroll to a hash target if
+the new URL has one, `window.scrollTo(0, 0)` otherwise. Verified with real clicks only (no
+`find`/`read_page`, which build accessibility trees and were briefly suspected of being the actual
+source — a clean control test ruled that out) across: hamburger menu → Services, logo from a
+scrolled-down service page, a same-page CTA anchor, a cross-category "More like this" card, and
+the Process/Systems hash links.
+
+## 2026-09-12 — Two design tweaks, at the user's request
+
+- **Dropped the "N of 4" count from each service page's mono label** (was e.g. "AI Automation · 02
+  of 04"). Kept the category name — useful context for a cold arrival — but the ordinal position
+  reads as internal-catalog bookkeeping rather than something a reader benefits from knowing, and
+  it's an easy revert if this is wrong.
+- **"More like this" cards are now real links.** They rendered as plain, non-interactive `<div>`s —
+  an oversight from before every service had a page to link to. Now reuse `ServiceCard` (the same
+  component the home page and `/services` index use), so they link automatically, consistent with
+  the rest of the site.
+
+---
+
 ## 2026-09-12 — All 8 service pages live; navigation correctness fixes
 
 **All eight service pages now live** (`src/lib/content.ts` → `serviceDetails`, `systems`). The

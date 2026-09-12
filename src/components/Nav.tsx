@@ -19,6 +19,37 @@ export function Nav() {
     document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
 
+  // Next.js's own post-navigation scroll management doesn't work reliably on
+  // this layout: per its docs, it skips fixed/sticky top-level elements when
+  // choosing what to scroll into view — and both ScrollProgress's bar and
+  // this header are fixed top-level siblings of <main>. Confirmed live: it
+  // falls through past <main> and lands on <footer> instead, landing every
+  // navigation scrolled to the very bottom of the new page. Every Link in
+  // this app passes `scroll={false}` to opt out of that entirely; this
+  // effect is what actually positions the page after every route change —
+  // to a hash target if the URL has one, or the top otherwise. Fixed 12 Sep
+  // 2026 (user-reported: "it opens up booking on the screen" — the CTA
+  // panel, which sits just above the footer).
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      document.querySelector(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname]);
+
+  // Closing via a link click needs the overflow lock lifted synchronously,
+  // not through the effect above — that only runs on the next commit, a
+  // tick after Link's own click handler has already tried (and failed) to
+  // scroll the still-locked body to top. Left un-cleared, the scroll stays
+  // wherever it was, and lands somewhere arbitrary on the new page once
+  // overflow finally unlocks. Fixed 12 Sep 2026.
+  function closeMenu() {
+    setOpen(false);
+    document.body.style.overflow = "";
+  }
+
   // The logo always goes home from anywhere on the site. On the home page
   // itself there's nowhere to navigate to, so it smooth-scrolls to top
   // instead — this used to be a bare `href="#top"`, which only worked on
@@ -46,7 +77,7 @@ export function Nav() {
               : "border-transparent bg-transparent"
           }`}
         >
-          <Link href="/" onClick={handleLogoClick} aria-label="Red Elevators home">
+          <Link href="/" scroll={false} onClick={handleLogoClick} aria-label="Red Elevators home">
             <Wordmark size={17} />
           </Link>
 
@@ -55,6 +86,7 @@ export function Nav() {
               <Link
                 key={n.href}
                 href={n.href}
+                scroll={false}
                 className="rounded-lg px-3.5 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-cream hover:text-ink"
               >
                 {n.label}
@@ -114,7 +146,8 @@ export function Nav() {
                 >
                   <Link
                     href={n.href}
-                    onClick={() => setOpen(false)}
+                    scroll={false}
+                    onClick={closeMenu}
                     className="block border-b border-line py-4 font-[family-name:var(--font-display)] text-2xl font-semibold text-ink"
                   >
                     {n.label}
@@ -123,7 +156,7 @@ export function Nav() {
               ))}
               <a
                 href="#contact"
-                onClick={() => setOpen(false)}
+                onClick={closeMenu}
                 className="mt-6 rounded-xl bg-red px-5 py-4 text-center text-base font-semibold text-white"
               >
                 Book a free Call
