@@ -20,6 +20,13 @@ const mono = JetBrains_Mono({
   weight: ["400", "500", "600"],
 });
 
+// NOINDEX is a build-time-only var (see Dockerfile) — every route here is
+// static/SSG, so this resolves once per image build, not per request. Unset
+// on production; the dev/staging deploy workflow passes it in so
+// dev.redelevators.com never gets crawled or indexed while it's an internal
+// preview. See also src/app/robots.ts, which reads the same var.
+const noindex = process.env.NOINDEX === "true";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://redelevators.com"),
   title: "Red Elevators — Growth on Autopilot",
@@ -34,6 +41,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/brand/red-elevators-mark-light.svg",
   },
+  ...(noindex && {
+    robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
+  }),
 };
 
 export default function RootLayout({

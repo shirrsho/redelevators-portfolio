@@ -1,0 +1,24 @@
+# Staging / internal-preview compose file, used on the VPS for the `dev`
+# branch. Deployed by .github/workflows/deploy-dev.yml, a copy of the
+# production workflow pointed at a separate deploy path, image tag and port
+# so it can never collide with docker-compose.prod.yml's deployment.
+#
+# Deliberately no `cloudflared` sidecar here — the owner is adding a
+# dev.redelevators.com ingress rule to the *existing* production tunnel
+# themselves (Cloudflare Zero Trust dashboard), pointed at this container's
+# published port. If that changes and this environment ever needs its own
+# tunnel, add a cloudflared service the same way docker-compose.prod.yml
+# does, with its own CLOUDFLARE_TUNNEL_TOKEN secret.
+services:
+  web:
+    image: itzwasik/redelevators-portfolio:dev
+    restart: unless-stopped
+    ports:
+      # Loopback-only, same convention as production's 6001 — reachable at
+      # 127.0.0.1:6002 on the VPS for the owner's proxy to pick up.
+      - "127.0.0.1:6002:3000"
+    env_file:
+      - .env
+    environment:
+      - PORT=3000
+      - HOSTNAME=0.0.0.0

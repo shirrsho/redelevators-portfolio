@@ -1,0 +1,135 @@
+name: Build, Test & Deploy (dev)
+
+# A copy of deploy.yml's pipeline, scoped to the `dev` branch and isolated
+# from production at every step: its own image tags, its own deploy
+# directory on the VPS, its own compose file and port. Nothing here can
+# overwrite what deploy.yml manages. See docker-compose.staging.yml for why
+# there's no cloudflared service — the owner is wiring dev.redelevators.com
+# into the existing tunnel themselves.
+
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/redelevators-portfolio
+  DEPLOY_PATH: /home/${{ secrets.VPS_USER }}/redelevators/redelevators-portfolio-dev
+
+jobs:
+  # ---------------------------------------------------------------------
+  # 1. Same gate as production: lint + a production build.
+  # ---------------------------------------------------------------------
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+  # ---------------------------------------------------------------------
+  # 2. Build the image tagged `dev` (never `latest`) and push it. NOINDEX
+  #    is a build arg, not a runtime var — every route is static/SSG, so
+  #    it has to be baked in at `next build` time (see Dockerfile).
+  # ---------------------------------------------------------------------
+  docker:
+    name: Build & Push Docker Image
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          build-args: |
+            NOINDEX=true
+          tags: |
+            ${{ env.IMAGE_NAME }}:dev
+            ${{ env.IMAGE_NAME }}:dev-${{ github.sha }}
+
+  # ---------------------------------------------------------------------
+  # 3. Deploy to the same VPS, but its own directory/compose/port — see
+  #    docker-compose.staging.yml. Reuses the same ENV_FILE secret as
+  #    production (no dev-specific secrets exist yet); no Cloudflare
+  #    Tunnel token is written since this compose has no cloudflared
+  #    service.
+  # ---------------------------------------------------------------------
+  deploy:
+    name: Deploy to VPS (dev)
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure deploy directory exists
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: mkdir -p ${{ env.DEPLOY_PATH }}
+
+      - name: Copy docker-compose.staging.yml to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: "docker-compose.staging.yml"
+          target: ${{ env.DEPLOY_PATH }}
+          strip_components: 0
+
+      - name: Deploy to VPS over SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -euo pipefail
+            cd ${{ env.DEPLOY_PATH }}
+
+            # Same ENV_FILE secret as production — the app's own runtime
+            # variables don't differ between environments. No tunnel token
+            # is written here: docker-compose.staging.yml has no
+            # cloudflared service to read one.
+            cat > .env <<'ENV_EOF'
+            ${{ secrets.ENV_FILE }}
+            ENV_EOF
+
+            chmod 600 .env
+
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+            docker compose -f docker-compose.staging.yml pull
+            docker compose -f docker-compose.staging.yml up -d
+            docker image prune -f

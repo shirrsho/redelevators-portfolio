@@ -108,7 +108,18 @@ product. Every primary CTA on the site currently resolves to that call.
   served through a Cloudflare Tunnel. `next.config.ts` uses `output: "standalone"` — the
   production image ships no `node_modules`, so anything requiring runtime file access or
   unbundled dependencies needs checking against that build.
-- **Domain:** `redelevators.com`.
+- **Internal preview environment, added 12 September 2026:** pushing the `dev` branch triggers
+  `.github/workflows/deploy-dev.yml`, a fully isolated copy of the production pipeline — own image
+  tags (`:dev`, never `:latest`), own VPS directory (`redelevators-portfolio-dev`), own compose
+  file (`docker-compose.staging.yml`, no `cloudflared` service), published on
+  `127.0.0.1:6002` instead of production's `6001`. The owner is adding a `dev.redelevators.com`
+  ingress rule to the *existing* Cloudflare Tunnel themselves, pointed at that port — nothing here
+  provisions a second tunnel. The build sets `NOINDEX=true` (a Docker build arg, baked in at
+  `next build` time since every route is static/SSG) so this environment emits `noindex, nofollow`
+  and a disallow-all `robots.txt` — see `src/app/robots.ts` and `layout.tsx`. **This is explicitly
+  not a launch** — the team is deciding internally whether/when this becomes public.
+- **Domain:** `redelevators.com`. Internal preview: `dev.redelevators.com` (not indexed, not
+  announced).
 - **Open decision — dark theme.** The brand sheet defines a complete dark theme and dark
   logo/mark SVGs are already committed at `public/brand/`, but the site ships light-only
   (`color-scheme: light`). The user's current instruction: **do not implement dark theme now.**

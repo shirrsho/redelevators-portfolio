@@ -18,6 +18,13 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # Disable Next.js telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED=1
+# Baked in at build time, not read at container runtime: every route here
+# is static/SSG (see `next build`'s own output), so metadata and robots.txt
+# are resolved once, during this build, not per-request. The dev/staging
+# workflow passes --build-arg NOINDEX=true; production's build never sets
+# it, so this defaults to false and production is unaffected.
+ARG NOINDEX=false
+ENV NOINDEX=$NOINDEX
 RUN npm run build
 
 # ---- Runtime ---------------------------------------------------------

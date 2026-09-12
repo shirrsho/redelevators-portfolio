@@ -5,6 +5,27 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — Internal preview environment: the `dev` branch
+
+Pushing `dev` now deploys to `dev.redelevators.com` for internal review — explicitly not a launch;
+the team decides separately whether/when this becomes public.
+
+- **`.github/workflows/deploy-dev.yml`**: a copy of the production pipeline, isolated at every
+  layer so it can't collide with or overwrite production — own image tags (`:dev`,
+  `:dev-<sha>`, never `:latest`), own VPS directory (`redelevators-portfolio-dev`, sibling to
+  production's), own compose file.
+- **`docker-compose.staging.yml`**: same shape as `docker-compose.prod.yml` but published on
+  `127.0.0.1:6002` (production is `6001`) and with no `cloudflared` service — the owner is adding
+  a `dev.redelevators.com` ingress rule to the *existing* tunnel themselves, so this environment
+  needed no new secrets.
+- **`NOINDEX` build arg** (`Dockerfile`, `layout.tsx`, new `src/app/robots.ts`): the dev image is
+  built with `NOINDEX=true`, baked in at `next build` time since every route is static/SSG — emits
+  a `noindex, nofollow` meta tag and a disallow-all `robots.txt`. Verified locally against an
+  actual production build (`next build && next start`), not the local dev server, which doesn't
+  use build-time args the same way. Unset on production; verified that build is unaffected.
+
+---
+
 ## 2026-09-12 — Site-wide overlap audit
 
 User asked to check the rest of the site for the same class of bug as the hero badges. Grepped
