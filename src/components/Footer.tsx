@@ -34,7 +34,11 @@ export function Footer() {
             <div>
               <div className="font-mono-label text-muted">Contact</div>
               <ul className="mt-4 space-y-2.5 text-sm">
-                <li>
+                {/* pb-4, not the list's own space-y-2.5, makes room for the
+                    "Copied to clipboard" tooltip EmailLink shows on click —
+                    that gap alone (10px) let the tooltip land on top of
+                    "Book a call" right below it. Fixed 12 Sep 2026. */}
+                <li className="pb-6">
                   <EmailLink
                     email="contact@redelevators.com"
                     className="text-ink-soft transition-colors hover:text-red"

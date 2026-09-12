@@ -5,6 +5,35 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — Site-wide overlap audit
+
+User asked to check the rest of the site for the same class of bug as the hero badges. Grepped
+every `absolute`-positioned and negative-offset element in the codebase, then wrote a generic
+pairwise bounding-box overlap check (any two leaf text elements sharing >15% of the smaller one's
+area) and ran it against every route: `/`, `/services`, all 8 service detail pages, and the 404.
+
+**Found and fixed two more, real ones:**
+
+- **`PageHeader.tsx`'s top padding didn't clear the fixed Nav bar.** Ported `py-14 sm:py-16`
+  (56/64px) straight from the styleguide mockup, whose own page uses a `sticky` nav, not this
+  site's floating fixed one — Nav's pill sits at ~78px, taller than the padding. Manifested as
+  "AI Automation" (the label on `/services/workflow-crm-automation`) overlapping "Growth on
+  Autopilot" (the nav's own wordmark subtitle); shorter labels like "Services" happened not to
+  reach far enough right to trigger it, same underlying bug regardless. `Hero.tsx` already solved
+  this correctly with `pt-36 sm:pt-44` for the identical reason — this just wasn't carried over
+  when `PageHeader` was built. Fixed to `pt-32 sm:pt-36` (kept bottom padding at the original
+  `pb-14 sm:pb-16`).
+- **`EmailLink`'s "Copied to clipboard" tooltip landed on "Book a call" right below it** in the
+  Footer's Contact column — the list's `space-y-2.5` (10px) is far tighter than the tooltip's own
+  footprint (~32px). `EmailLink` is only ever used in this one spot, so fixed at the call site
+  (`Footer.tsx`) rather than the component: `pb-6` on the email's `<li>`, verified down to a
+  measured 7px clear gap.
+
+Everything else — `SystemAnatomy`'s pulse dot, `Process`'s step-number circles, the mobile menu —
+checked clean, confirmed by the same measurement method rather than assumed safe by inspection.
+
+---
+
 ## 2026-09-12 — Hero panel's floating badges were covering their own content
 
 User-reported with a screenshot: the "New lead" / "Auto-qualified" / "CRM updated" badges that

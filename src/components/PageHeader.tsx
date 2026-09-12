@@ -23,7 +23,17 @@ export function PageHeader({
 }) {
   return (
     <section className="border-b border-line bg-cream">
-      <div className="mx-auto max-w-6xl px-6 py-14 sm:py-16">
+      {/* pt-32/36, not py-14/16 top-and-bottom alike — the fixed Nav pill's
+          bottom edge sits at ~78px, and the mockup's original 56/64px value
+          (ported from docs/design-system.html, whose own page uses a
+          non-floating sticky nav) let a long mono-label collide with the
+          nav's wordmark subtitle. Confirmed via overlap detection: "AI
+          Automation" (this label) vs. "Growth on Autopilot" (the nav
+          tagline). Fixed 12 Sep 2026 — same fix Hero.tsx already had for
+          the same reason (see DESIGN.md, "the hero opens at 144-176px... to
+          clear the floating nav"), just not carried over when this
+          component was built. */}
+      <div className="mx-auto max-w-6xl px-6 pb-14 pt-32 sm:pb-16 sm:pt-36">
         <div className="max-w-2xl">
           <span className="font-mono-label">{label}</span>
           <h1 className="mt-4 text-[clamp(1.9rem,4vw,3rem)] font-semibold tracking-tight">
