@@ -5,6 +5,30 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — Workstream E starts: service page template, blocked on one field
+
+`src/app/services/[slug]/page.tsx`, `src/components/Handover.tsx`, built per
+`docs/brief-service-page.md`, pilot service **Sales & follow-up**.
+
+- **Handover component:** the manual "today" chain (grey, hairline, no tool names, no numbers)
+  stacked above the automated System Anatomy — reused, not reinvented. Verified at 375px and
+  desktop: no horizontal scroll, same top-to-bottom order at every width.
+- **`generateStaticParams` gates on content completeness.** A service only gets a page once
+  `serviceDetails[slug].manualChain` (`src/lib/content.ts`) is populated. Right now that's true for
+  no service, so the route correctly emits zero pages — confirmed live:
+  `/services/sales-follow-up` returns 404. This is the same "empty is honest" pattern as the
+  removed testimonials section, applied to a whole page instead of a section.
+- Wrote real (not fabricated) content for the parts that don't depend on the owner: felt-cost
+  lead-in, the human-checkpoint line (derived from the already-shipped System Anatomy's own Slack
+  step, not a new claim), and the tools list (pulled straight from that chain's tool names).
+- **Blocking:** the manual "today" chain itself. `docs/brief-service-page.md` calls this out twice
+  as an owner-supplied dependency — 3-5 short steps naming who does something or what it waits on,
+  no durations, no percentages. The page ships the moment that arrives.
+- Verified both new components against a temporary, unlinked preview route with obviously
+  illustrative placeholder text (never committed), deleted before this commit.
+
+---
+
 ## 2026-09-12 — Workstream D: forms, page header, focus-visible
 
 Ports three of the four design-system gaps already designed in the styleguide into React (site

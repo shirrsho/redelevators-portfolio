@@ -35,36 +35,42 @@ export const marquee = [
 export const services = [
   {
     num: "01",
+    slug: "marketing-automation",
     title: "Marketing automation",
     desc: "Lead capture, nurture sequences, content pipelines and campaign reporting — running on autopilot.",
     tags: ["Nurture", "Email", "Attribution"],
   },
   {
     num: "02",
+    slug: "growth-paid-media",
     title: "Growth & paid media",
     desc: "Full-funnel campaigns across search, social and email — creative, targeting and optimization handled end to end.",
     tags: ["Paid", "Creative", "CRO"],
   },
   {
     num: "03",
+    slug: "sales-follow-up",
     title: "Sales & follow-up",
     desc: "Automated qualification, CRM updates and instant follow-up so no lead ever goes cold again.",
     tags: ["CRM", "Routing", "Speed-to-lead"],
   },
   {
     num: "04",
+    slug: "ops-reporting",
     title: "Ops & reporting",
     desc: "Data entry, internal reporting and cross-tool syncing — replaced with workflows that just run.",
     tags: ["Dashboards", "Sync", "RevOps"],
   },
   {
     num: "05",
+    slug: "ai-agents",
     title: "AI agents",
     desc: "Task-specific agents that research, draft and decide inside the tools your team already uses.",
     tags: ["Agents", "RAG", "Drafting"],
   },
   {
     num: "06",
+    slug: "custom-internal-tools",
     title: "Custom internal tools",
     desc: "Lightweight apps and portals that connect your stack and give the team one place to work.",
     tags: ["Apps", "Portals", "Integrations"],
@@ -150,3 +156,35 @@ export const systems: SystemAnatomy[] = [
     ],
   },
 ];
+
+// Service page content — workstream E, docs/brief-service-page.md. Keyed by
+// `services[].slug`. A service only gets an entry once every required field
+// is real; `manualChain` is the one hard content dependency the brief calls
+// out twice ("the page cannot ship for a service until that chain exists") —
+// it is described by who does it and what stalls it, never a duration or a
+// percentage, and it comes from the owner, not invented here.
+export type ManualStep = {
+  /** Who does it, or what it waits on — e.g. "A rep checks the shared sheet". */
+  note: string;
+};
+
+export type ServicePage = {
+  feltCost: string[];
+  /** The automated chain's human checkpoint — grounded in that chain's own
+   *  data (e.g. a Slack notify step implies a person acts on it next), not a
+   *  separate claim. */
+  humanCheckpoint: string;
+  manualChain?: ManualStep[];
+};
+
+export const serviceDetails: Record<string, ServicePage> = {
+  "sales-follow-up": {
+    feltCost: [
+      "A form comes in, and it sits in an inbox until someone has five minutes.",
+      "By the time anyone replies, the lead has already talked to someone else.",
+    ],
+    humanCheckpoint:
+      "The system qualifies and routes the lead and pings the rep on Slack the moment it's ready — the rep still makes the actual call. Nothing sends an outreach message on a person's behalf.",
+    // manualChain: intentionally absent — see comment above.
+  },
+};

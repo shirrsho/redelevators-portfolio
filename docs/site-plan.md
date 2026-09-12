@@ -8,7 +8,8 @@ produced the fix items lives in [`design-audit-2026-09-09.md`](design-audit-2026
 shipped, System Anatomy built, cascade layers and hero first-paint fixed, all three open
 accessibility failures resolved). **D is partially done** — forms, the page header and
 focus-visible shipped 12 September; long-form typography, scaling navigation and error/empty
-states are still undesigned. E remains. Shipped detail in [`changelog.md`](changelog.md).
+states are still undesigned. **E has started:** the service page template is built and blocked on
+one real-content field (see workstream E). Shipped detail in [`changelog.md`](changelog.md).
 
 **Styleguide:** the system is viewable and interactive at
 <https://claude.ai/code/artifact/59fa371d-2124-4966-b133-508fdddf88fc> (private artifact,
@@ -151,14 +152,14 @@ it. Items 3, 4 and 5 are still undesigned and remain open.
    its computed outline color. Form controls use a different, equally visible ring-based treatment
    by design — see gap 1.
 
-### E — Page architecture (P2)
+### E — Page architecture (P2) — started 12 Sep 2026
 
 Build in this order. Each page ships complete before the next starts.
 
 | Order | Page | Purpose | Notes |
 |---|---|---|---|
 | 1 | **Home** | Convert | Exists. Cleaned by workstream A. |
-| 2 | **Services index + 6 service pages** | SEO + depth | The highest-return work on this list — where an agency's organic traffic actually lives. Each page gets its own System Anatomy. Six services already defined in `src/lib/content.ts`. |
+| 2 | **Services index + 6 service pages** | SEO + depth | **Template built, blocked one content field short of live** — see `brief-service-page.md`. `src/app/services/[slug]/page.tsx`, `Handover.tsx`, `PageHeader.tsx`. Pilot: Sales & follow-up, held at 404 until its manual "today" chain is supplied. Each page gets its own System Anatomy. Six services already defined in `src/lib/content.ts`. Index page not built — see the brief's open decisions. |
 | 3 | **Approach** | Credibility | Expands Audit → Design → Build → Run into a full page. Needs no proof, and it is the page that closes a hesitant buyer. |
 | 4 | **Systems / Teardowns** | Case-study substitute | Anonymized, mechanism-led, honest. Becomes real case studies later when permission and numbers exist. |
 | 5 | **About** | Trust | With no case studies, who we are *is* the trust asset. Do not skip it. |

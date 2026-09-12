@@ -478,6 +478,22 @@ Chalk ground at 96px rhythm; each system is a Paper panel at 24px radius with 28
 (36px from `sm`), flat with a hairline border — anatomies never rest on a shadow. Panel heading is
 title-size stepping to 24px, with the service line named in a bordered chip on the same baseline.
 
+### The Handover — service page component
+
+**Built** 12 September 2026 (`src/components/Handover.tsx`), the focal moment of the service page
+template (`docs/brief-service-page.md`). The manual "today" chain stacked directly above the
+automated System Anatomy — same order on mobile and desktop, so the before/after argument reads
+identically at every width without a side-by-side layout that risks horizontal scroll.
+
+- **Manual chain:** grey and hairline — Hairline border, Chalk fill, Slate/Muted text, a neutral
+  person icon per step. No tool names, no red, no durations or percentages: it carries no claim
+  that needs evidence, per PRODUCT.md's *Evidence on Hand*.
+- **Automated chain:** the System Anatomy component, reused rather than reinvented — this page adds
+  no second proof device.
+- **Server component**, like System Anatomy: nothing here depends on hydration.
+- Pilot: `Sales & follow-up`. Ships only once its manual chain is real — see `site-plan.md`
+  workstream E.
+
 ### Form Controls
 
 **Built** 12 September 2026 (`src/components/Form.tsx`), ported from the "Form controls" proposal

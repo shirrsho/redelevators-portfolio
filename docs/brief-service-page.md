@@ -1,7 +1,11 @@
 # Design brief — service page
 
-**Status: awaiting confirmation.** Planning only. No direction contract has been written to
-`.impeccable/surfaces/` and no code exists — both belong to the build run, not to this brief.
+**Status: built, 12 September 2026, one content dependency short of live.** The template exists —
+`src/app/services/[slug]/page.tsx`, `src/components/Handover.tsx`, `src/components/PageHeader.tsx`
+— pilot service **Sales & follow-up**. `generateStaticParams` only emits a page once
+`serviceDetails[slug].manualChain` (in `src/lib/content.ts`) is populated, so the route correctly
+404s until then — verified: `/services/sales-follow-up` returns 404 today. See open decision 2
+below; it's the one thing blocking this from going live.
 
 Companion to [`site-plan.md`](site-plan.md) (workstream E, item 2). Product truth in
 [`../PRODUCT.md`](../PRODUCT.md); visual rules in [`../DESIGN.md`](../DESIGN.md); components in the
@@ -135,12 +139,18 @@ combination of them absent.
 
 **Open decisions — do not invent these**
 
-1. **Which service is the template.** Proposed: `Sales & follow-up`, because its manual chain is
-   the most legible. Needs confirmation.
-2. **The manual "today" chain per service.** Content dependency on the owner. The page cannot ship
-   for a service without it.
-3. **Whether block 7 ships at launch** or stays an empty slot for now.
-4. **URL scheme.** Proposed `/services/[slug]` with an index at `/services`.
-5. **Whether the index page ships alongside** the first detail page or follows it.
+1. **Which service is the template — decided.** `Sales & follow-up`. Built.
+2. **The manual "today" chain per service — still open, blocking.** Content dependency on the
+   owner. `Sales & follow-up` has everything else — felt cost, the human checkpoint, tools, the
+   automated chain — and is held at a 404 on this alone. Needed: 3-5 short steps, each naming who
+   does it or what it waits on (no durations, no percentages) — e.g. "A rep checks the shared
+   sheet", "Waits until someone is free to call", "Notes copied into the CRM by hand".
+3. **Whether block 7 ships at launch — decided.** No. The brief's own states table already put
+   Depth items at 0 for launch; block 7 is omitted from the built page entirely.
+4. **URL scheme — decided.** `/services/[slug]`, `generateStaticParams`-gated on content
+   completeness. The `/services` index is not built — see decision 5.
+5. **Whether the index page ships alongside the first detail page — still open.** Not built this
+   round. With only one of six services likely to have real content at a time, an index linking
+   mostly to 404s would read as unfinished; revisit once 2-3 services are live.
 6. **Navigation.** Six service pages will outgrow the current anchor-link nav. Out of scope here,
    but it becomes blocking once more than one page exists.
