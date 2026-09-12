@@ -8,14 +8,14 @@ import { services, type Service } from "@/lib/content";
 
 const CATEGORIES: { name: Service["category"]; intro: string }[] = [
   {
-    name: "Marketing",
-    intro:
-      "Paid social, creative and full-funnel campaigns — built to sell, not just to look good.",
-  },
-  {
     name: "AI Automation",
     intro:
       "Workflows, assistants and outreach systems that run quietly in the background, day and night.",
+  },
+  {
+    name: "Marketing",
+    intro:
+      "Paid social, creative and full-funnel campaigns — built to sell, not just to look good.",
   },
 ];
 
@@ -28,7 +28,7 @@ export default function ServicesIndex() {
         <PageHeader
           label="Services"
           title="Two ways we remove the repetitive work."
-          intro="Marketing that runs itself, and automation that runs everything else. Every service below lands inside the tools you already use."
+          intro="Automation that runs the busywork, and marketing that runs itself. Every service below lands inside the tools you already use."
         />
 
         {CATEGORIES.map((cat) => {

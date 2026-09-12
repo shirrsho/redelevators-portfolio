@@ -1,13 +1,13 @@
 # Design brief — service page
 
-**Status: template built, no pilot service live.** The template exists —
-`src/app/services/[slug]/page.tsx`, `src/components/Handover.tsx`, `src/components/PageHeader.tsx`.
-The original pilot, **Sales & follow-up**, no longer exists as a service: the taxonomy was rebuilt
-12 September 2026 around two real pillars, Marketing and AI Automation, eight services total (see
-`PRODUCT.md` → *Evidence on Hand*). `generateStaticParams` only emits a page once
-`serviceDetails[slug].manualChain` (in `src/lib/content.ts`) is populated, and that map is
-currently empty, so `/services/[slug]` correctly generates zero pages. Open decision 1 below needs
-re-deciding against the new eight; decision 2 still blocks whichever one is chosen.
+**Status: live.** `/services/sales-outreach-systems` is the first real service page, built and
+shipping 12 September 2026 after the taxonomy rebuild (two pillars, Marketing and AI Automation,
+eight services — see `PRODUCT.md` → *Evidence on Hand*). The original pilot, **Sales & follow-up**,
+no longer exists as a service and was replaced by **Sales & Outreach Systems** — the closest match
+by name, though its actual mechanism (outbound lead research + personalized email) differs from
+the old pilot's (inbound speed-to-lead routing); its manual chain and System Anatomy were written
+fresh, not ported. The other seven services have no detail page yet — each needs its own manual
+chain before it can go live, same as this one did.
 
 Companion to [`site-plan.md`](site-plan.md) (workstream E, item 2). Product truth in
 [`../PRODUCT.md`](../PRODUCT.md); visual rules in [`../DESIGN.md`](../DESIGN.md); components in the
@@ -19,8 +19,8 @@ Companion to [`site-plan.md`](site-plan.md) (workstream E, item 2). Product trut
 
 **Visitor mode: Persuade.** Success is the visitor deciding and booking.
 
-One template, six pages. `Sales & follow-up` is the worked example; the structure serves all six
-service lines already defined in `src/lib/content.ts`.
+One template, eight pages. `Sales & Outreach Systems` is the worked example; the structure serves
+all eight service lines already defined in `src/lib/content.ts`.
 
 The reader is the person who currently does the repetitive work themselves or watches their team
 do it — a founder, an ops or RevOps lead, a marketing lead. They arrive with a felt cost, not a
@@ -141,22 +141,25 @@ combination of them absent.
 
 **Open decisions — do not invent these**
 
-1. **Which service is the template — reopened.** The original choice, `Sales & follow-up`, no
-   longer exists post-taxonomy-rebuild (12 Sep 2026). Needs a fresh pick from the current eight —
-   `Sales & Outreach Systems` (AI Automation) is the closest match by name, but its actual mechanism
-   (outbound lead research + personalized email) differs from the old pilot's (inbound speed-to-lead
-   routing), so don't assume it's a like-for-like swap.
-2. **The manual "today" chain per service — still open, blocking.** Content dependency on the
-   owner. `Sales & follow-up` has everything else — felt cost, the human checkpoint, tools, the
-   automated chain — and is held at a 404 on this alone. Needed: 3-5 short steps, each naming who
-   does it or what it waits on (no durations, no percentages) — e.g. "A rep checks the shared
-   sheet", "Waits until someone is free to call", "Notes copied into the CRM by hand".
+1. **Which service is the template — decided.** `Sales & Outreach Systems` (AI Automation), picked
+   12 September 2026 for the same reason as the original choice — the most legible manual chain —
+   and because it has an already-written real mechanism description in
+   `Red-Elevators-AI-Portfolio.pdf` ("Outreach that researches itself") to build the automated
+   chain from honestly, rather than inventing one.
+2. **The manual "today" chain per service — done for the pilot, still open for the other seven.**
+   `Sales & Outreach Systems`'s chain is generic, industry-typical descriptive copy of how outbound
+   prospecting commonly works without this system — not a claim about any specific client, so it
+   doesn't need the evidence clearance a named case study would. Each remaining service still needs
+   its own: 3-5 short steps, each naming who does it or what it waits on (no durations, no
+   percentages).
 3. **Whether block 7 ships at launch — decided.** No. The brief's own states table already put
    Depth items at 0 for launch; block 7 is omitted from the built page entirely.
 4. **URL scheme — decided.** `/services/[slug]`, `generateStaticParams`-gated on content
-   completeness. The `/services` index is not built — see decision 5.
-5. **Whether the index page ships alongside the first detail page — still open.** Not built this
-   round. With only one of six services likely to have real content at a time, an index linking
-   mostly to 404s would read as unfinished; revisit once 2-3 services are live.
-6. **Navigation.** Six service pages will outgrow the current anchor-link nav. Out of scope here,
-   but it becomes blocking once more than one page exists.
+   completeness. The `/services` index is now built too — see decision 5.
+5. **Whether the index page ships alongside the first detail page — decided, superseded.** Built 12
+   September 2026 as part of the taxonomy rebuild, before any detail page existed — see
+   `docs/changelog.md`. Cards only link once `serviceDetails[slug].manualChain` is populated, so it
+   never points at a 404.
+6. **Navigation.** Partially addressed: the nav's Services link now points at `/services` instead
+   of a same-page anchor (12 Sep 2026). The fuller redesign — dropdown/mega-menu, active-page state
+   — is still out of scope and still undesigned (site-plan.md workstream D, item 4).

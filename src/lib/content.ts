@@ -30,6 +30,9 @@ export const marquee = [
   "Meta Ads",
   "Klaviyo",
   "Segment",
+  // Added 12 Sep 2026 — the CRM used in the Sales & Outreach Systems chain,
+  // confirmed real via Red-Elevators-AI-Portfolio.pdf's stack list.
+  "HighLevel",
 ];
 
 export type Service = {
@@ -46,40 +49,11 @@ export type Service = {
 // Red-Elevators-AI-Portfolio.pdf) — titles and descriptions are the company's
 // own positioning copy, not invented here. Replaces the earlier six-line
 // structure, which didn't match either deck. See docs/changelog.md.
+// AI Automation leads — it's the harder-to-copy, higher-value pillar and the
+// one the site's whole mechanism-led design language (System Anatomy, the
+// red pulse) is actually about; Marketing is one thing that gets automated,
+// not the differentiator. Reordered 12 Sep 2026, was Marketing-first.
 export const services: Service[] = [
-  // Marketing
-  {
-    num: "01",
-    slug: "paid-social-advertising",
-    category: "Marketing",
-    title: "Paid Social Advertising",
-    desc: "Meta lead-gen, conversions and page growth that pay for themselves.",
-    tags: ["Meta Ads", "Lead-gen", "Conversions"],
-  },
-  {
-    num: "02",
-    slug: "creative-ad-design",
-    category: "Marketing",
-    title: "Creative & Ad Design",
-    desc: "Scroll-stopping static and video built to sell, not just to look good.",
-    tags: ["Static", "Video", "Creative"],
-  },
-  {
-    num: "03",
-    slug: "ecommerce-growth",
-    category: "Marketing",
-    title: "E-commerce Growth",
-    desc: "Shopify stores managed and tuned to turn traffic into paid orders.",
-    tags: ["Shopify", "CRO", "Growth"],
-  },
-  {
-    num: "04",
-    slug: "full-funnel-campaigns",
-    category: "Marketing",
-    title: "Full-Funnel Campaigns",
-    desc: "From first impression to purchase, across any vertical or niche.",
-    tags: ["Awareness", "Funnel", "Multi-channel"],
-  },
   // AI Automation
   {
     num: "01",
@@ -112,6 +86,39 @@ export const services: Service[] = [
     title: "Content Engines",
     desc: "SEO articles researched, written, illustrated and published on schedule, holding a steady cadence with no copywriter on payroll.",
     tags: ["SEO", "Content", "Publishing"],
+  },
+  // Marketing
+  {
+    num: "01",
+    slug: "paid-social-advertising",
+    category: "Marketing",
+    title: "Paid Social Advertising",
+    desc: "Meta lead-gen, conversions and page growth that pay for themselves.",
+    tags: ["Meta Ads", "Lead-gen", "Conversions"],
+  },
+  {
+    num: "02",
+    slug: "creative-ad-design",
+    category: "Marketing",
+    title: "Creative & Ad Design",
+    desc: "Scroll-stopping static and video built to sell, not just to look good.",
+    tags: ["Static", "Video", "Creative"],
+  },
+  {
+    num: "03",
+    slug: "ecommerce-growth",
+    category: "Marketing",
+    title: "E-commerce Growth",
+    desc: "Shopify stores managed and tuned to turn traffic into paid orders.",
+    tags: ["Shopify", "CRO", "Growth"],
+  },
+  {
+    num: "04",
+    slug: "full-funnel-campaigns",
+    category: "Marketing",
+    title: "Full-Funnel Campaigns",
+    desc: "From first impression to purchase, across any vertical or niche.",
+    tags: ["Awareness", "Funnel", "Multi-channel"],
   },
 ];
 
@@ -193,6 +200,21 @@ export const systems: SystemAnatomy[] = [
       { step: "Result", action: "Published", tool: "Webflow" },
     ],
   },
+  {
+    // Pilot service page's automated chain — matches the real mechanism
+    // description already in Red-Elevators-AI-Portfolio.pdf ("Outreach that
+    // researches itself"), not a client-specific claim. Added 12 Sep 2026.
+    label: "Sales & Outreach Systems",
+    title: "Every prospect gets research, not a template",
+    desc: "A raw lead list is researched across each prospect's site and public presence, then a personalized email is drafted — no generic template, no manual digging.",
+    nodes: [
+      { step: "Trigger", action: "Lead list", tool: "Airtable" },
+      { step: "Step 01", action: "Research", tool: "n8n" },
+      { step: "Step 02", action: "Personalize", tool: "OpenAI" },
+      { step: "Step 03", action: "Send", tool: "n8n" },
+      { step: "Result", action: "Logged", tool: "HighLevel" },
+    ],
+  },
 ];
 
 // Service page content — workstream E, docs/brief-service-page.md. Keyed by
@@ -215,8 +237,27 @@ export type ServicePage = {
   manualChain?: ManualStep[];
 };
 
-// Empty until a service gets real, owner-supplied content — see the type
-// comment above. The old "sales-follow-up" entry was removed 12 Sep 2026
-// when the services taxonomy was rebuilt around the real Marketing / AI
-// Automation pillars; it no longer matches any current slug.
-export const serviceDetails: Record<string, ServicePage> = {};
+// The old "sales-follow-up" entry was removed 12 Sep 2026 when the services
+// taxonomy was rebuilt around the real Marketing / AI Automation pillars; it
+// no longer matched any current slug. "sales-outreach-systems" below is the
+// new pilot (docs/brief-service-page.md decision 1) — its manual chain is
+// generic, industry-typical descriptive copy of how outbound prospecting
+// commonly works without this system, not a claim about any specific client,
+// so it doesn't fall under PRODUCT.md's evidence-clearance rule the way a
+// named case study would.
+export const serviceDetails: Record<string, ServicePage> = {
+  "sales-outreach-systems": {
+    feltCost: [
+      "Prospecting stalls the moment nobody has an afternoon free to do it.",
+      "A generic template gets ignored, and the lead never hears from you again.",
+    ],
+    humanCheckpoint:
+      "The system researches, personalizes and sends the first email — a person still owns every reply and every real conversation once a prospect responds. Nothing but the first touch runs on its own.",
+    manualChain: [
+      { note: "Someone scrolls LinkedIn and company sites one prospect at a time" },
+      { note: "Notes get typed into a spreadsheet by hand" },
+      { note: "The same generic template goes out to everyone" },
+      { note: "Follow-up happens only when someone remembers" },
+    ],
+  },
+};

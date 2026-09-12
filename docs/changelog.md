@@ -5,6 +5,33 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — Pilot service page live: Sales & Outreach Systems
+
+`/services/sales-outreach-systems` is the first live service detail page — the workstream E pilot,
+per `brief-service-page.md`.
+
+- **AI Automation now leads the taxonomy**, Marketing second — reordered site-wide (`services`
+  array, the `/services` index, the home page grid). It's the harder-to-copy, higher-value pillar
+  and the one the site's whole mechanism-led design language (System Anatomy, the red pulse) is
+  actually about; Marketing is one thing that gets automated, not the differentiator.
+- **Pilot picked: `Sales & Outreach Systems`**, not the original `Sales & follow-up` (which no
+  longer exists post-rebuild). Chosen because it already has a real mechanism description in
+  `Red-Elevators-AI-Portfolio.pdf` ("Outreach that researches itself") to build an honest System
+  Anatomy chain from, rather than inventing one: Lead list (Airtable) → Research (n8n) → Personalize
+  (OpenAI) → Send (n8n) → Logged (HighLevel). Added `HighLevel` to the tools marquee to match.
+- **Manual "today" chain written**, not owner-supplied this time — the user explicitly delegated
+  this. It's generic, industry-typical descriptive copy of how outbound prospecting commonly works
+  without this system (nobody's name, no metric), so it doesn't fall under the case-study clearance
+  rule the same way a named example would.
+- Fixed two bugs surfaced by the pilot going live: the page header's "of 06" was stale from the old
+  6-service count (now shows the category-scoped count, e.g. "AI Automation · 03 of 04"); the
+  related-services block was rendering all 7 other services instead of the brief's specified 2-3
+  (now same-category, capped at 3).
+- **Not reconciled:** the home page's 3 pre-rebuild System Anatomy chains still carry old service
+  names — flagged in `site-plan.md`, not fixed here.
+
+---
+
 ## 2026-09-12 — Services rebuilt around the real two-pillar taxonomy
 
 The user shared two portfolio decks (`Red-Elevators-Marketing-Portfolio.pdf`,

@@ -34,7 +34,9 @@ export default async function ServicePage({
     notFound();
   }
 
-  const related = services.filter((s) => s.slug !== slug);
+  const related = services
+    .filter((s) => s.slug !== slug && s.category === service.category)
+    .slice(0, 3);
   const tools = Array.from(new Set(automated.nodes.map((n) => n.tool)));
 
   return (
@@ -43,7 +45,7 @@ export default async function ServicePage({
       <Nav />
       <main>
         <PageHeader
-          label={`Services · ${service.num} of 06`}
+          label={`${service.category} · ${service.num} of 04`}
           title={service.title}
           intro={service.desc}
           actions={
@@ -106,7 +108,7 @@ export default async function ServicePage({
         <section className="mx-auto max-w-6xl px-6 py-16">
           <span className="font-mono-label">Related services</span>
           <h2 className="mt-4 text-[clamp(1.9rem,4vw,3rem)] font-semibold tracking-tight">
-            Stay inside the six.
+            More like this.
           </h2>
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {related.map((s) => (
