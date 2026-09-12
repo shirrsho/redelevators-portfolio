@@ -140,9 +140,13 @@ it. Items 3 and 4 are still undesigned and remain open.
    headline + intro rhythm, optional actions slot. Renders the page's one `<h1>`.
 3. **Long-form typography.** No prose rules exist — paragraph rhythm, lists, pull quotes, inline
    links, images with captions, code blocks. Required before any article ships. Still undesigned.
-4. **Navigation that scales.** The nav is flat anchor links to sections of one page. Six service
-   pages plus resources needs real routing, a dropdown or mega-menu, and an active-page state.
-   Still undesigned.
+4. **Navigation that scales.** The nav is flat anchor links to sections of one page. Eight service
+   pages plus resources needs real routing, a dropdown or mega-menu, and an active-page state. The
+   dropdown/mega-menu/active-state redesign is still undesigned. **Fixed 12 Sep 2026, a correctness
+   bug, not the redesign:** every nav link and the logo were bare same-page anchors (`#top`,
+   `#systems`) that only worked on the page that happened to define that id — broken on every page
+   except home. Logo and nav links now use `next/link` with absolute paths; the logo smooth-scrolls
+   on the home page and navigates home from anywhere else. See `docs/changelog.md`.
 5. **404, error and empty states — 404 ✅ done, error/empty still open.** `src/app/not-found.tsx`:
    reuses Nav/Footer, mono-label + headline + two links home. Deliberately plain — a fuller
    error-state system (form validation states already exist via workstream D item 1; a dedicated
@@ -163,9 +167,9 @@ Build in this order. Each page ships complete before the next starts.
 | Order | Page | Purpose | Notes |
 |---|---|---|---|
 | 1 | **Home** | Convert | Exists. Cleaned by workstream A. |
-| 2 | **Services index + 8 service pages** | SEO + depth | **Index live** (`/services`), taxonomy rebuilt 12 Sep 2026 around the real two pillars — AI Automation leads, then Marketing (site-wide ordering decision, same date) — from the company's own portfolio decks, see `PRODUCT.md` → *Evidence on Hand*. **First detail page live:** `/services/sales-outreach-systems`, the workstream's pilot per `brief-service-page.md`. The other 7 have no page yet — each needs its own manual "today" chain (generic, not client-specific) before it can ship. Real case-study content (named clients, screenshots, metrics) exists but remains **explicitly not cleared for the public site** — never source detail-page content from the decks' client specifics. |
+| 2 | **Services index + 8 service pages — ✅ ALL LIVE 12 Sep 2026** | SEO + depth | Index (`/services`) and all eight detail pages shipping. Taxonomy rebuilt around the real two pillars — AI Automation leads, then Marketing (site-wide ordering decision) — from the company's own portfolio decks, see `PRODUCT.md` → *Evidence on Hand*. Every service has a real, generic (not client-specific) manual chain, felt-cost line, human checkpoint and System Anatomy — see `brief-service-page.md`. Real case-study content (named clients, screenshots, metrics) exists but remains **explicitly not cleared for the public site** — never source detail-page content from the decks' client specifics. |
 | 3 | **Approach** | Credibility | Expands Audit → Design → Build → Run into a full page. Needs no proof, and it is the page that closes a hesitant buyer. |
-| 4 | **Systems / Teardowns** | Case-study substitute | Anonymized, mechanism-led, honest. Becomes real case studies later when permission and numbers exist. **Note (12 Sep 2026):** the home page's `systems` data (`src/lib/content.ts`) now has 4 chains — 3 still labelled with the pre-rebuild names ("Sales & follow-up" / "Ops & reporting" / "Marketing automation", none of which match the current 8-service taxonomy) plus 1 new, correctly-named "Sales & Outreach Systems" added for the service-page pilot. The 3 old ones are still unreconciled; fold this into whenever this page is built. |
+| 4 | **Systems / Teardowns** | Case-study substitute | Anonymized, mechanism-led, honest. Becomes real case studies later when permission and numbers exist. **Reconciled 12 Sep 2026:** `systems` (`src/lib/content.ts`) now has exactly 8 entries, one per real service, each `label` matching a `services[].title`. The 3 pre-rebuild entries ("Sales & follow-up" / "Ops & reporting" / "Marketing automation") were removed as superseded, not left alongside the new ones. `Systems.tsx` shows a curated 3-item slice on the home page rather than all 8, to avoid burying the section under detail-page-length content. |
 | 5 | **About** | Trust | With no case studies, who we are *is* the trust asset. Do not skip it. |
 | 6 | **Contact** | Convert | Currently Calendly + mailto only. Needs the form system from workstream D. |
 | 7 | **Blog / Resources** | SEO | **Conditional — see open decisions.** |

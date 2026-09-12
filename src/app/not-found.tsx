@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
+import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 
 /**
@@ -7,7 +8,10 @@ import { Footer } from "@/components/Footer";
  * ship; kept deliberately plain rather than inventing a fuller "error state
  * system" ahead of the brief that gap still needs (see DESIGN.md → Planned
  * system extensions). Reuses Nav/Footer so a wrong turn still feels like
- * this site, not a framework default.
+ * this site, not a framework default. Renders CTA too, added 12 Sep 2026 —
+ * PRODUCT.md's One Destination rule says every page resolves to the call,
+ * and without it Nav's "Book a call" (a bare `#contact` anchor) had nothing
+ * on this page to scroll to.
  */
 export default function NotFound() {
   return (
@@ -38,6 +42,7 @@ export default function NotFound() {
           </div>
         </div>
       </main>
+      <CTA />
       <Footer />
     </>
   );

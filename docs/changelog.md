@@ -5,6 +5,54 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — All 8 service pages live; navigation correctness fixes
+
+**All eight service pages now live** (`src/lib/content.ts` → `serviceDetails`, `systems`). The
+remaining 7 (beyond the `sales-outreach-systems` pilot) each got a real, generic, non-client-specific
+feltCost / humanCheckpoint / manualChain and a matching System Anatomy chain, grounded in the two
+portfolio decks' own service descriptions (never their named-client specifics — still not cleared,
+per PRODUCT.md).
+
+- **`systems` reconciled**: went from 3 pre-rebuild entries with stale labels ("Sales & follow-up",
+  "Ops & reporting", "Marketing automation" — none matching any current service) to exactly 8, one
+  per real service, `label` matching `services[].title`. The 3 old ones were removed, not left
+  alongside the new ones.
+- **`Systems.tsx` now shows a curated 3-item slice**, not the whole array — with 8 real chains,
+  rendering all of them on the home page would have buried the section under detail-page-length
+  content. Added a "View all services" link (same pattern as `Services.tsx`) so the rest are still
+  reachable. Fixed the intro copy, which hardcoded "Three of the systems we build" and would have
+  been wrong the moment a 4th entry existed.
+- Added `Telegram`, `Canva`, `Shopify` to the tools marquee — each newly referenced in a System
+  Anatomy chain, each confirmed real via one of the two decks' own stack lists.
+
+**Navigation audit and fixes** (user-reported: clicking the logo from a service page misbehaved).
+Found by grepping every `href` in the codebase, not just the reported case:
+
+- **The logo was `href="#top"`.** `#top` only resolves to something on the home page (the only
+  place an element with that id exists) — on every other page it silently scrolled the *current*
+  page instead of going home. Fixed: `Link href="/"`, with an `onClick` that smooth-scrolls instead
+  of navigating when already on the home page (`usePathname()`-gated).
+- **`Nav`'s three links were plain `<a>` tags**, including two (`Process`, `Systems`) already fixed
+  to absolute paths (`/#process`, `/#systems`) in an earlier session but never upgraded to
+  `next/link` — meaning every nav click did a full page reload instead of a client-side transition.
+  Converted to `Link`, including the mobile menu (`motion.a` → `motion.div` wrapping `Link`, to keep
+  the entrance stagger animation without fighting Link's own click handling).
+- **`CTA.tsx`'s "See how it works" was a bare `href="#systems"`.** `CTA` renders on `/services` and
+  every `/services/[slug]` page, none of which have an element with `id="systems"` — silently did
+  nothing there. Fixed to `/#systems` via `Link` (ESLint's `no-html-link-for-pages` caught the first
+  pass, which used a plain `<a>`).
+- **`not-found.tsx` had no `#contact` element**, so `Nav`'s "Book a call" (a same-page anchor by
+  design, since it works everywhere else) resolved to nothing on the 404 page. Fixed by adding
+  `<CTA />` to that page — which also satisfies PRODUCT.md's One Destination rule, which the 404
+  page was quietly violating by not ending in the call-to-action every other page does.
+- Verified every fix live: real mouse clicks (not just DOM inspection) from a scrolled-down service
+  page to the logo, from `/services` to Process/Systems, the mobile menu on a service page, and the
+  404 page's now-working CTA. A transient "duplicate key" console warning during testing turned out
+  to be Docker's dev-server HMR websocket, not a real bug — confirmed clean against a production
+  build with zero console errors.
+
+---
+
 ## 2026-09-12 — Pilot service page live: Sales & Outreach Systems
 
 `/services/sales-outreach-systems` is the first live service detail page — the workstream E pilot,

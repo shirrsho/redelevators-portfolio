@@ -1,13 +1,14 @@
 # Design brief — service page
 
-**Status: live.** `/services/sales-outreach-systems` is the first real service page, built and
-shipping 12 September 2026 after the taxonomy rebuild (two pillars, Marketing and AI Automation,
-eight services — see `PRODUCT.md` → *Evidence on Hand*). The original pilot, **Sales & follow-up**,
-no longer exists as a service and was replaced by **Sales & Outreach Systems** — the closest match
-by name, though its actual mechanism (outbound lead research + personalized email) differs from
-the old pilot's (inbound speed-to-lead routing); its manual chain and System Anatomy were written
-fresh, not ported. The other seven services have no detail page yet — each needs its own manual
-chain before it can go live, same as this one did.
+**Status: all eight live.** `/services/sales-outreach-systems` was the first, built 12 September
+2026 after the taxonomy rebuild (two pillars, Marketing and AI Automation — see `PRODUCT.md` →
+*Evidence on Hand*); the other seven followed the same day. The original pilot, **Sales &
+follow-up**, no longer exists as a service and was replaced by **Sales & Outreach Systems** — the
+closest match by name, though its actual mechanism (outbound lead research + personalized email)
+differs from the old pilot's (inbound speed-to-lead routing); its manual chain and System Anatomy
+were written fresh, not ported. Every service now has its own manual chain, felt cost, human
+checkpoint and System Anatomy — all generic, mechanism-level content, none of it sourced from the
+portfolio decks' named clients.
 
 Companion to [`site-plan.md`](site-plan.md) (workstream E, item 2). Product truth in
 [`../PRODUCT.md`](../PRODUCT.md); visual rules in [`../DESIGN.md`](../DESIGN.md); components in the
@@ -146,12 +147,9 @@ combination of them absent.
    and because it has an already-written real mechanism description in
    `Red-Elevators-AI-Portfolio.pdf` ("Outreach that researches itself") to build the automated
    chain from honestly, rather than inventing one.
-2. **The manual "today" chain per service — done for the pilot, still open for the other seven.**
-   `Sales & Outreach Systems`'s chain is generic, industry-typical descriptive copy of how outbound
-   prospecting commonly works without this system — not a claim about any specific client, so it
-   doesn't need the evidence clearance a named case study would. Each remaining service still needs
-   its own: 3-5 short steps, each naming who does it or what it waits on (no durations, no
-   percentages).
+2. **The manual "today" chain per service — done, all eight.** Each is generic, industry-typical
+   descriptive copy of how that kind of work commonly happens without the system — not a claim
+   about any specific client, so none of it needs the evidence clearance a named case study would.
 3. **Whether block 7 ships at launch — decided.** No. The brief's own states table already put
    Depth items at 0 for launch; block 7 is omitted from the built page entirely.
 4. **URL scheme — decided.** `/services/[slug]`, `generateStaticParams`-gated on content

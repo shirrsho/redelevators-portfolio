@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from "motion/react";
 import { Wordmark } from "./Mark";
 import { nav } from "@/lib/content";
@@ -9,12 +11,25 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
+  const pathname = usePathname();
 
   useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 24));
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
+
+  // The logo always goes home from anywhere on the site. On the home page
+  // itself there's nowhere to navigate to, so it smooth-scrolls to top
+  // instead — this used to be a bare `href="#top"`, which only worked on
+  // the home page (the only place an element with id="top" exists) and
+  // silently did nothing everywhere else. Fixed 12 Sep 2026.
+  function handleLogoClick(e: React.MouseEvent) {
+    if (pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
 
   return (
     <>
@@ -31,19 +46,19 @@ export function Nav() {
               : "border-transparent bg-transparent"
           }`}
         >
-          <a href="#top" aria-label="Red Elevators home">
+          <Link href="/" onClick={handleLogoClick} aria-label="Red Elevators home">
             <Wordmark size={17} />
-          </a>
+          </Link>
 
           <nav className="hidden items-center gap-1 md:flex">
             {nav.map((n) => (
-              <a
+              <Link
                 key={n.href}
                 href={n.href}
                 className="rounded-lg px-3.5 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-cream hover:text-ink"
               >
                 {n.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -91,17 +106,20 @@ export function Nav() {
           >
             <div className="flex flex-col gap-2 px-6 pt-28">
               {nav.map((n, i) => (
-                <motion.a
+                <motion.div
                   key={n.href}
-                  href={n.href}
-                  onClick={() => setOpen(false)}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 * i }}
-                  className="border-b border-line py-4 font-[family-name:var(--font-display)] text-2xl font-semibold text-ink"
                 >
-                  {n.label}
-                </motion.a>
+                  <Link
+                    href={n.href}
+                    onClick={() => setOpen(false)}
+                    className="block border-b border-line py-4 font-[family-name:var(--font-display)] text-2xl font-semibold text-ink"
+                  >
+                    {n.label}
+                  </Link>
+                </motion.div>
               ))}
               <a
                 href="#contact"

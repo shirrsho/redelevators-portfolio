@@ -491,8 +491,7 @@ identically at every width without a side-by-side layout that risks horizontal s
 - **Automated chain:** the System Anatomy component, reused rather than reinvented — this page adds
   no second proof device.
 - **Server component**, like System Anatomy: nothing here depends on hydration.
-- Pilot: `Sales & follow-up`. Ships only once its manual chain is real — see `site-plan.md`
-  workstream E.
+- All eight services shipping as of 12 September 2026 — see `site-plan.md` workstream E.
 
 ### Form Controls
 

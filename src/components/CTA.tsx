@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "motion/react";
 import { Reveal } from "./Reveal";
 
@@ -59,12 +60,16 @@ export function CTA() {
               >
                 Book a free Call
               </a>
-              <a
-                href="#systems"
+              {/* Absolute path via Link, not a bare `#systems` anchor — CTA
+                  renders on /services and /services/[slug] too, which have
+                  no element with id="systems". A bare anchor silently did
+                  nothing there. Fixed 12 Sep 2026. */}
+              <Link
+                href="/#systems"
                 className="rounded-xl border border-white/40 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
               >
                 See how it works
-              </a>
+              </Link>
             </div>
           </Reveal>
         </div>
