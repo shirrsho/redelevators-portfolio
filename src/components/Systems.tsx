@@ -4,8 +4,8 @@ import { Reveal } from "./Reveal";
 import { SystemAnatomy } from "./SystemAnatomy";
 import { systems } from "@/lib/content";
 
-// A curated preview, not the whole catalog — one per real service now exists
-// (see src/lib/content.ts), and stacking all of them here would bury the
+// A curated preview, not the whole catalog — the full 8 live at /systems
+// (src/app/systems/page.tsx). Stacking all of them here would bury the
 // section under Handover-page-length content instead of teasing it. Update
 // this count, not the copy below, if the curated set ever changes size.
 const HIGHLIGHT_COUNT = 3;
@@ -45,11 +45,11 @@ export function Systems() {
 
         <div className="mt-10 flex justify-center">
           <Link
-            href="/services"
+            href="/systems"
             scroll={false}
             className="rounded-xl border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-cream"
           >
-            View all services
+            View all systems
           </Link>
         </div>
       </div>
