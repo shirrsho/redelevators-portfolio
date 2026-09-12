@@ -112,7 +112,8 @@ product. Every primary CTA on the site currently resolves to that call.
   `.github/workflows/deploy-dev.yml`, a fully isolated copy of the production pipeline — own image
   tags (`:dev`, never `:latest`), own VPS directory (`redelevators-portfolio-dev`), own compose
   file (`docker-compose.staging.yml`, no `cloudflared` service), published on
-  `127.0.0.1:6002` instead of production's `6001`. The owner is adding a `dev.redelevators.com`
+  `127.0.0.1:6003` instead of production's `6001` (6002 was tried first but was already in use by
+  an unrelated container on the VPS). The owner is adding a `dev.redelevators.com`
   ingress rule to the *existing* Cloudflare Tunnel themselves, pointed at that port — nothing here
   provisions a second tunnel. The build sets `NOINDEX=true` (a Docker build arg, baked in at
   `next build` time since every route is static/SSG) so this environment emits `noindex, nofollow`

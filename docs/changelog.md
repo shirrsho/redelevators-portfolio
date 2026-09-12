@@ -5,6 +5,16 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — Dev environment moved to port 6003
+
+First deploy of the `dev` branch failed: `docker compose up -d` couldn't bind `127.0.0.1:6002` —
+`docker ps` on the VPS showed it was already held by an unrelated, pre-existing container
+(`leaderbot`), not by anything of ours. Owner's call: move dev to `127.0.0.1:6003` rather than
+touch `leaderbot`. Updated `docker-compose.staging.yml`; `deploy-dev.yml` needed no change since it
+only ever reads the port from that file.
+
+---
+
 ## 2026-09-12 — Internal preview environment: the `dev` branch
 
 Pushing `dev` now deploys to `dev.redelevators.com` for internal review — explicitly not a launch;

@@ -14,9 +14,13 @@ services:
     image: itzwasik/redelevators-portfolio:dev
     restart: unless-stopped
     ports:
-      # Loopback-only, same convention as production's 6001 — reachable at
-      # 127.0.0.1:6002 on the VPS for the owner's proxy to pick up.
-      - "127.0.0.1:6002:3000"
+      # Loopback-only, same convention as production's 6001. Originally
+      # 6002, moved to 6003 (12 Sep 2026) — 6002 turned out to already be
+      # in use by an unrelated, pre-existing container (`leaderbot`) on the
+      # VPS, confirmed via `docker ps` after the first deploy attempt
+      # failed with "port is already allocated". Reachable at
+      # 127.0.0.1:6003 on the VPS for the owner's proxy to pick up.
+      - "127.0.0.1:6003:3000"
     env_file:
       - .env
     environment:
