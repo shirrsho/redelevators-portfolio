@@ -5,6 +5,30 @@ this file records what has been done against it.
 
 ---
 
+## 2026-09-12 — Workstream D: forms, page header, focus-visible
+
+Ports three of the four design-system gaps already designed in the styleguide into React (site
+plan workstream D, items 1, 2 and 7). Item 6 (The Reading Calm Rule) needed no code change — it's
+recorded in `DESIGN.md` and governs a long-form page type that doesn't exist yet. Items 3
+(long-form typography), 4 (scaling navigation) and 5 (404/error/empty states) remain undesigned.
+
+- **Form controls** (`src/components/Form.tsx`): `Field`, `FieldLabel`, `FieldHint`, `FieldError`,
+  `FieldOk`, `TextInput`, `Textarea`, `Select`, `Checkbox`. One deviation from the styleguide mock:
+  its success state used green (`#1c7c4a`), which breaks The Single Voice Rule — shipped instead in
+  neutral Ink-soft with a check icon. Error text uses Red Text (`#E2101E`, from the 12 Sep
+  accessibility fix), not the primary red, since it's small text.
+- **Page header** (`src/components/PageHeader.tsx`): the mono-label/headline/intro rhythm for every
+  non-home page, without the hero's chart, with an optional CTA-actions slot.
+- **Focus-visible** (`globals.css`): a global `:focus-visible` outline (2px solid Elevator Red, 3px
+  offset), inverted to white inside `#process` and `#contact` so it survives all four grounds.
+  Verified live by tabbing to a control on each ground and reading the computed outline color, not
+  by eye.
+
+Both new components were verified against a temporary, unlinked preview route, deleted before this
+commit — they have no page to live on until workstream E's service pages and contact page exist.
+
+---
+
 ## 2026-09-12 — Cascade layers, hero first paint, and all three accessibility fixes
 
 Workstreams C and F of the site plan.

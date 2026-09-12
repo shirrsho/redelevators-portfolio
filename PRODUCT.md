@@ -92,9 +92,10 @@ product. Every primary CTA on the site currently resolves to that call.
 - **Case studies are replaced by Systems/Teardowns for now** — anonymized, mechanism-led pages
   that make no unverifiable claim. They convert into real case studies once results are measured
   and cleared. See *Proof strategy* above.
-- **The design system does not yet cover a multi-page site.** No form controls of any kind, no
-  page-header pattern, no long-form prose styles, no scaling navigation, no 404 or empty states,
-  and no focus-visible styling anywhere. These are tracked as workstream D in the site plan.
+- **The design system does not yet fully cover a multi-page site.** Form controls, the page-header
+  pattern and focus-visible styling shipped 12 September 2026. Still missing: long-form prose
+  styles, scaling navigation past anchor links, and 404/error/empty states. Tracked as workstream D
+  in the site plan.
 - **Stack (existing, not up for re-decision):** Next.js 16 App Router, React 19, TypeScript,
   Tailwind CSS v4 (`@theme` tokens in `src/app/globals.css`), `motion` for animation.
   Content is centralized in `src/lib/content.ts`.

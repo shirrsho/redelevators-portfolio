@@ -671,7 +671,7 @@ footer{padding:56px 0 72px}
     <div class="sechead">
       <span class="label">07 — Proposed</span>
       <h2>Designed here first, built next.</h2>
-      <p>Designed here so the decisions are made once, in the system, rather than improvised on whichever page needs them first. System Anatomy has since shipped; the three below are still unbuilt.</p>
+      <p>Designed here so the decisions are made once, in the system, rather than improvised on whichever page needs them first. System Anatomy, form controls, focus states and the page header have since shipped.</p>
     </div>
 
     <div class="sub">
@@ -718,8 +718,8 @@ footer{padding:56px 0 72px}
     </div>
 
     <div class="sub">
-      <h3>Form controls <span class="status status--proposed"><i></i>Proposed</span></h3>
-      <p class="sub__note">Not one input, label, textarea, checkbox, error or success state exists in the codebase today, because the only conversion path is Calendly. Fields take the 12px control radius. Focus is a red border plus a soft red ring — never a removed outline.</p>
+      <h3>Form controls <span class="status status--built"><i></i>Built &middot; shipping</span></h3>
+      <p class="sub__note">Shipped 12 September 2026 as <span class="mono" style="font-size:.8125rem">Form.tsx</span> — <span class="mono" style="font-size:.8125rem">Field</span>, <span class="mono" style="font-size:.8125rem">TextInput</span>, <span class="mono" style="font-size:.8125rem">Textarea</span>, <span class="mono" style="font-size:.8125rem">Select</span>, <span class="mono" style="font-size:.8125rem">Checkbox</span>. Fields take the 12px control radius. Focus is a red border plus a soft red ring — never a removed outline. One change from this mock: the success state below shipped in neutral Ink-soft rather than green, which would have broken The Single Voice Rule.</p>
       <form class="formgrid" onsubmit="return false">
         <div class="field">
           <label for="f-name">Name</label>
@@ -749,8 +749,8 @@ footer{padding:56px 0 72px}
     </div>
 
     <div class="sub">
-      <h3>Focus states on every ground <span class="status status--proposed"><i></i>Proposed</span></h3>
-      <p class="sub__note">No <span class="mono" style="font-size:.8125rem">:focus-visible</span> treatment exists anywhere in the codebase today. A single outline color cannot serve this system — it has four grounds. Tab into the buttons below to see each one.</p>
+      <h3>Focus states on every ground <span class="status status--built"><i></i>Built &middot; shipping</span></h3>
+      <p class="sub__note">Shipped 12 September 2026 as a global <span class="mono" style="font-size:.8125rem">:focus-visible</span> rule in <span class="mono" style="font-size:.8125rem">globals.css</span>, inverted to white inside the Graphite and red-panel sections. A single outline color cannot serve this system — it has four grounds. Tab into the buttons below to see each one.</p>
       <div class="grounds">
         <div class="ground g-paper"><span class="ground__n">Paper</span><button class="fdemo" type="button">Tab to me</button></div>
         <div class="ground g-chalk"><span class="ground__n">Chalk</span><button class="fdemo" type="button">Tab to me</button></div>
@@ -760,8 +760,8 @@ footer{padding:56px 0 72px}
     </div>
 
     <div class="sub">
-      <h3>Page header <span class="status status--proposed"><i></i>Proposed</span></h3>
-      <p class="sub__note">The hero is bespoke and home-only. Every other page needs a shorter band carrying the same mono-label and headline rhythm without the chart — enough to establish the page, not enough to delay it.</p>
+      <h3>Page header <span class="status status--built"><i></i>Built &middot; shipping</span></h3>
+      <p class="sub__note">Shipped 12 September 2026 as <span class="mono" style="font-size:.8125rem">PageHeader.tsx</span>. The hero is bespoke and home-only; every other page opens with this shorter band instead — the same mono-label and headline rhythm without the chart, plus an optional actions slot for CTAs.</p>
       <div class="pagehead">
         <span class="label">Services &middot; 03 of 06</span>
         <h3>Sales &amp; follow-up</h3>

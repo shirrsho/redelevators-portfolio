@@ -6,7 +6,9 @@ produced the fix items lives in [`design-audit-2026-09-09.md`](design-audit-2026
 
 **Status:** approved 9 September 2026. **Workstreams A, B, C and F are complete** (truth pass
 shipped, System Anatomy built, cascade layers and hero first-paint fixed, all three open
-accessibility failures resolved). D and E remain. Shipped detail in [`changelog.md`](changelog.md).
+accessibility failures resolved). **D is partially done** — forms, the page header and
+focus-visible shipped 12 September; long-form typography, scaling navigation and error/empty
+states are still undesigned. E remains. Shipped detail in [`changelog.md`](changelog.md).
 
 **Styleguide:** the system is viewable and interactive at
 <https://claude.ai/code/artifact/59fa371d-2124-4966-b133-508fdddf88fc> (private artifact,
@@ -122,33 +124,32 @@ JS hydrates; if JS fails the page is blank above the fold. Animate from a visibl
 move the reveal to CSS, or mirror the safety-timeout pattern `Counter` already uses. Audit finding
 F4.
 
-### D — Design system gaps (P1)
+### D — Design system gaps (P1) — items 1, 2, 6 and 7 ✅ DONE 12 Sep 2026
 
-`DESIGN.md` documents a one-page site. These are the pieces a multi-page site needs that do not
-exist yet. Build each one *into the system* — tokens, states, and a sidecar entry — not ad hoc on
-the page that first needs it.
+`DESIGN.md` documents a one-page site. These are the pieces a multi-page site needs. Build each one
+*into the system* — tokens, states, and a sidecar entry — not ad hoc on the page that first needs
+it. Items 3, 4 and 5 are still undesigned and remain open.
 
-**Items 1, 2, 6 and 7 are already designed in the styleguide** — port them from
-`docs/design-system.html` into React rather than redesigning them. Items 3, 4 and 5 are still
-undesigned.
-
-1. **Forms.** There is not a single input, label, textarea, select, checkbox, error state or
-   success state in the codebase, because the only conversion path is Calendly. A contact page
-   needs the full set, designed to the Radius Ladder or they will look borrowed. Include focus
-   states — see gap 7.
-2. **Page header pattern.** The hero is bespoke and home-only. Every other page needs a shorter
-   header band carrying the mono-label + headline rhythm without the chart.
+1. **Forms — ✅ done.** `src/components/Form.tsx`: `Field`, `FieldLabel`, `FieldHint`,
+   `FieldError`, `FieldOk`, `TextInput`, `Textarea`, `Select`, `Checkbox`, at the 12px control
+   radius, with focus states (gap 7). One deviation from the styleguide mock: its green success
+   state became neutral Ink-soft, since green breaks The Single Voice Rule.
+2. **Page header pattern — ✅ done.** `src/components/PageHeader.tsx`: Chalk band, mono-label +
+   headline + intro rhythm, optional actions slot. Renders the page's one `<h1>`.
 3. **Long-form typography.** No prose rules exist — paragraph rhythm, lists, pull quotes, inline
-   links, images with captions, code blocks. Required before any article ships.
+   links, images with captions, code blocks. Required before any article ships. Still undesigned.
 4. **Navigation that scales.** The nav is flat anchor links to sections of one page. Six service
    pages plus resources needs real routing, a dropdown or mega-menu, and an active-page state.
-5. **404, error and empty states.** None exist.
-6. **A motion rule for reading contexts.** Reveal-on-scroll is right for a landing page and
-   actively annoying in a 2,000-word article. Recorded in `DESIGN.md` as **The Reading Calm
-   Rule**; the components have to honor it.
-7. **Focus-visible styling.** No `:focus-visible` treatment was found anywhere in the codebase.
-   Every interactive element needs one, and it must survive on Paper, Chalk, Graphite and the red
-   CTA panel.
+   Still undesigned.
+5. **404, error and empty states.** None exist. Still undesigned.
+6. **A motion rule for reading contexts — ✅ recorded, nothing to build yet.** The Reading Calm Rule
+   is documented in `DESIGN.md`; it governs long-form pages (gap 3), which don't exist yet, so
+   there is no component to apply it to until then.
+7. **Focus-visible styling — ✅ done.** Global `:focus-visible` rule in `globals.css` (`@layer
+   base`): 2px solid Elevator Red, 3px offset, inverted to white inside `#process` and `#contact`.
+   Verified by tabbing to a control on each of Paper, Chalk, Graphite and the red panel and reading
+   its computed outline color. Form controls use a different, equally visible ring-based treatment
+   by design — see gap 1.
 
 ### E — Page architecture (P2)
 

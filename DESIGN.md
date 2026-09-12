@@ -478,14 +478,43 @@ Chalk ground at 96px rhythm; each system is a Paper panel at 24px radius with 28
 (36px from `sm`), flat with a hairline border — anatomies never rest on a shadow. Panel heading is
 title-size stepping to 24px, with the service line named in a bordered chip on the same baseline.
 
+### Form Controls
+
+**Built** 12 September 2026 (`src/components/Form.tsx`), ported from the "Form controls" proposal
+in the styleguide. `Field`, `FieldLabel`, `FieldHint`, `FieldError`, `FieldOk`, `TextInput`,
+`Textarea`, `Select`, `Checkbox` — a small, composable set rather than one monolithic component, so
+a page assembles only the fields it needs.
+
+- **Fields:** 12px radius (the control rung of the Radius Ladder), 1px Hairline border, Paper
+  ground, `12px 14px` padding. Placeholder in Muted; hover darkens the border toward `ink/30`.
+- **Focus is a red border plus a soft ring** (`box-shadow: 0 0 0 3px` at 14% red), not the global
+  `:focus-visible` outline — inputs get `outline: none` on focus deliberately, because an outline
+  around an already-bordered rounded rectangle reads as a doubled edge. This is the one place the
+  system intentionally overrides The Visible Focus Rule's default treatment with an equally visible
+  alternative built for the control shape.
+- **Error state:** border and icon in Red Text (`#E2101E`), never the primary `#FF2D3B` — this is
+  small text, so The Contrast Floor Rule applies. `role="alert"` on the message.
+- **Deviation from the styleguide mock:** its success state used green (`#1c7c4a`). Shipped instead
+  in neutral Ink-soft with a check icon — a second hue would have broken The Single Voice Rule, and
+  that rule outranks a proposal mock that predates it being checked against this component.
+- **Checkbox:** custom, `appearance-none`, 18px, 6px radius, fills Elevator Red with a white
+  checkmark when checked. The checkmark is a layered SVG toggled by `:checked`, not a CSS `content`
+  trick, so it renders identically across browsers.
+
+### Page Header
+
+**Built** 12 September 2026 (`src/components/PageHeader.tsx`), ported from the "Page header"
+proposal. The pattern every non-home page opens with: a Chalk band carrying the same mono-label →
+headline → intro rhythm as the hero, without the chart, plus an optional actions slot for primary
+and secondary CTAs. Renders the page's one `<h1>` — see The One Column Rule's neighbor, "exactly
+one `h1` per page," in `docs/brief-service-page.md`. A server component: nothing in it waits on
+hydration, applying the lesson of audit finding F4 up front rather than repeating the hero's mistake.
+
 ### Planned system extensions
 
-Not yet designed, and deliberately not specified here — inventing values would be worse than the
-gap. Tracked as workstream D in [`docs/site-plan.md`](docs/site-plan.md): form controls (none of
-any kind exist today), a page-header pattern for non-home pages, long-form prose styles, a
-navigation system that scales past anchor links, 404 and empty states, and focus-visible styling.
-Form controls, the page header and focus states are already designed in the styleguide and need
-porting rather than designing.
+Still not designed, and deliberately not specified here — inventing values would be worse than the
+gap. Tracked as workstream D in [`docs/site-plan.md`](docs/site-plan.md): long-form prose styles, a
+navigation system that scales past anchor links, and 404/error/empty states.
 When each is built, add it to this section and re-run `/impeccable document`.
 
 ### Motion Grammar
@@ -511,11 +540,13 @@ focus and press. Reveal-on-scroll down a 2,000-word article is an obstacle, not 
 system's obligation to move is an obligation on surfaces that persuade, not on every page.
 
 **The Visible Focus Rule.** Every interactive element carries a `:focus-visible` treatment, and it
-must remain visible on all four grounds — Paper, Chalk, Graphite and the red CTA panel. A single
-outline color cannot satisfy that; expect to invert it on dark and red grounds. No interactive
-element in this system may rely on the browser default, and none may remove the outline without
-replacing it. **Nothing in the codebase satisfies this yet** — it is a confirmed requirement, not
-a description of the current state.
+must remain visible on all four grounds — Paper, Chalk, Graphite and the red CTA panel. **Built** 12
+September 2026: a global `2px solid` Elevator Red outline at 3px offset (`globals.css` `@layer
+base`), inverted to white inside `#process` and `#contact` — the two dark/red-panel sections —
+since a single outline color cannot serve both. Verified by tabbing to a control on each of the
+four grounds and reading `getComputedStyle(el).outlineColor`. Outline-on-non-text only needs 3:1
+(WCAG 1.4.11), which the primary red clears everywhere, unlike as small text — see The Contrast
+Floor Rule. Form controls use a different, equally visible treatment by design; see Form Controls.
 
 ## Do's and Don'ts
 
