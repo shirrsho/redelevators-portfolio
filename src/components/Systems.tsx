@@ -19,7 +19,7 @@ export function Systems() {
         <SectionHead
           label="How it works"
           title="Built once. Runs without you."
-          intro="A few of the systems we build, drawn end to end. Every step names the tool it actually runs in — the wiring is the point."
+          // intro="A few of the systems we build, drawn end to end. Every step names the tool it actually runs in — the wiring is the point."
         />
 
         <div className="mt-14 flex flex-col gap-4">

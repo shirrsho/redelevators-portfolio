@@ -15,30 +15,30 @@ export const stats = [
   { value: 0, suffix: "", label: "New platforms to learn" },
 ];
 
+// Short-term-rental stack — the OTAs, PMS, pricing and automation tools a
+// vacation-rental operation actually runs on. Every tool named in a `systems`
+// chain below also appears here. Reframed for the STR focus (homepage pass).
 export const marquee = [
-  "HubSpot",
-  "Zapier",
-  "Make",
-  "n8n",
+  "Airbnb",
+  "Vrbo",
+  "Booking.com",
+  "Guesty",
+  "Hostaway",
+  "PriceLabs",
+  "Stripe",
   "OpenAI",
   "Claude",
-  "Salesforce",
+  "n8n",
+  "Make",
+  "Zapier",
   "Airtable",
   "Slack",
   "Notion",
+  "WhatsApp",
   "Webflow",
-  "Google Ads",
   "Meta Ads",
-  "Klaviyo",
-  "Segment",
-  // Added 12 Sep 2026 — the CRM used in the Sales & Outreach Systems chain,
-  // confirmed real via Red-Elevators-AI-Portfolio.pdf's stack list.
-  "HighLevel",
-  // Added 12 Sep 2026 alongside the other 7 services' System Anatomy chains —
-  // each confirmed real via one of the two portfolio decks' own stack lists.
-  "Telegram",
+  "Google Ads",
   "Canva",
-  "Shopify",
 ];
 
 export type Service = {
@@ -47,6 +47,7 @@ export type Service = {
   category: "Marketing" | "AI Automation";
   title: string;
   desc: string;
+  img: string;
   tags: string[];
 };
 
@@ -65,65 +66,73 @@ export const services: Service[] = [
     num: "01",
     slug: "workflow-crm-automation",
     category: "AI Automation",
-    title: "Workflow & CRM Automation",
-    desc: "Inboxes, pipelines and repetitive tasks wired together into one system that runs quietly in the background, day and night.",
-    tags: ["CRM", "Workflows", "n8n"],
+    title: "Guest Messaging & CRM",
+    desc: "Inquiries, booking questions and check-in details answered instantly across Airbnb, Vrbo and direct — every guest message handled from one place.",
+    img: "/images/svc-guest-msg.jpg",
+    tags: ["Airbnb", "Guesty", "Inbox"],
   },
   {
     num: "02",
     slug: "ai-assistants-chatbots",
     category: "AI Automation",
-    title: "AI Assistants & Chatbots",
-    desc: "Assistants that handle email, calendar, tasks and customer messages in natural language, so your team stops doing the busywork.",
-    tags: ["Assistants", "Chatbots", "OpenAI"],
+    title: "AI Guest Assistant",
+    desc: "An assistant that answers guests in natural language, day and night — house rules, local tips, upsells and FAQs — so you're not on your phone at 2am.",
+    img: "/images/svc-assistant.jpg",
+    tags: ["Assistant", "24/7", "OpenAI"],
   },
   {
     num: "03",
     slug: "sales-outreach-systems",
     category: "AI Automation",
-    title: "Sales & Outreach Systems",
-    desc: "Leads researched and emailed with genuine personalization at scale, keeping your pipeline full without manual prospecting.",
-    tags: ["Outreach", "Lead research", "Personalization"],
+    title: "Direct Booking Engine",
+    desc: "Past guests and leads re-engaged automatically to drive repeat, direct bookings — fewer OTA commissions, more margin on every stay.",
+    img: "/images/svc-direct.jpg",
+    tags: ["Direct", "Repeat guests", "Email"],
   },
   {
     num: "04",
     slug: "content-engines",
     category: "AI Automation",
-    title: "Content Engines",
-    desc: "SEO articles researched, written, illustrated and published on schedule, holding a steady cadence with no copywriter on payroll.",
-    tags: ["SEO", "Content", "Publishing"],
+    title: "Listing & Content Engine",
+    desc: "Optimized listing copy, neighbourhood guides and social posts researched and published on schedule — every property kept fresh with no writer on payroll.",
+    img: "/images/svc-content.jpg",
+    tags: ["Listings", "SEO", "Content"],
   },
   // Marketing
   {
     num: "01",
     slug: "paid-social-advertising",
     category: "Marketing",
-    title: "Paid Social Advertising",
-    desc: "Meta lead-gen, conversions and page growth that pay for themselves.",
-    tags: ["Meta Ads", "Lead-gen", "Conversions"],
+    title: "Paid Social for Bookings",
+    desc: "Meta and Instagram ads that fill the calendar with direct bookings, not just likes.",
+    img: "/images/svc-social.jpg",
+    tags: ["Meta Ads", "Direct bookings", "Lead-gen"],
   },
   {
     num: "02",
     slug: "creative-ad-design",
     category: "Marketing",
-    title: "Creative & Ad Design",
-    desc: "Scroll-stopping static and video built to sell, not just to look good.",
-    tags: ["Static", "Video", "Creative"],
+    title: "Listing Photo & Ad Creative",
+    desc: "Scroll-stopping property photos, reels and ad creative built to earn the click and the booking.",
+    img: "/images/svc-creative.jpg",
+    tags: ["Photo", "Video", "Creative"],
   },
   {
     num: "03",
     slug: "ecommerce-growth",
     category: "Marketing",
-    title: "E-commerce Growth",
-    desc: "Shopify stores managed and tuned to turn traffic into paid orders.",
-    tags: ["Shopify", "CRO", "Growth"],
+    title: "Direct Booking Website",
+    desc: "A fast, commission-free booking site tuned to turn lookers into confirmed reservations.",
+    img: "/images/svc-website.jpg",
+    tags: ["Direct site", "Conversion", "Stripe"],
   },
   {
     num: "04",
     slug: "full-funnel-campaigns",
     category: "Marketing",
-    title: "Full-Funnel Campaigns",
-    desc: "From first impression to purchase, across any vertical or niche.",
+    title: "Full-Funnel Booking Campaigns",
+    desc: "From first impression to confirmed stay, across search, social and email.",
+    img: "/images/svc-funnel.jpg",
     tags: ["Awareness", "Funnel", "Multi-channel"],
   },
 ];
@@ -223,7 +232,7 @@ export type AnatomyNode = {
 export type SystemAnatomy = {
   label: string;
   title: string;
-  desc: string;
+  // desc: string;
   nodes: AnatomyNode[];
 };
 
@@ -238,50 +247,47 @@ export type SystemAnatomy = {
 // curated slice on the home page, not the whole array — see that component.
 export const systems: SystemAnatomy[] = [
   {
-    label: "Workflow & CRM Automation",
-    title: "A pipeline that updates itself",
-    desc: "A change in one tool is detected, the record is updated everywhere it needs to be, and the right person is told — without anyone touching a spreadsheet.",
+    label: "Guest Messaging & CRM",
+    title: "A guest question, answered in seconds",
+    // desc: "A message lands from any channel, the system reads it, pulls the booking details and drafts the right reply — so guests get an instant answer and nothing sits unread.",
     nodes: [
-      { step: "Trigger", action: "Deal changes", tool: "HighLevel" },
-      { step: "Step 01", action: "Check rules", tool: "n8n" },
-      { step: "Step 02", action: "Update record", tool: "Airtable" },
-      { step: "Step 03", action: "Notify owner", tool: "Slack" },
-      { step: "Result", action: "Logged", tool: "Notion" },
+      { step: "Trigger", action: "Message in", tool: "Airbnb" },
+      { step: "Step 01", action: "Read intent", tool: "OpenAI" },
+      { step: "Step 02", action: "Pull booking", tool: "Guesty" },
+      { step: "Step 03", action: "Draft reply", tool: "OpenAI" },
+      { step: "Result", action: "Sent & logged", tool: "Guesty" },
     ],
   },
   {
-    label: "AI Assistants & Chatbots",
-    title: "One conversation runs the whole day",
-    desc: "A message arrives by chat, the assistant reads it, decides what it needs and drafts the response, task or calendar update — in natural language, from a single conversation.",
+    label: "AI Guest Assistant",
+    title: "One assistant runs every conversation",
+    // desc: "A guest messages on WhatsApp, the assistant works out what they need, takes the action and drafts a reply in natural language — house rules, directions or an upsell — from a single thread.",
     nodes: [
-      { step: "Trigger", action: "Message received", tool: "Telegram" },
-      { step: "Step 01", action: "Understand intent", tool: "OpenAI" },
+      { step: "Trigger", action: "Message in", tool: "WhatsApp" },
+      { step: "Step 01", action: "Understand", tool: "OpenAI" },
       { step: "Step 02", action: "Take action", tool: "n8n" },
       { step: "Step 03", action: "Draft reply", tool: "OpenAI" },
       { step: "Result", action: "Logged", tool: "Notion" },
     ],
   },
   {
-    // Matches the real mechanism description already in
-    // Red-Elevators-AI-Portfolio.pdf ("Outreach that researches itself"),
-    // not a client-specific claim. This service page's pilot, added 12 Sep.
-    label: "Sales & Outreach Systems",
-    title: "Every prospect gets research, not a template",
-    desc: "A raw lead list is researched across each prospect's site and public presence, then a personalized email is drafted — no generic template, no manual digging.",
+    label: "Direct Booking Engine",
+    title: "Past guests, back on the calendar",
+    // desc: "Your guest list is segmented, each contact gets a personalized offer to book direct next time, and it sends itself — turning one stay into repeat, commission-free bookings.",
     nodes: [
-      { step: "Trigger", action: "Lead list", tool: "Airtable" },
-      { step: "Step 01", action: "Research", tool: "n8n" },
+      { step: "Trigger", action: "Guest list", tool: "Airtable" },
+      { step: "Step 01", action: "Segment", tool: "n8n" },
       { step: "Step 02", action: "Personalize", tool: "OpenAI" },
       { step: "Step 03", action: "Send", tool: "n8n" },
-      { step: "Result", action: "Logged", tool: "HighLevel" },
+      { step: "Result", action: "Logged", tool: "Guesty" },
     ],
   },
   {
-    label: "Content Engines",
-    title: "An article a day, with no writer on payroll",
-    desc: "A content pillar is picked, researched and written, a matching image is sourced, and the piece is checked and published — on schedule, without a copywriter driving it.",
+    label: "Listing & Content Engine",
+    title: "Fresh listings and guides, on schedule",
+    // desc: "A topic is picked, researched and written, a matching image is sourced, and the piece is checked and published — keeping every listing and area guide current without a writer driving it.",
     nodes: [
-      { step: "Trigger", action: "Pillar due", tool: "n8n" },
+      { step: "Trigger", action: "Topic due", tool: "n8n" },
       { step: "Step 01", action: "Research", tool: "OpenAI" },
       { step: "Step 02", action: "Write", tool: "OpenAI" },
       { step: "Step 03", action: "Quality check", tool: "n8n" },
@@ -289,46 +295,46 @@ export const systems: SystemAnatomy[] = [
     ],
   },
   {
-    label: "Paid Social Advertising",
-    title: "Budget follows what's working, every day",
-    desc: "Campaign performance is checked daily, underperforming ads are flagged, and budget is reallocated toward what's converting — before a slow week becomes a slow month.",
+    label: "Paid Social for Bookings",
+    title: "Budget follows the bookings, every day",
+    // desc: "Ad performance is checked daily, weak ads are flagged, and budget shifts toward what's actually driving bookings — before a slow week becomes a slow month.",
     nodes: [
       { step: "Trigger", action: "Daily check", tool: "Meta Ads" },
-      { step: "Step 01", action: "Compare performance", tool: "Make" },
+      { step: "Step 01", action: "Compare", tool: "Make" },
       { step: "Step 02", action: "Flag changes", tool: "Slack" },
       { step: "Result", action: "Budget shifted", tool: "Meta Ads" },
     ],
   },
   {
-    label: "Creative & Ad Design",
-    title: "One concept, every size, one approval",
-    desc: "A creative concept is built once, resized and formatted for each platform automatically, and routed for a single approval before it's uploaded and ready to run.",
+    label: "Listing Photo & Ad Creative",
+    title: "One property, every format, one approval",
+    // desc: "A creative set is built once, resized and formatted for each platform automatically, and routed for a single approval before it's ready to run.",
     nodes: [
-      { step: "Trigger", action: "Concept approved", tool: "Canva" },
-      { step: "Step 01", action: "Resize for platforms", tool: "Canva" },
-      { step: "Step 02", action: "Route for approval", tool: "Slack" },
+      { step: "Trigger", action: "Set approved", tool: "Canva" },
+      { step: "Step 01", action: "Resize", tool: "Canva" },
+      { step: "Step 02", action: "Route approval", tool: "Slack" },
       { step: "Result", action: "Ready to run", tool: "Meta Ads" },
     ],
   },
   {
-    label: "E-commerce Growth",
-    title: "The store and the ads watch each other",
-    desc: "Store performance and ad performance are checked together daily, so a stockout, a price change or a slow product gets flagged before it quietly burns ad spend.",
+    label: "Direct Booking Website",
+    title: "The site and the calendar stay in sync",
+    // desc: "Availability, pricing and content are checked daily, so a double-booking, a stale rate or a broken listing gets flagged before it costs you a reservation.",
     nodes: [
-      { step: "Trigger", action: "Daily sync", tool: "Shopify" },
-      { step: "Step 01", action: "Compare to ad spend", tool: "Make" },
+      { step: "Trigger", action: "Daily sync", tool: "Guesty" },
+      { step: "Step 01", action: "Compare rates", tool: "PriceLabs" },
       { step: "Step 02", action: "Flag issues", tool: "Slack" },
       { step: "Result", action: "Reported", tool: "Notion" },
     ],
   },
   {
-    label: "Full-Funnel Campaigns",
-    title: "One view, from first impression to purchase",
-    desc: "Awareness, consideration and conversion performance are pulled into one place daily, so the whole funnel is visible — not just whichever stage someone last checked.",
+    label: "Full-Funnel Booking Campaigns",
+    title: "One view, from first click to confirmed stay",
+    // desc: "Awareness, consideration and booking performance are pulled into one place daily, so the whole funnel is visible — not just whichever channel someone last checked.",
     nodes: [
       { step: "Trigger", action: "Daily pull", tool: "Google Ads" },
       { step: "Step 01", action: "Merge channels", tool: "Make" },
-      { step: "Step 02", action: "Flag underperformance", tool: "Slack" },
+      { step: "Step 02", action: "Flag drop-off", tool: "Slack" },
       { step: "Result", action: "Reported", tool: "Notion" },
     ],
   },

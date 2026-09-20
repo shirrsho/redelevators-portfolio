@@ -11,8 +11,8 @@ export function Footer() {
           <div className="max-w-xs">
             <Wordmark size={18} />
             <p className="mt-4 text-sm text-muted">
-              A marketing &amp; automation agency building the systems behind
-              your growth. Growth on autopilot.
+              Marketing &amp; automation for short-term rental hosts and
+              managers — the systems behind more bookings. Growth on autopilot.
             </p>
           </div>
 

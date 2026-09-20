@@ -17,11 +17,7 @@ export default function SystemsPage() {
       <ScrollProgress />
       <Nav />
       <main>
-        <PageHeader
-          label="Systems"
-          title="Every system, end to end."
-          intro="No client name, no metric — just the real chain, tool by tool. This is the mechanism behind all 8 services, shown in full."
-        />
+        <PageHeader label="Systems" title="Every system, end to end." />
 
         <section className="mx-auto max-w-6xl px-6 py-14">
           <div className="flex flex-col gap-4">
@@ -42,7 +38,6 @@ export default function SystemsPage() {
                       {s.label}
                     </span>
                   </div>
-                  <p className="mt-3 max-w-2xl text-[0.95rem] text-muted">{s.desc}</p>
                   <SystemAnatomy nodes={s.nodes} />
                   {hasPage && service && (
                     <div className="mt-6">

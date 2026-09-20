@@ -11,7 +11,7 @@ export function Services() {
         <SectionHead
           label="What we do"
           title="If it's repetitive, it should run itself."
-          intro="We embed with your team, map the manual work and the marketing that matters, then replace it with systems that run without you."
+          // intro="We embed with your team, map the manual work and the marketing that matters, then replace it with systems that run without you."
         />
 
         <Stagger className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

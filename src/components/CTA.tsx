@@ -41,7 +41,7 @@ export function CTA() {
           </Reveal>
           <Reveal delay={0.05}>
             <h2 className="mt-4 text-[clamp(2rem,4.5vw,3.4rem)] font-semibold leading-[1.02] tracking-tight">
-              Ready to stop doing the repetitive work yourself?
+              Ready to run your rentals on autopilot?
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
