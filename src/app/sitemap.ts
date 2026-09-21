@@ -2,8 +2,7 @@ import type { MetadataRoute } from "next";
 import { services } from "@/lib/content";
 
 // Build-time only, same reasoning as robots.ts: static route, resolved once
-// per image build. Staging (NOINDEX=true) still emits a sitemap since it's
-// harmless — robots.ts is what actually blocks crawling there.
+// per image build.
 const baseUrl = "https://redelevators.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {

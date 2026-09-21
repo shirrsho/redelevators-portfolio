@@ -28,8 +28,7 @@ export default async function Image() {
           background: "linear-gradient(120deg, #17171b 30%, #ff2d3b)",
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logoSrc} width={660} height={187} />
+        <img src={logoSrc} width={660} height={187} alt="" />
       </div>
     ),
     { ...size },
