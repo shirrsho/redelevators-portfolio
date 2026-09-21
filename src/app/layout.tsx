@@ -50,6 +50,21 @@ export const metadata: Metadata = {
   }),
 };
 
+// Organization schema — every field here is copy already shipped elsewhere
+// (Footer.tsx's description, the real contact address). Lets Google parse
+// company identity directly instead of inferring it from page text; doesn't
+// change anything a visitor sees. See node_modules/next/dist/docs/01-app/02-guides/json-ld.md.
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Red Elevators",
+  url: "https://redelevators.com",
+  logo: "https://redelevators.com/brand/red-elevators-mark-light.svg",
+  description:
+    "Marketing & automation for short-term rental hosts and managers — the systems behind more bookings.",
+  email: "contact@redelevators.com",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -58,6 +73,12 @@ export default function RootLayout({
       <body
         className={`${display.variable} ${sans.variable} ${mono.variable} antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
         {!noindex && (
           <noscript>
             <img
