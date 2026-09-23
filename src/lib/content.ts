@@ -237,7 +237,7 @@ export type AnatomyNode = {
 export type SystemAnatomy = {
   label: string;
   title: string;
-  // desc: string;
+  desc: string;
   nodes: AnatomyNode[];
 };
 
@@ -254,7 +254,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "Guest Messaging & CRM",
     title: "A guest question, answered in seconds",
-    // desc: "A message lands from any channel, the system reads it, pulls the booking details and drafts the right reply — so guests get an instant answer and nothing sits unread.",
+    desc: "A message lands from any channel, the system reads it, pulls the booking details and drafts the right reply — so guests get an instant answer and nothing sits unread.",
     nodes: [
       { step: "Trigger", action: "Message in", tool: "Airbnb" },
       { step: "Step 01", action: "Read intent", tool: "OpenAI" },
@@ -266,7 +266,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "AI Guest Assistant",
     title: "One assistant runs every conversation",
-    // desc: "A guest messages on WhatsApp, the assistant works out what they need, takes the action and drafts a reply in natural language — house rules, directions or an upsell — from a single thread.",
+    desc: "A guest messages on WhatsApp, the assistant works out what they need, takes the action and drafts a reply in natural language — house rules, directions or an upsell — from a single thread.",
     nodes: [
       { step: "Trigger", action: "Message in", tool: "WhatsApp" },
       { step: "Step 01", action: "Understand", tool: "OpenAI" },
@@ -278,7 +278,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "Direct Booking Engine",
     title: "Past guests, back on the calendar",
-    // desc: "Your guest list is segmented, each contact gets a personalized offer to book direct next time, and it sends itself — turning one stay into repeat, commission-free bookings.",
+    desc: "Your guest list is segmented, each contact gets a personalized offer to book direct next time, and it sends itself — turning one stay into repeat, commission-free bookings.",
     nodes: [
       { step: "Trigger", action: "Guest list", tool: "Airtable" },
       { step: "Step 01", action: "Segment", tool: "n8n" },
@@ -290,7 +290,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "Listing & Content Engine",
     title: "Fresh listings and guides, on schedule",
-    // desc: "A topic is picked, researched and written, a matching image is sourced, and the piece is checked and published — keeping every listing and area guide current without a writer driving it.",
+    desc: "A topic is picked, researched and written, a matching image is sourced, and the piece is checked and published — keeping every listing and area guide current without a writer driving it.",
     nodes: [
       { step: "Trigger", action: "Topic due", tool: "n8n" },
       { step: "Step 01", action: "Research", tool: "OpenAI" },
@@ -302,7 +302,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "Paid Social for Bookings",
     title: "Budget follows the bookings, every day",
-    // desc: "Ad performance is checked daily, weak ads are flagged, and budget shifts toward what's actually driving bookings — before a slow week becomes a slow month.",
+    desc: "Ad performance is checked daily, weak ads are flagged, and budget shifts toward what's actually driving bookings — before a slow week becomes a slow month.",
     nodes: [
       { step: "Trigger", action: "Daily check", tool: "Meta Ads" },
       { step: "Step 01", action: "Compare", tool: "Make" },
@@ -313,7 +313,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "Listing Photo & Ad Creative",
     title: "One property, every format, one approval",
-    // desc: "A creative set is built once, resized and formatted for each platform automatically, and routed for a single approval before it's ready to run.",
+    desc: "A creative set is built once, resized and formatted for each platform automatically, and routed for a single approval before it's ready to run.",
     nodes: [
       { step: "Trigger", action: "Set approved", tool: "Canva" },
       { step: "Step 01", action: "Resize", tool: "Canva" },
@@ -324,7 +324,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "Direct Booking Website",
     title: "The site and the calendar stay in sync",
-    // desc: "Availability, pricing and content are checked daily, so a double-booking, a stale rate or a broken listing gets flagged before it costs you a reservation.",
+    desc: "Availability, pricing and content are checked daily, so a double-booking, a stale rate or a broken listing gets flagged before it costs you a reservation.",
     nodes: [
       { step: "Trigger", action: "Daily sync", tool: "Guesty" },
       { step: "Step 01", action: "Compare rates", tool: "PriceLabs" },
@@ -335,7 +335,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "Full-Funnel Booking Campaigns",
     title: "One view, from first click to confirmed stay",
-    // desc: "Awareness, consideration and booking performance are pulled into one place daily, so the whole funnel is visible — not just whichever channel someone last checked.",
+    desc: "Awareness, consideration and booking performance are pulled into one place daily, so the whole funnel is visible — not just whichever channel someone last checked.",
     nodes: [
       { step: "Trigger", action: "Daily pull", tool: "Google Ads" },
       { step: "Step 01", action: "Merge channels", tool: "Make" },

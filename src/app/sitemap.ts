@@ -2,14 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/seo";
 import { services, serviceDetails } from "@/lib/content";
 
-// Build-time only, like robots.ts / layout.tsx's `noindex`. On the noindexed
-// staging build we emit an empty sitemap so dev.redelevators.com never hands a
-// crawler a list of URLs to fetch; production lists every live route.
-const noindex = process.env.NOINDEX === "true";
-
 export default function sitemap(): MetadataRoute.Sitemap {
-  if (noindex) return [];
-
   const now = new Date();
 
   const staticRoutes: {
