@@ -1,17 +1,26 @@
+import type { Metadata } from "next";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { Nav } from "@/components/Nav";
 import { PageHeader } from "@/components/PageHeader";
 import { EmailLink } from "@/components/EmailLink";
 import { Footer } from "@/components/Footer";
-import { steps } from "@/lib/content";
+import { JsonLd } from "@/components/JsonLd";
+import { pageMetadata, breadcrumbLd } from "@/lib/seo";
+import { steps, bookingUrl } from "@/lib/content";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Contact",
+  path: "/contact",
+  description:
+    "Book a free 30-minute call with Red Elevators. We'll tell you exactly what to automate first in your short-term rental business — no obligation.",
+});
 
 // Deliberately form-free. The design system has form controls (Form.tsx,
 // workstream D item 1), but a submitted form needs somewhere to go, and no
 // email API or form backend exists yet — owner's call, 12 Sep 2026: ship the
-// page on the two conversion paths that are real today (Calendly + email) and
+// page on the two conversion paths that are real today (booking + email) and
 // add a form once a provider is chosen. An unwired form that silently drops
 // leads would be worse than no form.
-const CALENDLY = "https://calendly.com/redelevators/30min";
 const EMAIL = "contact@redelevators.com";
 
 export default function ContactPage() {
@@ -19,6 +28,7 @@ export default function ContactPage() {
     <>
       <ScrollProgress />
       <Nav />
+      <JsonLd data={breadcrumbLd([{ name: "Contact", path: "/contact" }])} />
       <main>
         <PageHeader
           label="Contact"
@@ -45,7 +55,7 @@ export default function ContactPage() {
               </p>
               <div className="mt-7">
                 <a
-                  href={CALENDLY}
+                  href={bookingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block rounded-xl bg-red px-6 py-3.5 text-sm font-semibold text-white shadow-red transition-transform hover:scale-[1.03] active:scale-95"

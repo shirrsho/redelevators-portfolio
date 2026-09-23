@@ -34,9 +34,6 @@ export function Systems() {
                     {s.label}
                   </span>
                 </div>
-                <p className="mt-3 max-w-2xl text-[0.95rem] text-muted">
-                  {s.desc}
-                </p>
                 <SystemAnatomy nodes={s.nodes} />
               </article>
             </Reveal>

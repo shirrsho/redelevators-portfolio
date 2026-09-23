@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Wordmark } from "./Mark";
 import { EmailLink } from "./EmailLink";
-import { nav } from "@/lib/content";
+import { nav, bookingUrl } from "@/lib/content";
 
 export function Footer() {
   return (
@@ -53,7 +53,7 @@ export function Footer() {
                 </li>
                 <li>
                   <a
-                    href="https://calendly.com/redelevators/30min"
+                    href={bookingUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-ink-soft transition-colors hover:text-red"

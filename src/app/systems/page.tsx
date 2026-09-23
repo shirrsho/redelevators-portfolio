@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { Nav } from "@/components/Nav";
@@ -5,7 +6,16 @@ import { PageHeader } from "@/components/PageHeader";
 import { SystemAnatomy } from "@/components/SystemAnatomy";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
+import { JsonLd } from "@/components/JsonLd";
+import { pageMetadata, breadcrumbLd } from "@/lib/seo";
 import { systems, services, serviceDetails } from "@/lib/content";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Systems",
+  path: "/systems",
+  description:
+    "See exactly how each Red Elevators system is wired, trigger to result — across Airbnb, Guesty, OpenAI and the tools your short-term rental already runs on.",
+});
 
 // The full catalog — Systems.tsx on the home page shows a curated 3-item
 // slice of the same `systems` data; this page is where all 8 live. Workstream
@@ -16,6 +26,7 @@ export default function SystemsPage() {
     <>
       <ScrollProgress />
       <Nav />
+      <JsonLd data={breadcrumbLd([{ name: "Systems", path: "/systems" }])} />
       <main>
         <PageHeader label="Systems" title="Every system, end to end." />
 

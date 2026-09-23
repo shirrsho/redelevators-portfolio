@@ -1,6 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
+import { JsonLd } from "@/components/JsonLd";
+import { SITE, SITE_KEYWORDS, organizationLd, websiteLd } from "@/lib/seo";
 import "./globals.css";
 
 const GA_MEASUREMENT_ID = "G-N3H7PRZ203";
@@ -32,22 +34,54 @@ const mono = JetBrains_Mono({
 const noindex = process.env.NOINDEX === "true";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://redelevators.com"),
-  title: "Red Elevators — Growth on Autopilot",
-  description:
-    "Red Elevators is a marketing & automation agency. We build AI systems and marketing engines that turn repetitive work into compounding growth.",
+  metadataBase: new URL(SITE.url),
+  title: { default: SITE.defaultTitle, template: SITE.titleTemplate },
+  description: SITE.description,
+  applicationName: SITE.name,
+  authors: [{ name: SITE.name, url: SITE.url }],
+  creator: SITE.name,
+  publisher: SITE.name,
+  keywords: SITE_KEYWORDS,
+  category: "business",
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Red Elevators — Growth on Autopilot",
-    description:
-      "Marketing & automation systems that run without you. Growth on autopilot.",
     type: "website",
+    siteName: SITE.name,
+    title: SITE.defaultTitle,
+    description: SITE.description,
+    url: SITE.url,
+    locale: SITE.locale,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE.defaultTitle,
+    description: SITE.description,
   },
   icons: {
-    icon: "/brand/red-elevators-mark-light.svg",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/brand/red-elevators-mark-light.svg", type: "image/svg+xml" },
+    ],
+    apple: "/brand/red-elevators-mark-light.svg",
   },
-  ...(noindex && {
-    robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
-  }),
+  robots: noindex
+    ? { index: false, follow: false, googleBot: { index: false, follow: false } }
+    : {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+          "max-video-preview": -1,
+        },
+      },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ff2d3b",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -58,6 +92,7 @@ export default function RootLayout({
       <body
         className={`${display.variable} ${sans.variable} ${mono.variable} antialiased`}
       >
+        <JsonLd data={[organizationLd, websiteLd]} />
         {!noindex && (
           <noscript>
             <img

@@ -5,6 +5,11 @@ export const nav = [
   { label: "Contact", href: "/contact" },
 ];
 
+// The single "book a call" destination, used by the CTA, the footer and the
+// contact page. Google Calendar appointment scheduling (replaced Calendly,
+// 24 Sep 2026). Change it here only — every booking link reads this.
+export const bookingUrl = "https://calendar.app.google/dza3WRUXUuPfwTCD7";
+
 // Capability figures only. Every value here is verifiable from this site or the
 // way the work is actually done — no outcome claims, no client results.
 // See PRODUCT.md -> Evidence on Hand before changing anything in this file.

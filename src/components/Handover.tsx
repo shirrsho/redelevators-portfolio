@@ -32,7 +32,6 @@ export function Handover({
       </div>
       <div>
         <span className="font-mono-label">{automated.label}</span>
-        <p className="mt-2 max-w-lg text-[0.95rem] text-muted">{automated.desc}</p>
         <SystemAnatomy nodes={automated.nodes} />
       </div>
     </div>

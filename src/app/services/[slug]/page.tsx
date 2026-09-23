@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { Nav } from "@/components/Nav";
@@ -7,6 +8,8 @@ import { ServiceCard } from "@/components/ServiceCard";
 import { Process } from "@/components/Process";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
+import { JsonLd } from "@/components/JsonLd";
+import { SITE, pageMetadata, breadcrumbLd } from "@/lib/seo";
 import { services, systems, serviceDetails } from "@/lib/content";
 
 // Only slugs with complete content generate a page — docs/brief-service-page.md
@@ -20,6 +23,22 @@ export function generateStaticParams() {
 }
 
 export const dynamicParams = false;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const service = services.find((s) => s.slug === slug);
+  if (!service) return {};
+  return pageMetadata({
+    title: service.title,
+    path: `/services/${slug}`,
+    description: service.desc,
+    keywords: [service.title, ...service.tags, "short-term rental", service.category],
+  });
+}
 
 export default async function ServicePage({
   params,
@@ -40,10 +59,35 @@ export default async function ServicePage({
     .slice(0, 3);
   const tools = Array.from(new Set(automated.nodes.map((n) => n.tool)));
 
+  const serviceLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.desc,
+    serviceType: service.category,
+    category: service.category,
+    url: `${SITE.url}/services/${slug}`,
+    provider: { "@id": `${SITE.url}/#organization` },
+    areaServed: "Worldwide",
+    audience: {
+      "@type": "Audience",
+      audienceType: "Short-term rental hosts and property managers",
+    },
+  };
+
   return (
     <>
       <ScrollProgress />
       <Nav />
+      <JsonLd
+        data={[
+          serviceLd,
+          breadcrumbLd([
+            { name: "Services", path: "/services" },
+            { name: service.title, path: `/services/${slug}` },
+          ]),
+        ]}
+      />
       <main>
         <PageHeader
           label={service.category}

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { Nav } from "@/components/Nav";
 import { PageHeader } from "@/components/PageHeader";
@@ -5,7 +6,16 @@ import { SystemAnatomy } from "@/components/SystemAnatomy";
 import { Marquee } from "@/components/Marquee";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
+import { JsonLd } from "@/components/JsonLd";
+import { pageMetadata, breadcrumbLd } from "@/lib/seo";
 import { approachStages, systems } from "@/lib/content";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Our Approach",
+  path: "/approach",
+  description:
+    "How we work: audit, design, build, run. We map the manual work, architect each workflow, build inside the tools you already use, and hand it over documented.",
+});
 
 // The worked example below the four stages — "Workflow & CRM Automation" is
 // the first, shortest chain (5 nodes), picked for legibility, not seniority.
@@ -16,6 +26,7 @@ export default function ApproachPage() {
     <>
       <ScrollProgress />
       <Nav />
+      <JsonLd data={breadcrumbLd([{ name: "Approach", path: "/approach" }])} />
       <main>
         <PageHeader
           label="How we work"
@@ -61,7 +72,6 @@ export default function ApproachPage() {
             <h2 className="mt-4 text-[clamp(1.9rem,4vw,3rem)] font-semibold tracking-tight">
               {worked.title}
             </h2>
-            <p className="mt-3 max-w-2xl text-lg text-muted">{worked.desc}</p>
             <SystemAnatomy nodes={worked.nodes} />
           </div>
         </section>

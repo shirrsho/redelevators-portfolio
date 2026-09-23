@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { Counter } from "./Counter";
+import { bookingUrl } from "@/lib/content";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -126,7 +127,9 @@ export function Hero() {
           className="mt-9 flex flex-wrap items-center justify-center gap-3"
         >
           <a
-            href="#contact"
+            href={bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="group relative overflow-hidden rounded-xl bg-red px-6 py-3.5 text-sm font-semibold text-white shadow-red transition-transform hover:scale-[1.03] active:scale-95"
           >
             <span className="relative z-10">Book a free Call</span>
