@@ -48,6 +48,7 @@ export function Footer() {
                 <li className="pb-6">
                   <EmailLink
                     email="contact@redelevators.com"
+                    location="footer"
                     className="text-ink-soft transition-colors hover:text-red"
                   />
                 </li>
@@ -55,6 +56,8 @@ export function Footer() {
                   <a
                     href={bookingUrl}
                     target="_blank"
+                    data-umami-event="Book a call"
+                    data-umami-event-location="footer"
                     rel="noopener noreferrer"
                     className="text-ink-soft transition-colors hover:text-red"
                   >

@@ -5,9 +5,12 @@ import { useRef, useState } from "react";
 export function EmailLink({
   email,
   className,
+  location,
 }: {
   email: string;
   className?: string;
+  /** Where the link sits, reported to Umami with the "Email click" event. */
+  location: string;
 }) {
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -27,7 +30,13 @@ export function EmailLink({
 
   return (
     <span className="relative inline-block">
-      <a href={`mailto:${email}`} className={className} onClick={handleClick}>
+      <a
+        href={`mailto:${email}`}
+        className={className}
+        onClick={handleClick}
+        data-umami-event="Email click"
+        data-umami-event-location={location}
+      >
         {email}
       </a>
       <span

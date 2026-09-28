@@ -5,7 +5,15 @@ import { JsonLd } from "@/components/JsonLd";
 import { SITE, SITE_KEYWORDS, organizationLd, websiteLd } from "@/lib/seo";
 import "./globals.css";
 
-const GA_MEASUREMENT_ID = "G-N3H7PRZ203";
+// Self-hosted Umami (analytics.redelevators.com). stats.js handles pageviews
+// (including client-side route changes) and `data-umami-event` click events;
+// recorder.js adds replays and heatmaps, with sample rates and masking set in
+// the Umami dashboard. `data-domains` keeps localhost and previews out of the
+// numbers — recorder.js only runs once stats.js has a session, so it inherits
+// that filter.
+const UMAMI_HOST = "https://analytics.redelevators.com";
+const UMAMI_WEBSITE_ID = "3b71a98c-fd86-4349-909c-3f4b26674a50";
+const UMAMI_DOMAINS = "redelevators.com,www.redelevators.com";
 const META_PIXEL_ID = "28272052369116581";
 
 const display = Space_Grotesk({
@@ -99,17 +107,16 @@ export default function RootLayout({
         </noscript>
         {children}
         <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          src={`${UMAMI_HOST}/stats.js`}
+          data-website-id={UMAMI_WEBSITE_ID}
+          data-domains={UMAMI_DOMAINS}
           strategy="afterInteractive"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}');
-          `}
-        </Script>
+        <Script
+          src={`${UMAMI_HOST}/recorder.js`}
+          data-website-id={UMAMI_WEBSITE_ID}
+          strategy="afterInteractive"
+        />
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)

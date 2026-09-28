@@ -97,6 +97,8 @@ export function Nav() {
           <div className="flex items-center gap-2">
             <a
               href="#contact"
+              data-umami-event="Nav book a call"
+              data-umami-event-location="desktop"
               className="hidden rounded-xl bg-ink px-4 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-[1.03] active:scale-95 sm:block"
             >
               Book a call
@@ -157,6 +159,8 @@ export function Nav() {
               <a
                 href="#contact"
                 onClick={closeMenu}
+                data-umami-event="Nav book a call"
+                data-umami-event-location="mobile"
                 className="mt-6 rounded-xl bg-red px-5 py-4 text-center text-base font-semibold text-white"
               >
                 Book a free Call

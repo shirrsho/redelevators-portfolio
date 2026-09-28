@@ -56,6 +56,8 @@ export function CTA() {
               <a
                 href={bookingUrl}
                 target="_blank"
+                data-umami-event="Book a call"
+                data-umami-event-location="cta"
                 rel="noopener noreferrer"
                 className="rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-red transition-transform hover:scale-[1.03] active:scale-95"
               >
@@ -67,6 +69,7 @@ export function CTA() {
                   "See how it works" everywhere it appears. */}
               <Link
                 href="/systems"
+                data-umami-event="See how it works"
                 scroll={false}
                 className="rounded-xl border border-white/40 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
               >

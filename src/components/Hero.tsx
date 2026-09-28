@@ -129,6 +129,8 @@ export function Hero() {
           <a
             href={bookingUrl}
             target="_blank"
+            data-umami-event="Book a call"
+            data-umami-event-location="hero"
             rel="noopener noreferrer"
             className="group relative overflow-hidden rounded-xl bg-red px-6 py-3.5 text-sm font-semibold text-white shadow-red transition-transform hover:scale-[1.03] active:scale-95"
           >

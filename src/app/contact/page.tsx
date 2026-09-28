@@ -57,6 +57,8 @@ export default function ContactPage() {
                 <a
                   href={bookingUrl}
                   target="_blank"
+                  data-umami-event="Book a call"
+                  data-umami-event-location="contact"
                   rel="noopener noreferrer"
                   className="inline-block rounded-xl bg-red px-6 py-3.5 text-sm font-semibold text-white shadow-red transition-transform hover:scale-[1.03] active:scale-95"
                 >
@@ -80,6 +82,7 @@ export default function ContactPage() {
               <div className="mt-7 pb-8">
                 <EmailLink
                   email={EMAIL}
+                  location="contact"
                   className="text-lg font-medium text-ink underline underline-offset-4 transition-colors hover:text-red"
                 />
               </div>
