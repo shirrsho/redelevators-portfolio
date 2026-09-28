@@ -58,13 +58,6 @@ export const metadata: Metadata = {
     title: SITE.defaultTitle,
     description: SITE.description,
   },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/brand/red-elevators-mark-light.svg", type: "image/svg+xml" },
-    ],
-    apple: "/brand/red-elevators-mark-light.svg",
-  },
   robots: {
     index: true,
     follow: true,
