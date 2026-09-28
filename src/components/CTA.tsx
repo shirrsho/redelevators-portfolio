@@ -1,11 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
 import { Reveal } from "./Reveal";
 import { bookingUrl } from "@/lib/content";
+import { serviceFromPath } from "@/lib/analytics";
 
 export function CTA() {
+  // On a service page, booking clicks carry which service the visitor was
+  // reading, so Umami can show which services actually bring calls.
+  const service = serviceFromPath(usePathname());
+
   return (
     <section id="contact" className="px-4 py-16 sm:py-24">
       <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-red-panel px-6 py-20 text-white sm:px-16">
@@ -58,6 +64,7 @@ export function CTA() {
                 target="_blank"
                 data-umami-event="Book a call"
                 data-umami-event-location="cta"
+                data-umami-event-service={service}
                 rel="noopener noreferrer"
                 className="rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-red transition-transform hover:scale-[1.03] active:scale-95"
               >

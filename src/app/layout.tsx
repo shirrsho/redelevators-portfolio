@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { JsonLd } from "@/components/JsonLd";
+import { Analytics } from "@/components/Analytics";
 import { SITE, SITE_KEYWORDS, organizationLd, websiteLd } from "@/lib/seo";
 import "./globals.css";
 
@@ -10,7 +11,9 @@ import "./globals.css";
 // recorder.js adds replays and heatmaps, with sample rates and masking set in
 // the Umami dashboard. `data-domains` keeps localhost and previews out of the
 // numbers — recorder.js only runs once stats.js has a session, so it inherits
-// that filter.
+// that filter. `data-performance` sends Core Web Vitals (the Performance
+// report); `data-exclude-hash` stops /#contact and / counting as two pages.
+// Custom events live in src/lib/analytics.ts and components/Analytics.tsx.
 const UMAMI_HOST = "https://analytics.redelevators.com";
 const UMAMI_WEBSITE_ID = "3b71a98c-fd86-4349-909c-3f4b26674a50";
 const UMAMI_DOMAINS = "redelevators.com,www.redelevators.com";
@@ -99,10 +102,13 @@ export default function RootLayout({
           />
         </noscript>
         {children}
+        <Analytics />
         <Script
           src={`${UMAMI_HOST}/stats.js`}
           data-website-id={UMAMI_WEBSITE_ID}
           data-domains={UMAMI_DOMAINS}
+          data-performance="true"
+          data-exclude-hash="true"
           strategy="afterInteractive"
         />
         <Script

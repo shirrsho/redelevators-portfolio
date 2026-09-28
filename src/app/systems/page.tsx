@@ -55,6 +55,9 @@ export default function SystemsPage() {
                       <Link
                         href={`/services/${service.slug}`}
                         scroll={false}
+                        data-umami-event="Service click"
+                        data-umami-event-service={service.slug}
+                        data-umami-event-location="systems-page"
                         className="text-sm font-medium text-ink underline underline-offset-2 hover:text-red"
                       >
                         See this service →

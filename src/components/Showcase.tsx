@@ -43,6 +43,8 @@ export function Showcase() {
           <motion.a
             key={s.title}
             href={s.href}
+            data-umami-event="Showcase click"
+            data-umami-event-title={s.title}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}

@@ -87,6 +87,9 @@ export function Nav() {
                 key={n.href}
                 href={n.href}
                 scroll={false}
+                data-umami-event="Nav click"
+                data-umami-event-label={n.label}
+                data-umami-event-location="header"
                 className="rounded-lg px-3.5 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-cream hover:text-ink"
               >
                 {n.label}
@@ -97,8 +100,8 @@ export function Nav() {
           <div className="flex items-center gap-2">
             <a
               href="#contact"
-              data-umami-event="Nav book a call"
-              data-umami-event-location="desktop"
+              data-umami-event="Jump to booking"
+              data-umami-event-location="nav-desktop"
               className="hidden rounded-xl bg-ink px-4 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-[1.03] active:scale-95 sm:block"
             >
               Book a call
@@ -150,6 +153,9 @@ export function Nav() {
                     href={n.href}
                     scroll={false}
                     onClick={closeMenu}
+                    data-umami-event="Nav click"
+                    data-umami-event-label={n.label}
+                    data-umami-event-location="mobile"
                     className="block border-b border-line py-4 font-[family-name:var(--font-display)] text-2xl font-semibold text-ink"
                   >
                     {n.label}
@@ -159,8 +165,8 @@ export function Nav() {
               <a
                 href="#contact"
                 onClick={closeMenu}
-                data-umami-event="Nav book a call"
-                data-umami-event-location="mobile"
+                data-umami-event="Jump to booking"
+                data-umami-event-location="nav-mobile"
                 className="mt-6 rounded-xl bg-red px-5 py-4 text-center text-base font-semibold text-white"
               >
                 Book a free Call

@@ -17,7 +17,7 @@ export function Services() {
         <Stagger className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
             <StaggerItem key={s.slug}>
-              <ServiceCard {...s} />
+              <ServiceCard {...s} location="home" />
             </StaggerItem>
           ))}
         </Stagger>
@@ -26,6 +26,7 @@ export function Services() {
           <Link
             href="/services"
             scroll={false}
+            data-umami-event="View all services"
             className="rounded-xl border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-cream"
           >
             View all services

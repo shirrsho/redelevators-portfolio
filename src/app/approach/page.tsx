@@ -35,6 +35,8 @@ export default function ApproachPage() {
             <>
               <a
                 href="#contact"
+                data-umami-event="Jump to booking"
+                data-umami-event-location="approach-header"
                 className="rounded-xl bg-red px-6 py-3.5 text-sm font-semibold text-white shadow-red transition-transform hover:scale-[1.03] active:scale-95"
               >
                 Book a free Call

@@ -44,6 +44,7 @@ export function Systems() {
           <Link
             href="/systems"
             scroll={false}
+            data-umami-event="View all systems"
             className="rounded-xl border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-cream"
           >
             View all systems

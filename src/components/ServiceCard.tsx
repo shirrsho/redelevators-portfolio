@@ -15,11 +15,14 @@ export function ServiceCard({
   title,
   img,
   tags,
+  location,
 }: {
   slug: string;
   title: string;
   img: string;
   tags: string[];
+  /** Where the card is listed, reported to Umami with "Service click". */
+  location: string;
 }) {
   // Only link once the service page actually exists — same completeness
   // check the page route itself gates on, so a card never points at a 404.
@@ -69,7 +72,14 @@ export function ServiceCard({
   );
 
   return hasPage ? (
-    <Link href={`/services/${slug}`} scroll={false} className="contents">
+    <Link
+      href={`/services/${slug}`}
+      scroll={false}
+      className="contents"
+      data-umami-event="Service click"
+      data-umami-event-service={slug}
+      data-umami-event-location={location}
+    >
       {card}
     </Link>
   ) : (

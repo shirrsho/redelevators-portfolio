@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
+import { TrackOnMount } from "@/components/Analytics";
 
 /**
  * The 404 — workstream D, item 5. First of the still-undesigned states to
@@ -16,6 +17,7 @@ import { Footer } from "@/components/Footer";
 export default function NotFound() {
   return (
     <>
+      <TrackOnMount name="404" />
       <Nav />
       <main className="flex min-h-[70vh] items-center">
         <div className="mx-auto max-w-6xl px-6 py-24 text-center">

@@ -34,7 +34,7 @@ export default function ServicesIndex() {
               {services
                 .filter((s) => s.category === cat)
                 .map((s) => (
-                  <ServiceCard key={s.slug} {...s} />
+                  <ServiceCard key={s.slug} {...s} location="services-page" />
                 ))}
             </div>
           </section>

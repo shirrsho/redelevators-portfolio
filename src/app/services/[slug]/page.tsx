@@ -97,6 +97,9 @@ export default async function ServicePage({
             <>
               <a
                 href="#contact"
+                data-umami-event="Jump to booking"
+                data-umami-event-location="service-header"
+                data-umami-event-service={service.slug}
                 className="rounded-xl bg-red px-6 py-3.5 text-sm font-semibold text-white shadow-red transition-transform hover:scale-[1.03] active:scale-95"
               >
                 Book a free Call
@@ -157,7 +160,7 @@ export default async function ServicePage({
           </h2>
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {related.map((s) => (
-              <ServiceCard key={s.slug} {...s} />
+              <ServiceCard key={s.slug} {...s} location="related" />
             ))}
           </div>
         </section>

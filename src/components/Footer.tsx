@@ -30,6 +30,9 @@ export function Footer() {
                     <Link
                       href={n.href}
                       scroll={false}
+                      data-umami-event="Nav click"
+                      data-umami-event-label={n.label}
+                      data-umami-event-location="footer"
                       className="text-ink-soft transition-colors hover:text-red"
                     >
                       {n.label}

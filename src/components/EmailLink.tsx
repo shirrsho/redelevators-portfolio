@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { track } from "@/lib/analytics";
 
 export function EmailLink({
   email,
@@ -21,6 +22,7 @@ export function EmailLink({
     try {
       await navigator.clipboard.writeText(email);
       setCopied(true);
+      track("Email copied", { location });
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => setCopied(false), 1800);
     } catch {
