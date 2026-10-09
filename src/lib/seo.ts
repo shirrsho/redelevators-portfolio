@@ -11,10 +11,10 @@ export const SITE = {
   tagline: "Growth on Autopilot",
   // Home <title> — keyword-led, brand kept short enough to survive Google's
   // ~60-char truncation.
-  defaultTitle: "Red Elevators — Short-Term Rental Automation & Marketing",
-  titleTemplate: "%s — Red Elevators",
+  defaultTitle: "Red Elevators, Rental Automation & Marketing",
+  titleTemplate: "%s, Red Elevators",
   description:
-    "Marketing and AI automation for short-term rental hosts — guest messaging, direct bookings and listing content that run on autopilot. Book a free 30-minute call.",
+    "Marketing and AI automation for short-term rental hosts; guest messaging, direct bookings and listing content that run on autopilot. Book a free 30-minute call.",
   email: "contact@redelevators.com",
   locale: "en_US",
 } as const;

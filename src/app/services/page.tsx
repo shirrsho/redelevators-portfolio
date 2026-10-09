@@ -13,7 +13,7 @@ export const metadata: Metadata = pageMetadata({
   title: "Services",
   path: "/services",
   description:
-    "AI automation and marketing for short-term rentals — guest messaging, direct booking engines, listing content, paid social and commission-free booking websites.",
+    "AI automation and marketing for rentals, guest messaging, direct booking engines, listing content, paid social and commission-free booking websites.",
 });
 
 const CATEGORIES: Service["category"][] = ["AI Automation", "Marketing"];

@@ -1,177 +1,122 @@
 "use client";
 
-import { motion } from "motion/react";
-import { Counter } from "./Counter";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { HeroTower } from "./HeroTower";
 import { bookingUrl } from "@/lib/content";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-const accents = ["#FF2D3B", "#17171B", "#FF2D3B", "#17171B"];
-
-const heroStats: {
-  value: number;
-  prefix?: string;
-  suffix?: string;
-  label: string;
-}[] = [
-  { value: 34, label: "Listings automated" },
-  { value: 15, suffix: "+", label: "Hosts served" },
-  { value: 2, suffix: " wk", label: "To go-live" },
-  { value: 14, prefix: "~", suffix: " hrs", label: "Saved / week" },
-  { value: 20, suffix: "+", label: "Tools we connect" },
-  { value: 5, suffix: "+", label: "Markets served" },
+// The rotating sub-headline — "We run {service} for {audience}."
+const rotator = [
+  { service: "guest messaging", audience: "Airbnb hosts" },
+  { service: "direct bookings", audience: "property managers" },
+  { service: "paid ads & creative", audience: "rental operators" },
+  { service: "dynamic pricing", audience: "multi-unit portfolios" },
+  { service: "the whole stack", audience: "your rentals" },
 ];
 
-const headline = ["Rental process,", "running on"] as const;
-
 export function Hero() {
+  const reduce = useReducedMotion();
+  const [i, setI] = useState(0);
+
+  useEffect(() => {
+    if (reduce) return;
+    const t = setInterval(() => setI((v) => (v + 1) % rotator.length), 2600);
+    return () => clearInterval(t);
+  }, [reduce]);
+
   return (
-    <section id="top" className="relative overflow-hidden pt-32 pb-16 sm:pt-40">
-      {/* backdrop */}
+    <section
+      id="top"
+      className="relative flex min-h-screen items-center overflow-hidden bg-[#0E0E10] text-[#EDEDF0]"
+    >
+      {/* backdrop glow */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 grid-bg" />
         <div
-          className="aurora"
+          className="absolute"
           style={{
-            width: 620,
-            height: 620,
-            top: -220,
-            left: "50%",
-            marginLeft: -310,
-            background:
-              "radial-gradient(circle, rgba(255,45,59,0.26), transparent 60%)",
-          }}
-        />
-        <div
-          className="aurora"
-          style={{
-            width: 420,
-            height: 420,
-            top: 60,
-            left: -160,
-            background:
-              "radial-gradient(circle, rgba(255,107,116,0.18), transparent 60%)",
-            animationDelay: "-6s",
-          }}
-        />
-        <div
-          className="aurora"
-          style={{
-            width: 420,
-            height: 420,
-            top: 40,
+            width: 700,
+            height: 700,
+            top: -160,
             right: -160,
             background:
-              "radial-gradient(circle, rgba(255,45,59,0.14), transparent 60%)",
-            animationDelay: "-10s",
+              "radial-gradient(circle, rgba(255,69,80,0.16), transparent 62%)",
           }}
         />
       </div>
 
-      <div className="mx-auto max-w-4xl px-6 text-center">
-        {/* kicker */}
-        {/* <motion.div
-          initial={{ y: 14 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.6, ease }}
-          className="inline-flex items-center gap-2 rounded-full border border-line bg-white/70 px-3.5 py-1.5 shadow-soft backdrop-blur"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red opacity-60" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-red" />
-          </span>
-          <span className="font-mono-label text-ink-soft">
-            Short-Stay Automation
-          </span>
-        </motion.div> */}
-
-        {/* headline */}
-        <h1 className="mx-auto mt-7 max-w-[16ch] text-[clamp(2.9rem,8vw,5.4rem)] font-semibold leading-[0.95] tracking-tight">
-          {headline.map((line, i) => (
-            <motion.span
-              key={i}
-              className="block"
-              initial={{ y: 24 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 + i * 0.08, ease }}
+      <div className="mx-auto w-full max-w-6xl px-6 pb-16 pt-28 sm:pt-24">
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          {/* left */}
+          <div>
+            <motion.h1
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.08, ease }}
+              className="text-[clamp(2.6rem,5.6vw,4.6rem)] font-semibold leading-[1.03] tracking-tight text-white"
             >
-              {line}
-            </motion.span>
-          ))}
-          <motion.span
-            className="block text-gradient"
-            initial={{ y: 24 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.7, delay: 0.28, ease }}
-          >
-            autopilot.
-          </motion.span>
-        </h1>
+              Rental process,
+              <br />
+              <span className="text-[#FF4550]">running on autopilot.</span>
+            </motion.h1>
 
-        {/* subhead */}
-        {/* <motion.p
-          initial={{ y: 16 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4, ease }}
-          className="mx-auto mt-6 max-w-xl text-lg text-muted"
-        >
-          Campaigns, workflows and the repetitive work, handled so your team
-          doesn&apos;t have to.
-        </motion.p> */}
+            {/* rotating sub-line */}
+            <div className="mt-6 h-8 text-lg text-[#A2A2AC]">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.35, ease }}
+                >
+                  We run{" "}
+                  <span className="font-semibold text-white">
+                    {rotator[i].service}
+                  </span>{" "}
+                  for{" "}
+                  <span className="font-semibold text-[#FF4550]">
+                    {rotator[i].audience}
+                  </span>
+                  .
+                </motion.p>
+              </AnimatePresence>
+            </div>
 
-        {/* CTA */}
-        <motion.div
-          initial={{ y: 16 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5, ease }}
-          className="mt-9 flex flex-wrap items-center justify-center gap-3"
-        >
-          <a
-            href={bookingUrl}
-            target="_blank"
-            data-umami-event="Book a call"
-            data-umami-event-location="hero"
-            rel="noopener noreferrer"
-            className="group relative overflow-hidden rounded-xl bg-red px-6 py-3.5 text-sm font-semibold text-white shadow-red transition-transform hover:scale-[1.03] active:scale-95"
-          >
-            <span className="relative z-10">Book a free Call</span>
-            <span className="absolute inset-0 -translate-x-full bg-red-hover transition-transform duration-300 group-hover:translate-x-0" />
-            <span className="pointer-events-none absolute inset-0 z-10 flex items-center px-6 text-sm font-semibold text-white opacity-0 group-hover:opacity-100">
-              <span className="ml-[7rem]">→</span>
-            </span>
-          </a>
-          <a
-            href="#systems"
-            className="rounded-xl border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-cream"
-          >
-            See how it works
-          </a>
-        </motion.div>
-      </div>
-
-      {/* stats */}
-      <div className="mx-auto mt-16 max-w-6xl px-6 sm:mt-20">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
-          {heroStats.map((s, i) => (
             <motion.div
-              key={s.label}
-              initial={{ y: 28 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.7, delay: 0.55 + i * 0.07, ease }}
-              className="group relative overflow-hidden rounded-2xl border border-line bg-white/90 p-5 shadow-soft backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-ink/15 hover:shadow-lift"
+              initial={{ y: 16, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.3, ease }}
+              className="mt-9 flex flex-wrap items-center gap-3"
             >
-              <span
-                className="absolute inset-x-0 top-0 h-1"
-                style={{ background: accents[i % accents.length] }}
-              />
-              <div className="font-[family-name:var(--font-display)] text-[clamp(1.8rem,2.4vw,2.2rem)] font-semibold leading-none tracking-tight text-red">
-                <Counter value={s.value} prefix={s.prefix} suffix={s.suffix} />
-              </div>
-              <div className="mt-2.5 text-xs leading-snug text-muted">
-                {s.label}
-              </div>
+              <a
+                href={bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-umami-event="Book a call"
+                data-umami-event-location="hero"
+                className="rounded-xl bg-[#FF4550] px-6 py-3.5 text-sm font-semibold text-[#0E0E10] transition-transform hover:scale-[1.03] active:scale-95"
+              >
+                Book a free Call
+              </a>
+              <a
+                href="#systems"
+                className="rounded-xl border border-white/20 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:border-white/50 hover:bg-white/5"
+              >
+                See how it works
+              </a>
             </motion.div>
-          ))}
+          </div>
+
+          {/* right: animated tower */}
+          <motion.div
+            initial={{ opacity: 0, scale: reduce ? 1 : 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.2, ease }}
+          >
+            <HeroTower index={i} />
+          </motion.div>
         </div>
       </div>
     </section>

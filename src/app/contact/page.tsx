@@ -12,7 +12,7 @@ export const metadata: Metadata = pageMetadata({
   title: "Contact",
   path: "/contact",
   description:
-    "Book a free 30-minute call with Red Elevators. We'll tell you exactly what to automate first in your short-term rental business — no obligation.",
+    "Book a free 30-minute call with Red Elevators. We'll tell you exactly what to automate first in your rental business.",
 });
 
 // Deliberately form-free. The design system has form controls (Form.tsx,
@@ -33,7 +33,7 @@ export default function ContactPage() {
         <PageHeader
           label="Contact"
           title="One call. Thirty minutes."
-          intro="Book a free 30-minute call and we'll tell you exactly what to automate first — or email us if that's easier."
+          intro="Book a free 30-minute call and we'll tell you exactly what to automate first, or email us if that's easier."
         />
 
         {/* id="contact" is load-bearing: Nav's "Book a call" is a bare
@@ -50,7 +50,7 @@ export default function ContactPage() {
               </h2>
               <p className="mt-3 text-[0.95rem] text-muted">
                 Thirty minutes, free, no deck. We walk your current process and
-                tell you which part is worth automating first — whether or not
+                tell you which part is worth automating first, whether or not
                 you work with us.
               </p>
               <div className="mt-7">

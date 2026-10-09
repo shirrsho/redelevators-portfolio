@@ -20,30 +20,28 @@ export const stats = [
   { value: 0, suffix: "", label: "New platforms to learn" },
 ];
 
-// Short-term-rental stack — the OTAs, PMS, pricing and automation tools a
-// vacation-rental operation actually runs on. Every tool named in a `systems`
-// chain below also appears here. Reframed for the STR focus (homepage pass).
+// UAE real-estate ad / tracking / attribution stack — the ad platforms,
+// portals, CRMs, tag and analytics tools a brokerage's paid-media and
+// attribution actually run on. From the marketing reference.
 export const marquee = [
-  "Airbnb",
-  "Vrbo",
-  "Booking.com",
-  "Guesty",
-  "Hostaway",
-  "PriceLabs",
-  "Stripe",
-  "OpenAI",
-  "Claude",
-  "n8n",
-  "Make",
-  "Zapier",
-  "Airtable",
-  "Slack",
-  "Notion",
-  "WhatsApp",
-  "Webflow",
   "Meta Ads",
   "Google Ads",
-  "Canva",
+  "WhatsApp Business API",
+  "Meta CAPI",
+  "GTM",
+  "GA4",
+  "Bayut",
+  "Property Finder",
+  "Dubizzle",
+  "Bitrix24",
+  "HubSpot",
+  "GoHighLevel",
+  "PropSpace",
+  "LeadRat",
+  "Looker Studio",
+  "Microsoft Clarity",
+  "Snapchat Ads",
+  "TikTok Ads",
 ];
 
 export type Service = {
@@ -72,7 +70,7 @@ export const services: Service[] = [
     slug: "workflow-crm-automation",
     category: "AI Automation",
     title: "Guest Messaging & CRM",
-    desc: "Inquiries, booking questions and check-in details answered instantly across Airbnb, Vrbo and direct — every guest message handled from one place.",
+    desc: "Inquiries, booking questions and check-in details answered instantly across Airbnb, Vrbo and direct, every guest message handled from one place.",
     img: "/images/svc-guest-msg.jpg",
     tags: ["Airbnb", "Guesty", "Inbox"],
   },
@@ -81,7 +79,7 @@ export const services: Service[] = [
     slug: "ai-assistants-chatbots",
     category: "AI Automation",
     title: "AI Guest Assistant",
-    desc: "An assistant that answers guests in natural language, day and night — house rules, local tips, upsells and FAQs — so you're not on your phone at 2am.",
+    desc: "An assistant that answers guests in natural language, day and night; house rules, local tips, upsells and FAQs; so you're not on your phone at 2am.",
     img: "/images/svc-assistant.jpg",
     tags: ["Assistant", "24/7", "OpenAI"],
   },
@@ -90,7 +88,7 @@ export const services: Service[] = [
     slug: "sales-outreach-systems",
     category: "AI Automation",
     title: "Direct Booking Engine",
-    desc: "Past guests and leads re-engaged automatically to drive repeat, direct bookings — fewer OTA commissions, more margin on every stay.",
+    desc: "Past guests and leads re-engaged automatically to drive repeat, direct bookings; fewer OTA commissions, more margin on every stay.",
     img: "/images/svc-direct.jpg",
     tags: ["Direct", "Repeat guests", "Email"],
   },
@@ -99,7 +97,7 @@ export const services: Service[] = [
     slug: "content-engines",
     category: "AI Automation",
     title: "Listing & Content Engine",
-    desc: "Optimized listing copy, neighbourhood guides and social posts researched and published on schedule — every property kept fresh with no writer on payroll.",
+    desc: "Optimized listing copy, neighbourhood guides and social posts researched and published on schedule; every property kept fresh with no writer on payroll.",
     img: "/images/svc-content.jpg",
     tags: ["Listings", "SEO", "Content"],
   },
@@ -151,7 +149,7 @@ export const steps = [
   {
     num: "02",
     title: "Design",
-    desc: "We architect the workflow — what triggers it, what it touches, and exactly where a human still checks in.",
+    desc: "We architect the workflow; what triggers it, what it touches, and exactly where a human still checks in.",
   },
   {
     num: "03",
@@ -193,10 +191,10 @@ export const approachStages: ApproachStage[] = [
     num: "02",
     title: "Design",
     summary:
-      "We architect the workflow — what triggers it, what it touches, and exactly where a human still checks in.",
+      "We architect the workflow; what triggers it, what it touches, and exactly where a human still checks in.",
     detail: [
       "Every workflow gets a trigger, a defined path through the tools it touches, and at least one point where a person reviews or approves before anything goes out.",
-      "This is the stage where we decide what should run itself and what shouldn't — full automation isn't the goal on every task, correctness is.",
+      "This is the stage where we decide what should run itself and what shouldn't; full automation isn't the goal on every task, correctness is.",
     ],
     output:
       "A workflow diagram naming every tool, trigger and checkpoint, reviewed with you before we build anything.",
@@ -219,7 +217,7 @@ export const approachStages: ApproachStage[] = [
       "We monitor, refine and hand over full documentation. The system keeps running whether we're in the room or not.",
     detail: [
       "We watch the system's first weeks live, fix what real usage exposes, and document exactly how it works and where the human checkpoints sit.",
-      "Handover isn't a PDF nobody reads — someone on your team can explain the system back to us before we call it done.",
+      "Handover isn't a PDF nobody reads; someone on your team can explain the system back to us before we call it done.",
     ],
     output: "A documented, running system your team owns and can maintain without us.",
   },
@@ -254,7 +252,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "Guest Messaging & CRM",
     title: "A guest question, answered in seconds",
-    desc: "A message lands from any channel, the system reads it, pulls the booking details and drafts the right reply — so guests get an instant answer and nothing sits unread.",
+    desc: "A message lands from any channel, the system reads it, pulls the booking details and drafts the right reply; so guests get an instant answer and nothing sits unread.",
     nodes: [
       { step: "Trigger", action: "Message in", tool: "Airbnb" },
       { step: "Step 01", action: "Read intent", tool: "OpenAI" },
@@ -266,7 +264,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "AI Guest Assistant",
     title: "One assistant runs every conversation",
-    desc: "A guest messages on WhatsApp, the assistant works out what they need, takes the action and drafts a reply in natural language — house rules, directions or an upsell — from a single thread.",
+    desc: "A guest messages on WhatsApp, the assistant works out what they need, takes the action and drafts a reply in natural language; house rules, directions or an upsell; from a single thread.",
     nodes: [
       { step: "Trigger", action: "Message in", tool: "WhatsApp" },
       { step: "Step 01", action: "Understand", tool: "OpenAI" },
@@ -278,7 +276,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "Direct Booking Engine",
     title: "Past guests, back on the calendar",
-    desc: "Your guest list is segmented, each contact gets a personalized offer to book direct next time, and it sends itself — turning one stay into repeat, commission-free bookings.",
+    desc: "Your guest list is segmented, each contact gets a personalized offer to book direct next time, and it sends itself; turning one stay into repeat, commission-free bookings.",
     nodes: [
       { step: "Trigger", action: "Guest list", tool: "Airtable" },
       { step: "Step 01", action: "Segment", tool: "n8n" },
@@ -290,7 +288,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "Listing & Content Engine",
     title: "Fresh listings and guides, on schedule",
-    desc: "A topic is picked, researched and written, a matching image is sourced, and the piece is checked and published — keeping every listing and area guide current without a writer driving it.",
+    desc: "A topic is picked, researched and written, a matching image is sourced, and the piece is checked and published; keeping every listing and area guide current without a writer driving it.",
     nodes: [
       { step: "Trigger", action: "Topic due", tool: "n8n" },
       { step: "Step 01", action: "Research", tool: "OpenAI" },
@@ -302,7 +300,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "Paid Social for Bookings",
     title: "Budget follows the bookings, every day",
-    desc: "Ad performance is checked daily, weak ads are flagged, and budget shifts toward what's actually driving bookings — before a slow week becomes a slow month.",
+    desc: "Ad performance is checked daily, weak ads are flagged, and budget shifts toward what's actually driving bookings; before a slow week becomes a slow month.",
     nodes: [
       { step: "Trigger", action: "Daily check", tool: "Meta Ads" },
       { step: "Step 01", action: "Compare", tool: "Make" },
@@ -335,7 +333,7 @@ export const systems: SystemAnatomy[] = [
   {
     label: "Full-Funnel Booking Campaigns",
     title: "One view, from first click to confirmed stay",
-    desc: "Awareness, consideration and booking performance are pulled into one place daily, so the whole funnel is visible — not just whichever channel someone last checked.",
+    desc: "Awareness, consideration and booking performance are pulled into one place daily, so the whole funnel is visible; not just whichever channel someone last checked.",
     nodes: [
       { step: "Trigger", action: "Daily pull", tool: "Google Ads" },
       { step: "Step 01", action: "Merge channels", tool: "Make" },
@@ -380,7 +378,7 @@ export const serviceDetails: Record<string, ServicePage> = {
       "A follow-up gets missed the moment the person who owns it gets busy.",
     ],
     humanCheckpoint:
-      "The system watches for changes, updates records and notifies the right person — a person still decides what happens next. Nothing acts on a customer's behalf without someone choosing to.",
+      "The system watches for changes, updates records and notifies the right person; a person still decides what happens next. Nothing acts on a customer's behalf without someone choosing to.",
     manualChain: [
       { note: "Someone checks the CRM manually to see what changed" },
       { note: "The same update gets typed into two different tools by hand" },
@@ -391,10 +389,10 @@ export const serviceDetails: Record<string, ServicePage> = {
   "ai-assistants-chatbots": {
     feltCost: [
       "The busywork never stops, it just moves to whenever there's a spare five minutes.",
-      "Every channel needs checking on its own — nothing talks to anything else.",
+      "Every channel needs checking on its own; nothing talks to anything else.",
     ],
     humanCheckpoint:
-      "The assistant reads, drafts and organizes across channels — a person still approves anything that leaves the building or touches money. It handles the busywork, not the judgment calls.",
+      "The assistant reads, drafts and organizes across channels; a person still approves anything that leaves the building or touches money. It handles the busywork, not the judgment calls.",
     manualChain: [
       { note: "Email, calendar and messages all get checked separately, all day" },
       { note: "Every reply gets typed out from scratch, even the routine ones" },
@@ -408,7 +406,7 @@ export const serviceDetails: Record<string, ServicePage> = {
       "A generic template gets ignored, and the lead never hears from you again.",
     ],
     humanCheckpoint:
-      "The system researches, personalizes and sends the first email — a person still owns every reply and every real conversation once a prospect responds. Nothing but the first touch runs on its own.",
+      "The system researches, personalizes and sends the first email; a person still owns every reply and every real conversation once a prospect responds. Nothing but the first touch runs on its own.",
     manualChain: [
       { note: "Someone scrolls LinkedIn and company sites one prospect at a time" },
       { note: "Notes get typed into a spreadsheet by hand" },
@@ -419,10 +417,10 @@ export const serviceDetails: Record<string, ServicePage> = {
   "content-engines": {
     feltCost: [
       "A content calendar with no writer behind it just stops publishing.",
-      "Every article starts from zero — nothing about the last one carries over.",
+      "Every article starts from zero; nothing about the last one carries over.",
     ],
     humanCheckpoint:
-      "A person still sets the content pillars and can pull any article before it goes out — the system handles the researching, writing, illustrating and publishing in between.",
+      "A person still sets the content pillars and can pull any article before it goes out; the system handles the researching, writing, illustrating and publishing in between.",
     manualChain: [
       { note: "A writer researches the topic by hand before starting a draft" },
       { note: "Finding a matching image means another trip to a stock site" },
@@ -436,7 +434,7 @@ export const serviceDetails: Record<string, ServicePage> = {
       "A winning ad gets starved of budget because nobody moved it in time.",
     ],
     humanCheckpoint:
-      "The system watches performance and flags what needs a decision — a person still approves every budget shift and every new creative before it runs.",
+      "The system watches performance and flags what needs a decision; a person still approves every budget shift and every new creative before it runs.",
     manualChain: [
       { note: "Someone checks ad performance by logging into Ads Manager" },
       { note: "Underperforming ads get paused whenever someone notices" },
@@ -450,7 +448,7 @@ export const serviceDetails: Record<string, ServicePage> = {
       "Creative sits waiting for approval while the campaign misses its launch window.",
     ],
     humanCheckpoint:
-      "The system handles resizing, formatting and routing for approval — a person still designs the concept and signs off before anything goes live. Nothing publishes without that sign-off.",
+      "The system handles resizing, formatting and routing for approval; a person still designs the concept and signs off before anything goes live. Nothing publishes without that sign-off.",
     manualChain: [
       { note: "A new ad concept starts from a blank canvas each time" },
       { note: "Each platform's size and format gets resized by hand" },
@@ -464,7 +462,7 @@ export const serviceDetails: Record<string, ServicePage> = {
       "Reporting takes an afternoon that could've gone into the next campaign.",
     ],
     humanCheckpoint:
-      "The system watches store and ad performance together and flags what needs attention — a person still decides what to change and approves it before it happens.",
+      "The system watches store and ad performance together and flags what needs attention; a person still decides what to change and approves it before it happens.",
     manualChain: [
       { note: "Store settings and inventory get checked across tools by hand" },
       { note: "Ad spend gets reviewed whenever someone has time to open the dashboard" },
@@ -478,7 +476,7 @@ export const serviceDetails: Record<string, ServicePage> = {
       "A campaign coasts on inertia because stopping it means someone has to notice first.",
     ],
     humanCheckpoint:
-      "The system tracks the whole funnel and flags what's underperforming — a person still decides what to launch, pause or scale.",
+      "The system tracks the whole funnel and flags what's underperforming; a person still decides what to launch, pause or scale.",
     manualChain: [
       { note: "Each stage of the funnel is planned and tracked in a separate tool" },
       { note: "Handoffs between awareness, consideration and purchase happen over messages" },

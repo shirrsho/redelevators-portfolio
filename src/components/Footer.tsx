@@ -11,8 +11,8 @@ export function Footer() {
           <div className="max-w-xs">
             <Wordmark size={18} />
             <p className="mt-4 text-sm text-muted">
-              Marketing &amp; automation for short-term rental hosts and
-              managers — the systems behind more bookings. Growth on autopilot.
+              Marketing &amp; automation for rental hosts and
+              managers, the systems behind more bookings. Growth on autopilot.
             </p>
           </div>
 

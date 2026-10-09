@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 // Site-wide social share image (1200×630). Next attaches it as og:image on
 // every route automatically.
-export const alt = "Red Elevators — Growth on Autopilot";
+export const alt = "Red Elevators, Growth on Autopilot";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

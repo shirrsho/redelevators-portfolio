@@ -84,23 +84,29 @@ export function Mark({
 export function Wordmark({
   size = 20,
   tagline = true,
+  light = false,
 }: {
   size?: number;
   tagline?: boolean;
+  light?: boolean;
 }) {
   return (
     <div className="flex items-center gap-2.5">
       <Mark size={size + 10} />
       <span className="flex flex-col leading-none">
         <span
-          className="font-[family-name:var(--font-display)] font-bold tracking-tight text-ink"
+          className={`font-[family-name:var(--font-display)] font-bold tracking-tight ${
+            light ? "text-white" : "text-ink"
+          }`}
           style={{ fontSize: size }}
         >
           Red Elevators
         </span>
         {tagline && (
           <span
-            className="leading-3 -mb-3 font-[family-name:var(--font-mono)] font-medium uppercase text-muted"
+            className={`leading-3 -mb-3 font-[family-name:var(--font-mono)] font-medium uppercase ${
+              light ? "text-white/60" : "text-muted"
+            }`}
             style={{
               fontSize: Math.max(7.5, size * 0.42),
               letterSpacing: "0.18em",

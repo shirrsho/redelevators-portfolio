@@ -14,7 +14,7 @@ export const metadata: Metadata = pageMetadata({
   title: "Systems",
   path: "/systems",
   description:
-    "See exactly how each Red Elevators system is wired, trigger to result — across Airbnb, Guesty, OpenAI and the tools your short-term rental already runs on.",
+    "See exactly how each Red Elevators system is wired, trigger to result; across Airbnb, Guesty, OpenAI and the tools your short-term rental already runs on.",
 });
 
 // The full catalog — Systems.tsx on the home page shows a curated 3-item

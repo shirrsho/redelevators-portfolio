@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from "motion/react";
 import { Wordmark } from "./Mark";
-import { nav } from "@/lib/content";
+import { nav, bookingUrl } from "@/lib/content";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -62,6 +62,11 @@ export function Nav() {
     }
   }
 
+  // Over the dark hero on the home page (before the nav picks up its solid
+  // white pill on scroll), flip the logo and links to white so they stay
+  // legible against the near-black hero.
+  const overHero = pathname === "/" && !scrolled;
+
   return (
     <>
       <motion.header
@@ -78,7 +83,7 @@ export function Nav() {
           }`}
         >
           <Link href="/" scroll={false} onClick={handleLogoClick} aria-label="Red Elevators home">
-            <Wordmark size={17} />
+            <Wordmark size={17} light={overHero} />
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">
@@ -90,7 +95,11 @@ export function Nav() {
                 data-umami-event="Nav click"
                 data-umami-event-label={n.label}
                 data-umami-event-location="header"
-                className="rounded-lg px-3.5 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-cream hover:text-ink"
+                className={`rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
+                  overHero
+                    ? "text-white/80 hover:bg-white/10 hover:text-white"
+                    : "text-ink-soft hover:bg-cream hover:text-ink"
+                }`}
               >
                 {n.label}
               </Link>
@@ -99,31 +108,39 @@ export function Nav() {
 
           <div className="flex items-center gap-2">
             <a
-              href="#contact"
-              data-umami-event="Jump to booking"
+              href={bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-umami-event="Book a call"
               data-umami-event-location="nav-desktop"
-              className="hidden rounded-xl bg-ink px-4 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-[1.03] active:scale-95 sm:block"
+              className={`hidden rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-[1.03] active:scale-95 sm:block ${
+                overHero ? "bg-red" : "bg-ink"
+              }`}
             >
               Book a call
             </a>
             <button
               onClick={() => setOpen((o) => !o)}
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-white text-ink md:hidden"
+              className={`flex h-10 w-10 items-center justify-center rounded-xl border md:hidden ${
+                overHero
+                  ? "border-white/25 bg-white/10 text-white"
+                  : "border-line bg-white text-ink"
+              }`}
               aria-label="Toggle menu"
             >
               <div className="space-y-1.5">
                 <span
-                  className={`block h-0.5 w-5 bg-ink transition-transform ${
+                  className={`block h-0.5 w-5 bg-current transition-transform ${
                     open ? "translate-y-2 rotate-45" : ""
                   }`}
                 />
                 <span
-                  className={`block h-0.5 w-5 bg-ink transition-opacity ${
+                  className={`block h-0.5 w-5 bg-current transition-opacity ${
                     open ? "opacity-0" : ""
                   }`}
                 />
                 <span
-                  className={`block h-0.5 w-5 bg-ink transition-transform ${
+                  className={`block h-0.5 w-5 bg-current transition-transform ${
                     open ? "-translate-y-2 -rotate-45" : ""
                   }`}
                 />
@@ -163,9 +180,11 @@ export function Nav() {
                 </motion.div>
               ))}
               <a
-                href="#contact"
+                href={bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={closeMenu}
-                data-umami-event="Jump to booking"
+                data-umami-event="Book a call"
                 data-umami-event-location="nav-mobile"
                 className="mt-6 rounded-xl bg-red px-5 py-4 text-center text-base font-semibold text-white"
               >
