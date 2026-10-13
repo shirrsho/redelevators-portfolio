@@ -1,10 +1,9 @@
-// STUB: owned by track A
 import Link from "next/link";
 import { EVENTS } from "@/lib/analytics";
 import { getService, type ServiceSlug } from "@/lib/services";
 import { Icon } from "@/components/ui/Icon";
 import { Tag } from "@/components/ui/Chip";
-import { StubBox } from "@/components/ui/StubBox";
+import { ServiceViz } from "@/components/viz/ServiceViz";
 
 export type ServiceCardProps = {
   slug: ServiceSlug;
@@ -19,8 +18,9 @@ export type ServiceCardProps = {
 /**
  * Service card: looping mini demo (VIZ), icon, pillar tag, title, one line; links to the
  * service page. Used by Home ch.05 (Track D) and "Works well with" on service pages.
- * Mockup: home.js → #grid8, site.js → VIZ, sections.css .svc / mini visuals.
- * Stub renders the real copy with a placeholder where the demo goes.
+ * Mockup: home.js → #grid8 and service.html → #rel, site.js → VIZ, sections.css .svc.
+ * Server component. On the home grid (`location="home"`) the assistant demo uses home.js's
+ * longer reply ("…Here's the pet guide."); elsewhere site.js's.
  */
 export function ServiceCard({ slug, dimmed = false, delay, location = "home" }: ServiceCardProps) {
   const s = getService(slug)!;
@@ -34,7 +34,7 @@ export function ServiceCard({ slug, dimmed = false, delay, location = "home" }: 
       data-umami-event-location={location}
     >
       <div className="viz">
-        <StubBox name="ServiceCard viz" track="A" minHeight={150} style={{ border: 0, borderRadius: 0 }} />
+        <ServiceViz kind={s.viz} long={location === "home"} />
       </div>
       <div className="body">
         <div className="row">
@@ -46,6 +46,9 @@ export function ServiceCard({ slug, dimmed = false, delay, location = "home" }: 
         <h4>{s.title}</h4>
         <p>{s.short}</p>
       </div>
+      <span className="go">
+        <Icon name="arrow" />
+      </span>
     </Link>
   );
 }

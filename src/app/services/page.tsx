@@ -1,9 +1,11 @@
-// SKELETON (Stage 1). Owned by Track A: build per docs/redesign/ROUTES-AND-CONTENT.md → /services
-// (mockup: redesign-mockups/r3/services.html).
+// Track A · /services (mockup: redesign-mockups/r3/services.html).
 import type { Metadata } from "next";
+import { Fragment } from "react";
 import { EVENTS } from "@/lib/analytics";
 import { breadcrumbLd, pageMetadata } from "@/lib/seo";
 import { servicesIn } from "@/lib/services";
+import { ServiceRow } from "@/components/cards/ServiceRow";
+import { ServicesDuo } from "@/components/devices/ServicesDuo";
 import { CTABand } from "@/components/layout/CTABand";
 import { JsonLd } from "@/components/layout/JsonLd";
 import { PageBg } from "@/components/layout/PageBg";
@@ -11,7 +13,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { SectionHead } from "@/components/layout/Section";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow, Tag } from "@/components/ui/Chip";
-import { StubBox } from "@/components/ui/StubBox";
+import { Icon } from "@/components/ui/Icon";
 
 export const metadata: Metadata = pageMetadata({
   title: "Services",
@@ -20,13 +22,20 @@ export const metadata: Metadata = pageMetadata({
   path: "/services",
 });
 
+/** "Better together" loop: [icon, title, line]. */
+const LOOP = [
+  ["social", "Marketing", "Ads and your own site bring the guest in."],
+  ["assistant", "AI Automation", "Every message, payment and turnover handled."],
+  ["direct", "Direct, next time", "They come back without the platform’s cut."],
+] as const;
+
 export default function ServicesPage() {
   return (
     <>
       <PageBg tone="day" />
       <JsonLd data={breadcrumbLd([{ name: "Services", path: "/services" }])} />
       <main id="main" className="page">
-        <PageHero visual={<StubBox name="ServicesDuo" track="A" minHeight={480} style={{ width: "100%" }} />}>
+        <PageHero visual={<ServicesDuo />}>
           <Eyebrow>Services</Eyebrow>
           <h1 className="d1" style={{ marginTop: 22 }}>
             Eight systems.
@@ -56,9 +65,11 @@ export default function ServicesPage() {
               </div>
               <span className="mono">4 systems</span>
             </div>
-            {servicesIn(p).map((s) => (
-              <StubBox key={s.slug} name={`ServiceRow ${s.slug}`} track="A" minHeight={120} style={{ marginBottom: 12 }} />
-            ))}
+            <div>
+              {servicesIn(p).map((s) => (
+                <ServiceRow key={s.slug} slug={s.slug} />
+              ))}
+            </div>
           </section>
         ))}
 
@@ -69,7 +80,20 @@ export default function ServicesPage() {
             note="Marketing brings the guest in. Automation looks after them. They come back direct."
             noteMaxWidth={320}
           />
-          <StubBox name="Loop diagram" track="A" minHeight={220} />
+          <div className="loop rv">
+            {LOOP.map(([icon, title, line], i) => (
+              <Fragment key={title}>
+                {i ? <span className="arr" /> : null}
+                <div className="node">
+                  <div className="ico-tile">
+                    <Icon name={icon} />
+                  </div>
+                  <h4>{title}</h4>
+                  <p>{line}</p>
+                </div>
+              </Fragment>
+            ))}
+          </div>
         </section>
 
         <CTABand

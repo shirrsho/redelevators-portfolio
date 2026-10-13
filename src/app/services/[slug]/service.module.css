@@ -1,0 +1,16 @@
+/* Page CSS for /services/[slug], ported from redesign-mockups/r3/service.html <style>.
+   (Hero scenes live in components/devices/serviceHero.module.css; before/after in
+   components/interactive/beforeAfter.module.css.) */
+.pick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:26px}
+.pick a{font-size:12.5px;padding:6px 10px;border-radius:8px;border:1px solid var(--hair);color:var(--sub)}
+.pick a.on{background:var(--ink);color:#111;border-color:var(--ink)}
+.rel{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pnNav{display:flex;justify-content:space-between;gap:16px;margin-top:40px}
+.pnNav a{flex:1;border:1px solid var(--hair);border-radius:16px;padding:18px 20px;transition:border-color .3s}
+.pnNav a:hover{border-color:var(--hair-2)}
+.pnNav a:last-child{text-align:right}
+.pnNav b{display:block;font-family:var(--display);font-weight:500;font-size:18px;margin-top:4px}
+@media (max-width:900px){
+  .rel{grid-template-columns:1fr}
+  .pick a{white-space:normal}
+}
