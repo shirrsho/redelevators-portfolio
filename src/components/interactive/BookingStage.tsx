@@ -1,5 +1,10 @@
-// STUB: owned by track C
-import { StubBox } from "@/components/ui/StubBox";
+"use client";
+
+import { useCallback, useState } from "react";
+import Link from "next/link";
+import { AlivePhone, type AlivePhoneStage } from "@/components/devices/AlivePhone";
+import { CalBooker, type BookedWhen } from "./CalBooker";
+import { BOOKER_NOTE } from "@/lib/booking";
 
 export type BookingStageProps = {
   /**
@@ -19,10 +24,33 @@ export type BookingStageProps = {
  * Mockup: sections.css .bstage, site.js → mountScheduler + mountCalmPhone.
  */
 export function BookingStage({ variant }: BookingStageProps) {
+  const [stage, setStage] = useState<AlivePhoneStage>("idle");
+  const [when, setWhen] = useState<BookedWhen | null>(null);
+  const note = BOOKER_NOTE[variant];
+
+  const onStart = useCallback(() => setStage((cur) => (cur === "booked" ? cur : "started")), []);
+  const onBooked = useCallback((w: BookedWhen | null) => {
+    setWhen(w);
+    setStage("booked");
+  }, []);
+
   return (
     <div className="bstage">
-      <StubBox name="BookingStage · CalBooker" track="C" minHeight={520} note={`variant="${variant}"`} />
-      <StubBox name="BookingStage · AlivePhone" track="C" minHeight={520} style={{ width: 300 }} />
+      <div className="rv">
+        <CalBooker location={variant} onStart={onStart} onBooked={onBooked} />
+        <p className="mono tz">
+          {note.text}
+          {note.link ? (
+            <>
+              {" "}
+              <Link className="link" href={note.link.href}>
+                {note.link.label}
+              </Link>
+            </>
+          ) : null}
+        </p>
+      </div>
+      <AlivePhone className="rv d2x" stage={stage} when={when} nudge={variant === "contact" ? "wa" : "ask"} />
     </div>
   );
 }

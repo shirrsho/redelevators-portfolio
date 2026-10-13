@@ -1,0 +1,43 @@
+/* The booker card (global .calbk: border, radius, #101014, overflow hidden) with the Cal iframe
+   inside it. The card grows with the booker (Cal reports its height) instead of scrolling inside it. */
+.frame {
+  position: relative;
+  min-height: 560px;
+}
+/* Cal switches to its side-by-side desktop layout at 768px of iframe width, and the stage
+   column (760px, minus the border) is just under that. Beside the phone, let the card
+   overhang the column by 10px a side so Cal gets ~778px. Cal's height there is ~534px. */
+@media (min-width: 1101px) {
+  .frame {
+    min-height: 536px;
+    margin-inline: -10px;
+  }
+}
+
+/* Shown only if Cal reports the link failed (wrong or unpublished event). */
+.fail {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  padding: 24px;
+  text-align: center;
+  background: #101014;
+  z-index: 2;
+}
+.fail p {
+  font-size: 14px;
+  color: var(--sub);
+}
+.fail strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  color: #f4f4f5;
+}
+.fail a {
+  color: #f4f4f5;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
