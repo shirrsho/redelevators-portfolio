@@ -147,7 +147,7 @@ A phone lock screen where a notification arrives: "This page checked out." There
 
 | Event | When |
 |---|---|
-| `Booking step` | Cal.com: date chosen / time chosen. Use Cal's embed events |
+| `Booking step` | Cal.com: the visitor starts using the booker (`{ step: "started" }`, once per page view). Cal's embed doesn't expose which date or time was picked (see NOTES-C) |
 | `Booking complete` | Cal.com booking confirmed. This is the main conversion |
 | `WhatsApp click` | Contact page button |
 | `Currency change` | Data: `{ currency }` |

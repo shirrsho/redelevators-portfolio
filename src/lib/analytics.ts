@@ -32,7 +32,7 @@ export const EVENTS = {
   viewAllSystems: "View all systems",
   notFound: "404",
   // new in the redesign
-  bookingStep: "Booking step", // Cal.com: date chosen / time chosen
+  bookingStep: "Booking step", // Cal.com: { step: "started" } on the first click into the booker (no date/time from Cal)
   bookingComplete: "Booking complete", // Cal.com booking confirmed (main conversion)
   whatsappClick: "WhatsApp click", // Contact page button
   currencyChange: "Currency change", // { currency }
