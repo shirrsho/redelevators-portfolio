@@ -277,6 +277,8 @@ function StoryAnimated() {
       D.chs.forEach((c, i) => {
         tog(c, styles.on, i === s.ch);
         tog(c, styles.gone, i < s.ch);
+        // added: links in a hidden chapter leave the tab order (they stay readable)
+        c.querySelectorAll<HTMLElement>("a,button").forEach((a) => (a.tabIndex = i === s.ch ? 0 : -1));
       });
       D.linesP.forEach((l, i) => tog(l, styles.on, s.ch === 1 && i === s.step));
       if (s.ch === 1) {
