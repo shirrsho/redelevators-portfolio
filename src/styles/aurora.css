@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Aurora layer (decided 13 Oct 2026). Ported from redesign-mockups/r3/themes.css.
+   Active because <html data-theme="aurora"> (src/app/layout.tsx).
+   The review-only colour switcher and font candidates were left out.
+   `.light` (warm paper) is kept: the privacy page's reading section uses it.
+   ========================================================================== */
+
+/* ---- shared: pillar colours exist in every direction -------------------- */
+:root{--auto:#8b93ff;--mkt:#ff5a4e;--teal:#5ad1c4}
+
+/* =========================================================================
+   AURORA
+   ========================================================================= */
+[data-theme="aurora"] body{background:transparent}
+[data-theme="aurora"] body::before{content:"";position:fixed;inset:-15%;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(40% 36% at 10% 6%, rgba(124,134,255,.32), transparent 70%),
+    radial-gradient(36% 32% at 94% 92%, rgba(255,60,70,.26), transparent 70%),
+    radial-gradient(30% 28% at 74% 26%, rgba(90,209,196,.12), transparent 70%),
+    radial-gradient(26% 24% at 30% 70%, rgba(186,104,255,.10), transparent 70%);
+  filter:blur(10px);animation:aurora 26s ease-in-out infinite alternate}
+@keyframes aurora{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-3%,2%) scale(1.05)}100%{transform:translate(2%,-2%) scale(1)}}
+
+[data-theme="aurora"] :is(.svc,.pc,.gets>div,.sysstage,.loop .node,.fstep,.phase .vis,.cal3,.band,.tier,.calc,.try,.ba .col,.c){
+  --card:#17161c;border-color:transparent!important;
+  background:linear-gradient(var(--card),var(--card)) padding-box,
+    linear-gradient(140deg,rgba(139,147,255,.75),rgba(255,255,255,.08) 34%,rgba(255,255,255,.05) 62%,rgba(255,90,78,.7)) border-box!important}
+[data-theme="aurora"] .tier.pop{box-shadow:0 30px 80px -30px rgba(255,60,70,.35),0 -20px 60px -30px rgba(124,134,255,.35)}
+[data-theme="aurora"] .d1 em,[data-theme="aurora"] .d2 em{color:#ff5a4e}
+[data-theme="aurora"] .section{position:relative}
+[data-theme="aurora"] .head .d2{text-shadow:none}
+[data-theme="aurora"] .band{background:radial-gradient(60% 140% at 100% 0%,rgba(255,60,70,.18),transparent 60%) padding-box,radial-gradient(50% 120% at 0% 100%,rgba(124,134,255,.16),transparent 60%) padding-box,linear-gradient(#17161c,#17161c) padding-box,linear-gradient(140deg,rgba(139,147,255,.55),rgba(255,255,255,.06) 40%,rgba(255,90,78,.5)) border-box!important}
+[data-theme="aurora"] .spot{position:relative;isolation:isolate}
+[data-theme="aurora"] .spot::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;opacity:0;transition:opacity .35s;
+  background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(139,147,255,.13),transparent 62%)}
+[data-theme="aurora"] .spot:hover::after{opacity:1}
+[data-theme="aurora"] .btn.primary,[data-theme="aurora"] .nav .book{background:linear-gradient(135deg,#dc1a2b,#b80e28);box-shadow:0 10px 26px -14px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.18)}
+[data-theme="aurora"] .phero .visual{isolation:isolate}
+[data-theme="aurora"] .phero .visual::before{content:"";position:absolute;inset:8% 4%;z-index:-1;border-radius:50%;filter:blur(50px);
+  background:radial-gradient(closest-side,rgba(124,134,255,.30),rgba(255,60,70,.14) 60%,transparent)}
+[data-theme="aurora"] .eyebrow i{background:linear-gradient(135deg,var(--auto),var(--mkt))}
+[data-theme="aurora"] .ico-tile{background:linear-gradient(140deg,rgba(139,147,255,.16),rgba(255,90,78,.10));border-color:rgba(255,255,255,.12)}
+[data-theme="aurora"] .svc[data-p="auto"] .ico-tile,[data-theme="aurora"] .srow[data-p="auto"] .viz{box-shadow:inset 0 0 0 1px rgba(139,147,255,.3)}
+[data-theme="aurora"] .svc[data-p="mkt"] .ico-tile,[data-theme="aurora"] .srow[data-p="mkt"] .viz{box-shadow:inset 0 0 0 1px rgba(255,90,78,.3)}
+[data-theme="aurora"] .srow{border-left:2px solid transparent;padding-left:16px;transition:border-color .3s,background .3s}
+[data-theme="aurora"] .srow[data-p="auto"]:hover{border-left-color:var(--auto)}
+[data-theme="aurora"] .srow[data-p="mkt"]:hover{border-left-color:var(--mkt)}
+[data-theme="aurora"] .pillar-head .num{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.35)}
+[data-theme="aurora"] .cal3 .d::after{filter:saturate(1.3)}
+[data-theme="aurora"] .progress i,[data-theme="aurora"] .stat .bar2 i{background:linear-gradient(90deg,var(--auto),var(--mkt))}
+[data-theme="aurora"] .weeks .line i{background:linear-gradient(90deg,var(--auto),var(--mkt))}
+[data-theme="aurora"] footer{background:linear-gradient(180deg,transparent,rgba(124,134,255,.05))}
+
+/* =========================================================================
+   .light — warm paper sections (privacy reading section)
+   ========================================================================= */
+.light{--bg:#f5f2ec;--ink:#17161b;--sub:#54525c;--dim:#6e6b76;--hair:rgba(20,18,26,.09);--hair-2:rgba(20,18,26,.16);
+  --surface:#ffffff;--surface-2:rgba(20,18,26,.05);background:#f5f2ec;color:var(--ink)}
+.light .chip{background:rgba(255,255,255,.85);color:var(--ink)}
+.light .chip.handled i{background:#2f9a6a}.light .chip.handled{border-color:rgba(47,154,106,.35)}
+.light .chip.problem i{background:#c27a12}
+.light .tag.auto{color:#4a52c9;border-color:rgba(74,82,201,.3)}
+.light .tag.mkt{color:#c4182a;border-color:rgba(196,24,42,.3)}
+.light .eyebrow{color:var(--sub)}
+.light :is(.svc,.pc,.gets>div,.loop .node,.fstep,.phase .vis,.cal3,.tier,.calc,.try,.ba .col,.sysstage){box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 18px 40px -28px rgba(20,18,26,.35)}
+.light .svc .viz,.light .srow .viz{background:linear-gradient(180deg,#1a1920,#121117);border-color:transparent}
+.light .bub.in{background:#ebe7e0;color:#17161b}
+.light .fstep .bub.in{background:#ebe7e0}
+.light .m-cal i{background:rgba(255,255,255,.08)}
+.light .ico-tile{background:#fff;border-color:var(--hair-2)}
+.light .weeks .ico-tile{background:#f5f2ec}
+.light .weeks .line i{background:var(--ink)}
+.light .ring{border-color:rgba(20,18,26,.14)}
+.light .orbit .core{background:#17161b}
+.light .orbit .core{box-shadow:0 0 0 12px rgba(20,18,26,.04),0 0 0 28px rgba(20,18,26,.03)}
+.light .ring .lg{background:#fff;border-color:var(--hair-2)}
+.light .logo-pill{background:#fff}
+.light .ba .before li span:first-child{background:rgba(194,122,18,.12);color:#b46d0c}
+.light .ba .after li span:first-child{background:rgba(47,154,106,.12);color:#2f9a6a}
+.light .control{background:rgba(47,154,106,.06);border-color:rgba(47,154,106,.3)}
+.light .control .ico-tile{color:#2f9a6a!important}
+.light .pn .bx{background:#fff}
+.light .sysstage{background:#fff}
+.light .log{background:#17161b;color:#a6a6b0}
+.light .faq summary i{border-color:var(--hair-2)}
+.light .slot{border-color:rgba(20,18,26,.2)}
+.light .btn.quiet{border-color:var(--hair-2);color:var(--ink)}
+.light .link{border-color:var(--hair-2)}
+.light .tabs{background:#fff}.light .tabs button.on{background:#17161b;color:#fff}
+.light .ba-toggle{background:#fff}.light .ba-toggle button.on{background:#17161b;color:#fff}
+.light .scen button.on{background:#fff;border-color:var(--hair-2)}
+.light .cal3 .d{background:rgba(20,18,26,.06)}.light .cal3 .d.we{background:rgba(20,18,26,.03)}
+.light .cal3 .run{color:#2f9a6a;border-color:rgba(47,154,106,.4)}
+.light .rows .card,.light .tests div{border-color:var(--hair)}
+.light .summary-card{background:#fff}
+.light .phase .who div{background:#fff}
+.light .mini-pipe .nd .bx{background:#fff}
+.light .band{background:radial-gradient(60% 120% at 100% 0%,rgba(229,30,43,.08),transparent 60%),#fff;border-color:var(--hair-2)}
+.light .form input,.light .form select,.light .form textarea{background:#fff}
+.light .progress{background:var(--hair)}
+.light .pillar-head .num{color:#b5b1aa}
+.light .phase .num{color:#b5b1aa}
+.light .lp-txt{color:var(--sub)}
+.light .card{border-color:var(--hair)}
+.light path[fill="#ededed"]{fill:#17161b}
+

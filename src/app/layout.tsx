@@ -1,8 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { Hanken_Grotesk, JetBrains_Mono, Schibsted_Grotesk } from "next/font/google";
 import Script from "next/script";
-import { JsonLd } from "@/components/JsonLd";
-import { Analytics } from "@/components/Analytics";
+import { Analytics } from "@/components/layout/Analytics";
+import { Footer } from "@/components/layout/Footer";
+import { JsonLd } from "@/components/layout/JsonLd";
+import { Nav } from "@/components/layout/Nav";
+import { SiteEffects } from "@/components/layout/SiteEffects";
+import { CurrencyProvider } from "@/lib/currency";
 import { SITE, SITE_KEYWORDS, organizationLd, websiteLd } from "@/lib/seo";
 import "./globals.css";
 
@@ -13,29 +17,21 @@ import "./globals.css";
 // numbers — recorder.js only runs once stats.js has a session, so it inherits
 // that filter. `data-performance` sends Core Web Vitals (the Performance
 // report); `data-exclude-hash` stops /#contact and / counting as two pages.
-// Custom events live in src/lib/analytics.ts and components/Analytics.tsx.
+// Custom events live in src/lib/analytics.ts and components/layout/Analytics.tsx.
+//
+// recorder.js and the Meta Pixel stay until the owner decides on tracking vs
+// the privacy page (docs/redesign/DECISIONS.md → still open, item 3). Don't
+// remove them silently, and don't launch with them unless the privacy copy matches.
 const UMAMI_HOST = "https://analytics.redelevators.com";
 const UMAMI_WEBSITE_ID = "3b71a98c-fd86-4349-909c-3f4b26674a50";
 const UMAMI_DOMAINS = "redelevators.com,www.redelevators.com";
 const META_PIXEL_ID = "28272052369116581";
 
-const display = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["400", "500", "600", "700"],
-});
-
-const sans = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  weight: ["400", "500", "600"],
-});
-
-const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  weight: ["400", "500", "600"],
-});
+// Schibsted Grotesk (headings) + Hanken Grotesk (body) + JetBrains Mono (labels), variable
+// weights, self-hosted by next/font. base.css maps them to --display / --sans / --mono.
+const display = Schibsted_Grotesk({ subsets: ["latin"], variable: "--font-schibsted", display: "swap" });
+const sans = Hanken_Grotesk({ subsets: ["latin"], variable: "--font-hanken", display: "swap" });
+const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -75,33 +71,32 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ff2d3b",
-  colorScheme: "light",
+  themeColor: "#0a0b14",
+  colorScheme: "dark",
+  viewportFit: "cover",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${display.variable} ${sans.variable} ${mono.variable} antialiased`}
-      >
-        {/* Organization + WebSite structured data (see src/lib/seo.ts) —
-            richer than an inline Organization block: it also declares the
-            WebSite node and a contactPoint, and reuses the same identity the
-            rest of the site references by @id. */}
+    <html lang="en" data-theme="aurora" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+      <body>
+        {/* Organization + WebSite structured data (src/lib/seo.ts). */}
         <JsonLd data={[organizationLd, websiteLd]} />
+        {/* Without JS nothing reveals: show everything. */}
         <noscript>
-          <img
-            height="1"
-            width="1"
-            style={{ display: "none" }}
-            src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
-            alt=""
-          />
+          <style>{`.rv{opacity:1!important;transform:none!important}`}</style>
+          {/* eslint-disable-next-line @next/next/no-img-element -- Meta Pixel no-JS fallback */}
+          <img height="1" width="1" style={{ display: "none" }} src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`} alt="" />
         </noscript>
-        {children}
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        <CurrencyProvider>
+          <Nav />
+          {children}
+          <Footer />
+        </CurrencyProvider>
+        <SiteEffects />
         <Analytics />
         <Script
           src={`${UMAMI_HOST}/stats.js`}
@@ -111,11 +106,7 @@ export default function RootLayout({
           data-exclude-hash="true"
           strategy="afterInteractive"
         />
-        <Script
-          src={`${UMAMI_HOST}/recorder.js`}
-          data-website-id={UMAMI_WEBSITE_ID}
-          strategy="afterInteractive"
-        />
+        <Script src={`${UMAMI_HOST}/recorder.js`} data-website-id={UMAMI_WEBSITE_ID} strategy="afterInteractive" />
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
