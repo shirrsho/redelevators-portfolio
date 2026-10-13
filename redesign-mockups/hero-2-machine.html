@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hero 02 — The Machine · Red Elevators</title>
+<meta name="theme-color" content="#06080b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   HERO 02 — THE MACHINE
+   Grade: "Carbon Signal". Cool carbon blacks, a steel-cyan data tone for
+   everything operational, and a crimson signal red for demand. Reads like a
+   product, not a poster: the hero *is* the system, and you can inspect it.
+   ========================================================================== */
+:root{
+  --bg:#06080b;
+  --panel:rgba(14,17,23,.72);
+  --ink:#edf1f5;
+  --sub:#9aa4b1;
+  --dim:#7d8794;
+  --hair:rgba(237,241,245,.1);
+  --red:#ff3347;
+  --steel:#7fb4d4;
+  --sans:'Inter Tight',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{font-family:var(--sans);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+canvas#gl{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:0}
+.grade{position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:
+    linear-gradient(90deg, rgba(6,8,11,.94) 0%, rgba(6,8,11,.7) 28%, transparent 52%),
+    radial-gradient(120% 100% at 60% 50%, transparent 55%, rgba(3,4,6,.8) 100%)}
+.grade::after{content:"";position:absolute;inset:-50%;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1s steps(6) infinite}
+@keyframes grain{0%{translate:0 0}25%{translate:-3% 2%}50%{translate:2% -3%}75%{translate:-2% -1%}100%{translate:0 0}}
+
+/* ---- Nav ---------------------------------------------------------------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;
+  padding:20px clamp(20px,3.6vw,52px);border-bottom:1px solid var(--hair);background:rgba(6,8,11,.55);backdrop-filter:blur(16px)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:16px;letter-spacing:-.015em}
+.brand svg{width:24px;height:26px}
+.links{display:flex;gap:30px;font-size:14px;color:var(--sub)}
+.links a:hover{color:var(--ink)}
+.nav-cta{display:flex;align-items:center;gap:14px}
+.ver{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.btn-sm{font-size:13.5px;font-weight:500;padding:9px 15px;border-radius:8px;background:var(--ink);color:#06080b;transition:background .3s}
+.btn-sm:hover{background:#fff}
+
+/* ---- Hero copy ---------------------------------------------------------- */
+.hero{position:relative;z-index:5;height:100vh;display:flex;align-items:flex-start;padding-top:max(110px,15vh) !important;padding:0 clamp(20px,5.5vw,84px);pointer-events:none}
+.copy{max-width:520px;pointer-events:auto}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;color:var(--sub);
+  padding:6px 12px 6px 8px;border:1px solid var(--hair);border-radius:999px;background:rgba(14,17,23,.6);margin-bottom:28px}
+.eyebrow b{font-weight:500;color:var(--ink);background:rgba(255,51,71,.16);border:1px solid rgba(255,51,71,.4);padding:2px 7px;border-radius:999px;font-size:11px}
+h1{font-size:clamp(44px,5.6vw,84px);font-weight:500;letter-spacing:-.045em;line-height:.98}
+h1 span{color:var(--sub);font-weight:400}
+.sub{margin-top:24px;font-size:17px;line-height:1.55;color:var(--sub);max-width:440px}
+.ctas{display:flex;gap:10px;margin-top:34px;flex-wrap:wrap}
+.cta{display:inline-flex;align-items:center;gap:10px;padding:14px 20px;border-radius:10px;font-weight:500;font-size:15px;
+  background:#e11d36;color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.22) inset,0 10px 24px -12px rgba(0,0,0,.9);transition:transform .3s,background .3s}
+.cta:hover{transform:translateY(-1px);background:#ec2740}
+.cta kbd{font-family:var(--mono);font-size:11px;padding:2px 6px;border-radius:5px;background:rgba(0,0,0,.2)}
+.ghost{display:inline-flex;align-items:center;gap:10px;padding:14px 18px;border-radius:10px;font-size:15px;border:1px solid var(--hair);
+  background:rgba(14,17,23,.6);transition:border-color .3s}
+.ghost:hover{border-color:rgba(127,180,212,.5)}
+.ghost svg{width:12px;height:12px}
+.trust{margin-top:30px;display:flex;gap:22px;align-items:center;font-family:var(--mono);font-size:11px;color:var(--dim);flex-wrap:wrap}
+.trust span{display:flex;align-items:center;gap:7px}
+.trust i{width:6px;height:6px;border-radius:2px;background:var(--steel)}
+
+/* ---- Floating node inspector ------------------------------------------- */
+.tip{position:fixed;z-index:8;left:0;top:0;width:290px;padding:16px 16px 14px;border-radius:12px;background:var(--panel);
+  border:1px solid var(--hair);backdrop-filter:blur(18px);pointer-events:none;opacity:0;transition:opacity .25s;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.8)}
+.tip.on{opacity:1}
+.tip .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between}
+.tip .k.in{color:var(--red)} .tip .k.out{color:var(--steel)} .tip .k.core{color:#fff}
+.tip h4{font-size:18px;font-weight:500;letter-spacing:-.02em;margin-bottom:6px}
+.tip p{font-size:13.5px;line-height:1.5;color:var(--sub)}
+.tip .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.tip .chips span{font-family:var(--mono);font-size:11px;padding:3px 7px;border-radius:5px;border:1px solid var(--hair);color:var(--ink)}
+
+/* ---- Live feed ---------------------------------------------------------- */
+.feed{position:fixed;z-index:6;left:clamp(20px,5.5vw,84px);bottom:28px;width:400px;border-radius:12px;background:var(--panel);
+  border:1px solid var(--hair);backdrop-filter:blur(18px);overflow:hidden;transition:opacity .4s}
+.feed-h{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--hair);
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--sub)}
+.feed-h span{display:flex;align-items:center;gap:8px}
+.feed-h i{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.3}}
+.feed ul{list-style:none;height:118px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+.feed li{padding:10px 14px;border-bottom:1px solid var(--hair);display:grid;grid-template-columns:44px 1fr;gap:6px 10px;
+  animation:in .6s cubic-bezier(.2,.8,.2,1)}
+@keyframes in{from{opacity:0;transform:translateY(-10px)}}
+.feed time{font-family:var(--mono);font-size:11px;color:var(--dim);padding-top:1px}
+.feed .t{font-size:13px;color:var(--ink)}
+.feed .r{grid-column:2;font-family:var(--mono);font-size:11px;color:var(--steel)}
+.feed .r::before{content:"→ ";color:var(--dim)}
+
+/* ---- Story (scroll) ----------------------------------------------------- */
+.story{position:relative;z-index:5;height:420vh}
+.story-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;padding:0 clamp(20px,5.5vw,84px);pointer-events:none}
+.steps{width:420px;opacity:0;pointer-events:auto}
+.steps .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sub);margin-bottom:22px}
+.step{display:grid;grid-template-columns:38px 1fr;padding:16px 0;border-top:1px solid var(--hair);opacity:.32;transition:opacity .5s}
+.step.on{opacity:1}
+.step b{font-family:var(--mono);font-weight:500;font-size:12px;color:var(--dim);padding-top:4px}
+.step.on b{color:var(--red)}
+.step h3{font-size:21px;font-weight:500;letter-spacing:-.025em}
+.step p{grid-column:2;font-size:14px;line-height:1.5;color:var(--sub);max-height:0;overflow:hidden;transition:max-height .6s,margin .6s}
+.step.on p{max-height:80px;margin-top:6px}
+.bar{height:2px;background:var(--hair);margin-top:18px;border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--steel))}
+.end{position:relative;z-index:5;height:60vh;display:grid;place-items:center;text-align:center}
+.end h2{font-size:clamp(30px,4vw,54px);font-weight:500;letter-spacing:-.04em}
+.end p{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:14px;letter-spacing:.14em;text-transform:uppercase}
+
+.variant{position:fixed;right:clamp(20px,3.6vw,52px);bottom:28px;z-index:6;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+
+@media (max-width:900px){
+  .links,.ver{display:none}
+  .feed{width:calc(100% - 40px);bottom:16px}
+  .feed ul{height:102px}
+  .hero{align-items:flex-start;padding-top:120px}
+  .variant{display:none}
+  .steps{width:100%;background:var(--panel);padding:18px;border-radius:12px;align-self:flex-end;margin-bottom:24px}
+}
+</style>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="grade" id="grade" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="#">
+    <!-- Reworked mark: elevator doors, light leaking through the gap, "up" lit above. -->
+    <svg viewBox="0 0 30 32" aria-hidden="true">
+      <path d="M15 1 L19 5.5 H11 Z" fill="#ff3347"/>
+      <rect x="2.5" y="8" width="25" height="22.5" rx="3.5" fill="none" stroke="#edf1f5" stroke-width="2"/>
+      <rect x="6.5" y="12" width="7.6" height="14.5" rx="1" fill="#edf1f5" fill-opacity=".9"/>
+      <rect x="15.9" y="12" width="7.6" height="14.5" rx="1" fill="#edf1f5" fill-opacity=".9"/>
+      <rect x="14.25" y="12" width="1.5" height="14.5" fill="#ff3347"/>
+    </svg>
+    Red Elevators
+  </a>
+  <nav class="links"><a href="#">Services</a><a href="#">Systems</a><a href="#">Approach</a><a href="#">Contact</a></nav>
+  <div class="nav-cta"><span class="ver">SYS · 8 modules online</span><a class="btn-sm" href="#">Book a call</a></div>
+</header>
+
+<section class="hero">
+  <div class="copy" id="copy">
+    <div class="eyebrow"><b>NEW</b>Automation &amp; marketing for rental operators</div>
+    <h1>One system<br>behind every stay.<br><span>Built and run for you.</span></h1>
+    <p class="sub">Guest messages, calendars, pricing and ads, wired together and run by AI. Your rentals keep working while you don't.</p>
+    <div class="ctas">
+      <a class="cta" href="#">Book a free 30-min call <kbd>B</kbd></a>
+      <a class="ghost" href="#story">Watch a booking flow
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v10M1.5 6.5 6 11l4.5-4.5"/></svg></a>
+    </div>
+    <div class="trust"><span><i></i>Live in 2–3 weeks</span><span><i></i>Your tools, not ours</span><span><i></i>We run it after launch</span></div>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div class="story-sticky">
+    <div class="steps" id="steps">
+      <div class="lbl">One booking, end to end</div>
+      <div class="step" data-i="0"><b>01</b><h3>A guest messages at 2am.</h3><p>Airbnb, Booking.com or your own site. It all lands in one place.</p></div>
+      <div class="step" data-i="1"><b>02</b><h3>The core answers in your voice.</h3><p>An AI agent trained on your house rules, tone and edge cases. Hard ones come to you.</p></div>
+      <div class="step" data-i="2"><b>03</b><h3>Calendar and cleaner update.</h3><p>The booking syncs everywhere, the turnover is scheduled and the door code is issued.</p></div>
+      <div class="step" data-i="3"><b>04</b><h3>Rates move with demand.</h3><p>Events, lead time and pace adjust tomorrow's price while you sleep.</p></div>
+      <div class="step" data-i="4"><b>05</b><h3>Ads fill the gaps, direct.</h3><p>Budget follows the empty nights and sends guests to your site, not the OTA.</p></div>
+      <div class="bar"><i id="bar"></i></div>
+    </div>
+  </div>
+</section>
+<section class="end"><div><h2>That's the machine.<br>We build it, then we run it.</h2><p>Hover any node · Click to trace its wiring</p></div></section>
+
+<div class="tip" id="tip"><div class="k"><span id="tipK"></span><span id="tipN"></span></div><h4 id="tipH"></h4><p id="tipP"></p><div class="chips" id="tipC"></div></div>
+<div class="feed" id="feed"><div class="feed-h"><span><i></i>Simulated activity</span><span>tonight</span></div><ul id="feedList"></ul></div>
+<div class="variant">Hero variant 02 — The Machine</div>
+
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+await document.fonts.ready;
+
+const RED = new THREE.Color(0xff3347), STEEL = new THREE.Color(0x7fb4d4), INK = new THREE.Color(0xedf1f5);
+const canvas = document.getElementById('gl');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x06080b);
+
+// Orthographic iso camera
+let H = 11;
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -100, 200);
+const CAM_DIR = new THREE.Vector3(16, 22, 16).normalize().multiplyScalar(60);
+function sizeCam() {
+  const a = innerWidth / innerHeight; H = innerWidth < 900 ? 19 : Math.max(12, 19.5 / a);
+  camera.left = -H * a; camera.right = H * a; camera.top = H; camera.bottom = -H; camera.updateProjectionMatrix();
+}
+sizeCam();
+
+// Design space: u = screen-right, v = screen-down, mapped onto the ground plane
+const S2 = Math.SQRT1_2;
+const P = (u, v, y = 0) => new THREE.Vector3((u + v) * S2, y, (v - u) * S2);
+
+// ---- Lights
+scene.add(new THREE.AmbientLight(0x9fb3c8, .35));
+const key = new THREE.DirectionalLight(0xffffff, 1.4); key.position.set(-10, 20, 6); scene.add(key);
+const coreLight = new THREE.PointLight(0xff3347, 40, 18, 1.6); coreLight.position.copy(P(0, 0, 2.5)); scene.add(coreLight);
+const steelLight = new THREE.PointLight(0x7fb4d4, 18, 16, 1.6); steelLight.position.copy(P(0, 9, 3)); scene.add(steelLight);
+
+// ---- Floor: blueprint grid
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), new THREE.ShaderMaterial({
+  transparent: true,
+  uniforms: { uSteel: { value: STEEL }, uTime: { value: 0 } },
+  vertexShader: `varying vec3 vW; void main(){ vec4 w=modelMatrix*vec4(position,1.); vW=w.xyz; gl_Position=projectionMatrix*viewMatrix*w; }`,
+  fragmentShader: `uniform vec3 uSteel; uniform float uTime; varying vec3 vW;
+    float grid(vec2 p, float s, float w){ vec2 g=abs(fract(p/s-.5)-.5)/fwidth(p/s); return 1.-min(min(g.x,g.y)/w,1.); }
+    void main(){
+      float d=length(vW.xz);
+      float fade=smoothstep(24.,4.,d);
+      float g=grid(vW.xz,1.,1.)*.10 + grid(vW.xz,4.,1.2)*.22;
+      float scan=smoothstep(.0,.6,1.-abs(fract(d*.08-uTime*.05)-.5)*2.)*.05;
+      vec3 c=uSteel*(g+scan)*fade;
+      gl_FragColor=vec4(vec3(.022,.028,.036)+c,1.);
+    }`,
+}));
+floor.rotation.x = -Math.PI / 2; scene.add(floor);
+
+// ---- Nodes
+const NODES = [
+  { id: 'airbnb',  kind: 'in',  u: -7.5, v: -9,   t: 'Airbnb & VRBO',     s: 'Messages · stays',   d: 'Every guest message and reservation from the big OTAs lands here first.', c: ['Airbnb', 'VRBO', 'Guesty'] },
+  { id: 'booking', kind: 'in',  u: -2.5, v: -9,   t: 'Booking.com',        s: 'Reservations',       d: 'Reservations and guest chats from Booking.com, folded into the same stream.', c: ['Booking.com', 'Channel manager'] },
+  { id: 'direct',  kind: 'in',  u: 2.5, v: -9,    t: 'Direct site',        s: 'Zero commission',    d: 'Your own booking site. No OTA fee, and the guest relationship is yours.', c: ['Website', 'Stripe'] },
+  { id: 'ads',     kind: 'in',  u: 7.5, v: -9,    t: 'Meta & Google Ads',  s: 'Demand',             d: 'Paid social and search pointed at your direct site, with budget that follows the empty nights.', c: ['Meta Ads', 'Google Ads'] },
+  { id: 'core',    kind: 'core',u: 0, v: 0,    t: 'Red Elevators Core', s: 'AI agent + your rules', d: 'One agent with your house rules, tone and logic. It decides, replies, books and hands off the hard ones.', c: ['OpenAI', 'Your playbook', 'Webhooks'] },
+  { id: 'replies', kind: 'out', u: -7.5, v: 9,   t: 'Guest replies',      s: 'Any hour · any language', d: 'Answers in your voice, any hour, in the guest’s language. Escalates when it should.', c: ['Inbox', 'WhatsApp'] },
+  { id: 'pms',     kind: 'out', u: -2.5, v: 9,   t: 'Calendar & PMS',     s: 'Cleaners · door codes', d: 'Calendars, cleaners and smart locks update the moment a booking lands.', c: ['Guesty', 'Hostaway', 'Smart locks'] },
+  { id: 'pricing', kind: 'out', u: 2.5, v: 9,    t: 'Dynamic pricing',    s: 'Rates follow demand', d: 'Nightly rates that move with events, pace and lead time.', c: ['PriceLabs', 'Rules'] },
+  { id: 'crm',     kind: 'out', u: 7.5, v: 9,    t: 'CRM & reviews',      s: 'Guests come back',   d: 'Every guest remembered: reviews requested, past guests invited back direct.', c: ['CRM', 'Email', 'Reviews'] },
+];
+
+function labelTexture(n) {
+  const W = 1024, Hh = n.kind === 'core' ? 680 : 560;
+  const c = document.createElement('canvas'); c.width = W; c.height = Hh;
+  const g = c.getContext('2d');
+  g.fillStyle = 'rgba(0,0,0,0)'; g.fillRect(0, 0, W, Hh);
+  const col = n.kind === 'in' ? '#ff3347' : n.kind === 'out' ? '#7fb4d4' : '#ffffff';
+  g.fillStyle = col; g.font = '500 54px "JetBrains Mono"';
+  g.fillText(n.kind === 'in' ? 'IN ·' : n.kind === 'out' ? 'OUT ·' : 'CORE ·', 64, 120);
+  g.fillStyle = '#edf1f5'; g.font = `500 ${n.kind === 'core' ? 84 : 100}px "Inter Tight"`;
+  g.fillText(n.t, 64, n.kind === 'core' ? 300 : 280);
+  g.fillStyle = '#9aa4b1'; g.font = '400 64px "Inter Tight"';
+  g.fillText(n.s, 64, n.kind === 'core' ? 420 : 400);
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+  return tex;
+}
+
+const nodeMeshes = [];
+const byId = {};
+for (const n of NODES) {
+  const isCore = n.kind === 'core';
+  const w = isCore ? 6.4 : 4.4, d = isCore ? 3.9 : 2.5, h = isCore ? 1.1 : .55;
+  const grp = new THREE.Group();
+  grp.position.copy(P(n.u, n.v));
+  grp.rotation.y = Math.PI / 4;
+  const body = new THREE.Mesh(new RoundedBoxGeometry(w, h, d, 4, .22),
+    new THREE.MeshStandardMaterial({ color: isCore ? 0x15171d : 0x10131a, metalness: .55, roughness: .38 }));
+  body.position.y = h / 2;
+  const top = new THREE.Mesh(new THREE.PlaneGeometry(w - .5, (w - .5) * (isCore ? 680 : 560) / 1024),
+    new THREE.MeshBasicMaterial({ map: labelTexture(n), color: 0xb8bec6, transparent: true, depthWrite: false }));
+  top.rotation.x = -Math.PI / 2; top.position.y = h + .005;
+  // status strip along the front edge
+  const stripCol = n.kind === 'in' ? RED : n.kind === 'out' ? STEEL : RED;
+  const strip = new THREE.Mesh(new THREE.BoxGeometry(w - .5, .04, .06),
+    new THREE.MeshBasicMaterial({ color: stripCol.clone().multiplyScalar(1.6) }));
+  strip.position.set(0, h * .55, d / 2 + .005);
+  grp.add(body, top, strip);
+  if (isCore) {
+    // light column rising from the core
+    const beam = new THREE.Mesh(new THREE.CylinderGeometry(.9, 1.6, 9, 48, 1, true), new THREE.ShaderMaterial({
+      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+      uniforms: { uC: { value: RED }, uT: { value: 0 }, uF: { value: 0 } },
+      vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+      fragmentShader: `uniform vec3 uC; uniform float uT; uniform float uF; varying vec2 vUv;
+        void main(){ float a=pow(clamp(1.-vUv.y,0.,1.),2.)*.32; a*=.75+.25*sin(vUv.y*30.-uT*3.); gl_FragColor=vec4(uC*a*(1.+uF),1.); }`,
+    }));
+    beam.position.y = h + 4.5; grp.add(beam); grp.userData.beam = beam;
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(2.6, .02, 8, 128), new THREE.MeshBasicMaterial({ color: RED.clone().multiplyScalar(1.4) }));
+    ring.rotation.x = Math.PI / 2; ring.position.y = .06; grp.add(ring); grp.userData.ring = ring;
+  }
+  grp.userData = { ...grp.userData, n, body, strip, h, lift: 0, flash: 0 };
+  body.userData.node = grp;
+  scene.add(grp); nodeMeshes.push(body); byId[n.id] = grp;
+}
+
+// ---- Paths: inputs → core, core → outputs
+const paths = [];
+function edge(from, to, kind) {
+  const a = NODES.find(n => n.id === from), b = NODES.find(n => n.id === to);
+  const av = a.v + (a.kind === 'core' ? 1.95 : 1.25), bv = b.v - (b.kind === 'core' ? 1.95 : 1.25);
+  const au = a.kind === 'core' ? b.u * .35 : a.u, bu = b.kind === 'core' ? a.u * .35 : b.u;
+  const mv = (av + bv) / 2;
+  const curve = new THREE.CubicBezierCurve3(P(au, av, .08), P(au, mv, .08), P(bu, mv, .08), P(bu, bv, .08));
+  const samples = curve.getSpacedPoints(160);
+  const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 120, .045, 6), new THREE.MeshBasicMaterial({
+    color: (kind === 'in' ? RED : STEEL).clone().multiplyScalar(.35), transparent: true, opacity: 1 }));
+  scene.add(tube);
+  paths.push({ from, to, kind, curve, samples, tube, hi: 0 });
+}
+['airbnb', 'booking', 'direct', 'ads'].forEach(id => edge(id, 'core', 'in'));
+['replies', 'pms', 'pricing', 'crm'].forEach(id => edge('core', id, 'out'));
+const pathOf = (a, b) => paths.find(p => p.from === a && p.to === b);
+
+// ---- Flow particles + event packets
+const PER = 26;
+const FLOW = paths.length * PER, MAXPK = 24;
+const fGeo = new THREE.BufferGeometry();
+const fPos = new Float32Array((FLOW + MAXPK) * 3), fCol = new Float32Array((FLOW + MAXPK) * 3), fSize = new Float32Array(FLOW + MAXPK);
+fGeo.setAttribute('position', new THREE.BufferAttribute(fPos, 3));
+fGeo.setAttribute('color', new THREE.BufferAttribute(fCol, 3));
+fGeo.setAttribute('aSize', new THREE.BufferAttribute(fSize, 1));
+const fMat = new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, vertexColors: true,
+  uniforms: { uPR: { value: renderer.getPixelRatio() }, uZoom: { value: 1 } },
+  vertexShader: `attribute float aSize; varying vec3 vColor; uniform float uPR; uniform float uZoom;
+    void main(){ vColor=color; gl_PointSize=aSize*uPR*uZoom; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+  fragmentShader: `varying vec3 vColor; void main(){ float d=length(gl_PointCoord-.5); float a=smoothstep(.5,0.,d); gl_FragColor=vec4(vColor*a*a,1.); }`,
+});
+scene.add(new THREE.Points(fGeo, fMat));
+const flow = []; paths.forEach((p, pi) => { for (let i = 0; i < PER; i++) flow.push({ pi, t: i / PER + Math.random() * .02, v: .1 + Math.random() * .03 }); });
+const packets = [];
+function samplePath(p, t, out) {
+  const f = THREE.MathUtils.clamp(t, 0, 1) * (p.samples.length - 1), i = Math.floor(f), k = f - i;
+  const a = p.samples[i], b = p.samples[Math.min(i + 1, p.samples.length - 1)];
+  return out.copy(a).lerp(b, k);
+}
+
+// ---- Simulated activity feed drives packets through the machine
+const EVENTS = [
+  { in: 'airbnb',  out: 'replies', t: 'Guest asks about early check-in', r: 'answered · house rules applied' },
+  { in: 'booking', out: 'pms',     t: 'New reservation · 3 nights',     r: 'calendar synced · cleaner booked' },
+  { in: 'ads',     out: 'crm',     t: 'Enquiry from an Instagram ad',   r: 'added to CRM · follow-up queued' },
+  { in: 'direct',  out: 'pricing', t: 'Searches spike for next weekend', r: 'rates nudged up' },
+  { in: 'airbnb',  out: 'crm',     t: 'Guest checked out',              r: 'review request sent' },
+  { in: 'direct',  out: 'pms',     t: 'Direct booking · no commission', r: 'door code issued' },
+  { in: 'booking', out: 'replies', t: 'Message in German at 03:40',     r: 'replied in German' },
+  { in: 'ads',     out: 'pricing', t: 'Gap night on Tuesday',           r: 'promo price + ad boost' },
+];
+const feedList = document.getElementById('feedList');
+let clockMin = 2 * 60 + 9, ei = 0;
+function fireEvent() {
+  const e = EVENTS[ei++ % EVENTS.length];
+  clockMin += 3 + Math.floor(Math.random() * 9);
+  const hh = String(Math.floor(clockMin / 60) % 24).padStart(2, '0'), mm = String(clockMin % 60).padStart(2, '0');
+  const li = document.createElement('li');
+  li.innerHTML = `<time>${hh}:${mm}</time><span class="t">${e.t}</span><span class="r">${e.r}</span>`;
+  feedList.prepend(li); while (feedList.children.length > 6) feedList.lastChild.remove();
+  packets.push({ p: pathOf(e.in, 'core'), t: 0, next: pathOf('core', e.out) });
+  byId[e.in].userData.flash = 1;
+}
+
+// ---- Post
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), .8, .5, .78);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+// ---- Interaction
+const ray = new THREE.Raycaster(), mouse = new THREE.Vector2(9, 9), mouseS = new THREE.Vector2();
+let hovered = null, traced = null;
+addEventListener('pointermove', e => { mouse.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); });
+addEventListener('pointerdown', e => {
+  if (e.target.closest('a')) return;
+  traced = hovered && traced !== hovered ? hovered : null;
+});
+const tip = document.getElementById('tip');
+const tipK = document.getElementById('tipK'), tipN = document.getElementById('tipN'), tipH = document.getElementById('tipH'), tipP = document.getElementById('tipP'), tipC = document.getElementById('tipC');
+function showTip(g) {
+  const n = g.userData.n;
+  tipK.className = ''; tipK.parentElement.className = 'k ' + n.kind;
+  tipK.textContent = n.kind === 'in' ? 'Input' : n.kind === 'out' ? 'Output' : 'Core';
+  tipN.textContent = traced === g ? 'tracing' : 'click to trace';
+  tipH.textContent = n.kind === 'core' ? 'Red Elevators Core' : n.t; tipP.textContent = n.d;
+  tipC.innerHTML = n.c.map(x => `<span>${x}</span>`).join('');
+}
+
+// ---- Scroll story
+const story = document.getElementById('story'), stepsEl = document.getElementById('steps'), copy = document.getElementById('copy');
+const stepNodes = [...document.querySelectorAll('.step')], bar = document.getElementById('bar'), feed = document.getElementById('feed');
+const STORY = [
+  { focus: 'airbnb',  edges: [['airbnb', 'core']] },
+  { focus: 'core',    edges: [['airbnb', 'core'], ['core', 'replies']] },
+  { focus: 'pms',     edges: [['core', 'pms']] },
+  { focus: 'pricing', edges: [['core', 'pricing']] },
+  { focus: 'ads',     edges: [['ads', 'core'], ['direct', 'core']] },
+];
+let sp = -1, spS = -1;
+function onScroll() {
+  const r = story.getBoundingClientRect();
+  sp = THREE.MathUtils.clamp(-r.top / (r.height - innerHeight), -1, 1.2);
+}
+addEventListener('scroll', onScroll, { passive: true }); onScroll(); spS = sp;
+
+const tgt = new THREE.Vector3(), tgtS = new THREE.Vector3(), tmp = new THREE.Vector3(), clock = new THREE.Clock();
+let zoomS = 1, lastEvent = 0;
+function frame() {
+  const dt = Math.min(clock.getDelta(), .05), time = clock.elapsedTime;
+  spS += (sp - spS) * .08; mouseS.lerp(mouse, .08);
+  const inStory = spS > -.02 && spS < 1.05;
+  const stepF = THREE.MathUtils.clamp(spS, 0, .9999) * STORY.length, step = inStory ? Math.floor(stepF) : -1;
+
+  // Camera target + zoom
+  const wide = innerWidth >= 900;
+  let zoom = 1;
+  if (step >= 0) {
+    const n = NODES.find(n => n.id === STORY[step].focus);
+    tgt.copy(P(n.u - (wide ? .23 * camera.right : 0), n.v + (wide ? 0 : 3))); zoom = wide ? 1.5 : 1.3;
+  } else {
+    tgt.copy(P(wide ? 10.3 - camera.right : 0, wide ? .3 : -3));
+  }
+  tgtS.lerp(tgt, .05); zoomS += (zoom - zoomS) * .05;
+  camera.position.copy(tgtS).add(CAM_DIR);
+  camera.position.x += mouseS.x * .8; camera.position.z -= mouseS.x * .8; camera.position.y += mouseS.y * .6;
+  camera.lookAt(tgtS); camera.zoom = zoomS; camera.updateProjectionMatrix();
+  fMat.uniforms.uZoom.value = zoomS;
+
+  // Hover
+  ray.setFromCamera(mouse, camera);
+  const hit = ray.intersectObjects(nodeMeshes, false)[0];
+  hovered = hit ? hit.object.userData.node : null;
+  document.body.style.cursor = hovered ? 'pointer' : '';
+  const insp = hovered || traced;
+  if (insp) {
+    showTip(insp);
+    tmp.copy(insp.position); tmp.y = 1.5; tmp.project(camera);
+    const x = (tmp.x * .5 + .5) * innerWidth, y = (-tmp.y * .5 + .5) * innerHeight;
+    tip.style.transform = `translate(${Math.min(x + 30, innerWidth - 310)}px, ${Math.max(y - 170, 80)}px)`;
+    tip.classList.add('on');
+  } else tip.classList.remove('on');
+
+  // Which edges are lit
+  const litEdges = new Set();
+  if (traced) paths.forEach((p, i) => { if (p.from === traced.userData.n.id || p.to === traced.userData.n.id) litEdges.add(i); });
+  else if (step >= 0) STORY[step].edges.forEach(([a, b]) => litEdges.add(paths.indexOf(pathOf(a, b))));
+  const anyLit = litEdges.size > 0;
+  paths.forEach((p, i) => {
+    const on = litEdges.has(i); p.hi += ((on ? 1 : 0) - p.hi) * .08;
+    const base = (p.kind === 'in' ? RED : STEEL);
+    p.tube.material.color.copy(base).multiplyScalar(anyLit ? .12 + p.hi * 1.4 : .35);
+  });
+
+  // Nodes: lift + flash
+  for (const g of Object.values(byId)) {
+    const u = g.userData, id = u.n.id;
+    const focus = (step >= 0 && STORY[step].focus === id) || hovered === g || traced === g;
+    u.lift += ((focus ? .45 : 0) - u.lift) * .1; u.flash *= .93;
+    g.position.y = u.lift;
+    const sc = (u.n.kind === 'in' ? RED : u.n.kind === 'out' ? STEEL : RED);
+    u.strip.material.color.copy(sc).multiplyScalar(1.2 + u.flash * 3 + (focus ? 1.5 : 0));
+    if (u.beam) { u.beam.material.uniforms.uT.value = time; u.beam.material.uniforms.uF.value = u.flash * 2; u.ring.scale.setScalar(1 + .04 * Math.sin(time * 2) + u.flash * .25); }
+  }
+  coreLight.intensity = 40 + byId.core.userData.flash * 80;
+
+  // Flow particles
+  let k = 0;
+  for (const f of flow) {
+    const p = paths[f.pi]; f.t += f.v * dt; if (f.t > 1) f.t -= 1;
+    samplePath(p, f.t, tmp); tmp.y += .12;
+    fPos[k*3] = tmp.x; fPos[k*3+1] = tmp.y; fPos[k*3+2] = tmp.z;
+    const c = p.kind === 'in' ? RED : STEEL, b = (anyLit ? .15 + p.hi * 1.3 : .7) * (.4 + .6 * Math.sin(f.t * Math.PI));
+    fCol[k*3] = c.r*b; fCol[k*3+1] = c.g*b; fCol[k*3+2] = c.b*b; fSize[k] = 5; k++;
+  }
+  // Packets
+  for (let i = packets.length - 1; i >= 0; i--) {
+    const q = packets[i]; q.t += dt * .55;
+    if (q.t >= 1) {
+      byId[q.p.to].userData.flash = 1;
+      if (q.next) { q.p = q.next; q.next = null; q.t = 0; } else { packets.splice(i, 1); continue; }
+    }
+  }
+  for (let i = 0; i < MAXPK; i++) {
+    const q = packets[i];
+    if (q) { samplePath(q.p, q.t, tmp); tmp.y += .18; const c = q.p.kind === 'in' ? RED : STEEL;
+      fPos[k*3] = tmp.x; fPos[k*3+1] = tmp.y; fPos[k*3+2] = tmp.z; fCol[k*3] = c.r*3; fCol[k*3+1] = c.g*3; fCol[k*3+2] = c.b*3; fSize[k] = 22; }
+    else { fSize[k] = 0; }
+    k++;
+  }
+  fGeo.attributes.position.needsUpdate = true; fGeo.attributes.color.needsUpdate = true; fGeo.attributes.aSize.needsUpdate = true;
+  floor.material.uniforms.uTime.value = time;
+
+  if (time - lastEvent > 2.2) { lastEvent = time; fireEvent(); }
+
+  // DOM
+  const heroOut = THREE.MathUtils.smoothstep(spS, -.25, -.02);
+  copy.style.opacity = 1 - heroOut; copy.style.transform = `translateY(${-heroOut * 40}px)`;
+  const so = inStory ? 1 : 0;
+  stepsEl.style.opacity = THREE.MathUtils.smoothstep(spS, -.1, .02) * (1 - THREE.MathUtils.smoothstep(spS, 1, 1.1));
+  stepNodes.forEach((s, i) => s.classList.toggle('on', i === step));
+  bar.style.width = `${THREE.MathUtils.clamp(spS, 0, 1) * 100}%`;
+  feed.style.opacity = 1 - THREE.MathUtils.smoothstep(spS, -.3, -.05);
+
+  composer.render();
+  requestAnimationFrame(frame);
+}
+window.__dbg = { renderer, scene, camera, tick: () => frame() };
+fireEvent(); lastEvent = .5;
+frame();
+
+addEventListener('resize', () => { sizeCam(); renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight); });
+</script>
+</body>
+</html>

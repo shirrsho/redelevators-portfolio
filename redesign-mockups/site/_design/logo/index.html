@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Logo · design review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base.css?v=35"><link rel="stylesheet" href="/assets/devices.css?v=35"><link rel="stylesheet" href="/assets/sections.css?v=35"><link rel="stylesheet" href="/assets/themes.css?v=35">
+<script src="/assets/theme.js?v=35"></script>
+<style>
+:root{--bg:#0a0b14}
+.dz-top{padding:110px 0 10px}
+.dz-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:26px}
+.dz-tabs a{font-size:13.5px;padding:8px 13px;border-radius:9px;border:1px solid var(--hair-2);color:var(--sub)}
+.dz-tabs a.on{background:var(--ink);color:#111;border-color:var(--ink)}
+.sec{padding:60px 0 0}
+.sec > .mono{display:block;margin-bottom:10px}
+.sec h2{margin-bottom:24px}
+.panel{border:1px solid var(--hair);border-radius:22px;background:var(--surface);padding:26px}
+.ba2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.navbar{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-radius:14px;background:rgba(11,11,13,.8);border:1px solid var(--hair);margin-top:12px}
+.navbar .lk{display:flex;gap:22px;font-size:13.5px;color:var(--sub)}
+.navbar .bk{font-size:13.5px;font-weight:500;padding:9px 14px;border-radius:10px;background:var(--red-btn);color:#fff}
+.measure{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:12px}
+.measure b{color:var(--ink);font-weight:500}
+.construct{position:relative}
+.construct svg{width:100%;height:auto;display:block}
+.bg2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bg2 > div{border-radius:20px;padding:46px;display:grid;place-items:center;border:1px solid var(--hair)}
+.bg2 img{height:72px}
+.sizes{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.sz{border:1px solid var(--hair);border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:rgba(255,255,255,.02)}
+.sz .demo{height:110px;border-radius:12px;background:#0d0d11;display:grid;place-items:center;border:1px solid var(--hair);position:relative;overflow:hidden}
+.sz h5{font-size:14.5px;font-weight:600}
+.sz p{font-size:13px;color:var(--sub)}
+.sz code{font-family:var(--mono);font-size:12px;color:#c5cbff}
+.tile{display:grid;place-items:center;background:#111;border:1px solid #2a2a30}
+.marks{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mrow{display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap}
+.mrow .m{display:grid;justify-items:center;gap:8px}
+.mrow .m span{font-family:var(--mono);font-size:12px;color:var(--dim)}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.rule2{border:1px solid var(--hair);border-radius:18px;padding:18px}
+.rule2 .demo{height:90px;border-radius:12px;background:#0d0d11;display:grid;place-items:center;position:relative;margin-bottom:12px;overflow:hidden}
+.rule2 .demo::after{content:"";position:absolute;inset:0;background:linear-gradient(to top right,transparent calc(50% - 1px),rgba(255,90,78,.8) 50%,transparent calc(50% + 1px))}
+.rule2 h5{font-size:14px;font-weight:600;color:#ff8a80}
+.rule2 p{font-size:13px;color:var(--sub)}
+@media (max-width:900px){.ba2,.bg2,.marks{grid-template-columns:1fr}.sizes,.rules{grid-template-columns:1fr 1fr}.navbar .lk{display:none}}
+</style>
+</head>
+<body data-page="">
+<div id="site-nav"></div>
+<main class="page">
+  <section class="wrap dz-top">
+    <div class="eyebrow"><i></i>Design review · not part of the public site</div>
+    <h1 class="d1" style="margin-top:18px;font-size:clamp(40px,4.4vw,64px)">Logo system</h1>
+    <p class="lead">Same mark, same wordmark. Rebuilt as a proper lockup for the web: tight box, wordmark set on the bars’ baseline, and a simpler mark for small sizes.</p>
+    <div class="dz-tabs" id="dztabs"></div>
+  </section>
+
+  <section class="wrap sec">
+    <span class="mono">01 · BEFORE / AFTER IN THE NAV</span>
+    <h2 class="d2">Bigger name, same height.</h2>
+    <div class="ba2">
+      <div class="panel"><span class="mono">BEFORE · 30px, tagline space still in the file</span>
+        <div class="navbar"><img src="/assets/red-elevators-logo-dark-notag.svg" alt="" style="height:30px"><div class="lk"><span>Services</span><span>Systems</span><span>Pricing</span></div><span class="bk">Book a call</span></div>
+        <p class="measure">Wordmark renders at <b>≈ 9px</b> tall · mark dominates · text floats above the baseline</p></div>
+      <div class="panel"><span class="mono">AFTER · 32px rebuilt lockup</span>
+        <div class="navbar"><img src="/assets/logo-lockup-dark.svg" alt="" style="height:32px"><div class="lk"><span>Services</span><span>Systems</span><span>Pricing</span></div><span class="bk">Book a call</span></div>
+        <p class="measure">Wordmark renders at <b>≈ 13px</b> tall (reads like 18px type) · sits on the baseline · <b>146 × 32px</b></p></div>
+    </div>
+  </section>
+
+  <section class="wrap sec">
+    <span class="mono">02 · CONSTRUCTION</span>
+    <h2 class="d2">How the lockup is built.</h2>
+    <div class="panel construct" id="construct"></div>
+    <p class="small" style="margin-top:12px">Wordmark scaled 1.25× and set on the bars’ baseline. Gap between mark and name = one bar width. Clear space all round = the height of the short bar.</p>
+  </section>
+
+  <section class="wrap sec">
+    <span class="mono">03 · COLOR VERSIONS</span>
+    <h2 class="d2">Dark and light.</h2>
+    <div class="bg2"><div style="background:#0b0b0d"><img src="/assets/logo-lockup-dark.svg" alt="Red Elevators on dark"></div><div style="background:#f5f2ec"><img src="/assets/logo-lockup-light.svg" alt="Red Elevators on light"></div></div>
+  </section>
+
+  <section class="wrap sec">
+    <span class="mono">04 · SIZES &amp; PLACEMENTS</span>
+    <h2 class="d2">One rule per place it appears.</h2>
+    <div class="sizes" id="sizes"></div>
+  </section>
+
+  <section class="wrap sec">
+    <span class="mono">05 · THE MARK ON ITS OWN</span>
+    <h2 class="d2">Full above 32px, bars-only below.</h2>
+    <div class="marks">
+      <div class="panel"><span class="mono">FULL MARK · 32PX AND UP</span><div class="mrow" id="full" style="margin-top:18px"></div></div>
+      <div class="panel"><span class="mono">BARS ONLY · BELOW 32PX (particles turn to noise)</span><div class="mrow" id="solid" style="margin-top:18px"></div></div>
+    </div>
+  </section>
+
+  <section class="wrap sec" style="padding-bottom:120px">
+    <span class="mono">06 · DON’T</span>
+    <h2 class="d2">Keep it intact.</h2>
+    <div class="rules">
+      <div class="rule2"><div class="demo"><img src="/assets/logo-lockup-dark.svg" alt="" style="height:30px;transform:scaleX(1.5)"></div><h5>Don’t stretch it</h5><p>Always scale by height only.</p></div>
+      <div class="rule2"><div class="demo"><img src="/assets/logo-lockup-dark.svg" alt="" style="height:30px;filter:hue-rotate(160deg)"></div><h5>Don’t recolor the bars</h5><p>The mark is always brand red #FF2D3B.</p></div>
+      <div class="rule2"><div class="demo" style="background:linear-gradient(120deg,#ff5a4e,#8b93ff)"><img src="/assets/logo-lockup-dark.svg" alt="" style="height:30px"></div><h5>Don’t place on busy color</h5><p>Use dark or paper backgrounds only.</p></div>
+    </div>
+  </section>
+</main>
+<div id="site-foot"></div>
+<script src="/assets/logos.js?v=35"></script><script src="/assets/icons.js?v=35"></script><script src="/assets/site.js?v=35"></script>
+<script>
+const { $ } = SITE;
+$('#dztabs').innerHTML = [['/_design/layouts/', 'Sitemap & layouts'], ['/_design/nav-hero/', 'Nav & hero'], ['/_design/logo/', 'Logo'], ['/_design/fonts/', 'Fonts'], ['/_design/components/', 'Component library'], ['/', 'Open the site →']].map(t => `<a href="${t[0]}" class="${location.pathname === t[0] || location.pathname.endsWith('/' + t[0]) ? 'on' : ''}">${t[1]}</a>`).join('');
+// construction drawing: the real lockup with guides in its own coordinate space
+fetch('/assets/logo-lockup-dark.svg').then(r => r.text()).then(svg => {
+  const inner = svg.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+  const G = '#8b93ff', R = '#ff5a4e';
+  $('#construct').innerHTML = `<svg viewBox="-20 0 370 110" font-family="JetBrains Mono" font-size="4.2">
+    <rect x="-20" y="0" width="370" height="110" fill="#0d0d11"/>
+    <rect x="-12" y="3.4" width="345.8" height="102.6" fill="none" stroke="${G}" stroke-dasharray="1.6 1.6" stroke-width=".4"/>
+    <text x="-11" y="2.4" fill="${G}">clear space = short bar height (16)</text>
+    <line x1="-14" y1="90" x2="334" y2="90" stroke="${R}" stroke-width=".4"/><text x="300" y="95.5" fill="${R}">shared baseline</text>
+    <line x1="-14" y1="61.4" x2="334" y2="61.4" stroke="${G}" stroke-width=".3" stroke-dasharray="1 1"/><text x="300" y="59.6" fill="${G}">cap height</text>
+    <rect x="57.2" y="40" width="12" height="54" fill="${R}" opacity=".18"/><text x="52" y="38" fill="${R}">gap = 1 bar (12)</text>
+    <line x1="4" y1="100" x2="52" y2="100" stroke="${G}" stroke-width=".4"/><text x="12" y="105.5" fill="${G}">mark</text>
+    <line x1="69.2" y1="100" x2="325.8" y2="100" stroke="${G}" stroke-width=".4"/><text x="180" y="105.5" fill="${G}">wordmark · Space Grotesk 700 · 1.25×</text>
+    <g transform="translate(0 0)">${inner}</g></svg>`;
+});
+// sizes & placements
+const lock = h => `<img src="/assets/logo-lockup-dark.svg" alt="" style="height:${h}px">`;
+const solid = (px, box, rad, bg = '#111') => `<span class="tile" style="width:${box}px;height:${box}px;border-radius:${rad};background:${bg}">${MARK.replace('<svg ', `<svg style="width:${px}px;height:auto" `)}</span>`;
+$('#sizes').innerHTML = [
+  [lock(32), 'Nav · desktop', 'Lockup, 32px tall', 'height: 32px'],
+  [lock(28), 'Nav · mobile', 'Lockup, 28px tall', 'height: 28px'],
+  [lock(34), 'Footer', 'Lockup, 34px tall', 'height: 34px'],
+  ['<img src="/assets/logo-lockup-light.svg" alt="" style="height:22px;background:#f5f2ec;padding:10px 14px;border-radius:8px;box-sizing:content-box">', 'Documents (light)', 'Light lockup, 22px+ (call summary, invoices)', '/assets/logo-lockup-light.svg'],
+  [solid(18, 40, '50%'), 'Cal.com avatar', 'Bars-only mark in a circle', '18px mark · 40px circle'],
+  [solid(18, 34, '9px'), 'Notification icon', 'Bars-only mark in a tile', '18px mark · 34px tile'],
+  [solid(26, 56, '14px'), 'App icon / favicon', 'Bars-only, centered', '180 · 32 · 16px'],
+  [`<span class="tile" style="width:84px;height:84px;border-radius:24px">${MARK_FULL.replace('<svg ', '<svg style="width:34px;height:auto" ')}</span>`, 'Large tile', 'Full mark (orbit center, social)', '32px+ only'],
+].map(s => `<div class="sz"><div class="demo">${s[0]}</div><h5>${s[1]}</h5><p>${s[2]}</p><code>${s[3]}</code></div>`).join('');
+$('#full').innerHTML = [96, 64, 48, 32].map(h => `<div class="m">${MARK_FULL.replace('<svg ', `<svg style="height:${h}px;width:auto" `)}<span>${h}px</span></div>`).join('');
+$('#solid').innerHTML = [32, 24, 20, 16, 12].map(h => `<div class="m">${MARK.replace('<svg ', `<svg style="height:${h}px;width:auto" `)}<span>${h}px</span></div>`).join('');
+</script>
+</body>
+</html>

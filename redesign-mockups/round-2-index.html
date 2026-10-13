@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rework · Round 2 · Red Elevators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0b0d;--card:#121215;--ink:#f4f4f5;--sub:#a1a1aa;--dim:#8b8b94;--hair:rgba(255,255,255,.08);--red:#FF2D3B}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;padding:40px clamp(16px,4vw,56px) 80px}
+a{color:inherit;text-decoration:none}
+.top{max-width:1240px;margin:0 auto 44px;display:flex;justify-content:space-between;align-items:center}
+.top img{height:30px}
+.top span{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim)}
+header{max-width:1240px;margin:0 auto 40px;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end}
+h1{font-family:'Inter Tight';font-weight:500;font-size:clamp(34px,4vw,56px);letter-spacing:-.035em;line-height:1.02}
+h1 span{color:var(--sub)}
+.brief{font-size:15px;line-height:1.65;color:var(--sub)}
+.brief b{color:var(--ink);font-weight:500}
+.arc{max-width:1240px;margin:0 auto 34px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:14px;overflow:hidden}
+.arc div{background:var(--bg);padding:16px 18px}
+.arc b{font-family:'JetBrains Mono';font-weight:400;font-size:12px;color:var(--red)}
+.arc h3{font-family:'Inter Tight';font-weight:500;font-size:16px;margin:6px 0 4px}
+.arc p{font-size:13px;color:var(--sub);line-height:1.5}
+.grid{max-width:1240px;margin:0 auto;display:grid;gap:22px}
+.v{display:grid;grid-template-columns:1.4fr 1fr;border:1px solid var(--hair);border-radius:18px;overflow:hidden;background:var(--card)}
+.frame{position:relative;min-height:380px;overflow:hidden;background:#000;border-right:1px solid var(--hair)}
+.frame iframe{position:absolute;left:0;top:0;width:1440px;height:900px;border:0;transform-origin:0 0;pointer-events:none}
+.frame a{position:absolute;inset:0;z-index:2}
+.info{padding:28px;display:flex;flex-direction:column;gap:16px}
+.info small{font-family:'JetBrains Mono';font-size:12px;color:var(--dim)}
+.info h2{font-family:'Inter Tight';font-weight:500;font-size:28px;letter-spacing:-.025em}
+.info p{font-size:14.5px;line-height:1.6;color:var(--sub)}
+.info ul{list-style:none;display:grid;gap:8px;border-top:1px solid var(--hair);padding-top:14px;font-size:13.5px;color:var(--sub)}
+.info li b{color:var(--ink);font-weight:500}
+.links{display:flex;gap:8px;margin-top:auto;flex-wrap:wrap}
+.links a{font-size:13.5px;font-weight:500;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.14)}
+.links a:first-child{background:var(--ink);color:#111;border-color:var(--ink)}
+.foot{max-width:1240px;margin:40px auto 0;font-size:13.5px;color:var(--dim);line-height:1.7}
+.foot a{color:var(--sub);text-decoration:underline;text-underline-offset:3px}
+@media (max-width:980px){header,.v{grid-template-columns:1fr}.arc{grid-template-columns:1fr 1fr}.frame{border-right:0;border-bottom:1px solid var(--hair);min-height:0;aspect-ratio:16/10}}
+</style>
+</head>
+<body>
+<div class="top"><img src="story/red-elevators-logo-dark.svg" alt="Red Elevators"><span>Rework · Round 2</span></div>
+<header>
+  <h1>One story, three ways to open it.<br><span>Pick the scene a host recognises first.</span></h1>
+  <p class="brief">The <b>story, copy, logo and red stay the same</b> across all three. Only the opening scene changes. Scroll each one to the end: the scene reacts to every chapter. Use the <b>A / B switch</b> (bottom-right) to compare the outcome headline with the pain headline.</p>
+</header>
+
+<div class="arc">
+  <div><b>01</b><h3>The night</h3><p>Hero. A short, calm summary set in a scene they recognise.</p></div>
+  <div><b>02</b><h3>Sound familiar?</h3><p>Four pains named one by one, and the scene shows each one.</p></div>
+  <div><b>03</b><h3>The turn</h3><p>The same four, handled. Both pillars, no diagram.</p></div>
+  <div><b>04</b><h3>What’s next</h3><p>Hands off to the next chapters, with the CTA always in reach.</p></div>
+</div>
+
+<div class="grid">
+  <article class="v">
+    <div class="frame"><iframe src="story/phone.html" loading="lazy" title="The 2am phone" tabindex="-1"></iframe><a href="story/phone.html" aria-label="Open the 2am phone"></a></div>
+    <div class="info">
+      <small>Scene 1</small><h2>The 2am phone</h2>
+      <p>A phone on the nightstand at 2:14am, stacking up guest questions, a commission booking, an empty-nights alert and a locked-out cleaner. As the story turns, each one flips to “Handled for you”. It ends at 7:30am with one message: <em>“Good morning. Nothing needs you.”</em></p>
+      <ul><li><b>Strongest at:</b> instant recognition for owner-operators</li><li><b>Mood:</b> personal, night into morning</li><li><b>B headline:</b> “Still answering guests at 2am?”</li></ul>
+      <div class="links"><a href="story/phone.html">Open</a><a href="story/phone.html?h=b">Open with B headline</a></div>
+    </div>
+  </article>
+  <article class="v">
+    <div class="frame"><iframe src="story/property.html" loading="lazy" title="The property" tabindex="-1"></iframe><a href="story/property.html" aria-label="Open the property"></a></div>
+    <div class="info">
+      <small>Scene 2</small><h2>The property</h2>
+      <p>The rental itself as an architectural model at dusk. Problems are pinned to real places on the house: the front door, the empty bedroom, the quiet midweek. As they get handled, rooms light up one by one, until it’s blue hour and every room is booked.</p>
+      <ul><li><b>Strongest at:</b> premium, hospitality feel. Suits property managers too.</li><li><b>Mood:</b> architectural, warm, aspirational</li><li><b>B headline:</b> “Is your rental running you?”</li></ul>
+      <div class="links"><a href="story/property.html">Open</a><a href="story/property.html?h=b">Open with B headline</a></div>
+    </div>
+  </article>
+  <article class="v">
+    <div class="frame"><iframe src="story/calendar.html" loading="lazy" title="The calendar" tabindex="-1"></iframe><a href="story/calendar.html" aria-label="Open the calendar"></a></div>
+    <div class="info">
+      <small>Scene 3</small><h2>The calendar</h2>
+      <p>The owner’s real tool: a two-week multi-calendar with an overflowing inbox, OTA fees, open midweek nights and unassigned turnovers. The turn fills the gaps with direct bookings, clears the inbox, adjusts rates and ticks off every turnover, while occupancy climbs.</p>
+      <ul><li><b>Strongest at:</b> showing the result in numbers they track. Scales to portfolios.</li><li><b>Mood:</b> practical, product-like, credible</li><li><b>B headline:</b> “Empty nights again this week?”</li></ul>
+      <div class="links"><a href="story/calendar.html">Open</a><a href="story/calendar.html?h=b">Open with B headline</a></div>
+    </div>
+  </article>
+</div>
+
+<p class="foot">Messages, names, occupancy and rates are illustrative and labelled that way on each page. These are desktop-first mockups; mobile is roughed in only. Round 1 is still available for reference: <a href="round-1-index.html">Round 1 overview</a>.</p>
+
+<script>
+function fit(){document.querySelectorAll('.frame').forEach(f=>{const i=f.querySelector('iframe');const s=f.clientWidth/1440;i.style.height=Math.max(900,f.clientHeight/s)+'px';i.style.transform=`scale(${s})`;});}
+addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

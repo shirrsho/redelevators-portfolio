@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Photo Ad Creative · Red Elevators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base.css?v=35"><link rel="stylesheet" href="/assets/devices.css?v=35"><link rel="stylesheet" href="/assets/sections.css?v=35"><link rel="stylesheet" href="/assets/themes.css?v=35">
+<script src="/assets/theme.js?v=35"></script>
+<style>
+:root{--bg:#141312}
+.visual .phone{scale:.92}
+.visual .laptop{scale:.78}
+.hero-chip.r{right:0;top:22%}
+.hero-chip.l{left:0;bottom:18%}
+.pick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:26px}
+.pick a{font-size:12.5px;padding:6px 10px;border-radius:8px;border:1px solid var(--hair);color:var(--sub)}
+.pick a.on{background:var(--ink);color:#111;border-color:var(--ink)}
+.rel{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+#ba .after li{opacity:.35;transform:translateX(-6px);transition:opacity .4s,transform .5s var(--ease)}
+#ba.flipped .after li{opacity:1;transform:none}
+#ba.flipped .after li:nth-child(2){transition-delay:.12s}#ba.flipped .after li:nth-child(3){transition-delay:.24s}#ba.flipped .after li:nth-child(4){transition-delay:.36s}#ba.flipped .after li:nth-child(5){transition-delay:.48s}
+.pn-nav{display:flex;justify-content:space-between;gap:16px;margin-top:40px}
+.pn-nav a{flex:1;border:1px solid var(--hair);border-radius:16px;padding:18px 20px;transition:border-color .3s}
+.pn-nav a:hover{border-color:var(--hair-2)}
+.pn-nav a:last-child{text-align:right}
+.pn-nav b{display:block;font-family:var(--display);font-weight:500;font-size:18px;margin-top:4px}
+/* hero scenes */
+.adcard{position:absolute;left:12px;right:12px;top:120px;z-index:7;border-radius:18px;overflow:hidden;background:#15151b;border:1px solid var(--hair-2)}
+.adcard .h{display:flex;align-items:center;gap:8px;padding:10px 12px;font-size:12px}
+.adcard .h i{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#ff2d3b,#ff8a6b)}
+.adcard .h small{display:block;color:var(--dim);font-size:10.5px}
+.adcard .img{height:230px;background:linear-gradient(160deg,#3d2c2a 0%,#7b4636 45%,#2b2e46 100%);position:relative}
+.adcard .img b{position:absolute;left:14px;bottom:14px;font-family:var(--display);font-size:24px;font-weight:500;line-height:1.05}
+.adcard .cta{display:flex;justify-content:space-between;align-items:center;padding:12px;font-size:12.5px;color:var(--sub)}
+.adcard .cta span:last-child{padding:7px 12px;border-radius:8px;background:var(--red-btn);color:#fff;font-weight:600}
+.drop{position:absolute;left:10px;right:10px;top:60px;z-index:9;opacity:0;transform:translateY(-20px);transition:opacity .6s,transform .7s var(--ease)}
+.drop.show{opacity:1;transform:none}
+.drop .n{position:relative}
+.frames3{display:flex;gap:18px;align-items:flex-end}
+.fr{border-radius:14px;overflow:hidden;border:1px solid var(--hair-2);background:#15151b;opacity:0;transform:translateY(20px);transition:opacity .6s,transform .8s var(--ease)}
+.fr.show{opacity:1;transform:none}
+.fr .img{background:linear-gradient(160deg,#3d2c2a 0%,#7b4636 45%,#2b2e46 100%);position:relative}
+.fr .img b{position:absolute;left:10px;bottom:10px;font-family:var(--display);font-size:16px;font-weight:500;line-height:1.05}
+.fr .lbl{font-family:var(--mono);font-size:11px;color:var(--dim);padding:8px 10px}
+.site{position:absolute;inset:0;background:#f4f1ec;color:#1b1a1f;display:flex;flex-direction:column}
+.site .top{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;font-size:12px;font-weight:600}
+.site .hero{margin:0 16px;height:170px;border-radius:12px;background:linear-gradient(160deg,#c9a487,#8d5d4a 50%,#4f5679);position:relative}
+.site .hero b{position:absolute;left:16px;bottom:14px;color:#fff;font-family:var(--display);font-size:26px;font-weight:500}
+.site .bk{margin:12px 16px;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:center;border:1px solid rgba(0,0,0,.1);border-radius:12px;padding:8px;font-size:12px;background:#fff}
+.site .bk div{padding:4px 8px}.site .bk small{display:block;color:#5f5f66;font-size:10px}
+.site .bk span{background:#e51e2b;color:#fff;border-radius:8px;padding:9px 12px;font-weight:600}
+.site .paid{margin:4px 16px;display:flex;gap:8px;align-items:center;font-size:12px;opacity:0;transition:opacity .6s}
+.site .paid.show{opacity:1}
+.fn{padding:16px;display:grid;gap:10px}
+
+/* hero · Guest Messaging: one inbox + guest profile */
+.ibx{position:absolute;inset:36px 0 0;display:grid;grid-template-columns:minmax(0,1fr) 210px;font-size:12px}
+.ibx .list{border-right:1px solid var(--hair);padding:10px;display:flex;flex-direction:column;gap:4px;overflow:hidden}
+.ibx .m{display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:9px;align-items:center;padding:5px 9px;border-radius:10px;border:1px solid var(--hair);background:rgba(255,255,255,.02);opacity:0;transform:translateY(-10px);transition:opacity .5s,transform .6s var(--ease),border-color .4s,background .4s}
+.ibx .m.in{opacity:1;transform:none}
+.ibx .m.sel{border-color:rgba(139,147,255,.5);background:rgba(139,147,255,.07)}
+.ibx .m .ch{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--g)}
+.ibx .m .ch svg{width:14px;height:14px}
+.ibx .m b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ibx .m span{display:block;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ibx .m em{font-style:normal;font-size:11px;padding:3px 7px;border-radius:99px;white-space:nowrap;background:rgba(232,163,61,.14);color:#f3c27a;transition:background .3s,color .3s}
+.ibx .m.ok em{background:rgba(143,212,176,.14);color:var(--green)}
+.ibx .thr{margin-top:2px;padding:10px;border-radius:12px;border:1px dashed var(--hair-2);display:grid;gap:6px;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .6s var(--ease)}
+.ibx .thr.on{opacity:1;transform:none}
+.ibx .thr .mono{font-size:11px}
+.ibx .thr .b{max-width:86%;padding:7px 10px;border-radius:12px;line-height:1.4}
+.ibx .thr .b.i{background:#25252e;justify-self:start;border-bottom-left-radius:4px}
+.ibx .thr .b.o{background:#2a3a8f;justify-self:end;border-bottom-right-radius:4px;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .5s var(--ease)}
+.ibx .thr.sent .b.o{opacity:1;transform:none}
+.ibx .stat{margin-top:auto;display:flex;gap:14px;padding:9px 4px 0;border-top:1px solid var(--hair);color:var(--sub);font-size:11.5px}
+.ibx .stat b{color:var(--ink);font-weight:600}
+.ibx .crm{padding:14px;display:grid;gap:10px;align-content:start}
+.ibx .crm .who{display:flex;gap:10px;align-items:center}
+.ibx .crm .who i{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ff5a5f,#ff9a7a);display:grid;place-items:center;font-style:normal;font-weight:700}
+.ibx .crm .f{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-top:1px solid var(--hair);color:var(--sub);opacity:.25;transition:opacity .5s}
+.ibx .crm .f b{color:var(--ink);font-weight:600;text-align:right}
+.ibx .crm .f.on{opacity:1}
+/* hero · AI Guest Assistant: last night's shift */
+.ngt{position:relative;width:min(470px,100%);border-radius:22px;border:1px solid var(--hair-2);background:linear-gradient(180deg,rgba(24,24,33,.95),rgba(14,14,20,.95));box-shadow:0 40px 90px -40px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.06);padding:18px;display:grid;gap:14px;font-size:12.5px}
+.ngt .hd{display:flex;align-items:center;gap:10px}
+.ngt .hd .av{width:34px;height:34px;border-radius:10px;background:#E51E2B;display:grid;place-items:center}
+.ngt .hd .av svg{width:18px;height:18px}
+.ngt .hd b{display:block;font-size:14px;font-weight:600}
+.ngt .hd small{color:var(--dim);font-size:11.5px}
+.ngt .hd .mono{margin-left:auto;font-size:11px;white-space:nowrap}
+@media (max-width:520px){.ngt .hd .mono{display:none}}
+.ngt .tlx{position:relative;height:46px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid var(--hair)}
+.ngt .tlx .hrs{position:absolute;left:12px;right:12px;bottom:5px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--dim)}
+.ngt .tlx .now{position:absolute;top:6px;bottom:20px;width:2px;border-radius:2px;background:rgba(255,255,255,.35);left:12px;transition:left .8s linear}
+.ngt .tlx i{position:absolute;top:12px;width:9px;height:9px;margin-left:-4px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(143,212,176,.14);opacity:0;scale:.3;transition:opacity .4s,scale .5s var(--ease)}
+.ngt .tlx i.amb{background:#e8a33d;box-shadow:0 0 0 4px rgba(232,163,61,.18)}
+.ngt .tlx i.on{opacity:1;scale:1}
+.ngt .src{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ngt .src .mono{font-size:11px;margin-right:2px}
+.ngt .src span:not(.mono){font-size:11.5px;padding:4px 9px;border-radius:99px;border:1px solid var(--hair);color:var(--sub);transition:color .3s,border-color .3s,background .3s}
+.ngt .src span.lit{color:var(--ink);border-color:rgba(143,212,176,.5);background:rgba(143,212,176,.08)}
+.ngt .feed{display:grid;gap:6px;min-height:178px;align-content:start}
+.ngt .q{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 10px;border-radius:10px;border:1px solid var(--hair);background:rgba(255,255,255,.02);animation:qin .5s var(--ease) both}
+.ngt .q .mono{font-size:11px}
+.ngt .q b{font-weight:500}
+.ngt .q span{color:var(--sub)}
+.ngt .q em{font-style:normal;font-size:11px;padding:3px 7px;border-radius:99px;background:rgba(143,212,176,.12);color:var(--green);white-space:nowrap}
+.ngt .q.amb{border-color:rgba(232,163,61,.45)}
+.ngt .q.amb em{background:rgba(232,163,61,.15);color:#f3c27a}
+@keyframes qin{from{opacity:0;transform:translateY(-8px)}}
+.ngt .tot{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ngt .tot div{border:1px solid var(--hair);border-radius:12px;padding:9px 10px}
+.ngt .tot b{display:block;font-family:var(--display);font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.ngt .tot span{font-size:11.5px;color:var(--sub)}
+.ngt .tot .amb b{color:#f3c27a}
+.fn .st{display:grid;grid-template-columns:130px 1fr 70px;gap:12px;align-items:center;font-size:12px}
+.fn .st i{display:block;height:22px;border-radius:6px;background:linear-gradient(90deg,rgba(255,45,59,.85),rgba(255,138,107,.7));transform-origin:left;transform:scaleX(0);transition:transform 1.1s var(--ease)}
+.fn.in .st i{transform:scaleX(var(--w))}
+.fn .st b{font-family:var(--mono);font-weight:400;text-align:right}
+.ed{padding:16px;display:grid;grid-template-columns:1.4fr 1fr;gap:12px}
+.ed .doc{border:1px solid var(--hair);border-radius:10px;padding:12px}
+.ed .doc h6{font-size:13px;margin-bottom:10px}
+.ed .doc i{display:block;height:7px;border-radius:4px;background:rgba(255,255,255,.16);margin-bottom:8px;transform-origin:left;transform:scaleX(0);transition:transform .9s var(--ease)}
+.ed.in .doc i{transform:scaleX(1)}
+.ed .chk{display:grid;gap:8px;align-content:start}
+.ed .chk div{font-size:12px;border:1px solid var(--hair);border-radius:9px;padding:8px 10px;display:flex;justify-content:space-between;opacity:0;transition:opacity .5s}
+.ed.in .chk div{opacity:1}
+.ed .chk em{font-style:normal;color:var(--green)}
+@media (max-width:900px){.rel{grid-template-columns:1fr}.visual .laptop{scale:.46}.visual .phone{scale:.8}.frames3{scale:.8}}
+@media (max-width:900px){
+  .ibx{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto}
+  .ibx .list{border-right:0;border-bottom:1px solid var(--hair)}
+  .ibx .thr{display:none}
+  .ibx .crm{padding:10px 12px;grid-template-columns:1fr 1fr;column-gap:14px;row-gap:0}
+  .ibx .crm > .mono,.ibx .crm .who{grid-column:1/3}
+  .ibx .crm .f{padding:5px 0}
+  .ed{grid-template-columns:minmax(0,1fr)}
+  .site .bk{grid-template-columns:1fr 1fr}.site .bk span{grid-column:1/3;text-align:center}
+  .site .hero{height:130px}
+}
+</style>
+</head>
+<body data-page="services">
+<div id="site-nav"></div>
+<main class="page">
+  <section class="wrap phero">
+    <div class="rv">
+      <div class="crumb"><a href="/services/">Services</a><span>/</span><span id="crumbP"></span></div>
+      <div class="pick" id="pick"></div>
+      <span class="tag" id="tag"></span>
+      <h1 class="d1" style="margin-top:16px;font-size:clamp(40px,4.6vw,68px)" id="title"></h1>
+      <p class="lead" style="font-size:20px;color:var(--ink)" id="outcome"></p>
+      <p class="small" style="margin-top:12px;max-width:460px" id="desc"></p>
+      <div class="ctas"><a class="btn primary" href="/contact/">Book a free 30-min call <svg viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 5.5H14.6M10.3 1.2L14.9 5.5L10.3 9.8"/></svg></a><a class="btn quiet" href="#how">How it runs</a></div>
+      <div class="meta-row" id="tools"></div>
+    </div>
+    <div class="visual rv d2x" id="visual"></div>
+  </section>
+
+  <section class="wrap section" id="trySec" style="padding-top:40px;display:none"><div id="tryBox" class="rv"></div></section>
+
+  <section class="wrap section" style="padding-top:40px">
+    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>What changes</div><h2 class="d2" style="margin-top:18px">Same work. Nobody doing it by hand.</h2></div>
+      <div class="ba-toggle rv" id="baT"><button data-v="0" class="on">Without the system</button><button data-v="1">With it</button></div></div>
+    <div class="ba" id="ba"></div>
+  </section>
+
+  <section class="wrap section" id="how" style="padding-top:20px">
+    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>How it runs</div><h2 class="d2" style="margin-top:14px">Watch it work,<br>step by step.</h2></div>
+      <p class="small rv d1x" style="max-width:320px">Left: what your guest (or you) sees. Right: what the system does. A simulated run; the real one works inside your own accounts.</p></div>
+    <div id="plh"></div>
+  </section>
+
+  <section class="wrap section" style="padding-top:40px">
+    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>What you get</div><h2 class="d2" style="margin-top:18px">Built, live and looked after.</h2></div></div>
+    <div class="gets" id="gets"></div>
+  </section>
+
+  <section class="wrap section" style="padding-top:20px">
+    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>Questions</div><h2 class="d2" style="margin-top:18px">Asked on most calls.</h2></div></div>
+    <div class="faq rv" id="faq"></div>
+  </section>
+
+  <section class="wrap section" style="padding-top:20px">
+    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>Works well with</div><h2 class="d2" style="margin-top:18px" id="relT"></h2></div></div>
+    <div class="rel" id="rel"></div>
+    <div class="pn-nav" id="pnav"></div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:120px" id="cta"></section>
+</main>
+<div id="site-foot"></div>
+
+<script src="/assets/logos.js?v=35"></script><script src="/assets/icons.js?v=35"></script><script src="/assets/site.js?v=35"></script><script src="/assets/player.js?v=35"></script>
+<script>
+const { SERVICES, VIZ, toolMark, band, mountPipe, phoneShell, laptopShell, playChat, reveal, $, $$, ARROW } = SITE;
+const slug = location.pathname.split('/').filter(Boolean)[1] || SERVICES[0].slug;
+const s = SERVICES.find(x => x.slug === slug) || SERVICES[0];
+const pillar = s.p === 'auto' ? 'AI Automation' : 'Marketing';
+document.title = `${s.title} · Red Elevators`;
+$('#crumbP').textContent = pillar;
+$('#pick').innerHTML = SERVICES.map(x => `<a href="/services/${x.slug}/" class="${x === s ? 'on' : ''}">${x.title}</a>`).join('');
+$('#tag').textContent = pillar; $('#tag').className = `tag ${s.p}`;
+$('#title').textContent = s.title; $('#outcome').textContent = s.outcome; $('#desc').textContent = s.desc;
+$('#tools').innerHTML = [...new Set(s.chain[2].map(n => n[2]))].map(t => SITE.toolPill(t)).join('');
+
+// ---- hero scene, one per service ---------------------------------------------------------
+const V = $('#visual');
+const HERO = {
+  // Guest Messaging & CRM: every channel lands in one inbox, and the guest profile fills itself in
+  chat: () => {
+    const M = [['Airbnb', '#FF5A5F', 'Maria · Loft 2B', 'Could we check in early?', 'Answered · 4s'], ['Booking.com', '#003A9A', 'Tom · Garden Suite', 'Is there parking?', 'Answered · 3s'],
+      ['WhatsApp', '#25D366', 'Rosa (cleaner)', 'Linen for Loft 2B?', 'Ordered'], ['mail', '#3a3a46', 'James · direct', 'Can I bring my dog?', 'Answered · 5s']];
+    V.innerHTML = laptopShell(`<div class="con" style="grid-template-columns:1fr"><div class="bar"><div class="dots"><i></i><i></i><i></i></div><b>One inbox</b><span class="ok"><i></i>4 channels connected</span></div>
+      <div class="ibx"><div class="list">${M.map(m => `<div class="m"><span class="ch" style="--g:${m[1]}">${m[0] === 'mail' ? ico('mail') : logo(m[0], 14, true)}</span><div><b>${m[2]}</b><span>${m[3]}</span></div><em>New</em></div>`).join('')}
+      <div class="thr"><span class="mono">AIRBNB · MARIA · LOFT 2B</span><div class="b i">Could we check in early, around 11?</div><div class="b o">Hi Maria! Your loft is ready from 12:00, so come at noon. Happy to hold your bags from 11 😊</div></div>
+      <div class="stat"><span><b>23</b> answered today</span><span><b>4s</b> typical reply</span><span><b>1</b> sent to you</span></div></div>
+      <div class="crm"><div class="mono" style="font-size:11px">GUEST PROFILE</div><div class="who"><i>M</i><div><b style="font-size:13.5px">Maria Lopez</b><div style="color:var(--sub)">Airbnb · Loft 2B</div></div></div>
+        ${[['Stays', '3'], ['Prefers', 'Early check-in'], ['Travels with', 'Partner'], ['Last review', '★★★★★'], ['Next offer', 'Book direct −10%']].map(f => `<div class="f"><span>${f[0]}</span><b>${f[1]}</b></div>`).join('')}</div></div></div>`)
+      + `<span class="chip handled hero-chip l"><i></i>Four channels, one inbox.</span>`;
+    const ms = $$('.ibx .m'), fs = $$('.ibx .f'), thr = $('.ibx .thr');
+    const run = () => {
+      ms.forEach(m => { m.classList.remove('in', 'ok', 'sel'); m.querySelector('em').textContent = 'New'; }); fs.forEach(f => f.classList.remove('on')); thr.classList.remove('on', 'sent');
+      ms.forEach((m, i) => {
+        setTimeout(() => m.classList.add('in'), 300 + i * 700);
+        setTimeout(() => { m.classList.add('ok'); m.querySelector('em').textContent = M[i][4]; }, 3400 + i * 900);
+      });
+      setTimeout(() => { ms[0].classList.add('sel'); thr.classList.add('on'); }, 3000);
+      setTimeout(() => thr.classList.add('sent'), 3400);
+      fs.forEach((f, i) => setTimeout(() => f.classList.add('on'), 3700 + i * 450));
+    };
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { thr.classList.add('on', 'sent'); ms.forEach((m, i) => { m.classList.add('in', 'ok'); m.querySelector('em').textContent = M[i][4]; }); fs.forEach(f => f.classList.add('on')); return; }
+    run(); setInterval(run, 10000);
+  },
+  // AI Guest Assistant: last night's shift: questions through the night, answered from your house guide
+  chat2: () => {
+    const Q = [['22:40', 'Wifi password?', 'House guide', 0], ['23:15', 'Parking for a van?', 'House rules', 0], ['00:30', 'Pharmacy open now?', 'Local tips', 0], ['01:05', 'Can I get a refund for tonight?', 'Handed to you', 1], ['06:20', 'Late checkout?', 'Checkout policy', 0]];
+    const frac = h => { const [a, b] = h.split(':').map(Number); return (((a < 12 ? a + 24 : a) - 22) * 60 + b) / 540; }; // 22:00 → 07:00
+    V.innerHTML = `<div class="ngt"><div class="hd"><span class="av">${ico('assistant')}</span><div><b>Loft 2B Assistant</b><small>Last night. You slept through all of it.</small></div><span class="mono">22:00 → 07:00</span></div>
+      <div class="tlx"><span class="now"></span>${Q.map(q => `<i class="${q[3] ? 'amb' : ''}" style="left:calc(12px + (100% - 24px) * ${frac(q[0]).toFixed(3)})"></i>`).join('')}<div class="hrs"><span>22</span><span>00</span><span>02</span><span>04</span><span>07</span></div></div>
+      <div class="src"><span class="mono">ANSWERS FROM</span>${['House guide', 'House rules', 'Local tips', 'Checkout policy'].map(x => `<span data-s="${x}">${x}</span>`).join('')}</div>
+      <div class="feed"></div>
+      <div class="tot"><div><b data-t="a">0</b><span>answered</span></div><div class="amb"><b data-t="h">0</b><span>handed to you</span></div><div><b data-t="u">$0</b><span>upsells</span></div></div></div>`
+      ;
+    const dots = $$('.ngt .tlx i'), now = $('.ngt .now'), feed = $('.ngt .feed'), src = $$('.ngt .src span[data-s]');
+    const tot = { a: $('[data-t="a"]'), h: $('[data-t="h"]'), u: $('[data-t="u"]') };
+    const run = () => {
+      let a = 0, h = 0, u = 0; feed.innerHTML = ''; dots.forEach(d => d.classList.remove('on')); now.style.transition = 'none'; now.style.left = '12px';
+      tot.a.textContent = 0; tot.h.textContent = 0; tot.u.textContent = '$0';
+      requestAnimationFrame(() => { now.style.transition = 'left 9s linear'; now.style.left = 'calc(100% - 14px)'; });
+      Q.forEach((q, i) => setTimeout(() => {
+        dots[i].classList.add('on');
+        feed.insertAdjacentHTML('afterbegin', `<div class="q ${q[3] ? 'amb' : ''}"><span class="mono">${q[0]}</span><div><b>${q[1]}</b></div><em>${q[3] ? 'Handed to you' : '✓ ' + q[2]}</em></div>`);
+        if (feed.children.length > 4) feed.lastElementChild.remove();
+        src.forEach(sp => sp.classList.toggle('lit', sp.dataset.s === q[2]));
+        if (q[3]) tot.h.textContent = ++h; else { tot.a.textContent = ++a; if (q[1].startsWith('Late')) { u += 25; tot.u.textContent = '$' + u; } }
+      }, 600 + i * 1700));
+    };
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { Q.forEach((q, i) => { dots[i].classList.add('on'); }); feed.innerHTML = Q.slice(1).reverse().map(q => `<div class="q ${q[3] ? 'amb' : ''}"><span class="mono">${q[0]}</span><div><b>${q[1]}</b></div><em>${q[3] ? 'Handed to you' : '✓ ' + q[2]}</em></div>`).join(''); tot.a.textContent = 4; tot.h.textContent = 1; tot.u.textContent = '$25'; return; }
+    run(); setInterval(run, 11500);
+  },
+  email: () => {
+    V.innerHTML = laptopShell(`<div class="con" style="grid-template-columns:150px 1fr"><div class="bar"><div class="dots"><i></i><i></i><i></i></div><b>Direct bookings</b><span class="ok"><i></i>Sending</span></div>
+      <div class="side">${[['Summer 2025 guests', 38], ['Families', 22], ['Stayed twice', 11], ['Long weekends', 17]].map((g, i) => `<div class="nv${i === 0 ? ' on' : ''}">${ico('guest')}${g[0]}<span style="margin-left:auto;font-family:var(--mono);font-size:10px">${g[1]}</span></div>`).join('')}</div>
+      <div class="main"><div class="view on" style="display:grid;gap:10px;align-content:start">
+        <div class="card stg s1"><div class="mono" style="font-size:10px">TO: JAMES R. · STAYED AUG 2025</div><div style="font-weight:600;font-size:14px;margin:8px 0 6px">James, the Garden Suite misses you</div><div style="color:var(--sub);line-height:1.5">Same flat, same garden. Book direct this time and save 10%, with early check-in included.</div><div style="margin-top:10px;display:inline-block;padding:7px 12px;border-radius:8px;background:var(--red-btn);color:#fff;font-weight:600">Book direct</div></div>
+        <div class="card stg s3" style="display:flex;align-items:center;gap:10px">${logo('Stripe', 18)}<div><b>James booked 4 nights direct</b><div style="color:var(--sub);font-size:11px">Garden Suite · Nov 12–16 · no platform commission</div></div><span class="chip handled" style="margin-left:auto;font-size:11px;padding:4px 9px"><i></i>Booked</span></div>
+      </div></div></div>`) + `<span class="chip handled hero-chip l"><i></i>Personal offer → direct booking</span>`;
+  },
+  editor: () => {
+    V.innerHTML = laptopShell(`<div class="con" style="grid-template-columns:1fr"><div class="bar"><div class="dots"><i></i><i></i><i></i></div><b>Listing engine</b><span class="ok"><i></i>Writing</span></div>
+      <div class="ed" id="ed"><div class="doc"><h6>Garden Suite · 2 bed, sleeps 4 · Canal District</h6>${[96, 88, 92, 60, 0, 94, 82, 70].map((w, i) => w ? `<i style="width:${w}%;transition-delay:${i * .25}s"></i>` : '<br>').join('')}</div>
+      <div class="chk">${['Tone matches your guide', 'Search terms included', 'Facts checked vs. PMS', 'Website · published', 'Airbnb · ready to paste'].map((c, i) => `<div style="transition-delay:${1.8 + i * .35}s">${c}<em>✓</em></div>`).join('')}</div></div></div>`) + `<span class="chip handled hero-chip l"><i></i>Written, checked, published</span>`;
+    setTimeout(() => $('#ed').classList.add('in'), 500);
+  },
+  ad: () => {
+    V.innerHTML = phoneShell(`<div class="adcard"><div class="h"><i></i><div><b>Harbor Studio</b><small>Sponsored</small></div></div><div class="img"><b>Tue–Thu escape.<br>Book direct, save 10%.</b></div><div class="cta"><span>harborstudio.com</span><span>Book now</span></div></div>
+      <div class="drop" id="drop"><div class="n"><div class="ic" style="background:#111">${MARK}</div><div class="hd"><span>New booking · direct</span><span>now</span></div><div class="tt">Harbor Studio · Tue–Thu</div><div class="bd">From your Instagram ad · 2 nights · no commission</div></div></div>`)
+      + `<span class="chip problem hero-chip l"><i></i>Ad targets your empty nights</span>`;
+    setInterval(() => $('#drop').classList.toggle('show'), 2600); setTimeout(() => $('#drop').classList.add('show'), 1200);
+  },
+  frames: () => {
+    const img = (h, w, t) => `<div class="fr" style="width:${w}px"><div class="img" style="height:${h}px"><b>${t}</b></div><div class="lbl">${w === 210 ? 'Feed · 1:1' : w === 180 ? 'Portrait · 4:5' : 'Story · 9:16'}</div></div>`;
+    V.innerHTML = `<div class="frames3">${img(210, 210, 'Harbor<br>Studio')}${img(225, 180, 'Midweek<br>escape')}${img(300, 168, 'Book<br>direct')}</div>
+      <span class="chip handled hero-chip r" style="top:6%"><i></i>Approved once · sent to Meta</span>`;
+    $$('.fr').forEach((f, i) => setTimeout(() => f.classList.add('show'), 300 + i * 350));
+  },
+  site: () => {
+    V.innerHTML = laptopShell(`<div class="site"><div class="top"><span>Harbor Studio</span><span style="font-weight:400;color:#5f5f66">Stay · Area · Book</span></div><div class="hero"><b>Wake up on the water.</b></div>
+      <div class="bk"><div><small>Check in</small>Tue, Nov 18</div><div><small>Check out</small>Thu, Nov 20</div><div><small>Guests</small>2 adults</div><span>Book direct · $340</span></div>
+      <div class="paid" id="paid">${logo('Stripe', 16)} <b>Paid</b> · calendars blocked on Airbnb and Booking.com · no commission</div></div>`)
+      + `<span class="chip handled hero-chip l"><i></i>Commission-free, synced to your PMS</span>`;
+    setTimeout(() => $('#paid').classList.add('show'), 1400);
+  },
+  funnel: () => {
+    V.innerHTML = laptopShell(`<div class="con" style="grid-template-columns:1fr"><div class="bar"><div class="dots"><i></i><i></i><i></i></div><b>Funnel · last 30 days</b><span class="mono">illustrative</span></div>
+      <div class="fn" id="fn">${[['Saw an ad or search', '12,400', 1], ['Visited your site', '1,180', .62], ['Started a booking', '140', .34], ['Booked a stay', '31', .16]].map(r => `<div class="st"><span>${r[0]}</span><i style="--w:${r[2]}"></i><b>${r[1]}</b></div>`).join('')}
+      <div style="display:flex;gap:8px;margin-top:6px">${['Meta', 'Google Ads', 'MailChimp'].map(l => `<span class="logo-pill" style="padding:6px 9px">${logo(l, 14)}${l}</span>`).join('')}</div>
+      <div class="card" style="font-size:12px;color:var(--amber)">⚑ Drop-off flagged: 38% leave at the dates step. Fix suggested.</div></div></div>`)
+      + `<span class="chip handled hero-chip l"><i></i>Every channel, measured in bookings</span>`;
+    setTimeout(() => $('#fn').classList.add('in'), 500);
+  },
+};
+HERO[s.hero]();
+if (s.hero === 'chat' || s.hero === 'chat2') { $('#trySec').style.display = ''; SITE.mountTry($('#tryBox')); }
+
+// ---- before / after --------------------------------------------------------------------------
+$('#ba').innerHTML = `<div class="col before"><h4><span style="color:var(--amber)">${ico('alert')}</span>Without the system</h4><ol>${s.before.map(b => `<li><span>${ico('clock')}</span><span>${b}</span></li>`).join('')}</ol></div>
+  <div class="col after off"><h4><span style="color:var(--green)">${ico('check')}</span>With it</h4><ol>${s.chain[2].map(n => `<li><span>${ico('check')}</span><span><b>${n[1]}</b> · ${n[2]}</span></li>`).join('')}</ol></div>`;
+let baTouched = false;
+const baSet = v => { $$('#baT button').forEach(x => x.classList.toggle('on', x.dataset.v === v)); $('#ba .before').classList.toggle('off', v === '1'); $('#ba .after').classList.toggle('off', v === '0'); $('#ba').classList.toggle('flipped', v === '1'); };
+// plays itself once: the manual way first, then the system takes over
+new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { o.disconnect(); setTimeout(() => { if (!baTouched) baSet('1'); }, 1600); } }), { threshold: .5 }).observe($('#ba'));
+$('#baT').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return; baTouched = true;
+  $$('#baT button').forEach(x => x.classList.toggle('on', x === b));
+  $('#ba .before').classList.toggle('off', b.dataset.v === '1'); $('#ba .after').classList.toggle('off', b.dataset.v === '0');
+});
+
+// ---- how it runs: the same player as the Systems page, fixed to this service ----------------
+PLAYER.mountPlayer($('#plh'), { i: s.idx, link: 'systems' });
+
+$('#gets').innerHTML = s.gets.map((g, i) => `<div class="rv d${i + 1}x"><div class="ico-tile">${ico(g[0])}</div><h5>${g[1]}</h5><p>${g[2]}</p></div>`).join('');
+$('#faq').innerHTML = s.faq.map((f, i) => `<details${i === 0 ? ' open' : ''}><summary>${f[0]}<i>+</i></summary><p>${f[1]}</p></details>`).join('');
+
+// ---- related + prev/next ------------------------------------------------------------------
+const rel = SERVICES.filter(x => x.p === s.p && x !== s);
+$('#relT').textContent = `More ${pillar.toLowerCase()} systems.`;
+$('#rel').innerHTML = rel.map(x => `<a class="svc rv" href="/services/${x.slug}/"><div class="viz"><div class="mv">${VIZ[x.viz]}</div></div><div class="body"><div class="row"><div class="ico-tile" style="width:38px;height:38px">${ico(x.icon)}</div><span class="tag ${x.p}">${pillar}</span></div><h4>${x.title}</h4><p>${x.short}</p></div><span class="go">${ico('arrow')}</span></a>`).join('');
+const prev = SERVICES[(s.idx + 7) % 8], next = SERVICES[(s.idx + 1) % 8];
+$('#pnav').innerHTML = `<a href="/services/${prev.slug}/"><span class="mono">← Previous</span><b>${prev.title}</b></a><a href="/services/${next.slug}/"><span class="mono">Next →</span><b>${next.title}</b></a>`;
+$('#cta').innerHTML = band(`Want ${s.title.split(' &')[0].toLowerCase()} off your plate?`, 'A free 30-minute call. We’ll look at your setup and tell you if this is the right place to start.');
+reveal();
+</script>
+</body>
+</html>

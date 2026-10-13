@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Approach · Red Elevators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base.css?v=35"><link rel="stylesheet" href="/assets/devices.css?v=35"><link rel="stylesheet" href="/assets/sections.css?v=35"><link rel="stylesheet" href="/assets/themes.css?v=35">
+<script src="/assets/theme.js?v=35"></script>
+<style>
+:root{--bg:#141312;--c-audit:rgba(185,195,255,.6);--c-design:rgba(255,196,140,.65);--c-build:rgba(255,45,59,.7);--c-live:rgba(143,212,176,.75)}
+.you{position:absolute;right:5px;top:5px;width:8px;height:8px;border-radius:50%;background:#fff;z-index:2;box-shadow:0 0 0 2px rgba(0,0,0,.4)}
+.rows{display:grid;gap:8px}
+.rows .card{display:grid;grid-template-columns:1fr 90px 64px;gap:12px;align-items:center;font-size:14px;padding:12px 14px}
+.rows .bar{height:8px;border-radius:4px;background:rgba(232,163,61,.7);transform-origin:left}
+.rows .card b{font-family:var(--mono);font-weight:400;font-size:12px;color:var(--amber);text-align:right}
+.tests div{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12.5px;padding:9px 0;border-bottom:1px solid var(--hair);color:var(--sub)}
+.tests div em{font-style:normal;color:var(--green)}
+.mini-pipe{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px}
+.mini-pipe .nd{display:grid;justify-items:center;gap:6px;font-size:12px;color:var(--sub)}
+.mini-pipe .nd .bx{width:52px;height:52px;border-radius:14px;border:1px solid var(--hair-2);background:#141419;display:grid;place-items:center}
+.mini-pipe .nd .bx svg{width:22px;height:22px}
+.mini-pipe .ln2{width:30px;height:2px;background:var(--hair-2)}
+.mini-pipe .ck .bx{border-color:rgba(143,212,176,.6);color:var(--green)}
+.summary-card{border:1px solid var(--hair);border-radius:16px;padding:16px;background:rgba(255,255,255,.03)}
+.summary-card .r{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px solid var(--hair)}
+.summary-card .r:last-child{border:0}
+.summary-card .r b{font-family:var(--display);font-weight:500}
+.rows .bar.grow{transform:scaleX(0);transition:transform 1.1s var(--ease) var(--dl)}
+.vis.in .rows .bar.grow{transform:scaleX(var(--s))}
+.tests .tick{opacity:0;transform:translateX(-8px);transition:opacity .4s var(--dl),transform .5s var(--ease) var(--dl)}
+.tests .tick em{opacity:0;transition:opacity .3s calc(var(--dl) + .25s)}
+.vis.in .tests .tick,.vis.in .tests .tick em{opacity:1;transform:none}
+.mini-pipe .nd,.mini-pipe .ln2{opacity:.25;transition:opacity .5s var(--dl)}
+.vis.in .mini-pipe .nd,.vis.in .mini-pipe .ln2{opacity:1}
+.vis.in .mini-pipe .nd .bx{animation:litup .6s var(--dl) both}
+@keyframes litup{0%{border-color:var(--hair-2)}50%{border-color:rgba(255,45,59,.8)}100%{border-color:var(--hair-2)}}
+.vis.in .mini-pipe .nd.ck .bx{animation:none;border-color:rgba(143,212,176,.6)}
+</style>
+</head>
+<body data-page="approach">
+<div id="site-nav"></div>
+<main class="page">
+  <section class="wrap phero">
+    <div class="rv">
+      <div class="eyebrow"><i></i>Approach</div>
+      <h1 class="d1" style="margin-top:22px">Live in three weeks.<br>Then we run it.</h1>
+      <p class="lead">Four steps. About two hours of your time in total. You approve everything that matters.</p>
+      <div class="ctas"><a class="btn primary" href="/contact/">Start with the audit call <svg viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 5.5H14.6M10.3 1.2L14.9 5.5L10.3 9.8"/></svg></a></div>
+    </div>
+    <div class="visual rv d2x" style="min-height:auto"><div id="cal3" style="width:100%"></div></div>
+  </section>
+
+  <section class="wrap" id="phases"></section>
+
+  <section class="wrap section">
+    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>After launch</div><h2 class="d2" style="margin-top:18px">Every month, we keep it sharp.</h2></div></div>
+    <div class="gets" id="after"></div>
+  </section>
+
+  <section class="wrap section" style="padding-top:20px">
+    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>Questions</div><h2 class="d2" style="margin-top:18px">Before you book.</h2></div></div>
+    <div class="faq rv" id="faq"></div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:120px" id="cta"></section>
+</main>
+<div id="site-foot"></div>
+<script src="/assets/logos.js?v=35"></script><script src="/assets/icons.js?v=35"></script><script src="/assets/site.js?v=35"></script>
+<script>
+const { band, phoneShell, reveal, $ } = SITE;
+// ---- three-week calendar (shared, interactive): click a day to jump to its phase ----------------
+SITE.mountCal3($('#cal3'), { onPick: ph => { const el = document.getElementById('ph-' + (ph === 'live' ? 'run' : ph)); el && el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } });
+
+// ---- phases (copy from the live site's approach stages, shortened) ----------------------------
+const PH = [
+  { n: '01', t: 'Audit', when: 'Days 1–3', sum: 'We map every repetitive task in your rental business and put an hour figure on each one.', you: 'One 30-minute call, plus access to your tools', we: 'Walk every inbox, calendar and hand-off', out: 'A ranked list of what to fix first',
+    vis: `<div class="mono" style="margin-bottom:14px">LEAK REPORT · ILLUSTRATIVE</div><div class="rows">${[['Answering guest messages', 1, '9 h/wk'], ['Coordinating turnovers', .5, '4 h/wk'], ['Updating rates', .25, '2 h/wk'], ['Re-engaging past guests', .05, 'not done']].map((r, i) => `<div class="card"><span>${r[0]}</span><i class="bar grow" style="--s:${r[1]};--dl:${.2 + i * .15}s"></i><b>${r[2]}</b></div>`).join('')}</div><p class="small" style="margin-top:14px">Fix first: <b style="color:var(--ink)">guest messaging</b>.</p>` },
+  { n: '02', t: 'Design', when: 'Week 1', sum: 'We design the workflow: what starts it, what it touches, and exactly where you still check in.', you: 'Approve the plan, in plain language', we: 'Draw every trigger, tool and checkpoint', out: 'A one-page workflow you sign off',
+    vis: `<div class="mono" style="margin-bottom:18px">WORKFLOW · GUEST MESSAGING</div><div class="mini-pipe">${[['message', 'Message in'], ['assistant', 'Draft reply'], ['lock', 'You approve*', 1], ['check', 'Sent & logged']].map((x, i) => `${i ? `<span class="ln2" style="--dl:${i * .6}s"></span>` : ''}<div class="nd${x[2] ? ' ck' : ''}" style="--dl:${i * .6 + .3}s"><div class="bx">${ico(x[0])}</div>${x[1]}</div>`).join('')}</div><p class="small" style="margin-top:22px">*Only for refunds, complaints and anything unusual. Everything routine runs on its own.</p>` },
+  { n: '03', t: 'Build', when: 'Weeks 2–3', sum: 'We build inside your existing tools, then test on real data before anything touches a guest.', you: 'Nothing. Carry on as normal', we: 'Build, connect and test end to end', out: 'A working system on real data',
+    vis: `<div class="mono" style="margin-bottom:10px">TEST RUN · ILLUSTRATIVE</div><div class="tests">${['Airbnb message → reply drafted', 'Booking → cleaner booked', 'Checkout → door code rotated', 'Refund request → sent to owner', 'Direct booking → calendars blocked', 'Late reply → owner alerted'].map((t, i) => `<div class="tick" style="--dl:${.3 + i * .35}s">${t}<em>✓ pass</em></div>`).join('')}</div>` },
+  { n: '04', t: 'Run', when: 'Ongoing', sum: 'We monitor it, fix what real use exposes, and keep improving it. Fully documented, fully yours.', you: 'Read a monthly summary', we: 'Monitor, fix, improve, document', out: 'A running system your team owns',
+    vis: `<div class="summary-card"><div class="mono" style="margin-bottom:8px">MONTHLY SUMMARY · OCTOBER · ILLUSTRATIVE</div>${[['Guest messages answered', '412'], ['Handed to you', '9'], ['Direct bookings', '14'], ['Turnovers coordinated', '38'], ['Improvements shipped', '3']].map(r => `<div class="r"><span>${r[0]}</span><b data-count="${r[1]}">0</b></div>`).join('')}</div>` },
+];
+$('#phases').innerHTML = PH.map((p, i) => `<div class="phase" id="ph-${p.t.toLowerCase()}">
+  <div class="rv"><span class="num">${p.n}</span><span class="mono" style="margin-left:14px">${p.when}</span><h3>${p.t}</h3><p class="lead">${p.sum}</p>
+  <div class="who"><div><span class="mono">YOU</span><p>${p.you}</p></div><div><span class="mono">US</span><p>${p.we}</p></div></div>
+  <span class="chip handled out"><i></i>You get: ${p.out}</span></div>
+  <div class="vis rv d2x">${p.vis}</div></div>`).join('');
+
+$('#after').innerHTML = [['audit', 'Monitoring', 'We watch every system and catch issues first.'], ['build', 'Fixes', 'Anything real use exposes, we fix.'], ['mail', 'A monthly summary', 'What ran, what it did, what needs you.'], ['run', 'Improvements', 'Better replies, sharper ads, new automations.']]
+  .map((g, i) => `<div class="rv d${i + 1}x"><div class="ico-tile">${ico(g[0])}</div><h5>${g[1]}</h5><p>${g[2]}</p></div>`).join('');
+$('#faq').innerHTML = [['How much of my time does it take?', 'About two hours over three weeks: the audit call, approving the plan, and a launch walkthrough.'], ['Do I need new software?', 'No. We build inside the tools you already use. If something is missing, we’ll recommend it in the audit.'], ['Who owns the system?', 'You do. It runs in your accounts and comes with full documentation.'], ['What does it cost?', 'It depends on what we build. You get a fixed quote after the audit call, before any work starts.']]
+  .map((f, i) => `<details${i === 0 ? ' open' : ''}><summary>${f[0]}<i>+</i></summary><p>${f[1]}</p></details>`).join('');
+$('#cta').innerHTML = band('Step one is a 30-minute call.', 'We’ll map your setup and tell you what to fix first. No commitment.');
+reveal();
+</script>
+</body>
+</html>

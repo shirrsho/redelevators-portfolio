@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fonts · design review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Figtree:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css?v=35"><link rel="stylesheet" href="devices.css?v=35"><link rel="stylesheet" href="sections.css?v=35"><link rel="stylesheet" href="themes.css?v=35">
+<script src="theme.js?v=35"></script>
+<style>
+:root{--bg:#0a0b14}
+.dz-top{padding:110px 0 10px}
+.dz-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:26px}
+.dz-tabs a{font-size:13.5px;padding:8px 13px;border-radius:9px;border:1px solid var(--hair-2);color:var(--sub)}
+.dz-tabs a.on{background:var(--ink);color:#111;border-color:var(--ink)}
+[data-p="inter"]{--display:'Inter Tight',system-ui,sans-serif;--sans:'Inter',system-ui,sans-serif;--hw:500;--ls:-.035em}
+[data-p="schibsted"]{--display:'Schibsted Grotesk',system-ui,sans-serif;--sans:'Hanken Grotesk',system-ui,sans-serif;--hw:600;--ls:-.03em}
+[data-p="bricolage"]{--display:'Bricolage Grotesque',system-ui,sans-serif;--sans:'Figtree',system-ui,sans-serif;--hw:600;--ls:-.04em}
+.specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:40px 0 30px}
+.spec{border:1px solid var(--hair);border-radius:24px;background:var(--surface);padding:26px;display:grid;gap:22px;align-content:start;font-family:var(--sans)}
+.spec.cur{border-color:rgba(139,147,255,.45)}
+.spec .tag{display:grid;justify-items:start;gap:8px}
+.spec .tag b{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.06em;color:var(--dim)}
+.spec .tag i{font-style:normal;font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:99px;border:1px solid var(--hair-2);color:var(--sub)}
+.spec h3{font-family:var(--display);font-weight:var(--hw);letter-spacing:var(--ls);font-size:clamp(34px,3.1vw,46px);line-height:1;font-variation-settings:"opsz" 96}
+.spec h3 em{font-style:normal;color:#ff8a80}
+.spec h4{font-family:var(--display);font-weight:var(--hw);letter-spacing:-.02em;font-size:24px;line-height:1.15}
+.spec p{font-size:15.5px;line-height:1.6;color:var(--sub)}
+.spec .nums{display:flex;gap:18px;font-family:var(--display);font-weight:var(--hw);letter-spacing:-.03em;font-size:34px;font-variant-numeric:tabular-nums}
+.spec .nums small{display:block;font-family:var(--sans);font-size:12px;font-weight:400;letter-spacing:0;color:var(--dim);margin-top:2px}
+.spec .row{display:flex;gap:8px;flex-wrap:wrap}
+.spec .btn{font-family:var(--sans)}
+.spec .navmini{display:flex;gap:16px;font-size:14px;color:var(--sub);padding:12px 14px;border-radius:12px;border:1px solid var(--hair);background:rgba(255,255,255,.02)}
+.spec .navmini span:first-child{color:var(--ink)}
+.spec .notif{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:16px;background:rgba(255,255,255,.06);font-size:13.5px}
+.spec .notif b{display:block;font-weight:600;font-size:13.5px}
+.spec .notif span{color:var(--sub)}
+.spec .notif .ic{width:30px;height:30px;border-radius:8px;background:#111;display:grid;place-items:center;flex:0 0 auto}
+.spec .notif .ic svg{width:15px;height:auto}
+.spec .facts{border-top:1px solid var(--hair);padding-top:16px;display:grid;gap:8px;font-size:13.5px;color:var(--sub)}
+.spec .facts div{display:flex;gap:8px}
+.spec .facts div::before{content:"";width:6px;height:6px;border-radius:50%;margin-top:7px;flex:0 0 auto;background:var(--c,#8b93ff)}
+.spec .facts .minus{--c:#ff8a80}
+.spec .go{display:inline-flex;justify-content:center;width:100%}
+.verdict{border:1px solid var(--hair);border-radius:22px;padding:26px;margin-bottom:110px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:30px;background:rgba(255,255,255,.02)}
+.verdict p{color:var(--sub);font-size:15.5px;line-height:1.65}
+.verdict p + p{margin-top:10px}
+.verdict b{color:var(--ink)}
+.ladder{border:1px solid var(--hair);border-radius:24px;background:var(--surface);padding:10px 26px;margin-top:34px}
+.lad{display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--hair)}
+.lad:last-child{border-bottom:0}
+.lad .meta{font-family:var(--mono);font-size:11.5px;color:var(--dim);line-height:1.6}
+.lad .meta b{display:block;color:var(--ink);font-weight:500;font-size:12px}
+.lad .s{min-width:0;overflow-wrap:anywhere}
+.ctx{margin-top:26px;display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:22px;align-items:start}
+.ctx-d{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ctx .fr{display:grid;gap:8px}
+.ctx .fr .lbl{display:flex;justify-content:space-between;font-size:13.5px}
+.ctx .fr .lbl span{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.box{position:relative;overflow:hidden;border-radius:12px;border:1px solid var(--hair-2);background:#0a0b14}
+.box.ph{border-radius:26px;border:6px solid #1c1c22}
+.box iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;background:#0a0b14}
+.mob{display:grid;gap:14px}
+.confirm{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.confirm div{border:1px solid var(--hair);border-radius:16px;padding:16px;font-size:14px;color:var(--sub)}
+.confirm b{display:block;color:var(--ink);font-family:var(--display);font-weight:600;font-size:17px;margin-bottom:4px}
+@media (max-width:1000px){.ctx{grid-template-columns:minmax(0,1fr)}.ctx-d{grid-template-columns:minmax(0,1fr)}.mob{grid-template-columns:1fr 1fr}.lad{grid-template-columns:minmax(0,1fr);gap:6px}.confirm{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:1000px){.specs{grid-template-columns:minmax(0,1fr)}.verdict{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body data-page="">
+<div id="site-nav"></div>
+<main class="page">
+  <section class="wrap dz-top">
+    <div class="eyebrow"><i></i>Design review · not part of the public site</div>
+    <h1 class="d1" style="margin-top:18px;font-size:clamp(40px,4.4vw,64px)">Schibsted + Hanken</h1>
+    <p class="lead">The chosen pairing, shown the way the site uses it: every size on the type scale, then real pages at desktop and phone size. Confirm it here; the comparison with the other two is further down.</p>
+    <div class="dz-tabs" id="dztabs"></div>
+  </section>
+
+  <section class="wrap">
+    <div class="ladder" id="ladder"></div>
+    <div class="ctx"><div class="ctx-d" id="ctxD"></div><div class="mob" id="ctxM"></div></div>
+    <div class="confirm">
+      <div><b>Headlines · Schibsted Grotesk 600</b>Tight tracking (−3%) on the two largest sizes; 500 for smaller headings.</div>
+      <div><b>Body · Hanken Grotesk 400</b>16–17px with 1.6 line height for reading; 14px for supporting text.</div>
+      <div><b>Labels · JetBrains Mono 500</b>Small caps-style labels and timecodes, 11–12px, never smaller.</div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-top:70px">
+    <span class="mono" style="display:block;margin-bottom:10px">COMPARE · THE THREE OPTIONS</span>
+    <div class="specs" id="specs" style="padding-top:10px"></div>
+    <div class="verdict">
+      <div><span class="mono">DECISION · 14 OCT</span></div>
+      <div>
+        <p><b>Schibsted Grotesk + Hanken Grotesk is now the site font.</b> It keeps the calm, professional feel of the current set, but the headlines have more character. Inter is on a huge number of SaaS sites, so the current pairing looks fine but generic. Schibsted was made for a news publisher: it reads like a confident brand without getting in the way of the story.</p>
+        <p><b>Bricolage + Figtree</b> is the warmest and most memorable of the three. It fits a hospitality brand, but it’s more opinionated. The headlines get quirky at large sizes, and it will feel a bit less “serious systems company”.</p>
+        <p>All three are free Google Fonts, so there’s no licensing cost either way.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<div id="site-foot"></div>
+<script src="logos.js?v=35"></script><script src="icons.js?v=35"></script><script src="site.js?v=35"></script>
+<script>
+const { $ } = SITE;
+$('#dztabs').innerHTML = [['layouts.html', 'Sitemap & layouts'], ['navhero.html', 'Nav & hero'], ['logo.html', 'Logo'], ['fonts.html', 'Fonts'], ['components.html', 'Component library'], ['home.html', 'Open the site →']].map(t => `<a href="${t[0]}" class="${location.pathname === t[0] || location.pathname.endsWith('/' + t[0]) ? 'on' : ''}">${t[1]}</a>`).join('');
+const cur = document.documentElement.dataset.font || 'schibsted';
+// the type scale, exactly as the site's classes render it
+$('#ladder').innerHTML = [
+  ['Display 1', 'd1 · 44–80px · 600 · −3%', '<div class="d1">Your rentals, running on <em>autopilot.</em></div>'],
+  ['Display 2', 'd2 · 34–56px · 600 · −3%', '<div class="d2">Eight systems. Two pillars.</div>'],
+  ['Display 3', 'd3 · 24–32px · 500 · −2%', '<div class="d3">Turnovers schedule themselves.</div>'],
+  ['Lead', 'lead · 17px · 400 · 1.6', '<p class="lead" style="max-width:640px">We build and run the automation and marketing behind short-term rentals, so the night shift runs itself.</p>'],
+  ['Body', 'body · 16px · 400 · 1.5', '<p style="max-width:640px">Booking details and messages are kept for up to 24 months after we last spoke, then deleted, unless you become a client.</p>'],
+  ['Small', 'small · 14px · 400 · 1.55', '<p class="small" style="max-width:560px">Top: what your guest sees. Bottom: what the system does. Swipe or use the arrows.</p>'],
+  ['Numbers', 'display · tabular', '<div class="d2" style="font-variant-numeric:tabular-nums">$2,600 · 4s · 126 · 21 days</div>'],
+  ['Label', 'mono · 12px · 500 · +6%', '<span class="eyebrow"><i></i>Chapter 04 · One booking</span>'],
+].map(r => `<div class="lad"><div class="meta"><b>${r[0]}</b>${r[1]}</div><div class="s">${r[2]}</div></div>`).join('');
+// real pages, live and scaled to fit
+function frame(src, w, h, phone) {
+  const el = document.createElement('div'); el.className = 'box' + (phone ? ' ph' : '');
+  const f = document.createElement('iframe'); f.src = src; f.width = w; f.height = h; f.loading = 'lazy'; f.title = src; el.appendChild(f);
+  f.addEventListener('load', () => { try { const s = f.contentDocument.createElement('style'); s.textContent = 'html{scrollbar-width:none}html::-webkit-scrollbar{display:none}'; f.contentDocument.head.appendChild(s); } catch (e) {} });
+  const fit = () => { const k = el.clientWidth / w; f.style.transform = `scale(${k})`; el.style.height = (h * k) + 'px'; };
+  new ResizeObserver(fit).observe(el); return el;
+}
+const fr = (holder, label, note, src, w, h, phone) => { const d = document.createElement('div'); d.className = 'fr'; d.innerHTML = `<div class="lbl">${label}<span>${note}</span></div>`; d.appendChild(frame(src, w, h, phone)); holder.appendChild(d); };
+fr($('#ctxD'), 'Homepage hero', '1440 × 900', 'home.html', 1440, 900);
+fr($('#ctxD'), 'Systems player', '1440 × 900', 'systems.html#guest-messaging', 1440, 900);
+fr($('#ctxD'), 'Pricing', '1440 × 900', 'pricing.html', 1440, 900);
+fr($('#ctxD'), 'Long reading (Privacy)', '1440 × 900', 'privacy.html#collect', 1440, 900);
+fr($('#ctxM'), 'Phone · home', '390 × 844', 'home.html', 390, 844, true);
+fr($('#ctxM'), 'Phone · service', '390 × 844', 'service.html?s=guest-messaging', 390, 844, true);
+const P = [
+  ['inter', 'A · PREVIOUS', 'Inter Tight + Inter', 'Neutral, very readable', ['Clean and safe', 'Excellent at small sizes'], ['Used by countless SaaS sites, so it feels generic']],
+  ['schibsted', 'B · CHOSEN', 'Schibsted Grotesk + Hanken Grotesk', 'Confident, editorial', ['Distinct headlines that stay professional', 'Fits the “story” format'], ['Slightly wider, so headlines wrap a bit sooner']],
+  ['bricolage', 'C · BOLD', 'Bricolage Grotesque + Figtree', 'Warm, characterful', ['The most memorable', 'Friendly, hospitality feel'], ['Quirky at large sizes, less “systems company”']],
+];
+$('#specs').innerHTML = P.map(p => `<article class="spec ${p[0] === cur ? 'cur' : ''}" data-p="${p[0]}">
+  <div class="tag"><b>${p[1]}</b><i>${p[3]}</i></div>
+  <div class="navmini"><span>Services</span><span>Systems</span><span>Approach</span><span>Pricing</span></div>
+  <h3>Your rentals, running on <em>autopilot.</em></h3>
+  <p>Guest messages answered in seconds, direct bookings that skip the platform fees, and marketing that fills the gaps. Built around the tools you already use.</p>
+  <h4>One booking, start to finish.</h4>
+  <div class="nums"><div>4s<small>avg. reply</small></div><div>$2,600<small>setup from</small></div><div>21<small>days to live</small></div></div>
+  <div class="notif"><span class="ic">${MARK}</span><div><b>Checked in · Marina Loft</b><span>Door code sent at 3:02pm. Nothing needs you.</span></div></div>
+  <div class="row"><a class="btn primary">Book a free call</a><a class="btn quiet">See the systems</a></div>
+  <div class="facts"><strong style="font-family:var(--display);font-weight:var(--hw)">${p[2]}</strong>${p[4].map(x => `<div>${x}</div>`).join('')}${p[5].map(x => `<div class="minus">${x}</div>`).join('')}</div>
+  <a class="btn quiet go" href="home.html?font=${p[0]}">Browse the site in ${p[1].split(' · ')[0]} →</a>
+</article>`).join('');
+</script>
+</body>
+</html>
