@@ -1,0 +1,47 @@
+/* Ported from redesign-mockups/r3/contact.html <style>. Module-scoped: .doc, .ways and friends
+   are generic names that other pages reuse. */
+
+/* 1 · intro */
+.intro { padding: 120px 0 40px; text-align: center; }
+.intro :global(.lead) { margin: 20px auto 0; max-width: 560px; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 900px; margin: 40px auto 0; text-align: left; list-style: none; padding: 0; }
+.steps > li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; padding: 16px; border-radius: 16px; border: 1px solid var(--hair); background: var(--surface); }
+.steps h3 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.steps p { font-size: 13.5px; color: var(--sub); }
+.steps b { font-family: var(--mono); font-weight: 400; font-size: 12px; color: var(--dim); display: block; margin-bottom: 4px; }
+
+/* 3 · other ways */
+.ways { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 1000px; margin: 0 auto; }
+.way { display: grid; grid-template-columns: 52px 1fr auto; gap: 16px; align-items: center; padding: 22px; border-radius: 20px; border: 1px solid var(--hair); background: var(--surface); }
+.way .wi { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; }
+.way h3 { font-size: 17px; font-weight: 600; }
+.way p { font-size: 14px; color: var(--sub); margin-top: 2px; }
+.wa { border-color: rgba(37, 211, 102, 0.35); }
+
+/* 4 · what you take away */
+.take { display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: center; }
+.doc { position: relative; border-radius: 18px; background: #f6f3ee; color: #17161b; padding: 30px 32px; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.9); transform: rotate(-1.2deg); max-width: 520px; justify-self: center; width: 100%; }
+.dh { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 0, 0, 0.1); padding-bottom: 14px; margin-bottom: 16px; }
+.dh > span { font-family: var(--mono); font-size: 12px; color: #6e6b76; }
+.doc h3 { font-family: var(--display); font-size: 22px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 4px; }
+.sub { font-size: 13px; color: #6e6b76; margin-bottom: 18px; }
+.doc ol { list-style: none; display: grid; gap: 10px; padding: 0; }
+.doc li { display: grid; grid-template-columns: 86px 1fr; gap: 12px; align-items: baseline; font-size: 14px; opacity: 0; transform: translateY(8px); transition: opacity 0.5s var(--dl), transform 0.6s var(--ease) var(--dl); }
+.doc li b { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 6px; text-align: center; }
+.f { background: #e51e2b; color: #fff; }
+.t { background: #17161b; color: #fff; }
+.l { background: #e4e0d8; color: #55525c; }
+.g { background: #2f9a6a; color: #fff; }
+/* SiteEffects adds .in to .rv once the doc is on screen */
+.doc:global(.in) li { opacity: 1; transform: none; }
+.sig { margin-top: 20px; padding-top: 14px; border-top: 1px solid rgba(0, 0, 0, 0.1); font-size: 12.5px; color: #6e6b76; display: flex; justify-content: space-between; }
+
+@media (prefers-reduced-motion: reduce) {
+  .doc li { opacity: 1; transform: none; }
+}
+@media (max-width: 900px) {
+  .steps, .ways, .take { grid-template-columns: minmax(0, 1fr); }
+  .intro { padding-top: 100px; }
+  .way { grid-template-columns: 44px 1fr; }
+  .way > :global(.btn) { grid-column: 1 / -1; justify-content: center; }
+}

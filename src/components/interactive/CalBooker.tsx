@@ -112,8 +112,8 @@ export function CalBooker({ location, onStep, onBooked }: CalBookerProps) {
       <Cal
         namespace={NS}
         calLink={CAL_LINK}
-        config={{ layout: "month_view", theme: "dark" }}
-        style={{ width: "100%", height: "100%", overflow: "auto" }}
+        config={{ layout: "month_view", theme: "dark", useSlotsViewOnSmallScreen: "true" }}
+        style={{ width: "100%" }}
       />
       {failed ? (
         <div className={styles.fail} role="alert">
