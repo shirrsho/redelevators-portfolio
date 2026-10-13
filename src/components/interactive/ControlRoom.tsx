@@ -55,6 +55,9 @@ export function ControlRoom() {
     return () => {
       clearInterval(id);
       timers.forEach(clearTimeout);
+      // the cancelled timers would have ended the flash and the feed swap: end them now
+      setTicked(-1);
+      setSwap(false);
     };
   }, [inView]);
 

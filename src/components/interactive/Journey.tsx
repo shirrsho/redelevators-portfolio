@@ -50,6 +50,9 @@ export function Journey({ pinned = false }: JourneyProps) {
     const sec = root?.closest("section");
     if (!pinned || !root || !track || !sec || prefersReducedMotion()) return;
 
+    // apply the pinned styles before measuring (phones size the cards at 80vw only when pinned);
+    // React renders the same class from `isPinned`
+    root.classList.add("pinned");
     setIsPinned(true);
     sec.classList.add("jpinned");
     const cards = Array.from(track.querySelectorAll<HTMLElement>(".fstep"));
@@ -83,6 +86,7 @@ export function Journey({ pinned = false }: JourneyProps) {
       removeEventListener("scroll", update);
       removeEventListener("resize", size);
       root.removeEventListener("click", onClick);
+      root.classList.remove("pinned");
       sec.classList.remove("jpinned");
       sec.style.height = "";
       track.style.transform = "";

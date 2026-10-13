@@ -69,7 +69,6 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
   const uid = useId();
   const startAt = service ? Math.max(0, indexOf(service)) : 0;
   const [cur, setCur] = useState(startAt);
-  const [startedAt, setStartedAt] = useState(startAt);
   const [n, setN] = useState(-1); // the newest step shown (-1: none yet)
   const [hl, setHl] = useState<Part | null>(null); // legend highlight
 
@@ -86,13 +85,6 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
   useEffect(() => {
     curRef.current = cur;
   });
-
-  if (startedAt !== startAt) {
-    // client-side navigation between service pages reuses this instance: follow the prop
-    setStartedAt(startAt);
-    setCur(startAt);
-    setN(-1);
-  }
 
   const run = RUNS[cur];
   const svc = SERVICES[cur];
@@ -171,12 +163,6 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
     addEventListener(SELECT_EVENT, onPick);
     return () => removeEventListener(SELECT_EVENT, onPick);
   }, [tabs, select]);
-
-  // a new `service` starts over: wait for the player to be seen again
-  useEffect(() => {
-    clearTimeout(timer.current);
-    seen.current = false;
-  }, [startAt]);
 
   // ---- starts when the player comes into view, not on page load
   useEffect(() => {
@@ -362,17 +348,16 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
             </div>
           </div>
 
-          <div className="legend" onPointerLeave={() => setHl(null)} onBlur={() => setHl(null)}>
+          {/* as player.js: hovering anywhere off a part button (the label, a gap) clears the highlight */}
+          <div
+            className="legend"
+            onPointerOver={(e) => setHl(((e.target as Element).closest<HTMLElement>("button")?.dataset.part as Part | undefined) ?? null)}
+            onPointerLeave={() => setHl(null)}
+            onBlur={() => setHl(null)}
+          >
             <span className="mono">FOUR PARTS</span>
             {PARTS.map(([part, label]) => (
-              <button
-                key={part}
-                type="button"
-                data-part={part}
-                className={hl === part ? "on" : undefined}
-                onPointerOver={() => setHl(part)}
-                onFocus={() => setHl(part)}
-              >
+              <button key={part} type="button" data-part={part} className={hl === part ? "on" : undefined} onFocus={() => setHl(part)}>
                 <i />
                 {label}
               </button>
