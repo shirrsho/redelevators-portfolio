@@ -39,10 +39,13 @@ export function ServiceHeroNight() {
   const answered = done.filter((q) => !q[3]).length;
   const handed = done.filter((q) => q[3]).length;
   const upsell = done.some((q) => q[1].startsWith("Late")) ? 25 : 0;
-  const lit = done.length ? done[done.length - 1][2] : null;
+  // Reduced motion (t = Infinity) is a static snapshot, as in the mockup: marker at the start,
+  // no source highlighted.
+  const playing = Number.isFinite(t);
+  const lit = playing && done.length ? done[done.length - 1][2] : null;
   // Newest first, four at most.
   const feed = done.slice(-4).reverse();
-  const moving = t >= MOVE_AT;
+  const moving = playing && t >= MOVE_AT;
 
   return (
     <div ref={ref} className="ngt">

@@ -64,6 +64,7 @@ export default function PrivacyPage() {
               <span>Draft for review. This is a plain-English starting point, not legal advice. Have it checked before launch and fill in the highlighted items.</span>
             </div>
           </div>
+          <h2 className="sr-only">The short version</h2>
           <div className="tldr">
             {SUMMARY.map(([icon, title, text], i) => (
               <div key={title} className={`rv d${i + 1}x`}>

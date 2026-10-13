@@ -152,7 +152,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         </section>
 
         <section className="wrap section" style={{ paddingTop: 20 }}>
-          <SectionHead eyebrow="Works well with" title={`More ${pillar.toLowerCase()} systems.`} />
+          <SectionHead eyebrow="Works well with" title={`More ${s.p === "auto" ? "AI automation" : "marketing"} systems.`} />
           <div className={styles.rel}>
             {related.map((x) => (
               <ServiceCard key={x.slug} slug={x.slug} location="related" />

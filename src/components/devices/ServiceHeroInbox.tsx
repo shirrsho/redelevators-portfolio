@@ -40,7 +40,7 @@ export function ServiceHeroInbox() {
             {MESSAGES.map((m, i) => {
               const ok = t >= OK_AT(i);
               return (
-                <div key={m[2]} className={["m", t >= IN_AT(i) ? "in" : "", ok ? "ok" : "", i === 0 && t >= THREAD_AT ? "sel" : ""].filter(Boolean).join(" ")}>
+                <div key={m[2]} className={["m", t >= IN_AT(i) ? "in" : "", ok ? "ok" : "", i === 0 && Number.isFinite(t) && t >= THREAD_AT ? "sel" : ""].filter(Boolean).join(" ")}>
                   <span className="ch" style={{ "--g": m[1] } as CSSProperties}>
                     {m[0] === "mail" ? <Icon name="mail" /> : <ToolLogo name={m[0]} size={14} mono />}
                   </span>

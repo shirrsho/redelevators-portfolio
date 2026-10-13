@@ -74,6 +74,7 @@ export default function PricingPage() {
         </PageHero>
 
         <section className="wrap" style={{ paddingBottom: 40 }}>
+          <h2 className="sr-only">Plans</h2>
           <PricingTiers />
         </section>
 
