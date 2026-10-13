@@ -1,5 +1,5 @@
-// SKELETON (Stage 1). Owned by Track B: build per docs/redesign/ROUTES-AND-CONTENT.md → /systems
-// (mockup: redesign-mockups/r3/systems.html).
+// /systems — mockup: redesign-mockups/r3/systems.html. Copy is server-rendered; the control room,
+// the player (tabs + #slug deep links) and the journey (swipe) are client components.
 import type { Metadata } from "next";
 import { EVENTS } from "@/lib/analytics";
 import { breadcrumbLd, pageMetadata } from "@/lib/seo";
@@ -8,11 +8,11 @@ import { JsonLd } from "@/components/layout/JsonLd";
 import { PageBg } from "@/components/layout/PageBg";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionHead } from "@/components/layout/Section";
+import { ControlRoom } from "@/components/interactive/ControlRoom";
 import { Journey } from "@/components/interactive/Journey";
 import { SystemPlayer } from "@/components/interactive/SystemPlayer";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Chip";
-import { StubBox } from "@/components/ui/StubBox";
 
 export const metadata: Metadata = pageMetadata({
   title: "Systems",
@@ -27,7 +27,7 @@ export default function SystemsPage() {
       <PageBg tone="day" />
       <JsonLd data={breadcrumbLd([{ name: "Systems", path: "/systems" }])} />
       <main id="main" className="page">
-        <PageHero visual={<StubBox name="ControlRoom" track="B" minHeight={520} style={{ width: "100%", maxWidth: 560 }} />}>
+        <PageHero visual={<ControlRoom />}>
           <Eyebrow>Systems</Eyebrow>
           <h1 className="d1" style={{ marginTop: 22 }}>
             Every system,

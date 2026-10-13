@@ -1,0 +1,27 @@
+/* Ported from redesign-mockups/r3/systems.html <style> (the live control room). */
+.cr{position:relative;width:100%;max-width:560px;border-radius:22px;border:1px solid var(--hair-2);background:linear-gradient(180deg,rgba(26,26,34,.92),rgba(16,16,22,.92));box-shadow:0 40px 90px -40px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.06);overflow:hidden}
+.top{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--hair);font-size:13px}
+.top b{font-weight:600}
+.ok{margin-left:auto;display:flex;align-items:center;gap:7px;color:var(--sub);font-size:12px}
+.ok i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(143,212,176,.15)}
+
+.grp{padding:8px 10px 4px}
+.grp > :global(.mono){display:block;padding:6px 8px;font-size:11px}
+.row{width:100%;display:grid;grid-template-columns:30px minmax(0,1fr) auto 16px;align-items:center;gap:12px;padding:9px 8px;border-radius:12px;text-align:left;transition:background .25s}
+.row:hover,.row:focus-visible{background:rgba(255,255,255,.05)}
+.ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(255,255,255,.05);border:1px solid var(--hair)}
+.ic svg{width:16px;height:16px}
+.row[data-p="auto"] .ic{color:#b9c3ff}
+.row[data-p="mkt"] .ic{color:#ff8a80}
+.nm{font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mt{font-size:12.5px;color:var(--sub);white-space:nowrap;text-align:right}
+.mt b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;display:inline-block;transition:color .4s,transform .4s}
+.row.tick .mt b{color:var(--green);transform:translateY(-2px)}
+.go{color:var(--dim);opacity:0;transform:translateX(-4px);transition:opacity .25s,transform .25s}
+.go svg{width:14px;height:14px}
+.row:hover .go,.row:focus-visible .go{opacity:1;transform:none}
+.feed{display:flex;align-items:center;gap:10px;padding:12px 18px;border-top:1px solid var(--hair);font-size:12.5px;color:var(--sub);min-height:46px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex:0 0 auto}
+.feed span{transition:opacity .35s,transform .35s}
+.feed span.swap{opacity:0;transform:translateY(6px)}
+.feed :global(.mono){margin-left:auto;font-size:11px;white-space:nowrap}
