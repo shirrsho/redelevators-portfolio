@@ -132,7 +132,8 @@
   .ch :global(.lead){font-size:15px;margin-top:14px}
   .ctas{margin-top:20px}.ctas :global(.btn){padding:12px 16px;font-size:14px}
   .lines{height:150px}
-  .rail{bottom:16px;gap:10px}.rail button{font-size:0;gap:0}.rail button i{width:40px}
+  .rail{bottom:5px;gap:10px}.rail button{font-size:0;gap:0;padding:11px 0}.rail button i{width:40px}
+  /* added: the 2px bar alone is the whole button here; 11px padding gives a 24px tap target, and bottom 16 → 5 keeps the bars where they were */
 }
 
 /* =========================================================================

@@ -398,12 +398,15 @@ function StoryAnimated() {
       if (st[i] === "hidden") {
         css(el, "opacity", "0");
         css(el, "transform", "translateY(-30px) scale(.96)");
+        el.classList.remove("lifted");
         return;
       }
       if (st[i] === "gone") {
         css(el, "opacity", "0");
         css(el, "transform", "translateY(-70px) scale(.9)");
-        el.classList.remove("focus", "dim");
+        // also drop "lifted": .n.lifted forces opacity 1, and resuming off screen can jump from
+        // "Sound familiar?" straight to the morning without a frame in between to clear it
+        el.classList.remove("focus", "dim", "lifted");
         return;
       }
       if (idx < VIS) {
