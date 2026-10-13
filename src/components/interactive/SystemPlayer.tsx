@@ -140,6 +140,10 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
       // the URL hash is browser-only state: it can only be read after hydration
       // eslint-disable-next-line react-hooks/set-state-in-effect
       select(i, false);
+      // the sticky chips scroll sideways: bring the linked one into view without moving the page
+      const chip = tabRefs.current[i];
+      const strip = chip?.closest<HTMLElement>(".sxp");
+      if (chip && strip && innerWidth <= 860) strip.scrollLeft = chip.offsetLeft - (strip.clientWidth - chip.offsetWidth) / 2;
       t = setTimeout(scrollToPlayer, 50);
     }
     const onHash = () => {
