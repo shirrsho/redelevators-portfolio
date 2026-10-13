@@ -1,78 +1,79 @@
+// SKELETON (Stage 1). Owned by Track B: build per docs/redesign/ROUTES-AND-CONTENT.md → /systems
+// (mockup: redesign-mockups/r3/systems.html).
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ScrollProgress } from "@/components/ScrollProgress";
-import { Nav } from "@/components/Nav";
-import { PageHeader } from "@/components/PageHeader";
-import { SystemAnatomy } from "@/components/SystemAnatomy";
-import { CTA } from "@/components/CTA";
-import { Footer } from "@/components/Footer";
-import { JsonLd } from "@/components/JsonLd";
-import { pageMetadata, breadcrumbLd } from "@/lib/seo";
-import { systems, services, serviceDetails } from "@/lib/content";
+import { EVENTS } from "@/lib/analytics";
+import { breadcrumbLd, pageMetadata } from "@/lib/seo";
+import { CTABand } from "@/components/layout/CTABand";
+import { JsonLd } from "@/components/layout/JsonLd";
+import { PageBg } from "@/components/layout/PageBg";
+import { PageHero } from "@/components/layout/PageHero";
+import { SectionHead } from "@/components/layout/Section";
+import { Journey } from "@/components/interactive/Journey";
+import { SystemPlayer } from "@/components/interactive/SystemPlayer";
+import { Button } from "@/components/ui/Button";
+import { Eyebrow } from "@/components/ui/Chip";
+import { StubBox } from "@/components/ui/StubBox";
 
 export const metadata: Metadata = pageMetadata({
   title: "Systems",
-  path: "/systems",
   description:
-    "See exactly how each Red Elevators system is wired, trigger to result; across Airbnb, Guesty, OpenAI and the tools your short-term rental already runs on.",
+    "Every system, end to end. Eight systems run quietly behind your rentals. Pick one and watch it work, step by step, inside the tools you already use.",
+  path: "/systems",
 });
 
-// The full catalog — Systems.tsx on the home page shows a curated 3-item
-// slice of the same `systems` data; this page is where all 8 live. Workstream
-// E, item 4: "anonymized, mechanism-led, honest" case-study substitutes. No
-// client name, no metric — only the real chain each system runs on.
 export default function SystemsPage() {
   return (
     <>
-      <ScrollProgress />
-      <Nav />
+      <PageBg tone="day" />
       <JsonLd data={breadcrumbLd([{ name: "Systems", path: "/systems" }])} />
-      <main>
-        <PageHeader label="Systems" title="Every system, end to end." />
-
-        <section className="mx-auto max-w-6xl px-6 py-14">
-          <div className="flex flex-col gap-4">
-            {systems.map((s) => {
-              const service = services.find((sv) => sv.title === s.label);
-              const hasPage = !!(service && serviceDetails[service.slug]?.manualChain?.length);
-
-              return (
-                <article
-                  key={s.label}
-                  className="rounded-3xl border border-line bg-white p-7 sm:p-9"
-                >
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-                    <h2 className="max-w-xl text-xl font-semibold text-ink sm:text-2xl">
-                      {s.title}
-                    </h2>
-                    <span className="rounded-full border border-line bg-cream px-3 py-1 text-xs font-medium text-ink-soft">
-                      {s.label}
-                    </span>
-                  </div>
-                  <SystemAnatomy nodes={s.nodes} />
-                  {hasPage && service && (
-                    <div className="mt-6">
-                      <Link
-                        href={`/services/${service.slug}`}
-                        scroll={false}
-                        data-umami-event="Service click"
-                        data-umami-event-service={service.slug}
-                        data-umami-event-location="systems-page"
-                        className="text-sm font-medium text-ink underline underline-offset-2 hover:text-red"
-                      >
-                        See this service →
-                      </Link>
-                    </div>
-                  )}
-                </article>
-              );
-            })}
+      <main id="main" className="page">
+        <PageHero visual={<StubBox name="ControlRoom" track="B" minHeight={520} style={{ width: "100%", maxWidth: 560 }} />}>
+          <Eyebrow>Systems</Eyebrow>
+          <h1 className="d1" style={{ marginTop: 22 }}>
+            Every system,
+            <br />
+            end to end.
+          </h1>
+          <p className="lead">Eight systems run quietly behind your rentals. Pick one and watch it work, step by step, inside the tools you already use.</p>
+          <div className="ctas">
+            <Button href="/contact" arrow event={EVENTS.bookCall} location="hero">
+              Book a free 30-min call
+            </Button>
+            <Button href="#player" variant="quiet">
+              Watch one run ↓
+            </Button>
           </div>
+        </PageHero>
+
+        <section className="wrap" id="player" style={{ paddingBottom: 110, scrollMarginTop: 80 }}>
+          <SectionHead
+            eyebrow="Watch one run"
+            gap={14}
+            title={
+              <>
+                Pick a system.
+                <br />
+                See exactly what happens.
+              </>
+            }
+            note="Left: what your guest (or you) sees. Right: what the system does, step by step. Every one has the same four parts."
+            noteMaxWidth={320}
+          />
+          <SystemPlayer tabs hash />
         </section>
 
-        <CTA />
+        <section className="wrap section" style={{ paddingTop: 20 }}>
+          <SectionHead eyebrow="All of it together" title="One booking, start to finish." note="Top: what your guest sees. Bottom: what the system does. Swipe or use the arrows." />
+          <div className="rv">
+            <Journey />
+          </div>
+          <p className="mono" style={{ marginTop: 12 }}>
+            Illustrative example
+          </p>
+        </section>
+
+        <CTABand title="Which of these would you switch on first?" sub="Bring your current setup to the call. We’ll show you the system that pays off fastest." />
       </main>
-      <Footer />
     </>
   );
 }

@@ -1,88 +1,69 @@
+// SKELETON (Stage 1). Owned by Track A: build per docs/redesign/ROUTES-AND-CONTENT.md → /approach
+// (mockup: redesign-mockups/r3/approach.html).
 import type { Metadata } from "next";
-import { ScrollProgress } from "@/components/ScrollProgress";
-import { Nav } from "@/components/Nav";
-import { PageHeader } from "@/components/PageHeader";
-import { SystemAnatomy } from "@/components/SystemAnatomy";
-import { Marquee } from "@/components/Marquee";
-import { CTA } from "@/components/CTA";
-import { Footer } from "@/components/Footer";
-import { JsonLd } from "@/components/JsonLd";
-import { pageMetadata, breadcrumbLd } from "@/lib/seo";
-import { approachStages, systems } from "@/lib/content";
+import { EVENTS } from "@/lib/analytics";
+import { breadcrumbLd, pageMetadata } from "@/lib/seo";
+import { CTABand } from "@/components/layout/CTABand";
+import { JsonLd } from "@/components/layout/JsonLd";
+import { PageBg } from "@/components/layout/PageBg";
+import { PageHero } from "@/components/layout/PageHero";
+import { SectionHead } from "@/components/layout/Section";
+import { Calendar3Week } from "@/components/interactive/Calendar3Week";
+import { Button } from "@/components/ui/Button";
+import { Eyebrow } from "@/components/ui/Chip";
+import { StubBox } from "@/components/ui/StubBox";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Our Approach",
-  path: "/approach",
+  title: "Approach",
   description:
-    "How we work: audit, design, build, run. We map the manual work, architect each workflow, build inside the tools you already use, and hand it over documented.",
+    "Live in three weeks, then we run it. Four steps and about two hours of your time in total. You approve everything that matters.",
+  path: "/approach",
 });
-
-// The worked example below the four stages — "Workflow & CRM Automation" is
-// the first, shortest chain (5 nodes), picked for legibility, not seniority.
-const worked = systems[0];
 
 export default function ApproachPage() {
   return (
     <>
-      <ScrollProgress />
-      <Nav />
+      <PageBg tone="day" />
       <JsonLd data={breadcrumbLd([{ name: "Approach", path: "/approach" }])} />
-      <main>
-        <PageHeader
-          label="How we work"
-          title="Audit, design, build, run."
-          actions={
-            <>
-              <a
-                href="#contact"
-                data-umami-event="Jump to booking"
-                data-umami-event-location="approach-header"
-                className="rounded-xl bg-red px-6 py-3.5 text-sm font-semibold text-white shadow-red transition-transform hover:scale-[1.03] active:scale-95"
-              >
-                Book a free Call
-              </a>
-              <a
-                href="#worked-example"
-                className="rounded-xl border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-cream"
-              >
-                See a system built this way
-              </a>
-            </>
+      <main id="main" className="page">
+        <PageHero
+          visualStyle={{ minHeight: "auto" }}
+          visual={
+            <div style={{ width: "100%" }}>
+              <Calendar3Week pickScroll />
+            </div>
           }
-        />
-
-        <section className="mx-auto max-w-6xl px-6 py-14">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {approachStages.map((stage) => (
-              <div
-                key={stage.num}
-                className="rounded-2xl border border-line bg-white p-6"
-              >
-                <span className="font-mono-label text-muted">{stage.num}</span>
-                <h2 className="mt-3 text-xl font-semibold tracking-tight text-ink">
-                  {stage.title}
-                </h2>
-                <p className="mt-2 text-sm text-muted">{stage.summary}</p>
-              </div>
-            ))}
+        >
+          <Eyebrow>Approach</Eyebrow>
+          <h1 className="d1" style={{ marginTop: 22 }}>
+            Live in three weeks.
+            <br />
+            Then we run it.
+          </h1>
+          <p className="lead">Four steps. About two hours of your time in total. You approve everything that matters.</p>
+          <div className="ctas">
+            <Button href="/contact" arrow event={EVENTS.bookCall} location="hero">
+              Start with the audit call
+            </Button>
           </div>
+        </PageHero>
+
+        <section className="wrap" id="phases">
+          <StubBox name="Phase rows ×4 (#ph-audit, #ph-design, #ph-build, #ph-run)" track="A" minHeight={360} />
         </section>
 
-        <section id="worked-example" className="bg-cream py-16 sm:py-20">
-          <div className="mx-auto max-w-6xl px-6">
-            <span className="font-mono-label">One system, shown in full</span>
-            <h2 className="mt-4 text-[clamp(1.9rem,4vw,3rem)] font-semibold tracking-tight">
-              {worked.title}
-            </h2>
-            <SystemAnatomy nodes={worked.nodes} />
-          </div>
+        <section className="wrap section">
+          <SectionHead eyebrow="After launch" title="Every month, we keep it sharp." />
+          <StubBox name="After-launch cards" track="A" minHeight={180} />
         </section>
 
-        <Marquee />
+        <section className="wrap section" style={{ paddingTop: 20 }}>
+          <SectionHead eyebrow="Questions" title="Before you book." />
+          <StubBox name="FAQ" track="A" minHeight={200} />
+        </section>
 
-        <CTA />
+        <CTABand title="Step one is a 30-minute call." sub="We’ll map your setup and tell you what to fix first. No commitment." />
       </main>
-      <Footer />
     </>
   );
 }

@@ -1,173 +1,151 @@
+// SKELETON (Stage 1). Owned by Track A: build per docs/redesign/ROUTES-AND-CONTENT.md →
+// /services/[slug] (mockup: redesign-mockups/r3/service.html). "How it runs" is Track B's
+// SystemPlayer, fixed to this service.
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ScrollProgress } from "@/components/ScrollProgress";
-import { Nav } from "@/components/Nav";
-import { PageHeader } from "@/components/PageHeader";
-import { Handover } from "@/components/Handover";
-import { ServiceCard } from "@/components/ServiceCard";
-import { Process } from "@/components/Process";
-import { CTA } from "@/components/CTA";
-import { Footer } from "@/components/Footer";
-import { JsonLd } from "@/components/JsonLd";
-import { SITE, pageMetadata, breadcrumbLd } from "@/lib/seo";
-import { services, systems, serviceDetails } from "@/lib/content";
-
-// Only slugs with complete content generate a page — docs/brief-service-page.md
-// is explicit that a service page "cannot ship... until that chain exists".
-// An empty list here means no service page is live yet, and that is the
-// correct, honest state until the manual chain is supplied per service.
-export function generateStaticParams() {
-  return services
-    .filter((s) => serviceDetails[s.slug]?.manualChain?.length)
-    .map((s) => ({ slug: s.slug }));
-}
+import { EVENTS } from "@/lib/analytics";
+import { breadcrumbLd, pageMetadata } from "@/lib/seo";
+import { PILLAR_LABEL, SERVICES, SERVICE_SLUGS, getService } from "@/lib/services";
+import { CTABand } from "@/components/layout/CTABand";
+import { JsonLd } from "@/components/layout/JsonLd";
+import { PageBg } from "@/components/layout/PageBg";
+import { PageHero } from "@/components/layout/PageHero";
+import { SectionHead } from "@/components/layout/Section";
+import { SystemPlayer } from "@/components/interactive/SystemPlayer";
+import { Button } from "@/components/ui/Button";
+import { Tag } from "@/components/ui/Chip";
+import { FAQ } from "@/components/ui/FAQ";
+import { StubBox } from "@/components/ui/StubBox";
+import { ToolPill } from "@/components/ui/ToolLogo";
 
 export const dynamicParams = false;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  const { slug } = await params;
-  const service = services.find((s) => s.slug === slug);
-  if (!service) return {};
-  return pageMetadata({
-    title: service.title,
-    path: `/services/${slug}`,
-    description: service.desc,
-    keywords: [service.title, ...service.tags, "short-term rental", service.category],
-  });
+export function generateStaticParams() {
+  return SERVICE_SLUGS.map((slug) => ({ slug }));
 }
 
-export default async function ServicePage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export async function generateMetadata({ params }: PageProps<"/services/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const service = services.find((s) => s.slug === slug);
-  const detail = serviceDetails[slug];
-  const automated = systems.find((sys) => sys.label === service?.title);
+  const s = getService(slug);
+  if (!s) return {};
+  return pageMetadata({ title: s.title, description: `${s.outcome} ${s.desc}`, path: `/services/${s.slug}` });
+}
 
-  if (!service || !detail?.manualChain?.length || !automated) {
-    notFound();
-  }
-
-  const related = services
-    .filter((s) => s.slug !== slug && s.category === service.category)
-    .slice(0, 3);
-  const tools = Array.from(new Set(automated.nodes.map((n) => n.tool)));
-
-  const serviceLd = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: service.title,
-    description: service.desc,
-    serviceType: service.category,
-    category: service.category,
-    url: `${SITE.url}/services/${slug}`,
-    provider: { "@id": `${SITE.url}/#organization` },
-    areaServed: "Worldwide",
-    audience: {
-      "@type": "Audience",
-      audienceType: "Short-term rental hosts and property managers",
-    },
-  };
+export default async function ServicePage({ params }: PageProps<"/services/[slug]">) {
+  const { slug } = await params;
+  const s = getService(slug);
+  if (!s) notFound();
+  const pillar = PILLAR_LABEL[s.p];
 
   return (
     <>
-      <ScrollProgress />
-      <Nav />
+      <PageBg tone="day" />
       <JsonLd
         data={[
-          serviceLd,
           breadcrumbLd([
             { name: "Services", path: "/services" },
-            { name: service.title, path: `/services/${slug}` },
+            { name: s.title, path: `/services/${s.slug}` },
           ]),
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: s.title,
+            description: s.desc,
+            serviceType: pillar,
+            provider: { "@id": "https://redelevators.com/#organization" },
+            areaServed: ["US", "AE"],
+          },
         ]}
       />
-      <main>
-        <PageHeader
-          label={service.category}
-          title={service.title}
-          intro={service.desc}
-          actions={
-            <>
-              <a
-                href="#contact"
-                data-umami-event="Jump to booking"
-                data-umami-event-location="service-header"
-                data-umami-event-service={service.slug}
-                className="rounded-xl bg-red px-6 py-3.5 text-sm font-semibold text-white shadow-red transition-transform hover:scale-[1.03] active:scale-95"
-              >
-                Book a free Call
-              </a>
-              <a
-                href="#handover"
-                className="rounded-xl border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-cream"
-              >
-                See how it works
-              </a>
-            </>
-          }
+      <main id="main" className="page">
+        <PageHero visual={<StubBox name={`ServiceHero ${s.hero}`} track="A" minHeight={480} style={{ width: "100%" }} />}>
+          <div className="crumb">
+            <Link href="/services">Services</Link>
+            <span>/</span>
+            <span>{pillar}</span>
+          </div>
+          <div className="pick">
+            {SERVICES.map((x) => (
+              <Link key={x.slug} href={`/services/${x.slug}`} className={x.slug === s.slug ? "on" : undefined} aria-current={x.slug === s.slug ? "page" : undefined}>
+                {x.title}
+              </Link>
+            ))}
+          </div>
+          <Tag pillar={s.p} />
+          <h1 className="d1" style={{ marginTop: 16, fontSize: "clamp(40px,4.6vw,68px)" }}>
+            {s.title}
+          </h1>
+          <p className="lead" style={{ fontSize: 20, color: "var(--ink)" }}>
+            {s.outcome}
+          </p>
+          <p className="small" style={{ marginTop: 12, maxWidth: 460 }}>
+            {s.desc}
+          </p>
+          <div className="ctas">
+            <Button href="/contact" arrow event={EVENTS.bookCall} location="hero" data-umami-event-service={s.slug}>
+              Book a free 30-min call
+            </Button>
+            <Button href="#how" variant="quiet">
+              How it runs
+            </Button>
+          </div>
+          <div className="meta-row">
+            {[...new Set(s.chain[2].map((n) => n[2]))].map((t) => (
+              <ToolPill key={t} name={t} />
+            ))}
+          </div>
+        </PageHero>
+
+        {(s.hero === "chat" || s.hero === "chat2") && (
+          <section className="wrap section" style={{ paddingTop: 40 }}>
+            <StubBox name="AssistantDemo" track="A" minHeight={420} />
+          </section>
+        )}
+
+        <section className="wrap section" style={{ paddingTop: 40 }}>
+          <SectionHead eyebrow="What changes" title="Same work. Nobody doing it by hand." aside={<span />} />
+          <StubBox name="BeforeAfter" track="A" minHeight={280} />
+        </section>
+
+        <section className="wrap section" id="how" style={{ paddingTop: 20 }}>
+          <SectionHead
+            eyebrow="How it runs"
+            gap={14}
+            title={
+              <>
+                Watch it work,
+                <br />
+                step by step.
+              </>
+            }
+            note="Left: what your guest (or you) sees. Right: what the system does. A simulated run; the real one works inside your own accounts."
+            noteMaxWidth={320}
+          />
+          <SystemPlayer service={s.slug} />
+        </section>
+
+        <section className="wrap section" style={{ paddingTop: 40 }}>
+          <SectionHead eyebrow="What you get" title="Built, live and looked after." />
+          <StubBox name="GetsCard ×4" track="A" minHeight={180} />
+        </section>
+
+        <section className="wrap section" style={{ paddingTop: 20 }}>
+          <SectionHead eyebrow="Questions" title="Asked on most calls." />
+          <FAQ className="rv" items={s.faq} />
+        </section>
+
+        <section className="wrap section" style={{ paddingTop: 20 }}>
+          <SectionHead eyebrow="Works well with" title={`More ${pillar.toLowerCase()} systems.`} />
+          <StubBox name="Related services + prev/next" track="A" minHeight={200} />
+        </section>
+
+        <CTABand
+          title={`Want ${s.title.split(" &")[0].toLowerCase()} off your plate?`}
+          sub="A free 30-minute call. We’ll look at your setup and tell you if this is the right place to start."
+          service={s.slug}
         />
-
-        <section className="mx-auto max-w-6xl px-6 py-14">
-          <div className="max-w-2xl space-y-2 text-lg text-muted">
-            {detail.feltCost.map((line, i) => (
-              <p key={i}>{line}</p>
-            ))}
-          </div>
-        </section>
-
-        <section id="handover" className="bg-cream py-16 sm:py-20">
-          <div className="mx-auto max-w-6xl px-6">
-            <span className="font-mono-label">The handover</span>
-            <h2 className="mt-4 text-[clamp(1.9rem,4vw,3rem)] font-semibold tracking-tight">
-              What changes.
-            </h2>
-            <Handover manual={detail.manualChain} automated={automated} />
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-6xl px-6 py-16">
-          <span className="font-mono-label">Where a human still checks in</span>
-          <p className="mt-4 max-w-2xl text-lg text-ink-soft">{detail.humanCheckpoint}</p>
-        </section>
-
-        <section className="mx-auto max-w-6xl px-6 pb-16">
-          <span className="font-mono-label">Where it runs</span>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {tools.map((tool) => (
-              <span
-                key={tool}
-                className="rounded-full border border-line bg-white px-3.5 py-1.5 text-sm font-medium text-ink-soft"
-              >
-                {tool}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        <Process />
-
-        <section className="mx-auto max-w-6xl px-6 py-16">
-          <span className="font-mono-label">Related services</span>
-          <h2 className="mt-4 text-[clamp(1.9rem,4vw,3rem)] font-semibold tracking-tight">
-            More like this.
-          </h2>
-          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {related.map((s) => (
-              <ServiceCard key={s.slug} {...s} location="related" />
-            ))}
-          </div>
-        </section>
-
-        <CTA />
       </main>
-      <Footer />
     </>
   );
 }

@@ -1,53 +1,50 @@
-import Link from "next/link";
-import { Nav } from "@/components/Nav";
-import { CTA } from "@/components/CTA";
-import { Footer } from "@/components/Footer";
-import { TrackOnMount } from "@/components/Analytics";
+// SKELETON (Stage 1). Owned by Track A: build per docs/redesign/ROUTES-AND-CONTENT.md → 404
+// (mockup: redesign-mockups/r3/404.html; the phone uses components/devices/PhoneShell +
+// Notification). Keep the Umami "404" event.
+import type { Metadata } from "next";
+import { EVENTS } from "@/lib/analytics";
+import { PageBg } from "@/components/layout/PageBg";
+import { TrackOnMount } from "@/components/layout/Analytics";
+import { Button } from "@/components/ui/Button";
+import { StubBox } from "@/components/ui/StubBox";
 
-/**
- * The 404 — workstream D, item 5. First of the still-undesigned states to
- * ship; kept deliberately plain rather than inventing a fuller "error state
- * system" ahead of the brief that gap still needs (see DESIGN.md → Planned
- * system extensions). Reuses Nav/Footer so a wrong turn still feels like
- * this site, not a framework default. Renders CTA too, added 12 Sep 2026 —
- * PRODUCT.md's One Destination rule says every page resolves to the call,
- * and without it Nav's "Book a call" (a bare `#contact` anchor) had nothing
- * on this page to scroll to.
- */
+export const metadata: Metadata = {
+  title: "Page not found",
+  robots: { index: false },
+};
+
 export default function NotFound() {
   return (
     <>
-      <TrackOnMount name="404" />
-      <Nav />
-      <main className="flex min-h-[70vh] items-center">
-        <div className="mx-auto max-w-6xl px-6 py-24 text-center">
-          <span className="font-mono-label">404</span>
-          <h1 className="mt-4 text-[clamp(1.9rem,4vw,3rem)] font-semibold tracking-tight">
-            This page took a different route.
-          </h1>
-          <p className="mx-auto mt-4 max-w-md text-lg text-muted">
-            Whatever you were looking for isn&apos;t here. It might not be built yet.
-          </p>
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/"
-              scroll={false}
-              className="rounded-xl bg-red px-6 py-3.5 text-sm font-semibold text-white shadow-red transition-transform hover:scale-[1.03] active:scale-95"
-            >
-              Back home
-            </Link>
-            <Link
-              href="/#services"
-              scroll={false}
-              className="rounded-xl border border-line bg-white px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-cream"
-            >
-              See what we do
-            </Link>
+      <PageBg tone="night" />
+      <TrackOnMount name={EVENTS.notFound} />
+      <main id="main" className="page">
+        <section className="wrap phero">
+          <div className="rv">
+            <div className="mono">404 · page not found</div>
+            <h1 className="d1" style={{ marginTop: 18 }}>
+              This page
+              <br />
+              checked out.
+            </h1>
+            <p className="lead" style={{ marginTop: 18 }}>
+              It may have moved, or the link was mistyped. Nothing needs you here.
+            </p>
+            <div className="ctas">
+              <Button href="/">Back to home</Button>
+              <Button href="/services" variant="quiet">
+                See the services
+              </Button>
+              <Button href="/contact" variant="quiet">
+                Book a call
+              </Button>
+            </div>
           </div>
-        </div>
+          <div className="visual">
+            <StubBox name="404 lock-screen phone" track="A" minHeight={480} style={{ width: 300 }} />
+          </div>
+        </section>
       </main>
-      <CTA />
-      <Footer />
     </>
   );
 }
