@@ -26,6 +26,11 @@ None required. Nice-to-haves for Stage 3:
 - `Journey` cards keep the mockup's `h4` under the section's `h2` (see NOTES.md decision 4); same for the control room, which has no headings.
 - `src/components/ui/StubBox.tsx` can go once Tracks A, C and D are merged (`grep -r "STUB:" src`). The two Track B stubs (`SystemPlayer`, `Journey`) no longer carry the `// STUB:` comment.
 
+**Integration (merged into `redesign-2026`, 14 Oct 2026). Nothing shared was changed; deferred to the final integration:**
+- Delete `StubBox`: Track A's four stubs remain (ServiceCard, SavingsCalculator, Calendar3Week, PricingTiers).
+- The `h4` heading order above: owner decision.
+- From the Track B review: "↓" and "→" are not in any of the three fonts. The mockup falls back to the system font (SF), the build to Arial (next/font's metric fallback), so "Watch one run ↓" and "See the service →" look thinner than the mockup on every page. Fix in `layout.tsx` (shared): give the three `next/font` calls a `fallback` that starts with `system-ui`, or add a system font to `--sans` / `--display` before the next/font fallback.
+
 ## Differences from the mockup
 | Area | Mockup | Built | Why |
 |---|---|---|---|
