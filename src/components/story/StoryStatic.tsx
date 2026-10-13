@@ -42,7 +42,8 @@ export function StoryStatic() {
 
   const seeHow = (e: MouseEvent) => {
     e.preventDefault();
-    document.getElementById("story-familiar")?.scrollIntoView();
+    const el = document.getElementById("story-familiar");
+    if (el) scrollTo({ top: el.getBoundingClientRect().top + scrollY });
   };
   const hidden = N.length - VISIBLE.desktop;
 
