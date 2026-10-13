@@ -1,0 +1,4 @@
+/* Off screen: hold the rings (and the counter-spin that keeps the logos upright). A data
+   attribute rather than a class, so the .rv reveal class on the same element is never rewritten. */
+.orbit[data-paused] :global(.ring),
+.orbit[data-paused] :global(.ring .lg > span){animation-play-state:paused}
