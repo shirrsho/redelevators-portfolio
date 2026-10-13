@@ -1,0 +1,41 @@
+/* The booker card (global .calbk: border, radius, #101014, overflow hidden) with the Cal iframe
+   filling it. Under 900px the card grows with the booker instead of scrolling inside it. */
+.frame {
+  position: relative;
+  height: 640px;
+}
+.frame > :global(cal-inline) {
+  height: 100%;
+}
+@media (max-width: 900px) {
+  .frame {
+    height: auto;
+    min-height: 560px;
+  }
+}
+
+/* Shown only if Cal reports the link failed (wrong or unpublished event). */
+.fail {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  padding: 24px;
+  text-align: center;
+  background: #101014;
+  z-index: 2;
+}
+.fail h4 {
+  font-size: 18px;
+  font-weight: 600;
+}
+.fail p {
+  font-size: 14px;
+  color: var(--sub);
+}
+.fail a {
+  color: #f4f4f5;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
