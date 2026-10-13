@@ -15,14 +15,39 @@ Files: `src/app/contact/**`, `components/interactive/{CalBooker,BookingStage}`, 
 - WhatsApp: `whatsappUrl()` from `lib/site.ts`, as a button, on /contact only (`EVENTS.whatsappClick`). The number is deliberately not exported for display: never print it.
 - contact.html's `<style>` (`.c-intro`, `.c-steps`, `.ways`, `.way`, `.take`, `.doc`) → a CSS Module. The summary doc's logo is `<Lockup tone="light" height={22} />`.
 
+## Status
+Built and QA'd (Oct 2026): `CalBooker`, `AlivePhone`, `BookingStage`, `/contact`, booking analytics. Lint and build pass. Tested against a **public Cal.com demo event** (read-only; nothing booked); the real event link is still a placeholder (see "Questions for the owner").
+
 ## Dependency added
-_Write the exact command here, e.g. `npm install @calcom/embed-react@<version>`._
+```bash
+npm install @calcom/embed-react@1.5.3
+```
+React 19 is in its peer range (`^18.2.0 || ^19.0.0`), so the React component is used (no vanilla fallback needed). `package.json` and `package-lock.json` change (one dependency, plus `@calcom/embed-core` and `@calcom/embed-snippet` transitively). The embed script itself is loaded at runtime from `app.cal.com`.
+
+## What Cal's embed does and doesn't tell us (checked against the live `embed.js`)
+- **No date or time event.** Cal fires a payload-free `__routeChanged` each time the booker moves (a date picked, a time picked → the details form, "Back"). `CalBooker` therefore **derives** "Booking step": the 1st route change = `{ step: "date" }`, the 2nd = `{ step: "time" }`; later ones are ignored, each step once per page view. "Back" is not detected, and picking a second date before a time counts as the "time" step.
+- **Booking complete** comes from `bookingSuccessfulV2` (and the deprecated `bookingSuccessful`, de-duplicated). It carries `startTime`, which the alive phone shows in the visitor's own time zone.
+- `linkFailed` (wrong or unpublished event) shows an in-frame notice with the email address instead of Cal's 404 page.
+- Event data sent: `{ step, location }` and `{ location }`, where `location` is `home` or `contact`. No personal data. The WhatsApp events are attribute-driven (`data-umami-event="WhatsApp click"`, location `contact`; `phone-nudge` for the phone's WhatsApp card).
 
 ## Shared changes needed
-_None yet._
+- **None required.** Two optional ones:
+  1. `src/lib/site.ts`: replace `CAL_LINK` with the real event link and set `CAL_LINK_IS_PLACEHOLDER = false` when the owner sends it.
+  2. `src/lib/booking.ts → CALL` is no longer rendered (Cal draws its own event details). Delete it, or keep it as the checklist for the Cal event's title and description: "Free 30-min rental systems call", 30 min, Google Meet, "We map your setup and show you what to automate first. No commitment."
+- Integration (D): `BookingStage` is a client component and takes only `variant`; Home ch.09 renders it after its own heading. The home `tz` note links `/contact#chat`.
 
 ## Differences from the mockup
-_None yet._
+- **The booker is Cal.com's own UI** (event details left, calendar, times), not the mockup's scripted one. The "Booking by Cal.com" bar is Cal's own "Cal.com" mark inside the embed.
+- **Booker width.** Cal switches to its side-by-side layout only when the iframe is ≥ 768px wide; the stage column (760px minus border) is just under, so beside the phone (≥ 1101px) the card overhangs its column by 10px a side (`CalBooker.module.css`). Below that it uses Cal's own responsive layout (stacked on phones, with `useSlotsViewOnSmallScreen` so the time list is its own screen). The card grows with the booker; it doesn't scroll inside.
+- **Alive phone copy.** Cal never says which date or time was picked, so the placeholder card says "Date chosen · pick a time" and "Time chosen · one step left" instead of naming them (`BOOKING_CARD.day/time` use `{d}`/`{t}`). The confirmed card does show the real day and time (`BOOKING_CARD.booked`).
+- **Idle nudge** only runs while the visitor hasn't started booking (stage `idle`): clicks inside the iframe can't be seen, so a visitor filling in the form would otherwise be nudged to WhatsApp. Any click or key elsewhere in the section restarts the 12s clock, as in the mockup. The Home nudge navigates client-side to `/contact#chat`.
+- **Reduced motion:** no ticking and no nudge; the phone shows two "handled" cards. Booking reactions still happen (they're driven by the visitor).
+- **Summary doc** settles flat once revealed, as in the mockup (`.rv.in` beats the tilt there); the CSS Module has to say so explicitly.
+- The step cards' titles are `h3` under a visually hidden `h2` ("How the call works"), so the heading order is h1 → h2 → h3.
+- Dev only: Cal logs "Existing embed CSS Vars are being reset" in the console (its `ui` call is applied twice). Harmless.
 
 ## Questions for the owner
-_None yet._
+1. The Cal.com event link (placeholder `red-elevators/30min` returns 404 on cal.com). Once it's live, run one real test booking (see QA below) and confirm the confirmation card and "Booking complete".
+2. In Cal, set the event to Google Meet, 30 min, and the title/description above; the dark theme and `#E51E2B` come from the embed code, not the account.
+3. Optional: ask Cal support whether the booker can report the chosen date/time (it would let the phone name them); today it can't.
+4. WhatsApp number (DECISIONS item 5): it only appears inside the `wa.me` link on `/contact` and the phone's nudge; it is never printed.
