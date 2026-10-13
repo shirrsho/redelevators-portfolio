@@ -9,7 +9,7 @@ import { Icon } from "@/components/ui/Icon";
 import { ToolLogo } from "@/components/ui/ToolLogo";
 import { useInView } from "@/lib/hooks/useInView";
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
-import { EVENTS, track } from "@/lib/analytics";
+import { EVENTS } from "@/lib/analytics";
 import { ALIVE_PHONE, BOOKING_CARD, NUDGE, QUIET, QUIET_BODY } from "@/lib/booking";
 import { whatsappUrl } from "@/lib/site";
 
@@ -17,10 +17,10 @@ import { whatsappUrl } from "@/lib/site";
 // Port of redesign-mockups/r3/site.js → mountCalmPhone. The notification stack is the mockup's
 // closure (createStack, below); the component only renders it and wires the timers.
 
-export type AlivePhoneStage = "idle" | "day" | "time" | "booked";
+export type AlivePhoneStage = "idle" | "started" | "booked";
 
 export type AlivePhoneProps = {
-  /** How far the visitor is in the booker. Only moves forward: idle → day → time → booked. */
+  /** How far the visitor is in the booker. Only moves forward: idle → started → booked. */
   stage: AlivePhoneStage;
   /** The confirmed slot (stage "booked"); omit if unknown. */
   when?: { d: string; t: string } | null;
@@ -164,12 +164,9 @@ function createStack(hooks: { change: (s: Snap) => void; buzz: () => void; pulse
 }
 type Stack = ReturnType<typeof createStack>;
 
-const CARD_COPY = {
-  // Cal's embed never says which date or time was picked, so the placeholder can't name them
-  // (see CalBooker.tsx); the mockup's "{d} · pick a time" becomes a plain statement.
-  day: { title: "Date chosen · pick a time", body: BOOKING_CARD.day.bd },
-  time: { title: "Time chosen · one step left", body: BOOKING_CARD.time.bd },
-};
+// Cal's embed never says which date or time was picked (see CalBooker.tsx), so the mockup's
+// "{d} · pick a time" / "{d} · {t}" placeholder becomes one card that names neither.
+const STARTED_COPY = { title: "Picking a time", body: BOOKING_CARD.day.bd };
 
 function bookedCopy(when?: { d: string; t: string } | null) {
   const body = when
@@ -254,22 +251,18 @@ export function AlivePhone({ stage, when, nudge, className }: AlivePhoneProps) {
   useEffect(() => {
     const s = stack.current;
     if (!s) return;
-    if (stage === "day") s.ghost(CARD_COPY.day.title, CARD_COPY.day.body);
-    else if (stage === "time") s.ghost(CARD_COPY.time.title, CARD_COPY.time.body);
+    if (stage === "started") s.ghost(STARTED_COPY.title, STARTED_COPY.body);
     else if (stage === "booked") {
       const c = bookedCopy(when);
       s.booked(c.title, c.body);
     }
   }, [stage, when]);
 
-  // The nudge is a link: count the WhatsApp tap; the "ask" one is an in-site link, so keep it client-side.
+  // The "ask" nudge is an in-site link: keep it client-side. (The WhatsApp one is tracked by its
+  // data-umami-event attributes, set in the ref below.)
   const onStackClick = (e: MouseEvent<HTMLDivElement>) => {
-    const a = (e.target as Element).closest<HTMLAnchorElement>("a.nudge");
+    const a = (e.target as Element).closest<HTMLAnchorElement>("a.nudge.ask");
     if (!a) return;
-    if (nudge === "wa") {
-      track(EVENTS.whatsappClick, { location: "phone-nudge" });
-      return;
-    }
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
     router.push(NUDGE.contact.href);
@@ -313,7 +306,15 @@ export function AlivePhone({ stage, when, nudge, className }: AlivePhoneProps) {
             <Notification
               key={it.id}
               ref={(el) => {
-                if (el) cards.current.set(it.id, el);
+                if (el) {
+                  cards.current.set(it.id, el);
+                  // Notification takes no data attributes: tag the WhatsApp nudge here, so Umami counts
+                  // "WhatsApp click" and the site's outbound-link tracker skips it.
+                  if (it.kind === "nudge" && !it.ask) {
+                    el.dataset.umamiEvent = EVENTS.whatsappClick;
+                    el.dataset.umamiEventLocation = "phone-nudge";
+                  }
+                }
                 else cards.current.delete(it.id);
               }}
               className={`${it.kind}${it.ask ? " ask" : ""}${it.shown ? " in" : ""}`}

@@ -11,18 +11,19 @@ import styles from "./CalBooker.module.css";
 // mockup's `.calbk` card.
 //
 // What the embed tells us (checked against app.cal.com/embed/embed.js, Oct 2026):
-// - Cal never says WHICH date or time was picked. It fires a payload-free `__routeChanged` each
-//   time the booker moves (a date picked, a time picked → the details form, "Back"…).
-//   So "Booking step" is derived: the 1st route change = date, the 2nd = time. Later ones
-//   (back and forth) are ignored; each step is reported once.
+// - Nothing about which date or time was picked. Its only in-booker signal is a payload-free
+//   `__routeChanged`, which also fires for month navigation (and when Cal skips a full month on
+//   load), so it can't tell a date pick from browsing. "Booking step" is therefore one step,
+//   "started": the first time the visitor clicks or tabs into the booker.
 // - `bookingSuccessfulV2` (and the deprecated `bookingSuccessful`) carry the start time, which is
 //   all the alive phone needs for its confirmation card.
 
-export type BookingStep = "date" | "time";
 /** The confirmed slot in the visitor's own time zone, e.g. { d: "Thu, Nov 12", t: "3:30 PM" }. */
 export type BookedWhen = { d: string; t: string };
 
 const NS = "booking";
+/** No word from the embed after this long (on screen) → assume it's blocked and show the email fallback. */
+const NO_LOAD_MS = 15000;
 
 function formatWhen(iso: unknown): BookedWhen | null {
   if (typeof iso !== "string") return null;
@@ -37,23 +38,62 @@ function formatWhen(iso: unknown): BookedWhen | null {
 export type CalBookerProps = {
   /** Where the booker sits (sent with the events): "home" or "contact". */
   location: string;
-  /** A date, then a time, was picked inside the booker. */
-  onStep?: (step: BookingStep) => void;
+  /** The visitor started using the booker (first click or tab into it). */
+  onStart?: () => void;
   /** The booking was confirmed; `when` is null if Cal sent no usable time. */
   onBooked?: (when: BookedWhen | null) => void;
 };
 
-export function CalBooker({ location, onStep, onBooked }: CalBookerProps) {
+export function CalBooker({ location, onStart, onBooked }: CalBookerProps) {
+  const frame = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
-  // Latest callbacks, so the listeners below are registered once (the step count must survive re-renders).
-  const cbs = useRef({ onStep, onBooked });
+  // Latest callbacks, so the listeners below are registered once (their state must survive re-renders).
+  const cbs = useRef({ onStart, onBooked });
   useEffect(() => {
-    cbs.current = { onStep, onBooked };
+    cbs.current = { onStart, onBooked };
   });
+
+  // "Booking step": focus moving into the booker's iframe blurs this window. Once per page view.
+  useEffect(() => {
+    let started = false;
+    let t: ReturnType<typeof setTimeout> | undefined;
+    const onBlur = () => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        const iframe = frame.current?.querySelector("iframe");
+        if (started || !iframe || document.activeElement !== iframe) return;
+        started = true;
+        track(EVENTS.bookingStep, { step: "started", location });
+        cbs.current.onStart?.();
+      }, 0);
+    };
+    window.addEventListener("blur", onBlur);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("blur", onBlur);
+    };
+  }, [location]);
 
   useEffect(() => {
     let disposed = false;
     let off: (() => void) | undefined;
+    let heard = false;
+
+    // If neither the script nor the iframe ever answers (blocked by an extension, CSP, network),
+    // show the fallback. Only count time on screen: a background tab doesn't load the booker.
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const arm = () => {
+      clearTimeout(timer);
+      if (heard) return;
+      timer = setTimeout(() => {
+        if (!heard && !document.hidden) setFailed(true);
+      }, NO_LOAD_MS);
+    };
+    const onVisible = () => {
+      if (!document.hidden) arm();
+    };
+    arm();
+    document.addEventListener("visibilitychange", onVisible);
 
     (async () => {
       const cal = await getCalApi({ namespace: NS });
@@ -66,15 +106,12 @@ export function CalBooker({ location, onStep, onBooked }: CalBookerProps) {
         cssVarsPerTheme: { light: { "cal-brand": CAL_BRAND }, dark: { "cal-brand": CAL_BRAND } },
       });
 
-      let routes = 0;
       let booked = false;
 
-      const onRoute = () => {
-        routes += 1;
-        if (routes > 2 || booked) return;
-        const step: BookingStep = routes === 1 ? "date" : "time";
-        track(EVENTS.bookingStep, { step, location });
-        cbs.current.onStep?.(step);
+      // Any event at all means the embed is alive (linkReady itself can be slow).
+      const onAny = () => {
+        heard = true;
+        clearTimeout(timer);
       };
       const onDone = (e: CustomEvent<{ data: Record<string, unknown> }>) => {
         if (booked) return; // V2 and the deprecated event both fire
@@ -86,14 +123,14 @@ export function CalBooker({ location, onStep, onBooked }: CalBookerProps) {
       const onFail = () => setFailed(true);
       const onReady = () => setFailed(false);
 
-      cal("on", { action: "__routeChanged", callback: onRoute });
+      cal("on", { action: "*", callback: onAny });
       cal("on", { action: "bookingSuccessfulV2", callback: onDone });
       cal("on", { action: "bookingSuccessful", callback: onDone });
       cal("on", { action: "linkFailed", callback: onFail });
       cal("on", { action: "linkReady", callback: onReady });
 
       off = () => {
-        cal("off", { action: "__routeChanged", callback: onRoute });
+        cal("off", { action: "*", callback: onAny });
         cal("off", { action: "bookingSuccessfulV2", callback: onDone });
         cal("off", { action: "bookingSuccessful", callback: onDone });
         cal("off", { action: "linkFailed", callback: onFail });
@@ -103,21 +140,27 @@ export function CalBooker({ location, onStep, onBooked }: CalBookerProps) {
 
     return () => {
       disposed = true;
+      clearTimeout(timer);
+      document.removeEventListener("visibilitychange", onVisible);
       off?.();
     };
   }, [location]);
 
   return (
-    <div className={`calbk ${styles.frame}`}>
+    <div ref={frame} className={`calbk ${styles.frame}`}>
       <Cal
         namespace={NS}
         calLink={CAL_LINK}
         config={{ layout: "month_view", theme: "dark", useSlotsViewOnSmallScreen: "true" }}
         style={{ width: "100%" }}
+        // keep a failed (404) booker out of the tab order behind the notice
+        inert={failed}
       />
       {failed ? (
         <div className={styles.fail} role="alert">
-          <h4>Booking is unavailable right now.</h4>
+          <p>
+            <strong>Booking is unavailable right now.</strong>
+          </p>
           <p>
             Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a> and we’ll set up a time.
           </p>

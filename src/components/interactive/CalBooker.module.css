@@ -27,13 +27,15 @@
   background: #101014;
   z-index: 2;
 }
-.fail h4 {
-  font-size: 18px;
-  font-weight: 600;
-}
 .fail p {
   font-size: 14px;
   color: var(--sub);
+}
+.fail strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  color: #f4f4f5;
 }
 .fail a {
   color: #f4f4f5;

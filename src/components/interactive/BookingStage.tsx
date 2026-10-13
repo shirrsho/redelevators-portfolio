@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import Link from "next/link";
 import { AlivePhone, type AlivePhoneStage } from "@/components/devices/AlivePhone";
-import { CalBooker, type BookedWhen, type BookingStep } from "./CalBooker";
+import { CalBooker, type BookedWhen } from "./CalBooker";
 import { BOOKER_NOTE } from "@/lib/booking";
 
 export type BookingStageProps = {
@@ -28,7 +28,7 @@ export function BookingStage({ variant }: BookingStageProps) {
   const [when, setWhen] = useState<BookedWhen | null>(null);
   const note = BOOKER_NOTE[variant];
 
-  const onStep = useCallback((step: BookingStep) => setStage((cur) => (cur === "booked" ? cur : step === "date" ? "day" : "time")), []);
+  const onStart = useCallback(() => setStage((cur) => (cur === "booked" ? cur : "started")), []);
   const onBooked = useCallback((w: BookedWhen | null) => {
     setWhen(w);
     setStage("booked");
@@ -37,7 +37,7 @@ export function BookingStage({ variant }: BookingStageProps) {
   return (
     <div className="bstage">
       <div className="rv">
-        <CalBooker location={variant} onStep={onStep} onBooked={onBooked} />
+        <CalBooker location={variant} onStart={onStart} onBooked={onBooked} />
         <p className="mono tz">
           {note.text}
           {note.link ? (
