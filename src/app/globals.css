@@ -127,4 +127,32 @@
   .tnum {
     font-variant-numeric: tabular-nums;
   }
+
+  /* Inner-page heroes reveal on first paint with CSS instead of waiting for SiteEffects to add
+     `.in` after hydration: the H1 is the LCP element, and the JS-gated reveal held it at opacity 0
+     until the bundle ran (Stage 3 Lighthouse). Same rise, durations, easing and stagger as `.rv`;
+     the fill keeps the end state, so the later `.in` changes nothing. Reduced motion: base.css
+     turns animations off and shows `.rv`. */
+  .phero > .rv {
+    animation: hero-rv 1s var(--ease) both;
+  }
+  .phero > .rv.d2x {
+    animation-delay: 0.16s;
+  }
+}
+
+/* Starts at .01, not 0: Chrome skips an element whose first paint is fully transparent as an LCP
+   candidate, so the H1 would only count once some later, JS-driven element painted. */
+@keyframes hero-rv {
+  from {
+    opacity: 0.01;
+    transform: translateY(24px);
+  }
+  90% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }

@@ -42,10 +42,19 @@ type PageMetaInput = {
 
 /**
  * Builds a page's Metadata with a canonical URL plus matching Open Graph and
- * Twitter cards. The site-wide OG image (src/app/opengraph-image.tsx) is
- * attached automatically by Next's file convention, so we never set images
- * here — that keeps one branded share image across every route.
+ * Twitter cards, all pointing at the one site-wide share image
+ * (src/app/opengraph-image.tsx, twitter-image.tsx). Next only attaches that
+ * file to the root route: a page that sets its own `openGraph` replaces the
+ * root's wholesale (metadata merges shallowly), so the image is set here.
  */
+/** Matches src/app/opengraph-image.tsx (size, alt). */
+const SHARE_IMAGE = {
+  width: 1200,
+  height: 630,
+  type: "image/png",
+  alt: "Red Elevators · Automation & marketing for short-term rentals",
+} as const;
+
 export function pageMetadata({
   title,
   description,
@@ -67,11 +76,13 @@ export function pageMetadata({
       description,
       url,
       locale: SITE.locale,
+      images: [{ url: "/opengraph-image", ...SHARE_IMAGE }],
     },
     twitter: {
       card: "summary_large_image",
       title: ogTitle,
       description,
+      images: [{ url: "/twitter-image", ...SHARE_IMAGE }],
     },
   };
 }

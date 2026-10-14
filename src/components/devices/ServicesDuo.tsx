@@ -268,7 +268,7 @@ export function ServicesDuo() {
             </div>
             <div className="booked">
               <div className="ok">✓</div>
-              <h6>You’re booked, Sofia.</h6>
+              <div className="h6">You’re booked, Sofia.</div>
               <div className="r">
                 <span>Harbor Studio</span>
                 <b>Oct 18–20 · 2 nights</b>

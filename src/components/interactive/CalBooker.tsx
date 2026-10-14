@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { EVENTS, track } from "@/lib/analytics";
+import { useInView } from "@/lib/hooks/useInView";
 import { CAL_BRAND, CAL_LINK, EMAIL } from "@/lib/site";
 import styles from "./CalBooker.module.css";
 
@@ -24,6 +25,9 @@ export type BookedWhen = { d: string; t: string };
 const NS = "booking";
 /** No word from the embed after this long (on screen) → assume it's blocked and show the email fallback. */
 const NO_LOAD_MS = 15000;
+/** Load the embed (~40 requests, ~1MB from app.cal.com) only once the booker is this close to the
+ *  viewport: immediately on Contact, near ch.09 on Home (it was the biggest cost of the Home LCP). */
+const LOAD_MARGIN = "800px 0px";
 
 function formatWhen(iso: unknown): BookedWhen | null {
   if (typeof iso !== "string") return null;
@@ -47,6 +51,7 @@ export type CalBookerProps = {
 export function CalBooker({ location, onStart, onBooked }: CalBookerProps) {
   const frame = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
+  const near = useInView(frame, { rootMargin: LOAD_MARGIN, once: true });
   // Latest callbacks, so the listeners below are registered once (their state must survive re-renders).
   const cbs = useRef({ onStart, onBooked });
   useEffect(() => {
@@ -75,6 +80,7 @@ export function CalBooker({ location, onStart, onBooked }: CalBookerProps) {
   }, [location]);
 
   useEffect(() => {
+    if (!near) return;
     let disposed = false;
     let off: (() => void) | undefined;
     let heard = false;
@@ -144,25 +150,28 @@ export function CalBooker({ location, onStart, onBooked }: CalBookerProps) {
       document.removeEventListener("visibilitychange", onVisible);
       off?.();
     };
-  }, [location]);
+  }, [location, near]);
 
   return (
     <div ref={frame} className={`calbk ${styles.frame}`}>
-      <Cal
-        namespace={NS}
-        calLink={CAL_LINK}
-        config={{ layout: "month_view", theme: "dark", useSlotsViewOnSmallScreen: "true" }}
-        style={{ width: "100%" }}
-        // keep a failed (404) booker out of the tab order behind the notice
-        inert={failed}
-      />
+      {near ? (
+        <Cal
+          namespace={NS}
+          calLink={CAL_LINK}
+          config={{ layout: "month_view", theme: "dark", useSlotsViewOnSmallScreen: "true" }}
+          style={{ width: "100%" }}
+          // keep a failed (404) booker out of the tab order behind the notice
+          inert={failed}
+        />
+      ) : null}
       {failed ? (
         <div className={styles.fail} role="alert">
           <p>
             <strong>Booking is unavailable right now.</strong>
           </p>
           <p>
-            Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a> and we’ll set up a time.
+            Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a> and we’ll set up a
+            time.
           </p>
         </div>
       ) : null}

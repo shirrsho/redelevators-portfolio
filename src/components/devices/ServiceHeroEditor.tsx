@@ -19,7 +19,7 @@ export function ServiceHeroEditor() {
         <ConBar title="Listing engine" status="Writing" />
         <div className={`ed${go ? " in" : ""}`}>
           <div className="doc">
-            <h6>Garden Suite · 2 bed, sleeps 4 · Canal District</h6>
+            <div className="h6">Garden Suite · 2 bed, sleeps 4 · Canal District</div>
             {LINES.map((w, i) => (w ? <i key={i} style={{ width: `${w}%`, transitionDelay: `${i * 0.25}s` }} /> : <br key={i} />))}
           </div>
           <div className="chk">

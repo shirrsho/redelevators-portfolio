@@ -100,3 +100,25 @@ Track-internal components (ServicesDuo, ServiceHero, ServiceRow, BeforeAfter, As
 
 ## Open items for the owner
 From DECISIONS (still open): real prices; privacy legal details; tracking vs the privacy page (the Meta Pixel and Umami `recorder.js` are still in `layout.tsx`, untouched); the Cal.com event link (`src/lib/site.ts → CAL_LINK` is a placeholder, flagged by `CAL_LINK_IS_PLACEHOLDER`); the WhatsApp number; keeping or archiving old mockup rounds.
+
+## Stage 3: final integration (14 Oct 2026)
+
+All four tracks merged into `redesign-2026` (D, C, B, A). `grep -r "STUB:" src` is empty and `StubBox` is deleted.
+
+**Changed in this pass (shared files):**
+- `src/lib/seo.ts`: every page now sets the share image (`/opengraph-image`, `/twitter-image`, 1200×630). Only the home page had one: a page that sets its own `openGraph` replaces the root's wholesale.
+- `src/app/globals.css`: inner-page heroes (`.phero > .rv`) reveal with a CSS animation on first paint instead of waiting for `SiteEffects`. Same rise, timing and stagger; starts at opacity .01 so Chrome counts the H1 as the LCP. `/services` mobile LCP 7.2s → 3.3s.
+- `CalBooker` (Track C): the Cal.com embed (~40 requests, ~1MB) mounts when the booker is within 800px of the viewport: at once on Contact, near ch.09 on Home. Home mobile LCP 12.5s → 6.9s, requests 94 → 50. The blocked-embed fallback is unchanged.
+- Track A: the two device-illustration `h6`s ("You're booked, Sofia.", the listing editor title) are now styled `div`s, so they no longer enter the page outline.
+- `NOTES.md` → CSS: the layered-module exception (Track A).
+
+**Deferred (decide later):**
+- Card titles stay `h4`/`h5` under section `h2`s (decision 4 above; Tracks A, B, D). Lighthouse a11y is 98 because of it.
+- `→`/`↓` glyphs fall back to Arial (Track B, A). The fix (`adjustFontFallback: false` + a `system-ui` fallback) would undo the metric-matched fallback that keeps CLS at 0; not worth it for a glyph.
+- `SiteEffects` adding `.in` before hydration (Track A): seen once on a cold dev compile; never in production.
+- 7px `scrollWidth` at ~1100px on the laptop service heroes: the laptop's unscaled 760px box. Not scrollable by the user (body clips) and identical in the mockup.
+- "View all services" (existing Umami event): the redesign has no such link, so it no longer fires. Keep the name for the dashboards.
+
+**QA (production build, headless Chrome):** 17 pages × 1900/1440/1280/1100/900/768/375 and reduced motion at 1440/375, scrolled end to end: no console messages, one H1 each, fonts correct, no functional text under 11px, WhatsApp only on /contact (number never printed), `aria-current` on the nav. Titles, descriptions, canonicals, OG/Twitter images and JSON-LD (Organization + WebSite, BreadcrumbList, Service) on every page; 404 is `noindex`; sitemap lists all 15 URLs; the 8 old slugs return 308. Track A pages match the mockup layout at 1440/900/375. Every analytics event in `EVENTS` is wired except "View all services" (above).
+
+**Lighthouse (`next start`, simulated throttling):** / mobile 52, desktop 82; /services mobile 77, desktop 95. CLS 0, SEO 100, accessibility 98, best practices 78–79. What's left is mostly third-party: the Meta Pixel and Umami `recorder.js` block the main thread for ~0.9s on mobile and set the third-party cookies that cost best practices (owner item 3).

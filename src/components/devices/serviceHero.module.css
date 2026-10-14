@@ -104,7 +104,7 @@
 :where(.scene) :global(.fn .st b){font-family:var(--mono);font-weight:400;text-align:right}
 :where(.scene) :global(.ed){padding:16px;display:grid;grid-template-columns:1.4fr 1fr;gap:12px}
 :where(.scene) :global(.ed .doc){border:1px solid var(--hair);border-radius:10px;padding:12px}
-:where(.scene) :global(.ed .doc h6){font-size:13px;margin-bottom:10px}
+:where(.scene) :global(.ed .doc .h6){font-size:13px;margin-bottom:10px}
 :where(.scene) :global(.ed .doc i){display:block;height:7px;border-radius:4px;background:rgba(255,255,255,.16);margin-bottom:8px;transform-origin:left;transform:scaleX(0);transition:transform .9s var(--ease)}
 :where(.scene) :global(.ed.in .doc i){transform:scaleX(1)}
 :where(.scene) :global(.ed .chk){display:grid;gap:8px;align-content:start}
