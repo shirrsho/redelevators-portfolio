@@ -82,12 +82,19 @@
 /* =========================================================================
    CHAPTER 7 · how we work
    ========================================================================= */
-.weeks{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.weeks .line{position:absolute;left:22px;right:22px;top:22px;height:2px;background:var(--hair)}
-.weeks .line i{display:block;height:100%;width:0;background:var(--ink);transition:width 2.4s var(--ease)}
-.weeks.in .line i{width:100%}
-.wk{position:relative;padding-top:0}
-.wk .ico-tile{position:relative;z-index:1;background:var(--bg)}
+/* Each step draws the connector to the next one: ::after is the hairline track, ::before the fill.
+   Connectors run tile edge to tile edge, so the line starts and ends on a node in any layout
+   (a row here, a vertical list ≤760px). When a step reveals (.rv → .in), its connector draws
+   and its node lights; on desktop they chain left to right, one --seg per step. */
+.weeks{--gap:20px;--seg:.45s;--step:var(--seg);--dir:90deg;display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);list-style:none;margin:0;padding:0}
+.wk{position:relative;--i:0;--at:calc(.2s + var(--i) * var(--step))}
+.wk:nth-child(2){--i:1}.wk:nth-child(3){--i:2}.wk:nth-child(4){--i:3}
+.wk:not(:last-child)::before,.wk:not(:last-child)::after{content:"";position:absolute;left:44px;top:21px;width:calc(100% - 44px + var(--gap));height:2px}
+.wk::after{background:var(--hair)}
+.wk::before{z-index:1;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform var(--seg) cubic-bezier(.45,0,.55,1) var(--at)}
+.wk.in::before{transform:none}
+.wk .ico-tile{color:var(--dim);transition:color .4s var(--at),box-shadow .5s var(--at),border-color .3s,opacity .3s}
+.wk.in .ico-tile{color:var(--ink)}
 .wk .mono{display:block;margin:20px 0 8px}
 .wk h4{font-family:var(--display);font-size:24px;font-weight:500;letter-spacing:-.02em;margin-bottom:8px}
 .wk p{font-size:14.5px;color:var(--sub);margin-bottom:16px;max-width:260px}
@@ -141,7 +148,16 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 @media (max-width:760px){
   .grid8,.prom{grid-template-columns:1fr 1fr}
   .tools,.calm{grid-template-columns:1fr}
-  .weeks{grid-template-columns:1fr 1fr;row-gap:40px}
+  /* vertical timeline: tile on the left, connector runs down to the next tile. Steps reveal
+     one by one as you scroll, so each draws on its own (no left-to-right chaining). */
+  .weeks{grid-template-columns:1fr;--gap:32px;--step:0s;--dir:180deg}
+  .wk{display:grid;grid-template-columns:44px 1fr;column-gap:18px;align-items:start}
+  .wk .ico-tile{grid-row:1/span 4}
+  .wk > :not(.ico-tile){grid-column:2}
+  .wk .mono{margin:3px 0 6px}
+  .wk .chip{justify-self:start}
+  .wk:not(:last-child)::before,.wk:not(:last-child)::after{left:21px;top:44px;width:2px;height:calc(100% - 44px + var(--gap))}
+  .wk::before{transform:scaleY(0);transform-origin:top}
   .sched{grid-template-columns:1fr}.sched .foot{grid-column:1}
   .fgrid{grid-template-columns:1fr 1fr}
   .slot{grid-template-columns:1fr}
@@ -552,9 +568,9 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .cal3.has-detail .cal-detail .cd-ph{display:inline-block}
 .cal3.has-detail .cal-detail .cd-tx{color:var(--ink)}
 .cal3 .leg span[data-p]{cursor:default}
-.weeks .wk{transition:opacity .3s}
-.weeks.linked .wk:not(.on){opacity:1}
-.cal3.hl ~ .weeks .wk:not(.on){opacity:.35}
+/* dim the other steps' content (not the .wk itself, whose opacity belongs to the .rv reveal) */
+.wk > *{transition:opacity .3s}
+#how:has(.cal3.hl) .wk:not(.on) > *{opacity:.35}
 .weeks .wk.on .ico-tile{border-color:rgba(255,255,255,.5)}
 @media (max-width:900px){.cal-detail{flex-direction:column;align-items:flex-start;gap:6px}}
 

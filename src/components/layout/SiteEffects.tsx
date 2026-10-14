@@ -6,7 +6,7 @@ import { useEffect } from "react";
 // Mounted once in the root layout; works on server-rendered markup by class name, including
 // content that appears after a client-side navigation.
 //
-// - Reveal: `.rv` (and `.weeks`) get `.in` when 15% visible: fade + 24px rise, staggered with
+// - Reveal: `.rv` gets `.in` when 15% visible: fade + 24px rise, staggered with
 //   .d1x…d4x. If a client component later rewrites that element's className (React drops
 //   `.in`), it is put back, so `rv` is safe on stateful elements too.
 // - Spotlight: a 280px glow follows the cursor on Aurora cards (`.spot`, --mx/--my).
@@ -16,7 +16,7 @@ import { useEffect } from "react";
 
 /** Cards that get the cursor spotlight (themes.css + theme.js SPOT list). */
 const SPOT = ".svc,.pc,.gets>div,.sysstage,.srow,.loop .node,.fstep,.phase .vis,.band,.tier,.calc,.try,.c";
-const REVEAL = ".rv:not(.in), .weeks:not(.in)";
+const REVEAL = ".rv:not(.in)";
 
 export function SiteEffects() {
   useEffect(() => {
@@ -27,7 +27,7 @@ export function SiteEffects() {
     const keep = new MutationObserver((rs) =>
       rs.forEach((r) => {
         const el = r.target as Element;
-        if (!el.classList.contains("in") && el.matches(".rv, .weeks")) el.classList.add("in");
+        if (!el.classList.contains("in") && el.matches(".rv")) el.classList.add("in");
       }),
     );
     const io = new IntersectionObserver(

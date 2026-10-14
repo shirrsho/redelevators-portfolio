@@ -12,7 +12,7 @@ export type Calendar3WeekProps = {
   /**
    * id of an element elsewhere on the page whose `[data-phase]` descendants are linked to the
    * calendar: they get `.on` when their phase is highlighted, and hovering them highlights the
-   * phase (Home ch.07: the four `.wk` steps in `<div class="weeks linked" id="time">`).
+   * phase (Home ch.07: the four `.wk` steps in `<ol class="weeks" id="time">`).
    * Same as the mockup's `link` option; toggles classes on server-rendered markup.
    */
   linkId?: string;
