@@ -58,6 +58,20 @@ export function CalBooker({ location, onStart, onBooked }: CalBookerProps) {
     cbs.current = { onStart, onBooked };
   });
 
+  // No scrollbar on the iframe. Cal sizes the iframe to its content, so it never needs to scroll,
+  // but before the first resize it overflows. With classic (always-shown) scrollbars, e.g. Safari
+  // with a mouse, that scrollbar takes ~15px off the 778px frame. Cal then sees less than 768px,
+  // switches to its tall stacked layout, and the scrollbar stays. Set it as soon as Cal inserts the iframe.
+  useEffect(() => {
+    const el = frame.current;
+    if (!near || !el) return;
+    const noScroll = () => el.querySelector("iframe:not([scrolling])")?.setAttribute("scrolling", "no");
+    const mo = new MutationObserver(noScroll);
+    mo.observe(el, { childList: true, subtree: true });
+    noScroll();
+    return () => mo.disconnect();
+  }, [near]);
+
   // "Booking step": focus moving into the booker's iframe blurs this window. Once per page view.
   useEffect(() => {
     let started = false;
