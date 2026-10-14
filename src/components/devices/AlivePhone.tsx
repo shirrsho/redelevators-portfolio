@@ -298,7 +298,7 @@ export function AlivePhone({ stage, when, nudge, className }: AlivePhoneProps) {
             <b>{snap.week}% booked</b>
           </div>
           <div className="lbar">
-            <i style={{ width: `${snap.week}%` }} />
+            <i style={{ transform: `scaleX(${snap.week / 100})` }} />
           </div>
         </div>
         <div className="stack cstack" onClick={onStackClick}>

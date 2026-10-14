@@ -225,9 +225,11 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
   // ---- the progress line down the steps follows the newest one
   useLayoutEffect(() => {
     const measure = () => {
+      // the fill spans the whole track (sections.css .steps .fill) and is scaled down to the newest step
       const fill = fillRef.current;
       const li = stepsRef.current?.querySelectorAll<HTMLElement>(".st")[Math.max(0, n)];
-      if (fill && li) fill.style.height = n < 0 ? "0px" : `${li.offsetTop + li.offsetHeight / 2 - 22}px`;
+      const track = fill?.offsetHeight;
+      if (fill && li && track) fill.style.transform = `scaleY(${n < 0 ? 0 : Math.min(1, (li.offsetTop + li.offsetHeight / 2 - 22) / track)})`;
     };
     measure();
     addEventListener("resize", measure);

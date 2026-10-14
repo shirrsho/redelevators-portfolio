@@ -426,7 +426,7 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .calc .two2 b{display:block;font-family:var(--display);font-size:34px;font-weight:500;letter-spacing:-.02em;margin-top:6px}
 .calc .week{display:grid;gap:8px}
 .calc .wb{display:grid;grid-template-columns:1fr 110px;gap:10px;align-items:center}
-.calc .wb i{display:block;height:12px;border-radius:6px;background:rgba(232,163,61,.75);transition:width .6s var(--ease)}
+.calc .wb i{display:block;height:12px;border-radius:6px;background:rgba(232,163,61,.75);clip-path:inset(0 calc(100% - var(--w,100%)) 0 0 round 6px);transition:clip-path .6s var(--ease)}
 .calc .wb i.after{background:var(--green)}
 .calc .wb em{font-style:normal;font-size:12.5px;color:var(--sub)}
 .recs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
@@ -496,20 +496,8 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 }
 
 /* =========================================================================
-   Round 5 · WhatsApp, currency, the calm-but-alive phone
+   Round 5 · currency, the calm-but-alive phone
    ========================================================================= */
-.wa-fab{position:fixed;z-index:65;right:18px;bottom:18px;height:56px;min-width:56px;border-radius:28px;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 16px;
-  box-shadow:0 14px 34px -14px rgba(0,0,0,.8);font:600 14.5px var(--sans);transition:transform .3s var(--ease)}
-.wa-fab svg{flex:0 0 auto}
-.wa-fab span{max-width:0;overflow:hidden;white-space:nowrap;transition:max-width .4s var(--ease)}
-.wa-fab:hover{transform:translateY(-2px)}
-.wa-fab:hover span{max-width:180px}
-.mbar{display:none}
-@media (max-width:760px){
-  .wa-fab{display:none}
-  .mbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;z-index:65;left:10px;right:10px;bottom:10px;padding:8px;border-radius:16px;background:rgba(14,14,18,.88);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.12)}
-  .mbar .btn{justify-content:center;padding:13px 10px;font-size:14.5px}
-}
 .btn.wa{background:#25D366;color:#06290f}
 .btn.wa:hover{background:#3ee07f}
 .wa-link{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#7ddca2;margin-top:auto}
@@ -534,7 +522,7 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .live .lr{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:rgba(255,255,255,.65);padding:3px 0}
 .live .lr b{color:#fff;font-weight:600;text-align:right}
 .live .lbar{height:4px;border-radius:3px;background:rgba(255,255,255,.1);margin-top:6px;overflow:hidden}
-.live .lbar i{display:block;height:100%;background:linear-gradient(90deg,#8b93ff,#ff5a4e);transition:width .8s var(--ease)}
+.live .lbar i{display:block;height:100%;background:linear-gradient(90deg,#8b93ff,#ff5a4e);transform-origin:left;transition:transform .8s var(--ease)}
 .phone.alive .stack{top:318px;bottom:70px;display:flex;flex-direction:column;gap:8px}
 .phone.alive .stack .n{position:relative;opacity:0;transform:translateY(-14px) scale(.97);transition:opacity .5s,transform .6s var(--ease)}
 .phone.alive .stack .n.in{opacity:1;transform:none}
@@ -551,9 +539,6 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .phone.alive .stack .n.nudge .hd span:first-child{color:#7ddca2}
 
 .phone.alive .lockicons{display:none}
-.mbar,.wa-fab{transition:transform .5s var(--ease),opacity .4s}
-.mbar.hide{transform:translateY(130%);opacity:0;pointer-events:none}
-.wa-fab.hide{transform:scale(.6);opacity:0;pointer-events:none}
 .ex-label{text-align:center;margin-top:14px}
 .phone.alive .stack .n.ask{box-shadow:0 0 0 1.5px rgba(255,255,255,.45) inset;cursor:pointer}
 
@@ -670,7 +655,7 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 [data-part="trigger"]{--c:#8b93ff}[data-part="tools"]{--c:#8fd4b0}[data-part="check"]{--c:#e8a33d}[data-part="log"]{--c:#c9c4bc}
 .steps{position:relative;list-style:none;margin:8px 0 0;padding:0;display:grid;gap:2px}
 .steps::before{content:"";position:absolute;left:19px;top:22px;bottom:22px;width:2px;background:var(--hair)}
-.steps .fill{position:absolute;left:19px;top:22px;width:2px;height:0;background:linear-gradient(var(--green),#8b93ff);transition:height .6s var(--ease)}
+.steps .fill{position:absolute;left:19px;top:22px;bottom:22px;width:2px;background:linear-gradient(var(--green),#8b93ff);transform:scaleY(0);transform-origin:top;transition:transform .6s var(--ease)}
 .st{position:relative;display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:14px;align-items:center;padding:6px 10px 6px 0;border-radius:14px;opacity:.38;transition:opacity .4s,background .4s}
 .st .nd{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#16161c;border:1px solid var(--hair-2);position:relative;z-index:1;transition:border-color .4s,box-shadow .4s}
 .st .nd svg{width:20px;height:20px}
@@ -713,9 +698,12 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .dv.phone .body > :first-child{margin-top:auto} /* chats sit at the bottom but can still scroll */
 .dv.web .body{top:34px;padding:18px}
 .cap{display:none}
-.scene [data-at]{opacity:0;transform:translateY(10px);transition:opacity .45s,transform .55s var(--ease);max-height:400px}
+.scene [data-at]{opacity:0;transform:translateY(10px);transition:opacity .45s,transform .55s var(--ease)}
 .scene [data-at].on{opacity:1;transform:none}
-.scene [data-at].off{opacity:0;max-height:0;margin:0;padding-top:0;padding-bottom:0;overflow:hidden;transition:opacity .2s,max-height .3s}
+/* a part that leaves (data-to) wraps its content in .clp, so its height can collapse as a grid row */
+.scene .clp{display:grid;grid-template-rows:minmax(0,1fr);overflow:hidden;transition:opacity .45s,transform .55s var(--ease),grid-template-rows .3s var(--ease)}
+.scene .clp > .typ{justify-self:start}
+.scene .clp.off{opacity:0;grid-template-rows:minmax(0,0fr);transition:opacity .2s,grid-template-rows .3s var(--ease)}
 .scene .bub{max-width:84%;padding:9px 12px;border-radius:16px;font-size:13px;line-height:1.4}
 .scene .bub.in{align-self:flex-start;background:#25252e;border-bottom-left-radius:5px}
 .scene .bub.out{align-self:flex-end;background:#2a3a8f;border-bottom-right-radius:5px}
@@ -735,7 +723,8 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .scene .flag{font-size:11px;padding:3px 8px;border-radius:99px;background:rgba(255,90,78,.14);color:#ff8a80;white-space:nowrap}
 .scene .okk{font-size:11px;padding:3px 8px;border-radius:99px;background:rgba(143,212,176,.14);color:var(--green);white-space:nowrap}
 .scene .bar2{height:8px;border-radius:5px;background:rgba(255,255,255,.07);margin-top:8px;overflow:hidden}
-.scene .bar2 i{display:block;height:100%;border-radius:5px;background:var(--bc,#8b93ff);width:var(--w);transition:width .9s var(--ease)}
+.scene .bar2 i{display:block;height:100%;border-radius:5px;background:var(--bc,#8b93ff);clip-path:inset(0 calc(100% - var(--w)) 0 0 round 5px);transition:clip-path .9s var(--ease) .15s}
+.scene [data-at]:not(.on) .bar2 i{clip-path:inset(0 100% 0 0 round 5px)}
 .scene .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:11px;text-align:center}
 .scene .cal span{padding:7px 0;border-radius:7px;background:rgba(255,255,255,.04);color:var(--sub);position:relative}
 .scene .cal .h{background:none;color:var(--dim);font-family:var(--mono);font-size:11px}
