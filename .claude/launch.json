@@ -93,6 +93,20 @@
         "3005"
       ],
       "port": 3005
+    },
+    {
+      "name": "redelevators-dev-main",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        ".claude/worktrees/main",
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "3006"
+      ],
+      "port": 3006
     }
   ]
 }
