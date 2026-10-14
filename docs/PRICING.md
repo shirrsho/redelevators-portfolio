@@ -20,7 +20,9 @@ typed twice.
 | `tierFrom()` | A tier's "from" figures: the true minimum monthly and setup the tier allows | `PricingTiers` |
 | `FOUNDING` | 50% off setup for the first 5 clients. **Set `open: false` the day client 5 signs.** | `/pricing` hero, builder, service pages |
 | `GUARANTEE_DAYS` | 21-day launch guarantee | `/pricing`, builder, service pages, home promises (`home.ts`), story (`story.ts`) |
-| `DIRECT_SHARE`, `NET_COMMISSION` | Calculator assumptions: 15% of platform bookings move direct, 12% net commission saved on each | `SavingsCalculator` |
+| `CALC_TIME` | Calculator time model, counting only work our systems take over: 4 min per guest message + 3 h inbox admin per unit per month, 70% saved, 80% of replies automated | `SavingsCalculator` |
+| `calcPicks()`, `calcPickCount()` | Recommends 1 system for 1–5 units, 3 for 6+ (31+ is priced as Portfolio by `quote()`) | `SavingsCalculator` |
+| `DIRECT_SHARE`, `NET_COMMISSION`, `DIRECT_SYSTEMS` | 15% of platform bookings move direct, 12% net commission saved on each; counted only when a direct-booking system is recommended | `SavingsCalculator` |
 | `FX` | Display factor only, for the calculator's nightly-rate slider (EUR 0.89 = ECB 14 Oct 2026). **Prices are not converted.** | `SavingsCalculator` |
 
 ## Current "from" prices (computed)
@@ -39,3 +41,21 @@ typed twice.
    it updates itself. One answer does not: the Paid Social FAQ "What budget do I need?" in
    `src/lib/services.ts` has the minimum ad spend typed in. Update it by hand, because
    `services.ts` can't import `pricing.ts`.
+
+## Savings calculator
+
+The calculator counts only work our systems take over:
+
+- **Hours back** = 70% × (guest messages × 4 min + 3 h inbox admin per unit), per month.
+- **Worth to you** = hours back × the visitor's hourly value + commission kept.
+- **The verdict** compares "worth" with the recommended plan's monthly fee:
+  - 1.15× or more: "Pays for itself about N×", plus setup payback in months.
+  - 0.9–1.15×: "Roughly pays for itself".
+  - Below 0.9×: "Covers about N% of the monthly fee".
+
+The full method, assumptions and examples are in the Pricing Playbook, section "Savings
+calculator".
+
+**Open:** turnover hours are not counted, because no service includes turnover coordination in its
+scope yet. If it is added to Guest Messaging & CRM, bring back a turnovers input and count it in
+`CALC_TIME`.
