@@ -173,26 +173,56 @@ export const TIERS: readonly Tier[] = [
   },
 ];
 
-/** Savings calculator sliders: [key, label, min, max, default, unit ("" | "%" | "cur")]. */
-export type CalcKey = "units" | "msgs" | "turn" | "ota" | "rate" | "nights";
+/** Savings calculator sliders: [key, label, min, max, default, unit ("" | "%" | "cur")]. "cur" values
+ *  are entered in dollars and shown ×FX. */
+export type CalcKey = "units" | "msgs" | "ota" | "rate" | "nights" | "hourly";
 export const CALC_FIELDS: readonly (readonly [key: CalcKey, label: string, min: number, max: number, value: number, unit: "" | "%" | "cur"])[] = [
   ["units","Units you run",1,60,4,""],
   ["msgs","Guest messages per unit, per week",5,60,18,""],
-  ["turn","Turnovers per unit, per month",1,15,6,""],
   ["ota","Bookings through Airbnb / Booking.com",0,100,85,"%"],
   ["rate","Average nightly rate",40,400,120,"cur"],
   ["nights","Nights booked per unit, per month",5,30,18,""],
+  // Default ≈ a US property-management assistant's hourly rate.
+  ["hourly","Your time is worth, per hour",10,100,25,"cur"],
 ];
 
+/** Calculator time model: only work our systems take over (guest messages + inbox admin). */
+export const CALC_TIME = {
+  /** Minutes per guest message: read, look up the booking, reply. */
+  minutesPerMessage: 4,
+  /** Inbox and guest-record admin per unit per month, in hours. */
+  adminHoursPerUnit: 3,
+  /** Share of that time the system takes over. */
+  saved: 0.7,
+  /** Share of messages answered without you. */
+  autoReplies: 0.8,
+} as const;
+
 /** Calculator "commission kept": share of platform bookings moved direct, and the net commission
- *  saved on each (Airbnb host-only fee 15.5% / Booking.com ~15%, less ~3–4% card and engine fees). */
+ *  saved on each (Airbnb host-only fee 15.5% / Booking.com ~15%, less ~3–4% card and engine fees).
+ *  Counted only when the recommendation includes a direct-booking system (DIRECT_SYSTEMS). */
 export const DIRECT_SHARE = 0.15;
 export const NET_COMMISSION = 0.12;
+export const DIRECT_SYSTEMS: readonly ServiceSlug[] = ["direct-booking-engine", "direct-booking-website"];
 
-/** Calculator "Start with" picks: the services it may recommend, by rule (see SavingsCalculator). */
+/** Calculator "Start with": the systems that answer each pain, in priority order. */
 export const CALC_RECOMMEND: Readonly<Record<"msgs" | "ota" | "nights" | "fallback", readonly ServiceSlug[]>> = {
   msgs: ["guest-messaging", "ai-guest-assistant"], // msgs ≥ 12
   ota: ["direct-booking-engine", "direct-booking-website"], // ota ≥ 60
   nights: ["paid-social"], // nights ≤ 18
   fallback: ["guest-messaging"],
 };
+
+/** How many systems to recommend, by portfolio size (matches the tiers: Starter = one system,
+ *  Growth = three; 31+ units are quoted as Portfolio by quote()). */
+export const calcPickCount = (units: number) => (units <= INCLUDED_UNITS ? 1 : 3);
+
+/** Calculator picks: the pains that apply, in priority order, cut to calcPickCount(units). */
+export function calcPicks(v: Readonly<Record<CalcKey, number>>): ServiceSlug[] {
+  const rec = [
+    ...(v.msgs >= 12 ? CALC_RECOMMEND.msgs : []),
+    ...(v.ota >= 60 ? CALC_RECOMMEND.ota : []),
+    ...(v.nights <= 18 ? CALC_RECOMMEND.nights : []),
+  ];
+  return [...new Set(rec.length ? rec : CALC_RECOMMEND.fallback)].slice(0, calcPickCount(v.units));
+}

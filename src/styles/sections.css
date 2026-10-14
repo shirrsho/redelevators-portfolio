@@ -414,6 +414,9 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .calc .wb i.after{background:var(--green)}
 .calc .wb em{font-style:normal;font-size:12.5px;color:var(--sub)}
 .recs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.calc .two2 small{display:block;font-size:12.5px;color:var(--sub);margin-top:4px}
+.calc .verdict{margin-top:8px;font-size:15px;color:var(--ink)}
+.calc .verdict.good{color:var(--green)}
 .recs .chip svg{width:15px;height:15px}
 
 /* pricing tiers */
