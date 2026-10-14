@@ -1,0 +1,6 @@
+/* Keyboard access for the plan builder. The shared rule `.pk input{display:none}` (sections.css,
+   as in the mockup) takes the checkboxes out of the tab order. Hide them visually instead (out of
+   the .pk grid flow, still focusable), and show the focus ring on the whole row. */
+.row{position:relative}
+.input{display:inline-block;position:absolute;left:14px;top:50%;width:1px;height:1px;margin:0;opacity:0;pointer-events:none}
+.row:has(.input:focus-visible){outline:2px solid var(--ink);outline-offset:3px}

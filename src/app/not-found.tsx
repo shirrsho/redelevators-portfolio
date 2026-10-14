@@ -1,12 +1,11 @@
-// SKELETON (Stage 1). Owned by Track A: build per docs/redesign/ROUTES-AND-CONTENT.md → 404
-// (mockup: redesign-mockups/r3/404.html; the phone uses components/devices/PhoneShell +
-// Notification). Keep the Umami "404" event.
+// Track A · 404 (mockup: redesign-mockups/r3/404.html). Keeps the Umami "404" event.
 import type { Metadata } from "next";
 import { EVENTS } from "@/lib/analytics";
 import { PageBg } from "@/components/layout/PageBg";
 import { TrackOnMount } from "@/components/layout/Analytics";
 import { Button } from "@/components/ui/Button";
-import { StubBox } from "@/components/ui/StubBox";
+import { NotFoundPhone } from "./NotFoundPhone";
+import styles from "./not-found.module.css";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -19,10 +18,10 @@ export default function NotFound() {
       <PageBg tone="night" />
       <TrackOnMount name={EVENTS.notFound} />
       <main id="main" className="page">
-        <section className="wrap phero">
+        <section className={`wrap ${styles.nf}`}>
           <div className="rv">
-            <div className="mono">404 · page not found</div>
-            <h1 className="d1" style={{ marginTop: 18 }}>
+            <div className={styles.code}>404 · page not found</div>
+            <h1 className="d1">
               This page
               <br />
               checked out.
@@ -30,7 +29,7 @@ export default function NotFound() {
             <p className="lead" style={{ marginTop: 18 }}>
               It may have moved, or the link was mistyped. Nothing needs you here.
             </p>
-            <div className="ctas">
+            <div className={styles.links2}>
               <Button href="/">Back to home</Button>
               <Button href="/services" variant="quiet">
                 See the services
@@ -40,8 +39,8 @@ export default function NotFound() {
               </Button>
             </div>
           </div>
-          <div className="visual">
-            <StubBox name="404 lock-screen phone" track="A" minHeight={480} style={{ width: 300 }} />
+          <div className={`${styles.hold} rv d2x`} aria-hidden="true">
+            <NotFoundPhone />
           </div>
         </section>
       </main>

@@ -1,5 +1,4 @@
-// SKELETON (Stage 1). Owned by Track A: build per docs/redesign/ROUTES-AND-CONTENT.md → /pricing
-// (mockup: redesign-mockups/r3/pricing.html). New route.
+// Track A · /pricing (mockup: redesign-mockups/r3/pricing.html). New route.
 import type { Metadata } from "next";
 import { breadcrumbLd, pageMetadata } from "@/lib/seo";
 import { CTABand } from "@/components/layout/CTABand";
@@ -7,12 +6,14 @@ import { JsonLd } from "@/components/layout/JsonLd";
 import { PageBg } from "@/components/layout/PageBg";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionHead } from "@/components/layout/Section";
+import { PlanBuilder } from "@/components/interactive/PlanBuilder";
 import { PricingTiers } from "@/components/interactive/PricingTiers";
 import { SavingsCalculator } from "@/components/interactive/SavingsCalculator";
 import { Eyebrow } from "@/components/ui/Chip";
 import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
+import { FAQ } from "@/components/ui/FAQ";
 import { Icon } from "@/components/ui/Icon";
-import { StubBox } from "@/components/ui/StubBox";
+import type { IconName } from "@/lib/icons";
 
 export const metadata: Metadata = pageMetadata({
   title: "Pricing",
@@ -20,6 +21,22 @@ export const metadata: Metadata = pageMetadata({
     "Clear prices, no surprises. Start with one system or run the lot; the free audit call gives you a fixed quote before any work begins. US dollars, UAE dirhams or euros.",
   path: "/pricing",
 });
+
+/** "Always included" cards: [icon, title, text]. */
+const INCLUDED: readonly (readonly [IconName, string, string])[] = [
+  ["lock", "You own everything", "Built in your accounts. Leave anytime, keep it all."],
+  ["bolt", "No new software", "We work inside the tools you already use."],
+  ["run", "We run it after launch", "Monitoring, fixes and a monthly summary."],
+  ["calendar", "Live in 2–3 weeks", "From first call to a running system."],
+];
+
+const PRICING_FAQ: readonly (readonly [string, string])[] = [
+  ["Which currency do you invoice in?", "US dollars, UAE dirhams or euros. Switch at the top of this page; you’re invoiced in the one you choose."],
+  ["Is ad spend included?", "No. Ad spend goes straight to Meta or Google from your own account. Our fee covers building and managing the campaigns."],
+  ["Is there a contract?", "Monthly, with 30 days’ notice. (Placeholder: set your real terms.)"],
+  ["Can I start with just one system?", "Yes. Most owners start with guest messaging or direct bookings and add more once it’s paying off."],
+  ["Why a setup fee?", "It covers the audit, the design and the build inside your tools. The monthly fee covers running, monitoring and improving it."],
+];
 
 export default function PricingPage() {
   return (
@@ -57,12 +74,15 @@ export default function PricingPage() {
         </PageHero>
 
         <section className="wrap" style={{ paddingBottom: 40 }}>
+          <h2 className="sr-only">Plans</h2>
           <PricingTiers />
         </section>
 
         <section className="wrap section" style={{ paddingTop: 80 }}>
           <SectionHead eyebrow="Build your own" title="Pick the systems you want." note="Tick what you need and see a starting estimate instantly." noteMaxWidth={320} />
-          <StubBox name="PlanBuilder" track="A" minHeight={360} />
+          <div className="rv">
+            <PlanBuilder />
+          </div>
         </section>
 
         <section className="wrap section" style={{ paddingTop: 20 }}>
@@ -74,12 +94,22 @@ export default function PricingPage() {
 
         <section className="wrap section" style={{ paddingTop: 20 }}>
           <SectionHead eyebrow="Always included" title="Whatever you choose." />
-          <StubBox name="Included cards" track="A" minHeight={180} />
+          <div className="gets">
+            {INCLUDED.map(([icon, title, text], i) => (
+              <div key={title} className={`rv d${i + 1}x`}>
+                <div className="ico-tile">
+                  <Icon name={icon} />
+                </div>
+                <h5>{title}</h5>
+                <p>{text}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
         <section className="wrap section" style={{ paddingTop: 20 }}>
           <SectionHead eyebrow="Questions" title="About pricing." />
-          <StubBox name="FAQ (incl. AED billing)" track="A" minHeight={200} />
+          <FAQ className="rv" items={PRICING_FAQ} />
         </section>
 
         <CTABand title="Get your fixed quote." sub="A free 30-minute call. We’ll scope it with you and send a price in writing." />

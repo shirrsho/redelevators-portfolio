@@ -1,0 +1,7 @@
+/* Ported from redesign-mockups/r3/404.html <style>. */
+.nf{display:grid;grid-template-columns:1fr auto;gap:80px;align-items:center;min-height:calc(100vh - 76px);padding:40px 0}
+.nf :global(.phone){transform:rotateY(-10deg) rotateX(4deg)}
+.hold{perspective:1600px}
+.links2{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.code{font-family:var(--mono);font-size:13px;color:var(--dim);margin-bottom:18px}
+@media (max-width:900px){.nf{grid-template-columns:1fr;gap:30px}.hold{display:none}}

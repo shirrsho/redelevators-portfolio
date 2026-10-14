@@ -1,0 +1,11 @@
+/* Ported from redesign-mockups/r3/service.html (#ba rules). The two columns reuse the shared
+   .ba / .col styles (sections.css); this only adds the staggered "With it" items. */
+.cols :global(.after li){opacity:.35;transform:translateX(-6px);transition:opacity .4s,transform .5s var(--ease)}
+.cols.flipped :global(.after li){opacity:1;transform:none}
+.cols.flipped :global(.after li:nth-child(2)){transition-delay:.12s}
+.cols.flipped :global(.after li:nth-child(3)){transition-delay:.24s}
+.cols.flipped :global(.after li:nth-child(4)){transition-delay:.36s}
+.cols.flipped :global(.after li:nth-child(5)){transition-delay:.48s}
+@media (prefers-reduced-motion: reduce){
+  .cols :global(.after li){transition:none}
+}

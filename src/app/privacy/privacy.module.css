@@ -1,0 +1,28 @@
+/* Ported from redesign-mockups/r3/privacy.html <style>. Scoped under .privacy (the <main>). */
+.privacy :global(.pv-hero){padding:130px 0 50px}
+.privacy :global(.pv-hero .lead){margin-top:18px}
+.privacy :global(.tldr){display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+.privacy :global(.tldr > div){border:1px solid var(--hair);border-radius:18px;padding:20px;background:var(--surface)}
+.privacy :global(.tldr h5){font-size:15px;font-weight:600;margin:20px 0 4px}
+.privacy :global(.tldr p){font-size:13.5px;color:var(--sub)}
+.privacy :global(.legal){padding:70px 0 110px}
+.privacy :global(.legal .lg){display:grid;grid-template-columns:240px minmax(0,1fr);gap:64px;align-items:start}
+.privacy :global(.toc){position:sticky;top:100px;display:grid;gap:2px}
+.privacy :global(.toc .mono){margin-bottom:8px}
+.privacy :global(.toc a){font-size:14px;color:var(--sub);padding:7px 10px;border-radius:8px;border-left:2px solid transparent}
+.privacy :global(.toc a:hover),.privacy :global(.toc a.on){color:var(--ink);background:var(--surface-2);border-left-color:var(--red-btn)}
+.privacy :global(.body){max-width:720px}
+.privacy :global(.body h2){font-family:var(--display);font-weight:500;font-size:28px;letter-spacing:-.02em;margin:48px 0 14px;scroll-margin-top:100px}
+.privacy :global(.body h2:first-child){margin-top:0}
+.privacy :global(.body p),.privacy :global(.body li){font-size:16px;line-height:1.7;color:var(--sub)}
+.privacy :global(.body p + p){margin-top:12px}
+.privacy :global(.body ul){padding-left:20px;display:grid;gap:8px;margin-top:10px}
+.privacy :global(.body b){color:var(--ink);font-weight:600}
+.privacy :global(.body table){width:100%;border-collapse:collapse;margin-top:14px;font-size:14.5px}
+.privacy :global(.body th),.privacy :global(.body td){text-align:left;padding:12px 10px;border-bottom:1px solid var(--hair);vertical-align:top}
+.privacy :global(.body th){font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.06em;color:var(--dim)}
+.privacy :global(.body td){color:var(--sub)}.privacy :global(.body td:first-child){color:var(--ink);font-weight:500}
+.privacy :global(.todo){display:inline-block;font-family:var(--mono);font-size:12px;padding:2px 7px;border-radius:6px;background:rgba(232,163,61,.14);color:#b46d0c;border:1px dashed rgba(194,122,18,.45)}
+.privacy :global(.draft){display:flex;gap:10px;align-items:flex-start;font-size:14px;border:1px dashed rgba(232,163,61,.45);border-radius:14px;padding:14px 16px;color:var(--amber);margin-top:26px;max-width:720px}
+.privacy :global(.draft svg){width:18px;height:18px;flex:0 0 auto;margin-top:2px}
+@media (max-width:900px){.privacy :global(.tldr){grid-template-columns:1fr 1fr}.privacy :global(.legal .lg){grid-template-columns:minmax(0,1fr)}.privacy :global(.toc){position:static;grid-template-columns:1fr 1fr}}

@@ -1,23 +1,27 @@
-// SKELETON (Stage 1). Owned by Track A: build per docs/redesign/ROUTES-AND-CONTENT.md →
-// /services/[slug] (mockup: redesign-mockups/r3/service.html). "How it runs" is Track B's
-// SystemPlayer, fixed to this service.
+// Track A · /services/[slug] (mockup: redesign-mockups/r3/service.html). "How it runs" is
+// Track B's SystemPlayer, fixed to this service.
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { EVENTS } from "@/lib/analytics";
 import { breadcrumbLd, pageMetadata } from "@/lib/seo";
 import { PILLAR_LABEL, SERVICES, SERVICE_SLUGS, getService } from "@/lib/services";
+import { ServiceCard } from "@/components/cards/ServiceCard";
+import { ServiceHero } from "@/components/devices/ServiceHero";
+import { AssistantDemo } from "@/components/interactive/AssistantDemo";
+import { BeforeAfter } from "@/components/interactive/BeforeAfter";
+import { SystemPlayer } from "@/components/interactive/SystemPlayer";
 import { CTABand } from "@/components/layout/CTABand";
 import { JsonLd } from "@/components/layout/JsonLd";
 import { PageBg } from "@/components/layout/PageBg";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionHead } from "@/components/layout/Section";
-import { SystemPlayer } from "@/components/interactive/SystemPlayer";
 import { Button } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Chip";
 import { FAQ } from "@/components/ui/FAQ";
-import { StubBox } from "@/components/ui/StubBox";
+import { Icon } from "@/components/ui/Icon";
 import { ToolPill } from "@/components/ui/ToolLogo";
+import styles from "./service.module.css";
 
 export const dynamicParams = false;
 
@@ -37,6 +41,9 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
   const s = getService(slug);
   if (!s) notFound();
   const pillar = PILLAR_LABEL[s.p];
+  const related = SERVICES.filter((x) => x.p === s.p && x.slug !== s.slug);
+  const prev = SERVICES[(s.idx + SERVICES.length - 1) % SERVICES.length];
+  const next = SERVICES[(s.idx + 1) % SERVICES.length];
 
   return (
     <>
@@ -59,15 +66,15 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         ]}
       />
       <main id="main" className="page">
-        <PageHero visual={<StubBox name={`ServiceHero ${s.hero}`} track="A" minHeight={480} style={{ width: "100%" }} />}>
+        <PageHero visual={<ServiceHero kind={s.hero} />}>
           <div className="crumb">
             <Link href="/services">Services</Link>
             <span>/</span>
             <span>{pillar}</span>
           </div>
-          <div className="pick">
+          <div className={styles.pick}>
             {SERVICES.map((x) => (
-              <Link key={x.slug} href={`/services/${x.slug}`} className={x.slug === s.slug ? "on" : undefined} aria-current={x.slug === s.slug ? "page" : undefined}>
+              <Link key={x.slug} href={`/services/${x.slug}`} className={x.slug === s.slug ? styles.on : undefined} aria-current={x.slug === s.slug ? "page" : undefined}>
                 {x.title}
               </Link>
             ))}
@@ -99,13 +106,12 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
         {(s.hero === "chat" || s.hero === "chat2") && (
           <section className="wrap section" style={{ paddingTop: 40 }}>
-            <StubBox name="AssistantDemo" track="A" minHeight={420} />
+            <AssistantDemo />
           </section>
         )}
 
         <section className="wrap section" style={{ paddingTop: 40 }}>
-          <SectionHead eyebrow="What changes" title="Same work. Nobody doing it by hand." aside={<span />} />
-          <StubBox name="BeforeAfter" track="A" minHeight={280} />
+          <BeforeAfter slug={s.slug} />
         </section>
 
         <section className="wrap section" id="how" style={{ paddingTop: 20 }}>
@@ -127,7 +133,17 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
         <section className="wrap section" style={{ paddingTop: 40 }}>
           <SectionHead eyebrow="What you get" title="Built, live and looked after." />
-          <StubBox name="GetsCard ×4" track="A" minHeight={180} />
+          <div className="gets">
+            {s.gets.map(([icon, title, text], i) => (
+              <div key={title} className={`rv d${i + 1}x`}>
+                <div className="ico-tile">
+                  <Icon name={icon} />
+                </div>
+                <h5>{title}</h5>
+                <p>{text}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
         <section className="wrap section" style={{ paddingTop: 20 }}>
@@ -136,8 +152,22 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         </section>
 
         <section className="wrap section" style={{ paddingTop: 20 }}>
-          <SectionHead eyebrow="Works well with" title={`More ${pillar.toLowerCase()} systems.`} />
-          <StubBox name="Related services + prev/next" track="A" minHeight={200} />
+          <SectionHead eyebrow="Works well with" title={`More ${s.p === "auto" ? "AI automation" : "marketing"} systems.`} />
+          <div className={styles.rel}>
+            {related.map((x) => (
+              <ServiceCard key={x.slug} slug={x.slug} location="related" />
+            ))}
+          </div>
+          <div className={styles.pnNav}>
+            <Link href={`/services/${prev.slug}`}>
+              <span className="mono">← Previous</span>
+              <b>{prev.title}</b>
+            </Link>
+            <Link href={`/services/${next.slug}`}>
+              <span className="mono">Next →</span>
+              <b>{next.title}</b>
+            </Link>
+          </div>
         </section>
 
         <CTABand
