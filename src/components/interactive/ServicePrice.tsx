@@ -2,7 +2,7 @@
 
 import { EVENTS } from "@/lib/analytics";
 import { useCurrency } from "@/lib/currency";
-import { FOUNDING, GUARANTEE_DAYS, INCLUDED_UNITS, RATES, UNIT_FEES, quote } from "@/lib/pricing";
+import { FOUNDING, INCLUDED_UNITS, RATES, UNIT_FEES, guaranteeFor, quote } from "@/lib/pricing";
 import type { ServiceSlug } from "@/lib/services";
 import { Button } from "@/components/ui/Button";
 import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
@@ -47,7 +47,7 @@ export function ServicePrice({ slug }: { slug: ServiceSlug }) {
           <b>
             <Price n={r.monthly[cur]} />
           </b>
-          <small>per month, no lock-in</small>
+          <small>{r.adMin ? "per month, 3-month minimum" : "per month, no lock-in"}</small>
         </div>
       </div>
       <ul className={styles.notes}>
@@ -57,7 +57,7 @@ export function ServicePrice({ slug }: { slug: ServiceSlug }) {
       </ul>
       <div className={styles.offers}>
         <p>
-          <Icon name="calendar" /> Live in {GUARANTEE_DAYS} days or your first month is free.
+          <Icon name="calendar" /> Live in {guaranteeFor([slug])} days or your first month is free.
         </p>
         {FOUNDING.open ? (
           <p>

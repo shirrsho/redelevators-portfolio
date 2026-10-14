@@ -29,6 +29,8 @@ export type Rate = {
   perUnit: boolean;
   /** Minimum monthly ad spend, paid by the client straight to Meta or Google. */
   adMin?: Money;
+  /** Launch guarantee when it is longer than GUARANTEE_DAYS (websites, full-funnel campaigns). */
+  guaranteeDays?: number;
 };
 
 /** The rate card (Pricing Playbook → Rate card). Each currency is set, not converted. */
@@ -46,12 +48,18 @@ export const RATES: Readonly<Record<ServiceSlug, Rate>> = {
   // Setup is per property; the local photographer is billed at cost on top.
   "photo-ad-creative": { setup: { usd: 450, aed: 1650, eur: 400 }, monthly: { usd: 390, aed: 1450, eur: 349 }, perUnit: false },
   // Monthly = the care plan.
-  "direct-booking-website": { setup: { usd: 1900, aed: 6950, eur: 1700 }, monthly: { usd: 99, aed: 360, eur: 89 }, perUnit: false },
+  "direct-booking-website": {
+    setup: { usd: 1900, aed: 6950, eur: 1700 },
+    monthly: { usd: 99, aed: 360, eur: 89 },
+    perUnit: false,
+    guaranteeDays: 30,
+  },
   "booking-campaigns": {
     setup: { usd: 1500, aed: 5500, eur: 1350 },
     monthly: { usd: 1800, aed: 6590, eur: 1590 },
     perUnit: false,
     adMin: { usd: 2500, aed: 9000, eur: 2250 },
+    guaranteeDays: 30,
   },
 };
 
@@ -73,6 +81,11 @@ export const bundleDiscount = (systems: number) => (systems >= 5 ? 0.15 : system
 /** Launch offers (Pricing Playbook → Offers). Set FOUNDING.open to false the day client 5 signs. */
 export const FOUNDING = { open: true, clients: 5, setupOff: 0.5 } as const;
 export const GUARANTEE_DAYS = 21;
+/** The guarantee for a set of systems: the longest of theirs (an empty plan gets GUARANTEE_DAYS). */
+export const guaranteeFor = (slugs: readonly ServiceSlug[]) =>
+  Math.max(GUARANTEE_DAYS, ...slugs.map((s) => RATES[s].guaranteeDays ?? GUARANTEE_DAYS));
+/** Websites and full-funnel campaigns (RATES[…].guaranteeDays). */
+export const GUARANTEE_DAYS_LONG = guaranteeFor(["direct-booking-website", "booking-campaigns"]);
 
 const roundMonthly = (n: number, cur: Currency) => {
   const r = Math.round(n / 10) * 10;

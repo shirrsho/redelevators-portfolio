@@ -1,4 +1,5 @@
 import type { IconName } from "./icons";
+import { GUARANTEE_DAYS, GUARANTEE_DAYS_LONG } from "./pricing";
 
 // Homepage chapters 05–08 content. Ported unchanged from redesign-mockups/r3/home.js.
 // (Chapter 05's eight cards use SERVICES: icon, viz, title and `short` match home.js SVC.)
@@ -27,7 +28,7 @@ export const ORBIT = {
 export const PROMISES: readonly (readonly [icon: IconName, title: string, text: string])[] = [
   ["lock", "Built in your accounts. You own it.", "Every workflow, login and line of data stays yours. Leave anytime, keep it all."],
   ["bolt", "Nothing new to learn", "Your team keeps the tools they already know."],
-  ["calendar", "Live in 21 days, guaranteed", "Or your first month is free. The clock only pauses while we wait on you."],
+  ["calendar", `Live in ${GUARANTEE_DAYS} days, guaranteed`, `Or your first month is free (${GUARANTEE_DAYS_LONG} days for websites and full-funnel campaigns). The clock only pauses while we wait on you.`],
   ["run", "We run it after launch", "Monitoring, fixes and a monthly summary. Swap a tool anytime."],
 ];
 
