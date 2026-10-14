@@ -64,9 +64,10 @@ export function Journey({ pinned = false }: JourneyProps) {
       track.style.transform = `translateX(${-f * max}px)`;
       show(f);
     };
-    let sizedW = 0;
+    let sizedW = 0, sizedH = 0;
     const size = () => {
       sizedW = innerWidth;
+      sizedH = innerHeight;
       const last = cards[cards.length - 1];
       max = Math.max(0, last.offsetLeft + last.offsetWidth - track.clientWidth);
       sec.style.height = `${innerHeight + max * 1.1 + innerHeight * 0.25}px`;
@@ -80,8 +81,8 @@ export function Journey({ pinned = false }: JourneyProps) {
     };
     addEventListener("scroll", update, { passive: true });
     // phone browsers resize the viewport when their toolbars slide in and out while you scroll;
-    // re-sizing the section then would jump the page, so only a width change counts
-    const onResize = () => innerWidth !== sizedW && size();
+    // re-sizing the section then would jump the page, so toolbar-sized height changes don't count
+    const onResize = () => (innerWidth !== sizedW || Math.abs(innerHeight - sizedH) > 160) && size();
     addEventListener("resize", onResize);
     root.addEventListener("click", onClick);
     size();

@@ -138,11 +138,12 @@
   .rail{bottom:5px;gap:10px}.rail button{font-size:0;gap:0;padding:11px 0}.rail button i{width:40px}
   /* added: the 2px bar alone is the whole button here; 11px padding gives a 24px tap target, and bottom 16 → 5 keeps the bars where they were */
 }
-/* short phones (SE and smaller): a smaller clock lifts the one-card stack clear of the hero copy */
-@media (max-width:760px) and (max-height:719px){
-  .phoneRig :global(.phone .clock){top:74px}
-  .phoneRig :global(.phone .clock .time){font-size:50px}
-  .phoneRig :global(.phone .stack){top:158px}
+/* short phones (.short, set by JS from the small viewport): a smaller clock lifts the one-card
+   stack clear of the hero copy */
+@media (max-width:760px){
+  .short .phoneRig :global(.phone .clock){top:74px}
+  .short .phoneRig :global(.phone .clock .time){font-size:50px}
+  .short .phoneRig :global(.phone .stack){top:158px}
 }
 
 /* =========================================================================

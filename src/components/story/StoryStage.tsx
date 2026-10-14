@@ -166,6 +166,7 @@ function StoryAnimated() {
     doneMask: 0,
     frames: 0,
     resume: true,
+    short: false,
   });
 
   const active = useInView(storyRef);
@@ -224,7 +225,13 @@ function StoryAnimated() {
     S.ps = S.p;
     const onResize = () => {
       S.lastKey = "";
+      // short phones (SE and smaller, most iPhones in Safari) fold the stack to one card, or it
+      // runs into the copy. Measured on <html> (the small viewport), not innerHeight: that grows
+      // and shrinks with the browser toolbar while you scroll and would flip the layout mid-story
+      S.short = innerWidth <= 760 && document.documentElement.clientHeight < 720;
+      tog(story, styles.short, S.short);
     };
+    onResize();
     const onMove = (e: PointerEvent) => {
       S.mx = e.clientX / innerWidth - 0.5;
       S.my = e.clientY / innerHeight - 0.5;
@@ -264,8 +271,7 @@ function StoryAnimated() {
       S.ps = S.p;
       S.lastKey = "";
     }
-    // short phones (SE and smaller) fold to one card, or the stack runs into the copy
-    const VIS = innerWidth > 760 ? VISIBLE.desktop : innerHeight < 720 ? 1 : VISIBLE.phone;
+    const VIS = innerWidth > 760 ? VISIBLE.desktop : S.short ? 1 : VISIBLE.phone;
     S.ps += (S.p - S.ps) * LERP;
     S.mxs += (S.mx - S.mxs) * 0.06;
     S.mys += (S.my - S.mys) * 0.06;
