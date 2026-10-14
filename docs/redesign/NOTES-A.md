@@ -29,7 +29,16 @@ Read `NOTES.md` first (the shared contract). Branch `redesign-2026-a`. **Status:
 - Analytics: service rows and cards send "Service click" (`location="services"` / `"related"` / `"home"`); tier buttons send "Book a call" with `location="pricing"` on /pricing and `location="home"` for Home's compact tiers, and the plan builder's button with `location="pricing"`; `Calculator used` and `Plan builder used` fire once on first input. Currency changes go through the shared toggle ("Currency change").
 
 ## Shared changes needed
-_None blocking. Suggestions for Stage 3:_
+**Integration (merged into `redesign-2026`, 14 Oct 2026, last of the four tracks):**
+- Applied 1: the layered-module exception is now in `NOTES.md` → CSS.
+- Deferred 2 (`SiteEffects` before hydration): only seen once, on a cold dev compile; changing reveal timing touches every track's pages. Revisit in the final QA if the warning shows up.
+- Deferred 3 (headings): owner decision, together with Track B's `h4` note; Home's compact tiers sit under ch.06's `h2`.
+- Deferred 4 (`→` glyph): same as Track B's note: none of the three fonts has it; the mockup falls back to the system font, the build to the metric fallback. Final integration.
+- Deferred 5 (`launch.json`): tooling, not site code. Next 16 also allows only one `next dev` per directory, so `redelevators-dev-integration` can't start while another dev server runs in the main checkout (one did, on port 3000; QA used it).
+- `StubBox` is now unused (the four Track A stubs are real): delete in the final integration.
+- **Home ch.06, mockup bug not ported:** home.html's story rule `.ln{position:absolute;opacity:0}` leaks onto the tiers' `.ln` line, so on the mockup's Home the tier description ("One system, set up and run for you.") is invisible and out of flow, and the tiers are 34px shorter. The build scopes the story CSS (Track D's module), so the line shows, as on `/pricing`. Kept.
+
+_Suggestions for Stage 3 (from the track):_
 
 1. **`NOTES.md` CSS section: some CSS Modules must be layered.** It says Modules are unlayered, so they beat everything. For the hero scenes that breaks the mockup's cascade: the 900px screen-card rules in `sections.css` (`.phero .visual .laptop :is(.con,.ibx,.site){position:relative}`) must beat the scene's own `position:absolute` by specificity, as they do in the mockup. Unlayered Module CSS beat them outright, so the inbox hero collapsed to 0px height at ≤900px. I fixed it locally: `serviceHero.module.css` puts its rules in `@layer components` and prefixes them with `:where(.scene)` (zero specificity). Tracks that port page CSS which shares selectors with `sections.css` / `devices.css` should do the same.
 2. **`SiteEffects` can add `.in` to `.rv` elements before React has hydrated the page**, which logs "A tree hydrated but some attributes of the server rendered HTML didn't match" (`rv` vs `rv in`). I saw it once on the first, cold-compile load of `/services` in dev; it did not happen on warm loads or in the production build (13 pages × 2 widths, scrolled end to end: no console messages). Low priority. A fix would be to start the reveal observer after hydration (for example after two animation frames).
