@@ -5,10 +5,9 @@ export const EMAIL = "contact@redelevators.com";
 export const LINKEDIN_URL = "https://www.linkedin.com/company/red-elevators";
 
 // ---- Booking (Cal.com, free plan, inline embed) --------------------------------------------
-// Owner creates the account and sends the event link (DECISIONS → still open, item 4).
-// Until then this is a placeholder; Track C renders the embed from it.
+// The owner's live event: https://cal.com/red-elevators/30min (set up 14 Oct 2026).
 export const CAL_LINK = "red-elevators/30min";
-export const CAL_LINK_IS_PLACEHOLDER = true;
+export const CAL_LINK_IS_PLACEHOLDER = false;
 /** Brand colour for the embed (the AA button red). */
 export const CAL_BRAND = "#E51E2B";
 
