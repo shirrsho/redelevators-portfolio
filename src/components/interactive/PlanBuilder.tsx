@@ -8,11 +8,14 @@ import { SERVICES } from "@/lib/services";
 import { Button } from "@/components/ui/Button";
 import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
 import { Icon } from "@/components/ui/Icon";
+import styles from "./planBuilder.module.css";
 
 /**
  * Plan builder: tick the systems you want → setup + monthly estimate (placeholder prices, 15%
  * off from three systems). Follows the page currency and has its own toggle. Fires
  * "Plan builder used" on the first tick. Mockup: site.js → mountBuilder, sections.css .builder.
+ * The checkboxes stay in the tab order (planBuilder.module.css); the mockup hides them with
+ * display:none.
  */
 export function PlanBuilder() {
   const { money, fx } = useCurrency();
@@ -38,8 +41,8 @@ export function PlanBuilder() {
     <div className="builder">
       <div className="picks">
         {SERVICES.map((s, i) => (
-          <label key={s.slug} className="pk">
-            <input type="checkbox" checked={on.includes(i)} onChange={() => toggle(i)} />
+          <label key={s.slug} className={`pk ${styles.row}`}>
+            <input type="checkbox" className={styles.input} checked={on.includes(i)} onChange={() => toggle(i)} />
             <span className="box">
               <Icon name="check" />
             </span>

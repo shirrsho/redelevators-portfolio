@@ -50,7 +50,7 @@ export function PricingTiers({ compact = false }: PricingTiersProps) {
               ))}
             </ul>
           )}
-          <Button href="/contact" variant={t.pop ? "primary" : "quiet"} event={EVENTS.bookCall} location="pricing">
+          <Button href="/contact" variant={t.pop ? "primary" : "quiet"} event={EVENTS.bookCall} location={compact ? "home" : "pricing"}>
             {t.i !== null ? "Start with a call" : "Talk to us"}
           </Button>
         </div>
