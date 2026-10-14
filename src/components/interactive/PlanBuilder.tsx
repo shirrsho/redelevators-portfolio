@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { EVENTS, track } from "@/lib/analytics";
 import { useCurrency } from "@/lib/currency";
-import { FOUNDING, GUARANTEE_DAYS, INCLUDED_UNITS, quote } from "@/lib/pricing";
+import { FOUNDING, INCLUDED_UNITS, guaranteeFor, quote } from "@/lib/pricing";
 import { SERVICES } from "@/lib/services";
 import { Button } from "@/components/ui/Button";
 import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
@@ -111,7 +111,7 @@ export function PlanBuilder() {
           Get a fixed quote
         </Button>
         <p className="mono">
-          Live in {GUARANTEE_DAYS} days or your first month is free. Prices exclude applicable taxes.
+          Live in {guaranteeFor(slugs)} days or your first month is free. Prices exclude applicable taxes.
         </p>
       </div>
     </div>

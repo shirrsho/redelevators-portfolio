@@ -14,7 +14,7 @@ import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
 import { FAQ } from "@/components/ui/FAQ";
 import { Icon } from "@/components/ui/Icon";
 import type { IconName } from "@/lib/icons";
-import { FOUNDING, GUARANTEE_DAYS, INCLUDED_UNITS, RATES, UNIT_FEES, formatMoney, type Money } from "@/lib/pricing";
+import { FOUNDING, GUARANTEE_DAYS, GUARANTEE_DAYS_LONG, INCLUDED_UNITS, RATES, UNIT_FEES, formatMoney, type Money } from "@/lib/pricing";
 
 /** "$1,000 (AED 3,500, €900)": a rate-card amount in all three currencies, for static copy. */
 const all3 = (m: Money) => `${formatMoney(m.usd, "usd")} (${formatMoney(m.aed, "aed")}, ${formatMoney(m.eur, "eur")})`;
@@ -31,7 +31,7 @@ const INCLUDED: readonly (readonly [IconName, string, string])[] = [
   ["lock", "You own everything", "Built in your accounts. Leave anytime, keep it all."],
   ["bolt", "No new software", "We work inside the tools you already use."],
   ["run", "We run it after launch", "Monitoring, fixes and a monthly summary."],
-  ["calendar", `Live in ${GUARANTEE_DAYS} days, guaranteed`, "Or your first month is free. The clock only pauses while we wait on you."],
+  ["calendar", `Live in ${GUARANTEE_DAYS} days, guaranteed`, `Or your first month is free (${GUARANTEE_DAYS_LONG} days for websites and full-funnel campaigns). The clock only pauses while we wait on you.`],
 ];
 
 const PRICING_FAQ: readonly (readonly [string, string])[] = [
@@ -40,7 +40,7 @@ const PRICING_FAQ: readonly (readonly [string, string])[] = [
   ["Do you charge per property?", `A plan covers up to ${INCLUDED_UNITS} units. Above that, plans with an AI Automation system add ${all3(UNIT_FEES.upTo30)} a unit each month up to 30 units, then ${all3(UNIT_FEES.above30)}. Marketing systems are flat.`],
   ["Is ad spend included?", `No. Ad spend goes straight to Meta or Google from your own account. Our fee covers building and managing the campaigns. We ask for at least ${all3(RATES["paid-social"].adMin!)} a month so campaigns can learn.`],
   ["Is there a contract?", "No lock-in. Monthly fees run month to month with 30 days’ notice. Ads are the one exception: they run for 3 months minimum, because campaigns need that long to learn."],
-  ["How does the launch guarantee work?", `If your system isn’t live within ${GUARANTEE_DAYS} days of kickoff, your first month is free. Kickoff is when the setup deposit, access and onboarding answers are in. If we’re waiting on you or a platform review, the clock pauses, and we tell you in writing. Websites and full-funnel campaigns get 30 days.`],
+  ["How does the launch guarantee work?", `If your system isn’t live within ${GUARANTEE_DAYS} days of kickoff, your first month is free. Kickoff is when the setup deposit, access and onboarding answers are in. If we’re waiting on you or a platform review, the clock pauses, and we tell you in writing. Websites and full-funnel campaigns get ${GUARANTEE_DAYS_LONG} days.`],
   ["How do I pay?", "Half the setup fee when you sign, half at launch. The monthly fee starts on launch day, invoiced in advance."],
   ["Why a setup fee?", "It covers the audit, the design and the build inside your tools. That’s why the monthly fee needs no lock-in: it covers running, monitoring and improving the system."],
   ["Can I start with just one system?", "Yes. Most owners start with guest messaging or direct bookings and add more once it’s paying off. Three or more systems get a 10% bundle saving, five or more 15%."],
@@ -87,8 +87,8 @@ export default function PricingPage() {
           <h2 className="sr-only">Plans</h2>
           <PricingTiers />
           <p className="mono" style={{ marginTop: 18 }}>
-            Prices exclude applicable taxes. Ad spend and your own software subscriptions are paid directly. Live in {GUARANTEE_DAYS} days or your
-            first month is free.
+            Prices exclude applicable taxes. Ad spend and your own software subscriptions are paid directly. Live in {GUARANTEE_DAYS} days ({GUARANTEE_DAYS_LONG} for
+            websites and full-funnel campaigns) or your first month is free.
           </p>
         </section>
 
