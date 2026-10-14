@@ -114,12 +114,9 @@ export default function Home() {
             <div className="rv" style={{ marginBottom: 56 }}>
               <Calendar3Week linkId="time" />
             </div>
-            <div className="weeks linked" id="time">
-              <div className="line">
-                <i />
-              </div>
+            <ol className="weeks" id="time">
               {WEEKS.map(([icon, when, title, text, you], i) => (
-                <div key={title} className={`wk rv d${i + 1}x`} data-phase={WEEK_PHASES[i]}>
+                <li key={title} className={`wk rv d${i + 1}x`} data-phase={WEEK_PHASES[i]}>
                   <div className="ico-tile">
                     <Icon name={icon} />
                   </div>
@@ -127,9 +124,9 @@ export default function Home() {
                   <h4>{title}</h4>
                   <p>{text}</p>
                   <Chip>{you}</Chip>
-                </div>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         </section>
 

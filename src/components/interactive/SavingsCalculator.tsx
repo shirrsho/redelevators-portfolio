@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { EVENTS, track } from "@/lib/analytics";
 import { useCurrency } from "@/lib/currency";
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
@@ -131,11 +131,11 @@ export function SavingsCalculator() {
         <div className="week">
           <span className="mono">YOUR MONTH, IN HOURS OF ADMIN</span>
           <div className="wb">
-            <i style={{ width: "100%" }} />
+            <i />
             <em>now</em>
           </div>
           <div className="wb">
-            <i className="after" style={{ width: `${afterPct}%` }} />
+            <i className="after" style={{ "--w": `${afterPct}%` } as CSSProperties} />
             <em>with the system</em>
           </div>
         </div>
