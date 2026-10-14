@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pricing · Red Elevators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base.css?v=35"><link rel="stylesheet" href="/assets/devices.css?v=35"><link rel="stylesheet" href="/assets/sections.css?v=35"><link rel="stylesheet" href="/assets/themes.css?v=35">
+<script src="/assets/theme.js?v=35"></script>
+<style>:root{--bg:#141312}.note-ph{display:inline-flex;gap:8px;align-items:center;font-size:13px;color:var(--amber);border:1px dashed rgba(232,163,61,.45);border-radius:10px;padding:8px 12px;margin-top:22px}</style>
+</head>
+<body data-page="pricing">
+<div id="site-nav"></div>
+<main class="page">
+  <section class="wrap phero short">
+    <div class="rv">
+      <div class="eyebrow"><i></i>Pricing</div>
+      <h1 class="d1" style="margin-top:22px">Clear prices.<br>No surprises.</h1>
+      <p class="lead">Start with one system or run the lot. These are starting points; the audit call gives you a fixed quote before any work begins.</p>
+      <span class="note-ph">${'⚑'} Placeholder prices for review. You set the real ones.</span>
+      <div id="curHero" style="margin-top:18px"></div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:40px"><div id="tiers"></div></section>
+
+  <section class="wrap section" style="padding-top:80px">
+    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>Build your own</div><h2 class="d2" style="margin-top:18px">Pick the systems you want.</h2></div><p class="small rv" style="max-width:320px">Tick what you need and see a starting estimate instantly.</p></div>
+    <div id="builder" class="rv"></div>
+  </section>
+
+  <section class="wrap section" style="padding-top:20px">
+    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>Worth it?</div><h2 class="d2" style="margin-top:18px">What would you get back?</h2></div><p class="small rv" style="max-width:320px">Move the sliders to match your business.</p></div>
+    <div id="calc" class="rv"></div>
+  </section>
+
+  <section class="wrap section" style="padding-top:20px">
+    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>Always included</div><h2 class="d2" style="margin-top:18px">Whatever you choose.</h2></div></div>
+    <div class="gets" id="incl"></div>
+  </section>
+
+  <section class="wrap section" style="padding-top:20px">
+    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>Questions</div><h2 class="d2" style="margin-top:18px">About pricing.</h2></div></div>
+    <div class="faq rv" id="faq"></div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:120px" id="cta"></section>
+</main>
+<div id="site-foot"></div>
+<script src="/assets/logos.js?v=35"></script><script src="/assets/icons.js?v=35"></script><script src="/assets/site.js?v=35"></script>
+<script>
+const { mountPricing, mountBuilder, mountCalc, band, reveal, $ } = SITE;
+document.querySelector('.note-ph').innerHTML = `${ico('alert')} Placeholder prices for review. You set the real ones.`;
+document.querySelector('.note-ph svg').style.cssText = 'width:16px;height:16px';
+$('#curHero').innerHTML = SITE.curToggle();
+mountPricing($('#tiers')); mountBuilder($('#builder')); mountCalc($('#calc'));
+$('#incl').innerHTML = [['lock', 'You own everything', 'Built in your accounts. Leave anytime, keep it all.'], ['bolt', 'No new software', 'We work inside the tools you already use.'], ['run', 'We run it after launch', 'Monitoring, fixes and a monthly summary.'], ['calendar', 'Live in 2–3 weeks', 'From first call to a running system.']]
+  .map((g, i) => `<div class="rv d${i + 1}x"><div class="ico-tile">${ico(g[0])}</div><h5>${g[1]}</h5><p>${g[2]}</p></div>`).join('');
+$('#faq').innerHTML = [['Which currency do you invoice in?', 'US dollars, UAE dirhams or euros. Switch at the top of this page; you’re invoiced in the one you choose.'], ['Is ad spend included?', 'No. Ad spend goes straight to Meta or Google from your own account. Our fee covers building and managing the campaigns.'], ['Is there a contract?', 'Monthly, with 30 days’ notice. (Placeholder: set your real terms.)'], ['Can I start with just one system?', 'Yes. Most owners start with guest messaging or direct bookings and add more once it’s paying off.'], ['Why a setup fee?', 'It covers the audit, the design and the build inside your tools. The monthly fee covers running, monitoring and improving it.']]
+  .map((f, i) => `<details${i === 0 ? ' open' : ''}><summary>${f[0]}<i>+</i></summary><p>${f[1]}</p></details>`).join('');
+$('#cta').innerHTML = band('Get your fixed quote.', 'A free 30-minute call. We’ll scope it with you and send a price in writing.');
+reveal();
+</script>
+</body>
+</html>

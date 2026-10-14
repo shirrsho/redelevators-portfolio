@@ -1,303 +1,158 @@
+/* ==========================================================================
+   Red Elevators — global styles (Stage 1 foundation, FROZEN for the parallel tracks).
+   Need a change here? Write it in docs/redesign/NOTES-<track>.md → "Shared changes needed".
+
+   Order of the cascade:
+     1. Tailwind preflight (layer base)
+     2. The mockup's design system, ported verbatim from redesign-mockups/r3/ (layer components):
+        base.css (tokens, type, buttons, chips, nav, sheet, reveal), devices.css (phone, laptop,
+        notifications, bubbles), sections.css (every shared section and widget), aurora.css
+        (the chosen Aurora colour layer + .light paper).
+     3. Tailwind utilities (layer utilities): they beat the mockup classes when both apply.
+     4. CSS Modules (unlayered): page/component-specific CSS from the tracks wins over all.
+   Mockup class names (.btn, .chip, .phero, .n, .bub…) are global: use them as-is.
+   ========================================================================== */
 @import "tailwindcss";
+@import "../styles/base.css" layer(components);
+@import "../styles/devices.css" layer(components);
+@import "../styles/sections.css" layer(components);
+@import "../styles/aurora.css" layer(components);
 
-@theme {
-  /* Brand palette — light theme */
-  --color-red: #ff2d3b;
-  --color-red-hover: #e51e2b;
-  --color-red-soft: #ff6b74;
-  /* Text-only tone of red for text below 24px, where #ff2d3b fails AA
-     (3.69:1 on Paper). #ff2d3b stays the fill everywhere else — buttons,
-     the mark, dots, bars, rails, large numerals. A11Y-1. */
-  --color-red-text: #e2101e;
-  /* CTA panel ground only, one step darker than the brand red so solid
-     white text on it clears AA (4.51:1). A11Y-2. */
-  --color-red-panel: #ea1826;
-  --color-ink: #17171b;
-  --color-ink-soft: #45454d;
-  --color-muted: #71717b;
-  --color-line: #ececee;
-  --color-paper: #ffffff;
-  --color-cream: #f8f7f5;
-  --color-cream-2: #f2f1ee;
+/* ---- Tokens as Tailwind utilities (bg-night, text-sub, border-hair, font-display…) ---------
+   `inline` so utilities follow the live CSS variables (e.g. inside a .light section). */
+@theme inline {
+  --color-night: var(--night);
+  --color-dawn: var(--dawn);
+  --color-day: var(--day);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-sub: var(--sub);
+  --color-dim: var(--dim);
+  --color-hair: var(--hair);
+  --color-hair-2: var(--hair-2);
+  --color-red: var(--red);
+  --color-red-btn: var(--red-btn);
+  --color-amber: var(--amber);
+  --color-green: var(--green);
+  --color-auto: var(--auto);
+  --color-mkt: var(--mkt);
 
-  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-mono), ui-monospace, monospace;
+  --font-display: var(--display);
+  --font-sans: var(--sans);
+  --font-mono: var(--mono);
 
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-brand: var(--ease);
+  --container-content: var(--max);
 }
 
-/* Element defaults. Layered so every Tailwind utility (emitted in the
-   `utilities` layer, which always wins regardless of specificity) can
-   override them — see The Layered Heading Rule in DESIGN.md / audit
-   finding F1. `prefers-reduced-motion` below stays unlayered on purpose. */
-@layer base {
+/* The mockup's breakpoints are max-width (inclusive). Use these instead of sm/md/lg:
+   bp1100: (player, booking stage collapse) · bp900: (nav → sheet, heroes stack, screen cards)
+   bp860: (player mobile mode) · bp760: (phone layouts). */
+@custom-variant bp1100 (@media (max-width: 1100px));
+@custom-variant bp900 (@media (max-width: 900px));
+@custom-variant bp860 (@media (max-width: 860px));
+@custom-variant bp760 (@media (max-width: 760px));
+
+/* ---- Site additions (not in the mockup) ------------------------------------------------------ */
+@layer components {
   :root {
-    color-scheme: light;
+    color-scheme: dark;
   }
 
-  * {
-    box-sizing: border-box;
-  }
-
-  html {
-    scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  body {
-    background: var(--color-paper);
-    color: var(--color-ink);
-    font-family: var(--font-sans);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  ::selection {
-    background: var(--color-red);
-    color: #fff;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-display);
-    letter-spacing: -0.03em;
-    line-height: 1.02;
-    font-weight: 600;
-  }
-
-  /* The Visible Focus Rule (DESIGN.md). One outline style everywhere,
-     flipped to white on the two dark grounds so it survives all four:
-     Paper, Chalk, Graphite, and the red CTA panel. Non-text UI-component
-     contrast only needs 3:1 (WCAG 1.4.11), which the brand red clears on
-     every ground — unlike as small text, see The Contrast Floor Rule. */
+  /* Visible keyboard focus everywhere (the mockup has none). */
   :focus-visible {
-    outline: 2px solid var(--color-red);
+    outline: 2px solid var(--ink);
     outline-offset: 3px;
-    border-radius: 4px;
   }
-
-  #process :focus-visible,
-  #contact :focus-visible {
+  .btn.primary:focus-visible,
+  .nav .book:focus-visible {
     outline-color: #fff;
   }
-}
 
-@layer components {
-  .font-mono-label {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--color-red-text);
+  /* Skip link (first tab stop). */
+  .skip-link {
+    position: fixed;
+    z-index: 80;
+    left: 16px;
+    top: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: #111;
+    font-size: 14px;
     font-weight: 500;
+    translate: 0 -200%;
+    transition: translate 0.2s;
   }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-cream);
-}
-::-webkit-scrollbar-thumb {
-  background: #d9d9dd;
-  border-radius: 999px;
-  border: 2px solid var(--color-cream);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-red-soft);
-}
-
-@layer components {
-  /* Grid backdrop */
-  .grid-bg {
-    background-image: linear-gradient(
-        to right,
-        rgba(23, 23, 27, 0.045) 1px,
-        transparent 1px
-      ),
-      linear-gradient(to bottom, rgba(23, 23, 27, 0.045) 1px, transparent 1px);
-    background-size: 64px 64px;
-    -webkit-mask-image: radial-gradient(
-      ellipse 80% 60% at 50% 0%,
-      #000 30%,
-      transparent 75%
-    );
-    mask-image: radial-gradient(
-      ellipse 80% 60% at 50% 0%,
-      #000 30%,
-      transparent 75%
-    );
+  .skip-link:focus {
+    translate: none;
   }
 
-  .dot-bg {
-    background-image: radial-gradient(rgba(23, 23, 27, 0.08) 1px, transparent 1px);
-    background-size: 22px 22px;
+  /* Footer column headings are h2 for the outline; same look as the mockup's h6. */
+  .fgrid h2 {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--dim);
+    margin-bottom: 14px;
   }
 
-  /* Aurora blobs */
-  .aurora {
+  /* "Copied to clipboard" under an EmailLink. */
+  .email-copied {
     position: absolute;
-    border-radius: 999px;
-    filter: blur(70px);
-    opacity: 0.55;
-    animation: drift 16s ease-in-out infinite;
+    left: 0;
+    top: 100%;
+    margin-top: 6px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: var(--ink);
+    color: #111;
+    font-size: 12px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .email-copied:empty {
+    display: none;
+  }
+  .email-copied[data-on] {
+    opacity: 1;
   }
 
-  /* Marquee */
-  .marquee-track {
-    display: flex;
-    width: max-content;
-    animation: marquee 32s linear infinite;
+  /* Tabular numerals for counters and prices. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
   }
-  .marquee:hover .marquee-track {
-    animation-play-state: paused;
+
+  /* Inner-page heroes reveal on first paint with CSS instead of waiting for SiteEffects to add
+     `.in` after hydration: the H1 is the LCP element, and the JS-gated reveal held it at opacity 0
+     until the bundle ran (Stage 3 Lighthouse). Same rise, durations, easing and stagger as `.rv`;
+     the fill keeps the end state, so the later `.in` changes nothing. Reduced motion: base.css
+     turns animations off and shows `.rv`. */
+  .phero > .rv {
+    animation: hero-rv 1s var(--ease) both;
+  }
+  .phero > .rv.d2x {
+    animation-delay: 0.16s;
   }
 }
 
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
+/* Starts at .01, not 0: Chrome skips an element whose first paint is fully transparent as an LCP
+   candidate, so the H1 would only count once some later, JS-driven element painted. */
+@keyframes hero-rv {
+  from {
+    opacity: 0.01;
+    transform: translateY(24px);
   }
-  33% {
-    transform: translate(40px, -30px) scale(1.12);
+  90% {
+    opacity: 1;
   }
-  66% {
-    transform: translate(-30px, 20px) scale(0.94);
-  }
-}
-
-@keyframes marquee {
   to {
-    transform: translateX(-50%);
-  }
-}
-
-/* Rising particles in the mark */
-@keyframes rise {
-  0% {
-    transform: translateY(6px);
-    opacity: 0;
-  }
-  30% {
     opacity: 1;
-  }
-  100% {
-    transform: translateY(-14px);
-    opacity: 0;
-  }
-}
-
-/* System Anatomy — a pulse travelling the wire, and each node lighting as it
-   arrives. Pure CSS so the diagram never depends on JavaScript; the global
-   reduced-motion block below collapses both animations to their resting state. */
-@keyframes anat-travel-y {
-  0% {
-    opacity: 0;
-    transform: translateY(-13px);
-  }
-  4% {
-    opacity: 1;
-  }
-  11% {
-    opacity: 1;
-    transform: translateY(13px);
-  }
-  13%,
-  100% {
-    opacity: 0;
-    transform: translateY(13px);
-  }
-}
-@keyframes anat-travel-x {
-  0% {
-    opacity: 0;
-    transform: translateX(-16px);
-  }
-  4% {
-    opacity: 1;
-  }
-  11% {
-    opacity: 1;
-    transform: translateX(16px);
-  }
-  13%,
-  100% {
-    opacity: 0;
-    transform: translateX(16px);
-  }
-}
-@keyframes anat-light {
-  0%,
-  2% {
-    border-color: var(--color-line);
-  }
-  5%,
-  12% {
-    border-color: var(--color-red);
-    box-shadow: 0 6px 18px -10px rgba(255, 45, 59, 0.5);
-  }
-  18%,
-  100% {
-    border-color: var(--color-line);
-    box-shadow: none;
-  }
-}
-@layer components {
-  .anat-dot {
-    animation: anat-travel-y 5.4s linear infinite;
-    animation-delay: calc(var(--i) * 0.6s);
-  }
-  .anat-node {
-    animation: anat-light 5.4s linear infinite;
-    animation-delay: calc(var(--i) * 0.6s);
-  }
-  @media (min-width: 1024px) {
-    .anat-dot {
-      animation-name: anat-travel-x;
-    }
-  }
-
-  /* Gradient text */
-  .text-gradient {
-    background: linear-gradient(120deg, var(--color-ink) 30%, var(--color-red));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .shadow-soft {
-    box-shadow: 0 1px 2px rgba(23, 23, 27, 0.04),
-      0 12px 32px -12px rgba(23, 23, 27, 0.12);
-  }
-  .shadow-lift {
-    box-shadow: 0 1px 2px rgba(23, 23, 27, 0.05),
-      0 24px 60px -20px rgba(23, 23, 27, 0.18);
-  }
-  .shadow-red {
-    box-shadow: 0 10px 30px -8px rgba(255, 45, 59, 0.45);
-  }
-}
-
-/* Animated conic ring */
-@keyframes spin-slow {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
+    transform: none;
   }
 }

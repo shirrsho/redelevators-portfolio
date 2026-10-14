@@ -16,6 +16,8 @@ const eslintConfig = defineConfig([
     // scripts produced ~94 warnings that no one can or should act on.
     ".claude/**",
     ".impeccable/**",
+    // Design mockups (static HTML/JS), the source of truth for the redesign, not app code.
+    "redesign-mockups/**",
   ]),
 ]);
 

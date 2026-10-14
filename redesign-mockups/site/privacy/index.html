@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacy · Red Elevators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base.css?v=35"><link rel="stylesheet" href="/assets/devices.css?v=35"><link rel="stylesheet" href="/assets/sections.css?v=35"><link rel="stylesheet" href="/assets/themes.css?v=35">
+<script src="/assets/theme.js?v=35"></script>
+<style>
+:root{--bg:#0a0b14}
+.pv-hero{padding:130px 0 50px}
+.pv-hero .lead{margin-top:18px}
+.tldr{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+.tldr > div{border:1px solid var(--hair);border-radius:18px;padding:20px;background:var(--surface)}
+.tldr h5{font-size:15px;font-weight:600;margin:20px 0 4px}
+.tldr p{font-size:13.5px;color:var(--sub)}
+.legal{padding:70px 0 110px}
+.legal .lg{display:grid;grid-template-columns:240px minmax(0,1fr);gap:64px;align-items:start}
+.toc{position:sticky;top:100px;display:grid;gap:2px}
+.toc .mono{margin-bottom:8px}
+.toc a{font-size:14px;color:var(--sub);padding:7px 10px;border-radius:8px;border-left:2px solid transparent}
+.toc a:hover,.toc a.on{color:var(--ink);background:var(--surface-2);border-left-color:var(--red-btn)}
+.body{max-width:720px}
+.body h2{font-family:var(--display);font-weight:500;font-size:28px;letter-spacing:-.02em;margin:48px 0 14px;scroll-margin-top:100px}
+.body h2:first-child{margin-top:0}
+.body p,.body li{font-size:16px;line-height:1.7;color:var(--sub)}
+.body p + p{margin-top:12px}
+.body ul{padding-left:20px;display:grid;gap:8px;margin-top:10px}
+.body b{color:var(--ink);font-weight:600}
+.body table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14.5px}
+.body th,.body td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--hair);vertical-align:top}
+.body th{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.06em;color:var(--dim)}
+.body td{color:var(--sub)}.body td:first-child{color:var(--ink);font-weight:500}
+.todo{display:inline-block;font-family:var(--mono);font-size:12px;padding:2px 7px;border-radius:6px;background:rgba(232,163,61,.14);color:#b46d0c;border:1px dashed rgba(194,122,18,.45)}
+.draft{display:flex;gap:10px;align-items:flex-start;font-size:14px;border:1px dashed rgba(232,163,61,.45);border-radius:14px;padding:14px 16px;color:var(--amber);margin-top:26px;max-width:720px}
+.draft svg{width:18px;height:18px;flex:0 0 auto;margin-top:2px}
+@media (max-width:900px){.tldr{grid-template-columns:1fr 1fr}.legal .lg{grid-template-columns:minmax(0,1fr)}.toc{position:static;grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body data-page="">
+<div id="site-nav"></div>
+<main class="page">
+  <section class="wrap pv-hero">
+    <div class="rv">
+      <div class="eyebrow"><i></i>Privacy</div>
+      <h1 class="d1" style="margin-top:20px">Your data, in plain English.</h1>
+      <p class="lead">What we collect, why, who sees it and how to get it deleted. Last updated October 14, 2026.</p>
+      <div class="draft" id="draft"></div>
+    </div>
+    <div class="tldr" id="tldr"></div>
+  </section>
+
+  <section class="light legal" data-night>
+    <div class="wrap lg">
+      <nav class="toc" id="toc"><span class="mono">ON THIS PAGE</span></nav>
+      <article class="body" id="body">
+        <h2 id="who">Who we are</h2>
+        <p><b>Red Elevators</b> builds and runs automation and marketing systems for short-term rental businesses. In this policy, “we” means Red Elevators, <span class="todo">registered company name and address</span>. You can reach us about anything here at <a href="mailto:contact@redelevators.com"><b>contact@redelevators.com</b></a>.</p>
+
+        <h2 id="collect">What we collect, and why</h2>
+        <table>
+          <tr><th>WHEN</th><th>WHAT</th><th>WHY</th></tr>
+          <tr><td>You book a call</td><td>Name, email, number of units, your notes, the time you pick</td><td>To hold the call and prepare for it</td></tr>
+          <tr><td>You message us on WhatsApp or by email</td><td>Your number or address and what you write</td><td>To reply to you</td></tr>
+          <tr><td>You browse the site</td><td>Anonymous page views (no cookies, no personal data)</td><td>To see which pages help, using Umami analytics</td></tr>
+          <tr><td>You try the assistant demo</td><td>Nothing. The demo runs in your browser</td><td>So you can try it safely <span class="todo">confirm if a live AI is used</span></td></tr>
+        </table>
+        <p style="margin-top:14px">We don’t buy data, we don’t run advertising trackers on this site, and we don’t sell or rent your information to anyone.</p>
+
+        <h2 id="share">Who else sees it</h2>
+        <p>Only the services that make the above work:</p>
+        <ul>
+          <li><b>Cal.com</b> runs our booking calendar.</li>
+          <li><b>Google</b> sends the calendar invite and hosts the Meet video call.</li>
+          <li><b>WhatsApp (Meta)</b> carries messages if you choose to chat there.</li>
+          <li><b>Our email provider</b> <span class="todo">name it</span> stores emails you send us.</li>
+          <li><b>Umami</b> counts anonymous page views.</li>
+        </ul>
+        <p>Each of these processes data under its own privacy policy. Some are based outside your country, including the United States.</p>
+
+        <h2 id="keep">How long we keep it</h2>
+        <p>Booking details and messages are kept for up to <b>24 months</b> after we last spoke, then deleted, unless you become a client, in which case they’re kept for as long as we work together and as the law requires for records. <span class="todo">confirm retention period</span></p>
+
+        <h2 id="rights">Your rights</h2>
+        <p>Wherever you are, you can ask us to <b>show you</b> what we hold, <b>correct</b> it, or <b>delete</b> it. Email us and we’ll respond within 30 days.</p>
+        <ul>
+          <li><b>United States (including California, CCPA/CPRA):</b> you have the right to know, delete and correct your personal information, and to opt out of its sale or sharing. We don’t sell or share it for advertising.</li>
+          <li><b>United Arab Emirates (PDPL):</b> you can access, correct and erase your data, restrict how it’s used, and object to processing.</li>
+          <li><b>EU and UK visitors (GDPR):</b> you also have the right to data portability and to complain to your local data protection authority.</li>
+        </ul>
+
+        <h2 id="cookies">Cookies</h2>
+        <p>This site doesn’t use tracking or advertising cookies. Our analytics are cookie-free. The booking calendar (Cal.com) may set cookies it needs to work while you book.</p>
+
+        <h2 id="security">Security</h2>
+        <p>We use reputable providers, keep access to client data limited to the people working on it, and build client systems inside the client’s own accounts so their data stays theirs.</p>
+
+        <h2 id="changes">Changes and contact</h2>
+        <p>If we change this policy, we’ll update the date at the top. Questions or requests: <a href="mailto:contact@redelevators.com"><b>contact@redelevators.com</b></a>.</p>
+      </article>
+    </div>
+  </section>
+</main>
+<div id="site-foot"></div>
+<script src="/assets/logos.js?v=35"></script><script src="/assets/icons.js?v=35"></script><script src="/assets/site.js?v=35"></script>
+<script>
+const { reveal, $, $$ } = SITE;
+$('#draft').innerHTML = `${ico('alert')}<span>Draft for review. This is a plain-English starting point, not legal advice. Have it checked before launch and fill in the highlighted items.</span>`;
+$('#tldr').innerHTML = [['calendar', 'Only what we need', 'Booking details and the messages you send us.'], ['lock', 'Never sold', 'No data brokers, no ad trackers.'], ['audit', 'Cookie-free analytics', 'Anonymous page counts only.'], ['check', 'Yours to delete', 'Email us and it’s gone within 30 days.']]
+  .map((t, i) => `<div class="rv d${i + 1}x"><div class="ico-tile">${ico(t[0])}</div><h5>${t[1]}</h5><p>${t[2]}</p></div>`).join('');
+const hs = $$('#body h2');
+$('#toc').insertAdjacentHTML('beforeend', hs.map(h => `<a href="#${h.id}">${h.textContent}</a>`).join(''));
+const links = $$('#toc a');
+addEventListener('scroll', () => { let cur = hs[0]; hs.forEach(h => { if (h.getBoundingClientRect().top < 160) cur = h; }); links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + cur.id)); }, { passive: true });
+reveal();
+</script>
+</body>
+</html>

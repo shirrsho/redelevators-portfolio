@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Book a call · Red Elevators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css?v=35"><link rel="stylesheet" href="devices.css?v=35"><link rel="stylesheet" href="sections.css?v=35"><link rel="stylesheet" href="themes.css?v=35">
+<script src="theme.js?v=35"></script>
+<style>
+:root{--bg:#0a0b14}
+/* 1 · intro */
+.c-intro{padding:120px 0 40px;text-align:center}
+.c-intro .lead{margin:20px auto 0;max-width:560px}
+.c-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:900px;margin:40px auto 0;text-align:left}
+.c-steps > div{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;padding:16px;border-radius:16px;border:1px solid var(--hair);background:var(--surface)}
+.c-steps h5{font-size:15px;font-weight:600;margin-bottom:2px}
+.c-steps p{font-size:13.5px;color:var(--sub)}
+.c-steps b{font-family:var(--mono);font-weight:400;font-size:12px;color:var(--dim);display:block;margin-bottom:4px}
+/* 3 · other ways */
+.ways{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1000px;margin:0 auto}
+.way{display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:22px;border-radius:20px;border:1px solid var(--hair);background:var(--surface)}
+.way .wi{width:52px;height:52px;border-radius:14px;display:grid;place-items:center}
+.way h4{font-size:17px;font-weight:600}
+.way p{font-size:14px;color:var(--sub);margin-top:2px}
+.way.wa{border-color:rgba(37,211,102,.35)}
+/* 4 · what you take away */
+.take{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:center}
+.doc{position:relative;border-radius:18px;background:#f6f3ee;color:#17161b;padding:30px 32px;box-shadow:0 40px 80px -30px rgba(0,0,0,.9);transform:rotate(-1.2deg);max-width:520px;justify-self:center;width:100%}
+.doc .dh{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,0,0,.1);padding-bottom:14px;margin-bottom:16px}
+.doc .dh .wm{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;font-size:15px}
+.doc .dh .wm svg{width:14px;height:20px}
+.doc .dh span{font-family:var(--mono);font-size:12px;color:#6e6b76}
+.doc h4{font-family:var(--display);font-size:22px;font-weight:500;letter-spacing:-.02em;margin-bottom:4px}
+.doc .sub{font-size:13px;color:#6e6b76;margin-bottom:18px}
+.doc ol{list-style:none;display:grid;gap:10px}
+.doc li{display:grid;grid-template-columns:86px 1fr;gap:12px;align-items:baseline;font-size:14px;opacity:0;transform:translateY(8px);transition:opacity .5s var(--dl),transform .6s var(--ease) var(--dl)}
+.doc li b{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.06em;padding:3px 7px;border-radius:6px;text-align:center}
+.doc li b.f{background:#e51e2b;color:#fff}.doc li b.t{background:#17161b;color:#fff}.doc li b.l{background:#e4e0d8;color:#55525c}.doc li b.g{background:#2f9a6a;color:#fff}
+.doc.in li{opacity:1;transform:none}
+.doc .sig{margin-top:20px;padding-top:14px;border-top:1px solid rgba(0,0,0,.1);font-size:12.5px;color:#6e6b76;display:flex;justify-content:space-between}
+@media (max-width:900px){.c-steps,.ways,.take{grid-template-columns:minmax(0,1fr)}.c-intro{padding-top:100px}.way{grid-template-columns:44px 1fr}.way .btn{grid-column:1/-1;justify-content:center}}
+</style>
+</head>
+<body data-page="contact">
+<div id="site-nav"></div>
+<main class="page">
+  <section class="wrap c-intro">
+    <div class="rv">
+      <div class="eyebrow" style="justify-content:center"><i></i>Contact</div>
+      <h1 class="d1" style="margin-top:20px">Book a free 30-minute call.</h1>
+      <p class="lead">We map your setup and show you what to automate first. No pitch deck, no commitment, and you keep the written summary.</p>
+    </div>
+    <div class="c-steps" id="steps3"></div>
+  </section>
+
+  <section class="wrap" data-night>
+    <div class="bstage">
+      <div class="rv"><div id="sched"></div><p class="mono tz">Times are shown in your time zone · US and UAE clients welcome</p></div>
+      <div class="ph rv d2x" id="mp"></div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="chat" style="padding-top:90px">
+    <div class="head" style="justify-content:center;text-align:center"><div class="left rv" style="max-width:none"><div class="eyebrow" style="justify-content:center"><i></i>Not ready to book?</div><h2 class="d2" style="margin-top:18px">Ask us anything first.</h2></div></div>
+    <div class="ways">
+      <div class="way wa rv"><div class="wi" style="background:#25D366;color:#06290f" id="waIc"></div><div><h4>WhatsApp</h4><p>Quickest. A real person replies.</p></div><a class="btn wa" id="waBtn" target="_blank" rel="noopener">Chat on WhatsApp</a></div>
+      <div class="way rv d1x"><div class="wi ico-tile" style="width:52px;height:52px" id="mailIc"></div><div><h4>Email</h4><p>contact@redelevators.com</p></div><a class="btn quiet" href="mailto:contact@redelevators.com">Send an email</a></div>
+    </div>
+  </section>
+
+  <section class="wrap section" style="padding-top:40px">
+    <div class="take">
+      <div class="rv">
+        <div class="eyebrow"><i></i>What you take away</div>
+        <h2 class="d2" style="margin-top:18px">A written plan, whether we work together or not.</h2>
+        <p class="lead" style="margin-top:16px">Within a day of the call you get a one-page summary: what to fix first, what can wait, and what it would take.</p>
+        <p class="mono" style="margin-top:16px">Example summary · illustrative</p>
+      </div>
+      <div class="doc rv d2x" id="doc">
+        <div class="dh"><span class="wm" id="docMark"></span><span>CALL SUMMARY · NOV 12</span></div>
+        <h4>Harbor Rentals · 6 units</h4>
+        <p class="sub">Airbnb + Booking.com · Guesty · two cleaners on WhatsApp</p>
+        <ol>
+          <li style="--dl:.2s"><b class="f">FIX FIRST</b><span>Guest messaging: about 9 hours a week, mostly at night</span></li>
+          <li style="--dl:.5s"><b class="t">THEN</b><span>Turnover hand-offs: codes and cleaner bookings by hand</span></li>
+          <li style="--dl:.8s"><b class="t">THEN</b><span>Direct booking engine: 85% of stays pay a platform fee</span></li>
+          <li style="--dl:1.1s"><b class="l">LATER</b><span>Paid social: worth it once the direct site is live</span></li>
+          <li style="--dl:1.4s"><b class="g">TIMELINE</b><span>First system live in about 3 weeks</span></li>
+        </ol>
+        <div class="sig"><span>Prepared after a 30-min call</span><span>Yours to keep</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" style="padding-top:20px">
+    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>Questions</div><h2 class="d2" style="margin-top:18px">About the call.</h2></div></div>
+    <div class="faq rv" id="faq"></div>
+  </section>
+</main>
+<div id="site-foot"></div>
+<script src="logos.js?v=35"></script><script src="icons.js?v=35"></script><script src="site.js?v=35"></script>
+<script>
+const { mountScheduler, reveal, $ } = SITE;
+$('#steps3').innerHTML = [['message', 'You tell us how you run things', 'Your units, your tools, where the hours go.'], ['audit', 'We point out what to fix first', 'Usually one or two systems pay off fastest.'], ['mail', 'You get a written summary', 'Yours to keep, whether we work together or not.']]
+  .map((s, i) => `<div class="rv d${i + 1}x"><div class="ico-tile">${ico(s[0])}</div><div><b>0${i + 1}</b><h5>${s[1]}</h5><p>${s[2]}</p></div></div>`).join('');
+const calm = SITE.mountCalmPhone($('#mp'), { nudge: 'wa' });
+mountScheduler($('#sched'), (d, t) => calm.booked(d, t), (step, d, t) => step === 'day' ? calm.day(d) : step === 'time' ? calm.time(d, t) : null);
+$('#waBtn').href = SITE.WA(); $('#waBtn').innerHTML = `${logo('WhatsApp', 18, true)} Chat on WhatsApp`;
+$('#waIc').innerHTML = logo('WhatsApp', 26, true);
+$('#mailIc').innerHTML = ico('mail');
+$('#docMark').innerHTML = '<img src="logo-lockup-light.svg" alt="Red Elevators" style="height:22px">';
+new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { $('#doc').classList.add('in'); o.disconnect(); } }), { threshold: .4 }).observe($('#doc'));
+$('#faq').innerHTML = [['Is the call really free?', 'Yes. Thirty minutes, no obligation, and you keep the written summary.'], ['I only have one or two properties. Is this for me?', 'Yes. Most systems start small and grow with you. Two units or two hundred, it’s the same system.'], ['Do you work with clients in the US and the UAE?', 'Yes. Calls are booked in your own time zone, and pricing is available in US dollars or UAE dirhams.'], ['What should I bring?', 'Nothing formal. It helps to know which tools you use, like your PMS and booking platforms.']]
+  .map((f, i) => `<details${i === 0 ? ' open' : ''}><summary>${f[0]}<i>+</i></summary><p>${f[1]}</p></details>`).join('');
+reveal();
+</script>
+</body>
+</html>

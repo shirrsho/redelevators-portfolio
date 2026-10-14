@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Story · The Property · Red Elevators</title>
+<meta name="theme-color" content="#0b0b0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ---- Scene: the rental itself, as an architectural model at dusk -------- */
+canvas#gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+.callouts{position:absolute;inset:0;pointer-events:none}
+.co{position:absolute;left:0;top:0;opacity:0;transition:opacity .5s}
+.co.on{opacity:1}
+.co .chip{position:absolute;left:0;bottom:46px;translate:-50% 0;display:flex;align-items:center;gap:9px;white-space:nowrap;
+  font:500 13px var(--sans);padding:9px 13px;border-radius:10px;background:rgba(16,16,20,.88);border:1px solid var(--hair-2);backdrop-filter:blur(10px);
+  transition:transform .6s var(--ease)}
+.co .chip i{width:7px;height:7px;border-radius:50%;background:var(--red)}
+.co.good .chip i{background:var(--ok)}
+.co .line{position:absolute;left:0;bottom:6px;width:1px;height:40px;background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.1))}
+.co .pt{position:absolute;left:-5px;top:-5px;width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px rgba(255,45,59,.2)}
+.co.good .pt{background:var(--ok);box-shadow:0 0 0 4px rgba(143,212,176,.2)}
+.co.mini .chip{font-size:12px;padding:6px 10px}
+.co .pt::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:1px solid currentColor;color:rgba(255,45,59,.6);animation:ping 2s ease-out infinite}
+.co.good .pt::after{display:none}
+@keyframes ping{from{transform:scale(.6);opacity:1}to{transform:scale(2);opacity:0}}
+.sim{position:absolute;right:var(--pad);bottom:72px;font-family:var(--mono);font-size:11px;color:var(--dim);z-index:4}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="#"><img src="red-elevators-logo-dark.svg" alt="Red Elevators"></a>
+  <nav class="links"><a href="#">Services</a><a href="#">Systems</a><a href="#">Approach</a><a href="#">Contact</a></nav>
+  <a class="book" href="#">Book a call</a>
+</header>
+
+<main>
+  <section class="story" id="story">
+    <div class="stage">
+      <div class="scene" aria-hidden="true">
+        <canvas id="gl"></canvas>
+        <div class="callouts" id="callouts"></div>
+        <div class="sim">Illustrative property</div>
+      </div>
+      <div class="copy" id="copy"></div>
+    </div>
+  </section>
+
+  <section class="after" id="after">
+    <div class="k">In the full build, the story continues</div>
+    <h2>Four more chapters, then the call.</h2>
+    <ol>
+      <li><b>04</b><h3>How one booking flows</h3><p>First message to five-star review, step by step, through the system.</p></li>
+      <li><b>05</b><h3>What we build</h3><p>The eight services across AI Automation and Marketing.</p></li>
+      <li><b>06</b><h3>How we work</h3><p>Audit, design, build, run. Live in weeks, then we keep it running.</p></li>
+      <li><b>07</b><h3>Every light on</h3><p>Back to the opening scene, every room booked and looked after. Book the call.</p></li>
+    </ol>
+  </section>
+</main>
+
+<script>window.STORY = { headlineB: 'Is your rental<br>running <em>you?</em>', subB: 'Messages at midnight, a cut to the platforms, empty midweek nights and turnovers on group chats. We build and run the systems that take all of it off your plate.' };</script>
+<script src="story.js"></script>
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const canvas = document.getElementById('gl');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(32, 1, .1, 400);
+
+// ---- Sky: dusk → blue hour -------------------------------------------------
+const sky = new THREE.Mesh(new THREE.SphereGeometry(200, 32, 16), new THREE.ShaderMaterial({
+  side: THREE.BackSide, depthWrite: false,
+  uniforms: { uN: { value: 0 } },
+  vertexShader: `varying vec3 vP; void main(){ vP=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+  fragmentShader: `uniform float uN; varying vec3 vP;
+    void main(){ float h=clamp(vP.y,0.,1.);
+      vec3 topD=vec3(.05,.06,.11), horD=vec3(.26,.17,.16), topN=vec3(.02,.025,.05), horN=vec3(.08,.075,.12);
+      vec3 top=mix(topD,topN,uN), hor=mix(horD,horN,uN);
+      vec3 c=mix(hor, top, pow(h,.55)); if(vP.y<0.) c=hor*.6;
+      gl_FragColor=vec4(c,1.); }`,
+}));
+scene.add(sky);
+scene.fog = new THREE.Fog(0x2a1f22, 45, 140);
+
+// ---- Lights -------------------------------------------------------------------
+const hemi = new THREE.HemisphereLight(0x8a9bc0, 0x3a2d26, .55); scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xffb27a, 2.4);
+sun.position.set(-22, 11, 16); sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -.0004; sun.shadow.normalBias = .02;
+Object.assign(sun.shadow.camera, { left: -22, right: 22, top: 22, bottom: -22, near: 1, far: 80 });
+scene.add(sun);
+const fill = new THREE.DirectionalLight(0x6f86c8, .35); fill.position.set(18, 10, -14); scene.add(fill);
+
+// ---- Materials ---------------------------------------------------------------
+const clay = new THREE.MeshStandardMaterial({ color: 0xd2cbc2, roughness: .88 });
+const clayDark = new THREE.MeshStandardMaterial({ color: 0x9d968d, roughness: .92 });
+const groundMat = new THREE.MeshStandardMaterial({ color: 0x1c1a1c, roughness: 1 });
+const win = () => new THREE.MeshStandardMaterial({ color: 0x0f1115, roughness: .18, metalness: .6, emissive: 0xffb26b, emissiveIntensity: 0 });
+
+function box(w, h, d, x, y, z, mat, cast = true) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+  m.position.set(x, y, z); m.castShadow = cast; m.receiveShadow = true; scene.add(m); return m;
+}
+
+// ground + plot
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), groundMat);
+ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+box(30, .3, 22, -1, .15, 1, clayDark, false);
+// lower volume
+box(12, 3.2, 7, -1, 1.9, 0, clay);
+// upper, cantilevered volume
+box(9, 3, 7.5, 1.6, 4.95, -.4, clay);
+box(9.8, .3, 8.3, 1.6, 6.6, -.4, clay);            // roof slab
+box(12.6, .25, 7.6, -1, 3.55, 0, clay);           // lower roof / terrace slab
+box(.12, 1, 7.4, -7.2, 4.15, 0, clay);            // terrace balustrade
+// terrace deck + pool
+box(13, .26, 5.6, -3.2, .43, 6.4, clayDark, false);
+const pool = box(8.4, .2, 3.1, -4.4, .5, 6.5, new THREE.MeshStandardMaterial({ color: 0x0c2730, roughness: .08, metalness: .4, emissive: 0x1d6f86, emissiveIntensity: .15 }), false);
+// low garden walls
+box(.4, 1.2, 9, 12.6, .9, 3, clay); box(10, 1.2, .4, 7.8, .9, 11.6, clay);
+// windows = rooms
+const W = {
+  living:  box(8.6, 2.3, .12, -1.6, 1.75, 3.52, win(), false),
+  kitchen: box(.12, 1.5, 3.4, 5.02, 2.0, -.6, win(), false),
+  door:    box(1.3, 2.5, .12, 3.6, 1.55, 3.53, win(), false),
+  bed1:    box(3.4, 1.9, .12, -.8, 5.0, 3.37, win(), false),
+  bed2:    box(3.4, 1.9, .12, 3.9, 5.0, 3.37, win(), false),
+  bath:    box(.12, 1, 2.2, 6.12, 5.4, -1.6, win(), false),
+};
+// mullions on the big glass
+for (let i = 0; i < 3; i++) box(.08, 2.3, .16, -1.6 - 4.3 + 2.15 * (i + 1), 1.75, 3.55, clay, false);
+// trees
+function tree(x, z, s = 1) {
+  const t = new THREE.Mesh(new THREE.CylinderGeometry(.12 * s, .16 * s, 2.2 * s, 8), clayDark); t.position.set(x, 1.1 * s + .3, z); t.castShadow = true; scene.add(t);
+  const c = new THREE.Mesh(new THREE.IcosahedronGeometry(1.5 * s, 1), clayDark); c.position.set(x, 3 * s + .3, z); c.castShadow = true; c.receiveShadow = true; scene.add(c);
+}
+tree(-11, -5, 1.2); tree(10, -6, 1.4); tree(-12, 9, .9); tree(-8, -9, 1.1);
+// door light
+const porch = new THREE.PointLight(0xffb26b, 0, 9, 2); porch.position.set(3.6, 3.1, 4.6); scene.add(porch);
+const inside = new THREE.PointLight(0xffa860, 0, 14, 2); inside.position.set(-1.5, 2, 5.5); scene.add(inside);
+
+// ---- Post -----------------------------------------------------------------
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), .55, .5, .82);
+composer.addPass(bloom); composer.addPass(new OutputPass());
+
+// ---- Callouts --------------------------------------------------------------
+const CALL = [
+  { at: [3.6, 3.2, 3.7],  pain: 'Guest arriving at 9pm · 3 unanswered', fix: 'Check-in guide sent · questions answered' },
+  { at: [1.6, 6.9, -.4],  pain: 'Booked via OTA · commission on every stay', fix: 'Returning guest re-booked direct' },
+  { at: [-3.5, 2.9, 3.6], pain: 'Tue–Thu empty · same price as Saturday', fix: 'Midweek offer live · nights filled' },
+  { at: [3.9, 6.1, 3.4],  pain: 'Bedroom 2 · turnover unassigned', fix: 'Cleaner booked for 11:00 · code sent' },
+];
+const HERO_MINI = ['3 messages waiting', 'Commission', 'Tue–Thu open', 'Turnover today'];
+const wrap = document.getElementById('callouts');
+CALL.forEach(c => {
+  const el = document.createElement('div'); el.className = 'co';
+  el.innerHTML = `<div class="chip"><i></i><span></span></div><div class="line"></div><div class="pt"></div>`;
+  wrap.appendChild(el); c.el = el; c.txt = el.querySelector('span'); c.v = new THREE.Vector3(...c.at);
+});
+const endCall = document.createElement('div'); endCall.className = 'co good';
+endCall.innerHTML = '<div class="chip"><i></i><span>Booked through Sunday · nothing needs you</span></div><div class="line"></div><div class="pt"></div>';
+wrap.appendChild(endCall); const endAt = new THREE.Vector3(1.6, 7.2, -.4);
+
+// ---- Camera shots -----------------------------------------------------------
+const SHOT = {
+  hero: [[31, 12.5, 33], [0, 2.8, 0]],
+  door: [[16, 5, 20], [2, 2.6, 2]],
+  wide: [[4, 28, 33], [0, 2.5, 0]],
+  side: [[-27, 8.5, 23], [-1, 2.6, 1]],
+  bed:  [[15, 9, 17], [2.2, 4.8, 1.5]],
+  pool: [[-20, 6.5, 27], [-2.5, 2, 3]],
+  end:  [[33, 14, 35], [0, 3, 0]],
+};
+const PAIN_SHOT = ['door', 'wide', 'side', 'bed'], FIX_SHOT = ['door', 'wide', 'pool', 'bed'];
+const camPos = new THREE.Vector3(...SHOT.hero[0]), camTgt = new THREE.Vector3(...SHOT.hero[1]);
+const wantPos = new THREE.Vector3(), wantTgt = new THREE.Vector3(), tmp = new THREE.Vector3();
+
+function resize() {
+  const w = innerWidth, h = innerHeight;
+  renderer.setSize(w, h, false); composer.setSize(w, h);
+  camera.aspect = w / h;
+  // push the house right of the copy column on desktop, below it on mobile
+  if (w > 900) camera.setViewOffset(w, h, -w * .17, 0, w, h); else camera.setViewOffset(w, h, 0, h * .2, w, h);
+  camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize); resize();
+let mx = 0, my = 0, mxs = 0, mys = 0;
+addEventListener('pointermove', e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; });
+
+const glow = { living: 0, kitchen: 0, door: 0, bed1: 0, bed2: 0, bath: 0 }, want = { ...glow };
+let night = 0;
+
+function render(s) {
+  // lights per chapter: dusk with a couple of lights → dark & empty → coming alive → fully booked
+  const fix = s.ch === 2 ? (s.local > .2 ? s.step : s.step - 1) : s.ch === 3 ? 3 : -1;
+  Object.keys(want).forEach(k => want[k] = 0);
+  if (s.ch === 0) { want.kitchen = 1; want.bed1 = .5; }
+  if (s.ch === 1) { want.kitchen = s.step === 2 ? 0 : .8; want.bed1 = s.step === 2 ? 0 : .4; }
+  if (fix >= 0) { want.door = 1; want.living = 1; want.kitchen = 1; }
+  if (fix >= 1) { want.bed1 = 1; }
+  if (fix >= 2) { want.bath = 1; }
+  if (fix >= 3) { want.bed2 = 1; }
+  for (const k in glow) { glow[k] += (want[k] - glow[k]) * .06; W[k].material.emissiveIntensity = glow[k] * 1.8; }
+  porch.intensity = glow.door * 9; inside.intensity = glow.living * 14;
+  pool.material.emissiveIntensity = .15 + (fix >= 2 ? .9 : 0) * night;
+
+  // dusk → blue hour as the house fills
+  const n = s.ch === 3 ? 1 : s.ch === 2 ? s.chP : 0;
+  night += (n - night) * .05;
+  sky.material.uniforms.uN.value = night;
+  sun.intensity = 2.4 * (1 - night * .8); sun.color.setHSL(.07, .9, .65 - night * .15);
+  hemi.intensity = .55 - night * .3;
+  scene.fog.color.setRGB(.12 - night * .07, .09 - night * .05, .095 - night * .03);
+
+  // camera
+  const shot = s.ch === 0 ? SHOT.hero : s.ch === 1 ? SHOT[PAIN_SHOT[s.step]] : s.ch === 2 ? SHOT[FIX_SHOT[s.step]] : SHOT.end;
+  wantPos.set(...shot[0]); wantTgt.set(...shot[1]);
+  if (s.ch === 0 || s.ch === 3) { const a = s.t * .05; wantPos.applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.sin(a) * .18); }
+  mxs += (mx - mxs) * .05; mys += (my - mys) * .05;
+  wantPos.x += mxs * 3; wantPos.y -= mys * 2;
+  camPos.lerp(wantPos, .045); camTgt.lerp(wantTgt, .05);
+  camera.position.copy(camPos); camera.lookAt(camTgt);
+
+  // callouts
+  const focus = s.ch === 1 || s.ch === 2 ? s.step : -1;
+  CALL.forEach((c, i) => {
+    const show = s.ch === 0 || i === focus;
+    c.el.classList.toggle('on', show);
+    c.el.classList.toggle('mini', s.ch === 0);
+    c.el.classList.toggle('good', s.ch === 2);
+    c.txt.textContent = s.ch === 0 ? HERO_MINI[i] : s.ch === 2 ? c.fix : c.pain;
+    tmp.copy(c.v).project(camera);
+    c.el.style.transform = `translate(${(tmp.x * .5 + .5) * innerWidth}px, ${(-tmp.y * .5 + .5) * innerHeight}px)`;
+  });
+  endCall.classList.toggle('on', s.ch === 3);
+  tmp.copy(endAt).project(camera);
+  endCall.style.transform = `translate(${(tmp.x * .5 + .5) * innerWidth}px, ${(-tmp.y * .5 + .5) * innerHeight}px)`;
+
+  composer.render();
+}
+Story.on(render);
+</script>
+</body>
+</html>

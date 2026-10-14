@@ -1,0 +1,144 @@
+/* ==========================================================================
+   Red Elevators — story mockups, shared layer.
+   One quiet, professional system for all three opening scenes. Only the
+   scene on the right changes between mockups; the story, type, colour and
+   logo stay the same so the scenes are compared like for like.
+   ========================================================================== */
+:root{
+  --bg:#0b0b0d;
+  --bg-2:#121215;
+  --ink:#f4f4f5;
+  --sub:#a1a1aa;
+  --dim:#8b8b94;
+  --hair:rgba(255,255,255,.08);
+  --hair-2:rgba(255,255,255,.14);
+  --red:#FF2D3B;          /* brand red, unchanged */
+  --red-btn:#e51e2b;      /* existing hover token, passes AA with white text */
+  --ok:#8fd4b0;           /* "handled" — used sparingly */
+  --display:'Inter Tight',system-ui,sans-serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --pad:clamp(20px,4.2vw,64px);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{font-family:var(--sans);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:16px}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* ---- Nav ---------------------------------------------------------------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:18px var(--pad);transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(11,11,13,.72);backdrop-filter:blur(16px);border-color:var(--hair)}
+.nav .logo img{height:30px;width:auto;display:block}
+.nav .links{display:flex;gap:34px;font-size:14px;color:var(--sub)}
+.nav .links a{transition:color .25s}
+.nav .links a:hover{color:var(--ink)}
+.nav .book{font-size:14px;font-weight:500;padding:10px 16px;border-radius:10px;border:1px solid var(--hair-2);transition:background .25s,border-color .25s}
+.nav .book:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.28)}
+
+/* ---- Story stage --------------------------------------------------------- */
+.story{position:relative;height:760vh}
+.stage{position:sticky;top:0;height:100vh;overflow:hidden}
+.scene{position:absolute;inset:0;z-index:1}
+/* keeps copy legible over the scene without a hard panel */
+.stage::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(90deg,var(--bg) 0%,rgba(11,11,13,.92) 26%,rgba(11,11,13,.4) 46%,transparent 60%)}
+.copy{position:absolute;z-index:3;left:var(--pad);top:0;bottom:0;width:min(500px,40vw);pointer-events:none}
+.chap{position:absolute;left:0;right:0;top:50%;translate:0 -50%;opacity:0;transform:translateY(28px);
+  transition:opacity .7s var(--ease),transform .9s var(--ease);pointer-events:none}
+.chap.on{opacity:1;transform:none;pointer-events:auto}
+.chap.gone{transform:translateY(-28px)}
+
+.eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--sub);margin-bottom:24px}
+.eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--red)}
+.chap h1{font-family:var(--display);font-weight:500;font-size:clamp(44px,5.2vw,78px);line-height:1;letter-spacing:-.035em}
+.chap h1 em{font-style:normal;color:var(--red)}
+.chap h2{font-family:var(--display);font-weight:500;font-size:clamp(30px,3.2vw,46px);line-height:1.05;letter-spacing:-.03em}
+.lead{margin-top:22px;font-size:17px;line-height:1.6;color:var(--sub);max-width:440px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--red);margin-bottom:16px}
+.note{font-size:14px;color:var(--dim);margin-top:14px}
+
+/* A / B headline */
+body[data-h="a"] .vb, body[data-h="b"] .va{display:none}
+
+.ctas{display:flex;gap:10px;margin-top:34px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 22px;border-radius:12px;font-size:15px;font-weight:500;transition:background .25s,transform .25s,border-color .25s}
+.btn.primary{background:var(--red-btn);color:#fff}
+.btn.primary:hover{background:#f0283a;transform:translateY(-1px)}
+.btn.primary svg{width:15px;height:10px;transition:transform .3s var(--ease)}
+.btn.primary:hover svg{transform:translateX(3px)}
+.btn.quiet{border:1px solid var(--hair-2);color:var(--ink)}
+.btn.quiet:hover{border-color:rgba(255,255,255,.3)}
+.reassure{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:30px;font-size:13px;color:var(--dim)}
+.reassure span{display:flex;align-items:center;gap:8px}
+.reassure span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--dim)}
+
+/* Lists inside chapters */
+.steps{list-style:none;margin-top:30px;border-top:1px solid var(--hair)}
+.steps li{display:grid;grid-template-columns:34px 1fr;padding:15px 0;border-bottom:1px solid var(--hair);opacity:.38;transition:opacity .5s}
+.steps li.done{opacity:.6}
+.steps li.on{opacity:1}
+.steps li b{font-family:var(--mono);font-weight:400;font-size:12px;color:var(--dim);padding-top:4px}
+.steps li.on b{color:var(--red)}
+.steps li h3{font-family:var(--display);font-size:19px;font-weight:500;letter-spacing:-.015em;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.steps li h3 small{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.06em;color:var(--dim);white-space:nowrap}
+.steps li p{grid-column:2;font-size:14.5px;line-height:1.55;color:var(--sub);max-height:0;overflow:hidden;opacity:0;transition:max-height .6s var(--ease),opacity .5s,margin .6s var(--ease)}
+.steps li.on p{max-height:90px;opacity:1;margin-top:6px}
+.steps.turn li.done b,.steps.turn li.on b{color:var(--ok)}
+.steps.turn li.done b::before,.steps.turn li.on b::before{content:"✓ "}
+
+/* Chapter rail */
+.rail{position:absolute;z-index:4;left:var(--pad);bottom:28px;display:flex;gap:22px;font-size:12.5px;color:var(--dim)}
+.rail button{display:flex;flex-direction:column;gap:9px;text-align:left;color:var(--dim);transition:color .3s}
+.rail button.on{color:var(--ink)}
+.rail button i{display:block;width:72px;height:2px;border-radius:2px;background:var(--hair);overflow:hidden;position:relative}
+.rail button i::after{content:"";position:absolute;inset:0;background:var(--ink);transform-origin:left;transform:scaleX(var(--f,0))}
+.cue{position:absolute;z-index:4;right:var(--pad);bottom:30px;font-size:12.5px;color:var(--dim);display:flex;align-items:center;gap:10px;transition:opacity .5s}
+.cue b{width:1px;height:26px;background:linear-gradient(var(--sub),transparent);animation:cue 2s ease-in-out infinite;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0)}55%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+/* ---- After the story ----------------------------------------------------- */
+.after{position:relative;z-index:5;padding:120px var(--pad) 90px;border-top:1px solid var(--hair);background:var(--bg)}
+.after .k{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--dim);margin-bottom:18px}
+.after h2{font-family:var(--display);font-weight:500;font-size:clamp(28px,3vw,42px);letter-spacing:-.03em;max-width:720px;line-height:1.1}
+.after ol{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+.after li{border:1px solid var(--hair);border-radius:14px;padding:20px;background:var(--bg-2)}
+.after li b{font-family:var(--mono);font-weight:400;font-size:12px;color:var(--red)}
+.after li h3{font-family:var(--display);font-weight:500;font-size:18px;margin:10px 0 6px;letter-spacing:-.01em}
+.after li p{font-size:14px;line-height:1.55;color:var(--sub)}
+
+/* ---- Mockup controls (not part of the design) ---------------------------- */
+.ab{position:fixed;z-index:60;right:16px;bottom:16px;display:flex;align-items:center;gap:4px;padding:5px;border-radius:12px;
+  background:rgba(20,20,24,.9);border:1px solid var(--hair-2);backdrop-filter:blur(12px);font-size:12.5px}
+.ab span{padding:0 8px;color:var(--dim);font-family:var(--mono);font-size:11px;letter-spacing:.06em}
+.ab button{padding:7px 11px;border-radius:8px;color:var(--sub)}
+.ab button.on{background:var(--ink);color:#111}
+
+/* entrance */
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+.chap.hero.on > *{animation:rise .9s var(--ease) backwards}
+.chap.hero.on > *:nth-child(2){animation-delay:.08s}
+.chap.hero.on > *:nth-child(3){animation-delay:.16s}
+.chap.hero.on > *:nth-child(4){animation-delay:.24s}
+.chap.hero.on > *:nth-child(5){animation-delay:.32s}
+
+@media (max-width:900px){
+  .nav .links{display:none}
+  .story{height:820vh}
+  .stage::before{background:linear-gradient(0deg,var(--bg) 0%,rgba(11,11,13,.94) 44%,rgba(11,11,13,.2) 64%,transparent 75%)}
+  .copy{width:auto;right:var(--pad);top:auto;bottom:70px;height:58vh}
+  .chap{top:auto;bottom:0;translate:none}
+  .chap h1{font-size:40px}
+  .lead{font-size:15.5px}
+  .steps li p{font-size:13.5px}
+  .rail{bottom:18px;gap:10px}
+  .rail button{font-size:0;gap:0}
+  .rail button i{width:40px}
+  .cue{display:none}
+  .after ol{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}

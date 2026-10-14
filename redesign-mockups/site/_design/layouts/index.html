@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sitemap & layouts · design review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base.css?v=35"><link rel="stylesheet" href="/assets/devices.css?v=35"><link rel="stylesheet" href="/assets/sections.css?v=35"><link rel="stylesheet" href="/assets/themes.css?v=35">
+<script src="/assets/theme.js?v=35"></script>
+<style>
+:root{--bg:#0a0b14}
+.dz-top{padding:110px 0 30px}
+.dz-tabs{display:flex;gap:6px;margin-top:26px}
+.dz-tabs a{font-size:13.5px;padding:8px 13px;border-radius:9px;border:1px solid var(--hair-2);color:var(--sub)}
+.dz-tabs a.on{background:var(--ink);color:#111;border-color:var(--ink)}
+/* sitemap tree */
+.tree{display:grid;justify-items:center;gap:0;padding:30px 0 10px}
+.tree .lvl{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;padding-top:26px}
+.tree .lvl::before{content:"";position:absolute;top:0;left:12%;right:12%;height:1px;background:var(--hair-2)}
+.tree .lvl.one::before{display:none}
+.node{position:relative;display:grid;gap:3px;padding:11px 14px;border-radius:14px;border:1px solid var(--hair-2);background:var(--surface);min-width:118px;text-align:center}
+.node::before{content:"";position:absolute;top:-26px;left:50%;width:1px;height:26px;background:var(--hair-2)}
+.tree .lvl.one .node::before{display:none}
+.node b{font-size:14.5px;font-weight:600}
+.node span{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.node.root{border-color:rgba(255,45,59,.5)}
+.tree .lvl.svcs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;max-width:1000px}
+.node.sub{min-width:0;padding:9px 12px}.node.sub b{font-size:12.5px;font-weight:500}
+.node a{position:absolute;inset:0}
+.globals{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+.globals > div{border:1px dashed var(--hair-2);border-radius:16px;padding:16px 18px}
+.globals h5{font-size:14.5px;font-weight:600;margin-bottom:4px}
+.globals p{font-size:13.5px;color:var(--sub)}
+/* page layouts */
+.pages{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
+.pg{border:1px solid var(--hair);border-radius:22px;background:var(--surface);padding:18px;display:grid;gap:12px}
+.pg .ph{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.pg .ph h3{font-family:var(--display);font-size:22px;font-weight:500;letter-spacing:-.02em}
+.pg .ph a{font-family:var(--mono);font-size:11.5px;color:var(--sub);text-decoration:underline;text-underline-offset:3px}
+.frame-nav,.frame-foot{height:22px;border-radius:7px;background:rgba(255,255,255,.06);display:flex;align-items:center;padding:0 10px;font-family:var(--mono);font-size:10.5px;color:var(--dim)}
+.blk{position:relative;border-radius:12px;padding:12px 14px;border:1px solid var(--hair);display:grid;gap:4px;transition:transform .3s var(--ease),border-color .3s}
+.blk:hover{transform:translateX(3px);border-color:var(--hair-2)}
+.blk b{font-size:13.5px;font-weight:600}
+.blk small{font-size:12.5px;color:var(--sub);line-height:1.45}
+.blk .cmp{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.blk .cmp span{font-family:var(--mono);font-size:10.5px;padding:2px 6px;border-radius:5px;background:rgba(139,147,255,.12);color:#c5cbff}
+.blk.tall{min-height:120px}
+.blk.night{background:linear-gradient(160deg,rgba(15,17,34,.9),rgba(10,11,20,.9))}
+.blk.dawn{background:linear-gradient(160deg,rgba(40,28,20,.7),rgba(15,13,12,.8))}
+.blk.day{background:rgba(255,255,255,.03)}
+.blk.paper{background:#f5f2ec;color:#17161b}.blk.paper small{color:#55525c}.blk.paper .cmp span{background:rgba(74,82,201,.12);color:#4a52c9}
+.blk .tone{position:absolute;right:10px;top:10px;font-family:var(--mono);font-size:10px;color:var(--dim)}
+.blk.paper .tone{color:#77747e}
+.blk .ix{font-family:var(--mono);font-size:10.5px;color:#8fd4b0}
+.legend2{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--sub);margin-top:16px}
+.legend2 span{display:flex;align-items:center;gap:7px}.legend2 i{width:14px;height:10px;border-radius:3px;border:1px solid var(--hair-2)}
+/* implementation map */
+.impl{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.impl pre{font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--sub);background:#0c0c10;border:1px solid var(--hair);border-radius:16px;padding:18px 20px;overflow:auto}
+.impl pre b{color:var(--ink);font-weight:500}
+.impl pre i{font-style:normal;color:var(--dim)}
+@media (max-width:1100px){.pages{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.pages,.globals,.impl{grid-template-columns:minmax(0,1fr)}.tree .lvl.svcs{grid-template-columns:1fr 1fr}.node{min-width:0;flex:1 1 40%}.impl pre{white-space:pre-wrap;word-break:break-word}.dz-tabs{flex-wrap:wrap}}
+</style>
+</head>
+<body data-page="">
+<div id="site-nav"></div>
+<main class="page">
+  <section class="wrap dz-top">
+    <div class="eyebrow"><i></i>Design review · not part of the public site</div>
+    <h1 class="d1" style="margin-top:18px;font-size:clamp(40px,4.4vw,64px)">Sitemap &amp; page layouts</h1>
+    <p class="lead">Every page, every section, in order, with the components it's built from. Use this to check structure before any code is written.</p>
+    <div class="dz-tabs"><a class="on" href="/_design/layouts/">Sitemap &amp; layouts</a><a href="/_design/nav-hero/">Nav &amp; hero</a><a href="/_design/logo/">Logo</a><a href="/_design/fonts/">Fonts</a><a href="/_design/components/">Component library</a><a href="/">Open the site →</a></div>
+  </section>
+
+  <section class="wrap section" style="padding-top:20px">
+    <div class="head"><div class="left"><div class="eyebrow"><i></i>01 · Sitemap</div><h2 class="d2" style="margin-top:14px">10 page types, 16 URLs.</h2></div></div>
+    <div class="tree" id="tree"></div>
+    <div class="globals">
+      <div><h5>Global: Nav</h5><p>Logo lockup · Services · Systems · Approach · Pricing · Contact · <b style="color:var(--ink)">Book a call</b>. Floating rounded bar, links centred, darker on scroll. Under 900px: logo, Book, menu button → full-screen sheet. <a class="link" href="/_design/nav-hero/">Nav &amp; hero →</a></p></div>
+      <div><h5>Global: Footer</h5><p>Logo + one-liner + email · AI Automation links · Marketing links · Company links · © · Privacy.</p></div>
+      <div><h5>Contact channels</h5><p>Book a call everywhere (nav). WhatsApp only on Contact. Email in footer and Contact.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap section" style="padding-top:40px">
+    <div class="head"><div class="left"><div class="eyebrow"><i></i>02 · Page layouts</div><h2 class="d2" style="margin-top:14px">Top to bottom, section by section.</h2></div></div>
+    <div class="pages" id="pages"></div>
+    <div class="legend2"><span><i style="background:linear-gradient(160deg,#0f1122,#0a0b14)"></i>Night (story, heroes)</span><span><i style="background:linear-gradient(160deg,#281c14,#0f0d0c)"></i>Dawn (the turn)</span><span><i style="background:rgba(255,255,255,.06)"></i>Aurora day sections</span><span><i style="background:#f5f2ec"></i>Paper (long reading)</span><span style="color:#8fd4b0">● interaction</span></div>
+  </section>
+
+  <section class="wrap section" style="padding-top:20px;padding-bottom:120px">
+    <div class="head"><div class="left"><div class="eyebrow"><i></i>03 · Implementation map</div><h2 class="d2" style="margin-top:14px">How this becomes the Next.js site.</h2></div></div>
+    <div class="impl">
+<pre><b>src/app/</b>                         <i>routes</i>
+├─ page.tsx                     <i>/</i>
+├─ services/page.tsx            <i>/services</i>
+├─ services/[slug]/page.tsx     <i>/services/guest-messaging …(8)</i>
+├─ systems/page.tsx
+├─ approach/page.tsx
+├─ pricing/page.tsx
+├─ contact/page.tsx
+├─ privacy/page.tsx
+├─ not-found.tsx                <i>404</i>
+└─ <b>redirects</b> in next.config      <i>old slugs → new (301)</i>
+   ecommerce-growth        → direct-booking-website
+   sales-outreach-systems  → direct-booking-engine
+   workflow-crm-automation → guest-messaging
+   ai-assistants-chatbots  → ai-guest-assistant
+   content-engines         → listing-content-engine
+   paid-social-advertising → paid-social
+   creative-ad-design      → photo-ad-creative
+   full-funnel-campaigns   → booking-campaigns</pre>
+<pre><b>src/components/</b>                  <i>see the component library</i>
+├─ layout/   Nav · MobileSheet · Footer · Section · PageHero (split|short) · CTABand · Logo
+├─ devices/  PhoneMockup · AlivePhone · ChatPhone · LaptopConsole
+├─ story/    StoryStage · Notification · LiftCard · ChapterRail
+├─ cards/    ServiceCard · ServiceRow · GetsCard · PromiseCard
+├─ viz/      MiniViz(8) · ToolMarquee · LoopDiagram · SummaryDoc
+├─ interactive/
+│   SavingsCalculator · PricingTiers · PlanBuilder
+│   CurrencyToggle · CalBooker (Cal.com embed)
+│   AssistantDemo · Pipeline · BeforeAfter
+│   Calendar3Week · Journey · ScenarioPlayer · ToolOrbit · BookingStage
+└─ ui/       Button · Chip · Tag · FAQ · Icon · ToolLogo
+<b>src/lib/</b>  content.ts (services, chains, FAQ) · pricing.ts · currency.ts
+<b>motion</b>   Motion (already installed) + IntersectionObserver
+          prefers-reduced-motion → still versions</pre>
+    </div>
+  </section>
+</main>
+<div id="site-foot"></div>
+<script src="/assets/logos.js?v=35"></script><script src="/assets/icons.js?v=35"></script><script src="/assets/site.js?v=35"></script>
+<script>
+const { SERVICES, $ } = SITE;
+// ---- sitemap tree
+const node = (t, u, href, cls = '') => `<div class="node ${cls}"><b>${t}</b><span>${u}</span>${href ? `<a href="${href}" aria-label="${t}"></a>` : ''}</div>`;
+$('#tree').innerHTML = `<div class="lvl one">${node('Home', '/', '/', 'root')}</div>
+  <div class="lvl">${node('Services', '/services', '/services/')}${node('Systems', '/systems', '/systems/')}${node('Approach', '/approach', '/approach/')}${node('Pricing', '/pricing', '/pricing/')}${node('Contact', '/contact', '/contact/')}${node('Privacy', '/privacy', '/privacy/')}${node('404', 'any unknown URL', '/404.html')}</div>
+  <div class="lvl svcs">${SERVICES.map(s => node(s.title, '/services/' + s.slug, `/services/${s.slug}/`, 'sub')).join('')}</div>`;
+
+// ---- page layouts: [name, components, tone, note, interaction]
+const L = {
+  'Home': ['/', [
+    ['Story stage · The night (hero)', 'StoryStage PhoneMockup Notification ChapterRail', 'night', 'Hero type A. Sticky, 8 screens of scroll. Hero copy + CTA + “Skip the story”. See Nav & hero.', 'notifications arrive · cursor tilt'],
+    ['Story · Sound familiar? (4 steps)', 'LiftCard Notification', 'night', 'One line per pain; the matching notification lifts out.', 'scroll-driven'],
+    ['Story · The turn (4 steps)', 'LaptopConsole PhoneMockup', 'dawn', 'Laptop shows the system working; results land on the phone.', 'scroll-driven · wire pulse'],
+    ['Story · Morning', 'PhoneMockup', 'dawn', '7:30am “Nothing needs you.” CTA + “Follow a booking ↓”.', ''],
+    ['04 · One booking, start to finish', 'Journey', 'day', 'Back on the homepage (also on Systems). Guest view + system view, step by step.', 'swipe · arrows'],
+    ['05 · What we build', 'ServiceCard×8 MiniViz Tabs', 'day', 'Two pillars, filterable. Each card animates its own mini demo.', 'filter · hover'],
+    ['06 · What you get back. What it costs.', 'SavingsCalculator CurrencyToggle PricingTiers', 'day', 'Calculator and compact tiers together, so the value sits next to the price.', 'sliders · currency'],
+    ['07 · How we work', 'Calendar3Week WeekSteps', 'day', 'Hover a day: what happens, who’s needed. Steps light up.', 'hover/tap linked'],
+    ['08 · Your tools, our promises', 'ToolOrbit PromiseCard×4 ToolPill', 'day', 'The tools orbit the Red Elevators mark; four promises beside it; “also works with” pills.', 'orbit · hover'],
+    ['09 · Your calm 2am', 'BookingStage (CalBooker + AlivePhone)', 'night', 'Same booking stage as Contact: booker left, live phone right.', 'booking follows on phone'],
+  ]],
+  'Services': ['/services/', [
+    ['Page hero', 'PageHero LaptopConsole PhoneMockup', 'night', '“Eight systems. Two pillars.” Laptop = automation, phone ad = marketing.', ''],
+    ['Pillar 01 · AI Automation', 'ServiceRow×4 MiniViz ToolLogo', 'day', 'Row: animation · name · “instead of” · tools · arrow.', 'hover'],
+    ['Pillar 02 · Marketing', 'ServiceRow×4', 'day', 'Same row pattern.', 'hover'],
+    ['Better together', 'LoopDiagram', 'day', 'Marketing brings guests → automation looks after them → direct next time.', 'animated arrows'],
+    ['CTA', 'CTABand', 'day', '“Not sure where to start?”', ''],
+  ]],
+  'Service detail ×8': ['/services/guest-messaging/', [
+    ['Breadcrumb + picker', 'ServicePicker', 'night', 'Jump between all eight.', ''],
+    ['Hero', 'PageHero ChatPhone | LaptopConsole | Frames', 'night', 'A scene unique to each service.', 'self-playing scene'],
+    ['Try it (messaging only)', 'AssistantDemo', 'day', 'Ask a guest question; refunds hand over to you.', 'type / tap chips'],
+    ['What changes', 'BeforeAfter', 'day', 'Opens on the manual way, then flips to the system.', 'auto-plays · toggle'],
+    ['How it runs', 'SystemPlayer (fixed to this service)', 'day', 'Same player as the Systems page: device scene + labelled steps + by-hand vs with-the-system. Links to all eight.', 'plays in view · replay'],
+    ['What you get · FAQ', 'GetsCard×4 FAQ', 'day', '', 'accordion'],
+    ['Related + prev/next · CTA', 'ServiceCard×3 CTABand', 'day', '', ''],
+  ]],
+  'Systems': ['/systems/', [
+    ['Hero + live control room', 'PageHero ControlRoom', 'night', 'All 8 systems with live counters; click a row to watch it run.', 'counters tick · click → player'],
+    ['Watch one run', 'SystemTabs SystemPlayer DeviceScene StepList PartsLegend ResultStrip', 'day', 'Named tabs (sticky chips on phones). Left: what the guest or you sees. Right: plain-English steps labelled Trigger / Your tools / Your checkpoint / Log. By hand vs with the system.', 'plays in view · replay · #slug deep links'],
+    ['One booking, start to finish', 'Journey', 'day', 'Also on the homepage (Chapter 04). Swipe version here.', 'swipe · arrows'],
+    ['CTA', 'CTABand', 'day', '', ''],
+  ]],
+  'Approach': ['/approach/', [
+    ['Hero + calendar', 'PageHero Calendar3Week', 'night', 'Click a day to jump to its phase.', 'hover · click'],
+    ['Phases ×4', 'PhaseRow', 'day', 'You vs us, what you get, and an animated visual each.', 'animate in view'],
+    ['After launch · FAQ · CTA', 'GetsCard×4 FAQ CTABand', 'day', '', ''],
+  ]],
+  'Pricing': ['/pricing/', [
+    ['Hero', 'PageHero CurrencyToggle', 'night', 'USD · AED · EUR. Placeholder prices flagged.', 'currency'],
+    ['Tiers', 'PricingTiers', 'day', 'Starter · Growth (Recommended) · Portfolio.', ''],
+    ['Build your own', 'PlanBuilder', 'day', 'Tick systems, see an estimate.', 'checkboxes'],
+    ['Worth it?', 'SavingsCalculator', 'day', '', 'sliders'],
+    ['Included · FAQ · CTA', 'GetsCard×4 FAQ CTABand', 'day', '', ''],
+  ]],
+  'Contact': ['/contact/', [
+    ['Intro', 'PageHero StepCard×3', 'night', 'Centered: what happens on the call.', ''],
+    ['Booking stage', 'CalBooker AlivePhone', 'night', 'Booker and live phone side by side; phone hidden on mobile.', 'booking follows on phone'],
+    ['Ask first', 'ContactCard (WhatsApp) ContactCard (Email)', 'day', 'The only WhatsApp entry point. No number shown.', ''],
+    ['What you take away', 'SummaryDoc', 'day', 'Sample one-page summary.', 'animates in'],
+    ['FAQ', 'FAQ', 'day', '', 'accordion'],
+  ]],
+  'Privacy': ['/privacy/', [
+    ['Hero + summary', 'PageHero TLDRCard×4', 'night', 'Plain-English promises.', ''],
+    ['Policy', 'StickyTOC LegalBody', 'paper', 'Light paper for long reading. US · UAE · EU/UK rights.', 'TOC tracks scroll'],
+  ]],
+  'Not found (404)': ['/404.html', [
+    ['Lock screen', 'PhoneMockup Notification', 'night', '“This page checked out.” + three ways back.', 'notification arrives'],
+  ]],
+};
+$('#pages').innerHTML = Object.entries(L).map(([name, [href, blocks]]) => `<div class="pg">
+  <div class="ph"><h3>${name}</h3><a href="${href}">open →</a></div>
+  <div class="frame-nav">Nav</div>
+  ${blocks.map(b => `<div class="blk ${b[2]}${b[0].startsWith('Story stage') ? ' tall' : ''}"><span class="tone">${b[2]}</span><b>${b[0]}</b>${b[3] ? `<small>${b[3]}</small>` : ''}<div class="cmp">${b[1].split(' ').filter(Boolean).map(c => `<span>${c}</span>`).join('')}</div>${b[4] ? `<span class="ix">● ${b[4]}</span>` : ''}</div>`).join('')}
+  <div class="frame-foot">Footer</div></div>`).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Story · The 2am Phone · Red Elevators</title>
+<meta name="theme-color" content="#0b0b0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ---- Scene: a phone on the nightstand ------------------------------------ */
+.room{position:absolute;inset:0;transition:background 1.2s}
+.room .lamp,.room .moon,.room .day{position:absolute;inset:0;transition:opacity 1.2s}
+.room .lamp{background:radial-gradient(38% 46% at 58% 78%, rgba(255,170,110,.12), transparent 70%)}
+.room .moon{background:radial-gradient(40% 50% at 88% 12%, rgba(140,160,210,.10), transparent 70%)}
+.room .day{opacity:0;background:
+  radial-gradient(60% 70% at 85% 20%, rgba(255,214,170,.16), transparent 70%),
+  linear-gradient(180deg, #15130f 0%, #0d0c0b 100%)}
+/* the surface the phone lies above */
+.room .surface{position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,transparent,rgba(255,255,255,.015) 40%,rgba(255,255,255,.03));border-top:1px solid rgba(255,255,255,.03)}
+
+.rig{position:absolute;left:var(--px,64%);top:52%;width:310px;height:650px;translate:-50% -50%;scale:var(--ps,1);perspective:1600px}
+.phone{position:absolute;inset:0;border-radius:54px;transform-style:preserve-3d;
+  transform:rotateX(var(--rx,6deg)) rotateY(var(--ry,-16deg)) rotateZ(var(--rz,1.5deg));
+  transition:transform .9s var(--ease)}
+.phone.buzz{animation:buzz .42s linear}
+@keyframes buzz{0%,100%{translate:0 0}20%{translate:-2px 0}40%{translate:2px 0}60%{translate:-2px 0}80%{translate:1px 0}}
+/* titanium frame */
+.frame{position:absolute;inset:0;border-radius:54px;
+  background:linear-gradient(145deg,#4a4a50 0%,#1c1c20 18%,#2c2c31 50%,#151518 82%,#3e3e44 100%);
+  box-shadow:0 0 0 1px rgba(255,255,255,.06) inset, 0 50px 90px -30px rgba(0,0,0,.95), 0 20px 40px -20px rgba(0,0,0,.8)}
+.frame::after{content:"";position:absolute;inset:3px;border-radius:51px;background:#050506}
+.btn-side{position:absolute;right:-3px;top:170px;width:3px;height:70px;border-radius:0 3px 3px 0;background:#2a2a2f}
+.btn-side.l1{left:-3px;right:auto;top:140px;height:34px;border-radius:3px 0 0 3px}
+.btn-side.l2{left:-3px;right:auto;top:190px;height:58px;border-radius:3px 0 0 3px}
+
+.screen{position:absolute;inset:12px;border-radius:43px;overflow:hidden;background:#000;transform:translateZ(1px)}
+.wall,.wall-day{position:absolute;inset:0;transition:opacity 1.4s}
+.wall{background:
+  radial-gradient(90% 55% at 50% 108%, rgba(255,45,59,.22), transparent 70%),
+  radial-gradient(70% 50% at 20% 0%, rgba(70,80,130,.35), transparent 70%),
+  linear-gradient(180deg,#0e1020 0%,#0a0a12 60%,#120a0d 100%)}
+.wall-day{opacity:0;background:
+  radial-gradient(80% 50% at 70% 10%, rgba(255,240,220,.65), transparent 70%),
+  linear-gradient(180deg,#f2c9a5 0%,#c9a6a8 40%,#6f6f92 100%)}
+.screen.day .wall-day{opacity:1}
+.glare{position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.07) 0%,transparent 32%);pointer-events:none;z-index:9}
+.island{position:absolute;left:50%;top:11px;translate:-50% 0;width:96px;height:28px;border-radius:20px;background:#000;z-index:10}
+.status{position:absolute;left:0;right:0;top:15px;display:flex;justify-content:space-between;padding:0 28px;font:600 13px var(--sans);z-index:5;color:#fff}
+.status span:last-child{display:flex;gap:5px;align-items:center}
+.status i{display:inline-block;width:22px;height:11px;border:1.4px solid rgba(255,255,255,.6);border-radius:3px;position:relative}
+.status i::after{content:"";position:absolute;left:1.5px;top:1.5px;bottom:1.5px;width:60%;background:#fff;border-radius:1px}
+
+.clock{position:absolute;left:0;right:0;top:66px;text-align:center;color:#fff;z-index:5;transition:color 1.2s}
+.clock .date{font:500 15px var(--sans);opacity:.85}
+.clock .time{font:300 76px/1 var(--display);letter-spacing:-.02em;margin-top:2px}
+.screen.day .clock{color:#1d1a22}
+
+/* notifications */
+.stack{position:absolute;left:10px;right:10px;top:212px;bottom:60px;z-index:6}
+.n{position:absolute;left:0;right:0;top:0;padding:11px 12px;border-radius:20px;display:grid;grid-template-columns:34px 1fr;gap:3px 10px;
+  background:rgba(38,38,46,.66);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);color:#fff;
+  box-shadow:0 0 0 1px rgba(255,255,255,.06) inset;
+  transition:transform .8s var(--ease),opacity .6s,background .6s,box-shadow .5s;opacity:0;transform:translateY(-30px) scale(.96)}
+.n .ic{grid-row:span 3;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font:700 15px var(--sans);color:#fff;transition:background .5s}
+.n .ic svg{width:18px;height:22px}
+.n .hd{display:flex;justify-content:space-between;font:500 11.5px var(--sans);color:rgba(255,255,255,.62);text-transform:uppercase;letter-spacing:.02em}
+.n .tt{font:600 13.5px/1.25 var(--sans)}
+.n .bd{font:400 13px/1.32 var(--sans);color:rgba(255,255,255,.86);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.n .ok{display:none;color:var(--ok)}
+.n.hi{box-shadow:0 0 0 1.5px rgba(255,45,59,.75) inset,0 18px 40px -16px rgba(0,0,0,.9)}
+.n.dim{opacity:.32!important}
+.n.done{background:rgba(30,40,36,.72)}
+.n.done .ok{display:inline}
+.screen.day .n{background:rgba(255,255,255,.5);color:#16151a}
+.screen.day .n .hd{color:rgba(20,20,26,.6)} .screen.day .n .bd{color:rgba(20,20,26,.85)}
+.more{position:absolute;left:0;right:0;text-align:center;font:500 12px var(--sans);color:rgba(255,255,255,.55);transition:opacity .5s,top .8s var(--ease)}
+
+.summary{position:absolute;left:10px;right:10px;top:212px;z-index:7;padding:13px 14px;border-radius:20px;background:rgba(255,255,255,.62);
+  backdrop-filter:blur(20px);color:#16151a;display:grid;grid-template-columns:34px 1fr;gap:3px 10px;opacity:0;transform:translateY(20px);transition:opacity .8s,transform .9s var(--ease)}
+.summary.on{opacity:1;transform:none}
+.summary .ic{grid-row:span 3;width:34px;height:34px;border-radius:9px;background:#111;display:grid;place-items:center}
+.summary .ic svg{width:18px;height:22px}
+.summary .hd{display:flex;justify-content:space-between;font:500 11.5px var(--sans);color:rgba(20,20,26,.6);text-transform:uppercase}
+.summary .tt{font:600 14px var(--sans)}
+.summary .bd{font:400 13px/1.4 var(--sans)}
+.summary ul{list-style:none;margin-top:6px;display:grid;gap:3px;font:400 12.5px var(--sans)}
+.summary li::before{content:"✓  ";color:#1f8f5f;font-weight:600}
+.homebar{position:absolute;left:50%;bottom:9px;translate:-50% 0;width:120px;height:4.5px;border-radius:3px;background:rgba(255,255,255,.7);z-index:9;transition:background 1s}
+.screen.day .homebar{background:rgba(0,0,0,.5)}
+.lockicons{position:absolute;left:0;right:0;bottom:30px;display:flex;justify-content:space-between;padding:0 42px;z-index:6}
+.lockicons b{width:44px;height:44px;border-radius:50%;background:rgba(40,40,48,.55);backdrop-filter:blur(10px)}
+
+.shadow{position:absolute;left:50%;bottom:-70px;width:420px;height:80px;translate:-50% 0;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(0,0,0,.75),transparent);filter:blur(6px)}
+
+/* Annotation tags beside the phone */
+.tag{position:absolute;z-index:8;left:calc(100% + 26px);top:0;white-space:nowrap;display:flex;align-items:center;gap:10px;
+  font:500 13px var(--sans);padding:9px 13px;border-radius:10px;background:rgba(18,18,22,.86);border:1px solid var(--hair-2);
+  opacity:0;transform:translateX(-10px);transition:opacity .5s,transform .7s var(--ease),top .7s var(--ease)}
+.tag::before{content:"";position:absolute;right:100%;top:50%;width:22px;height:1px;background:var(--hair-2)}
+.tag.on{opacity:1;transform:none}
+.tag i{width:7px;height:7px;border-radius:50%;background:var(--red)}
+.tag.good i{background:var(--ok)}
+
+@media (max-width:900px){
+  .rig{left:50%;top:27%}
+  .tag{display:none}
+}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="#"><img src="red-elevators-logo-dark.svg" alt="Red Elevators"></a>
+  <nav class="links"><a href="#">Services</a><a href="#">Systems</a><a href="#">Approach</a><a href="#">Contact</a></nav>
+  <a class="book" href="#">Book a call</a>
+</header>
+
+<main>
+  <section class="story" id="story">
+    <div class="stage">
+      <div class="scene" aria-hidden="true">
+        <div class="room" id="room"><div class="lamp" id="lamp"></div><div class="moon" id="moon"></div><div class="day" id="day"></div><div class="surface"></div></div>
+        <div class="rig" id="rig">
+          <div class="shadow"></div>
+          <div class="phone" id="phone">
+            <div class="frame"></div>
+            <span class="btn-side"></span><span class="btn-side l1"></span><span class="btn-side l2"></span>
+            <div class="screen" id="screen">
+              <div class="wall"></div><div class="wall-day"></div>
+              <div class="island"></div>
+              <div class="status"><span id="stime">2:14</span><span>●●● <i></i></span></div>
+              <div class="clock"><div class="date" id="date">Tuesday 14 October</div><div class="time" id="time">2:14</div></div>
+              <div class="stack" id="stack"><div class="more" id="more"></div></div>
+              <div class="summary" id="summary">
+                <div class="ic"><svg viewBox="2 16 56 78"><rect x="4" y="74" width="12" height="16" rx="4" fill="#FF2D3B"/><rect x="22" y="64" width="12" height="26" rx="4" fill="#FF2D3B"/><rect x="40" y="46" width="12" height="44" rx="4" fill="#FF2D3B"/><circle cx="46" cy="38" r="4" fill="#FF2D3B" opacity=".85"/><circle cx="54" cy="30" r="3.2" fill="#FF2D3B" opacity=".55"/><circle cx="44" cy="22" r="2.6" fill="#FF0000"/></svg></div>
+                <div class="hd"><span>Red Elevators</span><span>7:30</span></div>
+                <div class="tt">Good morning. Nothing needs you.</div>
+                <div class="bd">While you slept:<ul><li>6 guest messages answered</li><li>1 booking came in direct</li><li>2 quiet nights filled</li><li>Canal House turnover sorted</li></ul></div>
+              </div>
+              <div class="lockicons"><b></b><b></b></div>
+              <div class="homebar"></div>
+              <div class="glare"></div>
+            </div>
+          </div>
+          <div class="tag" id="tag"><i></i><span id="tagT"></span></div>
+        </div>
+        <div style="position:absolute;right:var(--pad);bottom:72px;font-family:var(--mono);font-size:11px;color:var(--dim);z-index:4">Illustrative messages</div>
+      </div>
+      <div class="copy" id="copy"></div>
+    </div>
+  </section>
+
+  <section class="after" id="after">
+    <div class="k">In the full build, the story continues</div>
+    <h2>Four more chapters, then the call.</h2>
+    <ol>
+      <li><b>04</b><h3>How one booking flows</h3><p>First message to five-star review, step by step, through the system.</p></li>
+      <li><b>05</b><h3>What we build</h3><p>The eight services across AI Automation and Marketing.</p></li>
+      <li><b>06</b><h3>How we work</h3><p>Audit, design, build, run. Live in weeks, then we keep it running.</p></li>
+      <li><b>07</b><h3>Your calm 2am</h3><p>Back to the opening scene, with nothing left to answer. Book the call.</p></li>
+    </ol>
+  </section>
+</main>
+
+<script>window.STORY = { headlineB: 'Still answering<br>guests at <em>2am?</em>' };</script>
+<script src="story.js"></script>
+<script>
+(() => {
+  const MARK = '<svg viewBox="2 16 56 78"><rect x="4" y="74" width="12" height="16" rx="4" fill="#FF2D3B"/><rect x="22" y="64" width="12" height="26" rx="4" fill="#FF2D3B"/><rect x="40" y="46" width="12" height="44" rx="4" fill="#FF2D3B"/><circle cx="44" cy="22" r="2.6" fill="#FF0000"/></svg>';
+  // Each notification is tied to the pain it illustrates and the fix that resolves it.
+  const N = [
+    { app: 'Calendar', ic: '14', c: '#5c5c66', tt: 'Tue–Thu still open', bd: '3 nights unbooked at Canal House this week.', ago: '1h ago', pain: 2, fix: 2, done: 'Rate adjusted, campaign sent, 2 of 3 booked' },
+    { app: 'Airbnb', ic: 'A', c: '#e0565b', tt: 'Response rate', bd: 'You have 2 messages waiting. Reply within 24 hours to keep your rate.', ago: '40m ago', pain: 0, fix: 0, done: 'All messages answered' },
+    { app: 'Booking.com', ic: 'B', c: '#3f63c9', tt: 'New reservation · 2 nights', bd: 'Harbour Studio, 18–20 Oct. Commission applies to this stay.', ago: '31m ago', pain: 1, fix: 1, done: 'Returning guest re-booked direct' },
+    { app: 'WhatsApp', ic: 'W', c: '#2f9a68', tt: 'Rosa (cleaning)', bd: 'Can’t get into Canal House. The door code isn’t working.', ago: '14m ago', pain: 3, fix: 3, done: 'New code sent, turnover set for 11:00' },
+    { app: 'Airbnb', ic: 'A', c: '#e0565b', tt: 'James · Garden Flat', bd: 'Any chance we can check in at 11 instead of 3?', ago: '6m ago', pain: 0, fix: 0, done: 'Offered 12:00, cleaner confirmed' },
+    { app: 'Airbnb', ic: 'A', c: '#e0565b', tt: 'Maria · Loft 2B', bd: 'Hi! We just arrived. What’s the wifi password? 🙂', ago: 'now', pain: 0, fix: 0, done: 'Replied with the wifi and house guide' },
+  ];
+  const TAGS_PAIN = ['2 guests waiting · 2:14am', 'Commission on every stay', '3 empty nights this week', 'Turnover at risk'];
+  const TAGS_FIX = ['Answered in seconds', 'Booked direct · no commission', 'Gap nights filled', 'Cleaner sorted, code sent'];
+
+  const stack = document.getElementById('stack'), more = document.getElementById('more');
+  const cards = N.map(n => {
+    const el = document.createElement('div'); el.className = 'n';
+    el.innerHTML = `<div class="ic" style="background:${n.c}">${n.ic}</div><div class="hd"><span class="ap">${n.app}</span><span class="ag">${n.ago}</span></div><div class="tt">${n.tt}</div><div class="bd">${n.bd}</div>`;
+    stack.insertBefore(el, more);
+    return { n, el, ic: el.querySelector('.ic'), ap: el.querySelector('.ap'), ag: el.querySelector('.ag'), bd: el.querySelector('.bd'), state: '' };
+  });
+
+  const rig = document.getElementById('rig'), phone = document.getElementById('phone'), screen = document.getElementById('screen');
+  const timeEl = document.getElementById('time'), stime = document.getElementById('stime'), dateEl = document.getElementById('date');
+  const day = document.getElementById('day'), lamp = document.getElementById('lamp'), moon = document.getElementById('moon');
+  const summary = document.getElementById('summary'), tag = document.getElementById('tag'), tagT = document.getElementById('tagT');
+
+  // fit the phone to the viewport
+  function fit() {
+    const wide = innerWidth > 900;
+    const s = Math.min(1.08, (innerHeight * (wide ? .8 : .42)) / 650);
+    rig.style.setProperty('--ps', s.toFixed(3));
+    rig.style.setProperty('--px', wide ? '66%' : '50%');
+  }
+  addEventListener('resize', fit); fit();
+
+  let mx = 0, my = 0, mxs = 0, mys = 0;
+  addEventListener('pointermove', e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; });
+
+  let arrived = 0, lastArrive = 0;
+  const GAP = 88, VISIBLE = 3;
+  const fmt = m => `${Math.floor(m / 60)}:${String(Math.floor(m % 60)).padStart(2, '0')}`;
+
+  Story.on(s => {
+    // --- which notifications exist yet (hero = they arrive one by one)
+    const target = s.ch === 0 ? Math.min(N.length, Math.floor(Math.max(0, s.t - .5) / 1.25) + 1) : N.length;
+    if (target > arrived) { arrived = target; if (s.t - lastArrive > .3) { phone.classList.remove('buzz'); void phone.offsetWidth; phone.classList.add('buzz'); lastArrive = s.t; } }
+
+    // --- per-card state
+    const live = [];
+    cards.forEach((c, i) => {
+      if (i >= arrived) { c.state = 'hidden'; return; }
+      let st = 'open';
+      if (s.ch === 2) { if (s.step > c.n.fix) st = 'gone'; else if (s.step === c.n.fix && s.local > .12) st = 'done'; }
+      if (s.ch === 3) st = 'gone';
+      c.state = st;
+      if (st !== 'gone') live.push(c);
+    });
+    // newest on top; in a pain step the matching card is pulled to the top
+    live.reverse();
+    if (s.ch === 1) {
+      const key = live.filter(c => c.n.pain === s.step);
+      live.splice(0, live.length, ...key, ...live.filter(c => c.n.pain !== s.step));
+    }
+    if (s.ch === 2) {
+      const key = live.filter(c => c.n.fix === s.step);
+      live.splice(0, live.length, ...key, ...live.filter(c => c.n.fix !== s.step));
+    }
+
+    cards.forEach(c => {
+      const idx = live.indexOf(c), el = c.el;
+      if (c.state === 'hidden') { el.style.opacity = 0; el.style.transform = 'translateY(-30px) scale(.96)'; return; }
+      if (c.state === 'gone') { el.style.opacity = 0; el.style.transform = 'translateY(-60px) scale(.9)'; el.classList.remove('hi', 'dim'); return; }
+      if (idx < VISIBLE) { el.style.opacity = 1; el.style.transform = `translateY(${idx * GAP}px)`; el.style.zIndex = 20 - idx; }
+      else { const k = idx - VISIBLE; el.style.opacity = k < 2 ? .5 - k * .2 : 0; el.style.transform = `translateY(${(VISIBLE - 1) * GAP + 14 + k * 9}px) scale(${.94 - k * .04})`; el.style.zIndex = 5 - k; }
+      const focus = (s.ch === 1 && c.n.pain === s.step) || (s.ch === 2 && c.n.fix === s.step);
+      el.classList.toggle('hi', s.ch === 1 && focus && idx === 0);
+      el.classList.toggle('dim', (s.ch === 1 || s.ch === 2) && !focus);
+      const done = c.state === 'done';
+      if (done !== el.classList.contains('done')) {
+        el.classList.toggle('done', done);
+        c.ic.style.background = done ? '#111' : c.n.c; c.ic.innerHTML = done ? MARK : c.n.ic;
+        c.ap.innerHTML = done ? '<span class="ok" style="display:inline">✓</span> Handled for you' : c.n.app;
+        c.ag.textContent = done ? 'just now' : c.n.ago; c.bd.textContent = done ? c.n.done : c.n.bd;
+      }
+    });
+    const hiddenCount = Math.max(0, live.length - VISIBLE);
+    more.textContent = hiddenCount ? `${hiddenCount} more notification${hiddenCount > 1 ? 's' : ''}` : '';
+    more.style.top = `${Math.min(live.length, VISIBLE) * GAP + (hiddenCount ? 26 : 0)}px`;
+
+    // --- night → morning
+    const m = s.ch === 3 ? 1 : s.ch === 2 ? Math.max(0, (s.chP - .55) / .45) : 0;
+    const minutes = s.ch === 0 ? 134 : s.ch === 1 ? 134 + s.chP * 17 : s.ch === 2 ? 151 + s.chP * 299 : 450;
+    timeEl.textContent = fmt(minutes); stime.textContent = fmt(minutes);
+    screen.classList.toggle('day', m > .5);
+    day.style.opacity = m; lamp.style.opacity = 1 - m; moon.style.opacity = 1 - m;
+    summary.classList.toggle('on', s.ch === 3 || (s.ch === 2 && s.step === 3 && s.local > .8));
+
+    // --- annotation tag beside the focused card
+    const showTag = s.ch === 1 || s.ch === 2;
+    tag.classList.toggle('on', showTag);
+    tag.classList.toggle('good', s.ch === 2);
+    if (showTag) { tagT.textContent = (s.ch === 1 ? TAGS_PAIN : TAGS_FIX)[s.step]; tag.style.top = `${12 + 212 + 30}px`; }
+
+    // --- the phone turns to face you as the story resolves
+    mxs += (mx - mxs) * .06; mys += (my - mys) * .06;
+    const ry = [-16, -9, -5, -2][s.ch] + mxs * 10, rx = [6, 3, 2, 1][s.ch] - mys * 7, rz = [1.5, .8, .3, 0][s.ch];
+    phone.style.setProperty('--ry', ry.toFixed(2) + 'deg'); phone.style.setProperty('--rx', rx.toFixed(2) + 'deg'); phone.style.setProperty('--rz', rz + 'deg');
+  });
+})();
+</script>
+</body>
+</html>

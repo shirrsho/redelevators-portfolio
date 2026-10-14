@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Page not found · Red Elevators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base.css?v=35"><link rel="stylesheet" href="/assets/devices.css?v=35"><link rel="stylesheet" href="/assets/sections.css?v=35"><link rel="stylesheet" href="/assets/themes.css?v=35">
+<script src="/assets/theme.js?v=35"></script>
+<style>
+:root{--bg:#0a0b14}
+.nf{display:grid;grid-template-columns:1fr auto;gap:80px;align-items:center;min-height:calc(100vh - 76px);padding:40px 0}
+.nf .phone{transform:rotateY(-10deg) rotateX(4deg)}
+.nf .hold{perspective:1600px}
+.nf .links2{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.code{font-family:var(--mono);font-size:13px;color:var(--dim);margin-bottom:18px}
+@media (max-width:900px){.nf{grid-template-columns:1fr;gap:30px}.nf .hold{display:none}}
+</style>
+</head>
+<body data-page="">
+<div id="site-nav"></div>
+<main class="page">
+  <section class="wrap nf">
+    <div class="rv">
+      <div class="code">404 · page not found</div>
+      <h1 class="d1">This page<br>checked out.</h1>
+      <p class="lead" style="margin-top:18px">It may have moved, or the link was mistyped. Nothing needs you here.</p>
+      <div class="links2"><a class="btn primary" href="/">Back to home</a><a class="btn quiet" href="/services/">See the services</a><a class="btn quiet" href="/contact/">Book a call</a></div>
+    </div>
+    <div class="hold rv d2x" id="hold"></div>
+  </section>
+</main>
+<div id="site-foot"></div>
+<script src="/assets/logos.js?v=35"></script><script src="/assets/icons.js?v=35"></script><script src="/assets/site.js?v=35"></script>
+<script>
+SITE.$('#hold').innerHTML = SITE.phoneShell(`<div class="status"><span>2:14</span><span><span class="batt"></span></span></div><div class="clock"><div class="date">Tuesday, October 14</div><div class="time">4:04</div></div><div class="stack" id="nfStack"></div><div class="lockicons"><b></b><b></b></div>`, '');
+// one gentle notification: the page has checked out
+setTimeout(() => { const el = document.createElement('div'); el.className = 'n'; el.style.cssText = 'opacity:0;transform:translateY(-16px);transition:opacity .6s,transform .7s var(--ease)'; el.innerHTML = `<div class="ic mark" style="background:#111">${MARK}</div><div class="hd"><span>Red Elevators</span><span>now</span></div><div class="tt">This page checked out</div><div class="bd">Error 404 · the guest left no forwarding address. Head home →</div>`; SITE.$('#nfStack').appendChild(el); requestAnimationFrame(() => { el.style.opacity = 1; el.style.transform = 'none'; SITE.$('#hold .phone').classList.add('buzz'); }); }, 900);
+SITE.reveal();
+</script>
+</body>
+</html>

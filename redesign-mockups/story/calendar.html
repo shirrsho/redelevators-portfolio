@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Story · The Calendar · Red Elevators</title>
+<meta name="theme-color" content="#0b0b0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ---- Scene: the owner's booking calendar --------------------------------- */
+:root{--air:#d0656a;--bkg:#5578cf;--dir:#FF2D3B;--warn:#e8a33d}
+.backdrop{position:absolute;inset:0;background:
+  radial-gradient(50% 60% at 70% 50%, rgba(255,255,255,.035), transparent 70%),
+  radial-gradient(40% 40% at 68% 88%, rgba(255,45,59,.05), transparent 70%)}
+.backdrop::after{content:"";position:absolute;inset:0;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:56px 56px;-webkit-mask-image:radial-gradient(60% 60% at 68% 50%,#000,transparent);mask-image:radial-gradient(60% 60% at 68% 50%,#000,transparent)}
+
+.rig{position:absolute;left:var(--px,65%);top:53%;width:880px;height:560px;translate:-50% -50%;scale:var(--ps,1);perspective:2200px}
+.dash{position:absolute;inset:0;transform-style:preserve-3d;
+  transform:rotateX(var(--rx,24deg)) rotateY(var(--ry,-20deg)) rotateZ(var(--rz,4deg));transition:transform 1s var(--ease)}
+.win{position:absolute;inset:0;border-radius:16px;background:#131316;border:1px solid var(--hair-2);overflow:hidden;
+  box-shadow:0 60px 120px -40px rgba(0,0,0,.95),0 0 0 1px rgba(0,0,0,.4)}
+.chrome{height:48px;display:flex;align-items:center;gap:16px;padding:0 16px;border-bottom:1px solid var(--hair);font-size:13px}
+.chrome .dots{display:flex;gap:6px}.chrome .dots i{width:10px;height:10px;border-radius:50%;background:#2a2a30}
+.chrome .ttl{font-weight:600}
+.chrome .tabs{display:flex;gap:2px;margin-left:10px;padding:3px;border-radius:8px;background:rgba(255,255,255,.04)}
+.chrome .tabs span{padding:5px 10px;border-radius:6px;color:var(--sub);font-size:12px}
+.chrome .tabs span.on{background:rgba(255,255,255,.08);color:var(--ink)}
+.chrome .occ{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--sub)}
+.chrome .occ b{font-family:var(--mono);font-weight:500;color:var(--ink);font-size:13px}
+.chrome .occ .m{width:90px;height:5px;border-radius:4px;background:rgba(255,255,255,.07);overflow:hidden}
+.chrome .occ .m i{display:block;height:100%;background:var(--ink);transition:width .8s var(--ease)}
+
+.cal{position:relative;padding:0 0 0 0}
+.head,.row{display:grid;grid-template-columns:150px repeat(14,1fr)}
+.head{height:44px;border-bottom:1px solid var(--hair);font-size:11px;color:var(--dim)}
+.head div{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2px}
+.head div b{font-family:var(--mono);font-weight:500;font-size:12px;color:var(--sub)}
+.head div.today b{color:#fff;background:var(--red-btn);border-radius:5px;padding:1px 5px}
+.head div.we,.row div.we{background:rgba(255,255,255,.018)}
+.row{height:66px;border-bottom:1px solid var(--hair);position:relative}
+.row .u{display:flex;flex-direction:column;justify-content:center;padding:0 14px;gap:3px;border-right:1px solid var(--hair)}
+.row .u b{font-size:13px;font-weight:600}
+.row .u span{font-size:11px;color:var(--dim)}
+.row > div:not(.u){border-right:1px solid rgba(255,255,255,.035)}
+.bars{position:absolute;left:150px;right:0;top:0;bottom:0;pointer-events:none}
+.bar{position:absolute;top:11px;height:44px;border-radius:8px;padding:6px 9px;display:flex;flex-direction:column;justify-content:center;gap:1px;overflow:hidden;
+  font-size:12px;font-weight:500;white-space:nowrap;border-left:3px solid;transition:opacity .5s,transform .8s var(--ease),box-shadow .4s,filter .4s}
+.bar small{font-size:10.5px;font-weight:400;opacity:.75}
+.bar.air{background:rgba(208,101,106,.26);border-color:var(--air);color:#f3d3d4}
+.bar.bkg{background:rgba(85,120,207,.26);border-color:var(--bkg);color:#d2dcf6}
+.bar.dir{background:rgba(255,45,59,.3);border-color:var(--dir);color:#ffd7da}
+.bar.new{transform:scaleX(0);transform-origin:left;opacity:0}
+.bar.new.in{transform:none;opacity:1}
+.bar .fee{position:absolute;right:6px;top:6px;font-family:var(--mono);font-size:10px;padding:1px 5px;border-radius:4px;background:rgba(232,163,61,.18);color:var(--warn);opacity:0;transition:opacity .4s}
+.dim .bar:not(.focus){opacity:.28}
+.show-fees .bar.air .fee,.show-fees .bar.bkg .fee{opacity:1}
+
+.gap{position:absolute;top:11px;height:44px;border-radius:8px;border:1.5px dashed rgba(232,163,61,.0);transition:border-color .4s,background .4s}
+.show-gaps .gap.open{border-color:rgba(232,163,61,.7);background:rgba(232,163,61,.06)}
+.turn{position:absolute;top:24px;width:18px;height:18px;margin-left:-9px;border-radius:50%;display:grid;place-items:center;font:700 10px var(--sans);
+  background:#232328;color:var(--dim);border:1px solid var(--hair-2);z-index:3;transition:background .4s,color .4s,transform .4s}
+.show-turns .turn{background:var(--warn);color:#1a1205;transform:scale(1.25)}
+.turn.ok{background:var(--ok)!important;color:#0b1f15!important;transform:scale(1.15)}
+
+.rates{display:grid;grid-template-columns:150px repeat(14,1fr);height:40px;font-family:var(--mono);font-size:11px;color:var(--dim);align-items:center;transition:background .4s}
+.rates div:first-child{font-family:var(--sans);padding:0 14px;color:var(--sub);font-size:12px}
+.rates div{text-align:center;transition:color .4s}
+.rates div.up{color:var(--ok)} .rates div.down{color:#e9b46a}
+.show-rates .rates{background:rgba(232,163,61,.06)}
+.show-rates .rates div:not(:first-child){color:var(--warn)}
+
+/* floating layers */
+.float{position:absolute;border-radius:14px;background:rgba(24,24,28,.94);border:1px solid var(--hair-2);backdrop-filter:blur(14px);
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.95);transition:transform 1s var(--ease),opacity .6s}
+.inbox{right:-56px;top:70px;width:290px;transform:translateZ(90px)}
+.inbox.pop{transform:translateZ(170px) scale(1.04)}
+.inbox .ih{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--hair);font-size:13px;font-weight:600}
+.inbox .ih b{font-family:var(--mono);font-size:12px;font-weight:500;padding:2px 8px;border-radius:999px;background:var(--red-btn);color:#fff;transition:background .5s}
+.inbox .ih b.zero{background:#2a3a32;color:var(--ok)}
+.msg{display:grid;grid-template-columns:30px 1fr auto;gap:2px 10px;padding:10px 14px;border-bottom:1px solid var(--hair);font-size:12px;align-items:center}
+.msg:last-child{border-bottom:0}
+.msg .av{grid-row:span 2;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:12px;background:#2c2c33}
+.msg .nm{font-weight:600}
+.msg .tm{font-family:var(--mono);font-size:10.5px;color:var(--dim);display:flex;align-items:center;gap:6px}
+.msg .tm i{width:7px;height:7px;border-radius:50%;background:var(--dir);transition:background .4s}
+.msg .pv{grid-column:2/4;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg.done .tm i{background:var(--ok)}
+.msg.done .pv{color:var(--ok)}
+.stat{right:-40px;bottom:-46px;width:230px;padding:14px 16px;transform:translateZ(70px)}
+.stat .k{font-size:11.5px;color:var(--dim);display:flex;justify-content:space-between}
+.stat .v{font-family:var(--display);font-size:38px;font-weight:400;letter-spacing:-.02em;margin-top:4px}
+.stat .v small{font-size:15px;color:var(--sub)}
+.stat .bar2{height:5px;border-radius:5px;background:rgba(255,255,255,.07);margin-top:8px;overflow:hidden}
+.stat .bar2 i{display:block;height:100%;background:linear-gradient(90deg,var(--dir),#ff7a6b);transition:width .8s var(--ease)}
+.legend{display:flex;gap:14px;margin-top:10px;font-size:11px;color:var(--dim)}
+.legend span{display:flex;align-items:center;gap:5px}.legend i{width:8px;height:8px;border-radius:2px}
+.sim{position:absolute;left:0;bottom:-28px;font-family:var(--mono);font-size:11px;color:var(--dim);transform:translateZ(1px)}
+
+/* annotation */
+.note-tag{position:absolute;z-index:9;display:flex;align-items:center;gap:9px;font:500 13px var(--sans);padding:9px 13px;border-radius:10px;
+  background:rgba(18,18,22,.92);border:1px solid var(--hair-2);white-space:nowrap;opacity:0;transform:translateZ(140px) translateY(8px);transition:opacity .5s,transform .7s var(--ease),left .7s var(--ease),top .7s var(--ease)}
+.note-tag.on{opacity:1;transform:translateZ(140px)}
+.note-tag i{width:7px;height:7px;border-radius:50%;background:var(--warn)}
+.note-tag.good i{background:var(--ok)}
+
+@media (max-width:900px){ .rig{left:50%;top:27%} .inbox,.stat{display:none} }
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="#"><img src="red-elevators-logo-dark.svg" alt="Red Elevators"></a>
+  <nav class="links"><a href="#">Services</a><a href="#">Systems</a><a href="#">Approach</a><a href="#">Contact</a></nav>
+  <a class="book" href="#">Book a call</a>
+</header>
+
+<main>
+  <section class="story" id="story">
+    <div class="stage">
+      <div class="scene" aria-hidden="true">
+        <div class="backdrop"></div>
+        <div class="rig" id="rig">
+          <div class="dash" id="dash">
+            <div class="win" id="win">
+              <div class="chrome">
+                <div class="dots"><i></i><i></i><i></i></div>
+                <span class="ttl">Your portfolio</span>
+                <div class="tabs"><span class="on">Calendar</span><span>Inbox</span><span>Pricing</span><span>Reports</span></div>
+                <div class="occ">Booked <b id="occN">0%</b><div class="m"><i id="occM"></i></div></div>
+              </div>
+              <div class="cal" id="cal">
+                <div class="head" id="head"></div>
+                <div id="rows"></div>
+                <div class="rates" id="rates"></div>
+              </div>
+            </div>
+            <div class="float inbox" id="inbox">
+              <div class="ih">Inbox <b id="unread">14</b></div>
+              <div id="msgs"></div>
+            </div>
+            <div class="float stat">
+              <div class="k"><span>Nights booked · 2 weeks</span><span id="statN"></span></div>
+              <div class="v"><span id="statV">0</span><small> / 70</small></div>
+              <div class="bar2"><i id="statB"></i></div>
+              <div class="legend"><span><i style="background:var(--air)"></i>Airbnb</span><span><i style="background:var(--bkg)"></i>Booking.com</span><span><i style="background:var(--dir)"></i>Direct</span></div>
+            </div>
+            <div class="sim">Example portfolio · illustrative data</div>
+            <div class="note-tag" id="ntag"><i></i><span id="ntagT"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="copy" id="copy"></div>
+    </div>
+  </section>
+
+  <section class="after" id="after">
+    <div class="k">In the full build, the story continues</div>
+    <h2>Four more chapters, then the call.</h2>
+    <ol>
+      <li><b>04</b><h3>How one booking flows</h3><p>First message to five-star review, step by step, through the system.</p></li>
+      <li><b>05</b><h3>What we build</h3><p>The eight services across AI Automation and Marketing.</p></li>
+      <li><b>06</b><h3>How we work</h3><p>Audit, design, build, run. Live in weeks, then we keep it running.</p></li>
+      <li><b>07</b><h3>A full calendar</h3><p>Back to the opening scene, with every night filled. Book the call.</p></li>
+    </ol>
+  </section>
+</main>
+
+<script>window.STORY = { headlineB: 'Empty nights<br>again <em>this week?</em>', subB: 'Gaps in the calendar, a cut to the platforms on every stay, and an inbox that never sleeps. We build and run the systems that fix all three.' };</script>
+<script src="story.js"></script>
+<script>
+(() => {
+  const DAYS = Array.from({ length: 14 }, (_, i) => new Date(2026, 9, 12 + i));
+  const UNITS = [['Loft 2B', '1 bed · sleeps 2'], ['Garden Flat', '2 bed · sleeps 4'], ['Harbour Studio', 'Studio · sleeps 2'], ['Canal House', '3 bed · sleeps 6'], ['Penthouse 9', '2 bed · sleeps 4']];
+  // [unit, start col, nights, channel, guest, fix step that adds it (-1 = already there)]
+  const B = [
+    [0, 0, 3, 'air', 'Maria K.', -1], [0, 5, 2, 'bkg', 'T. Novak', -1], [0, 9, 4, 'air', 'Chen family', -1],
+    [1, 0, 2, 'bkg', 'James R.', -1], [1, 2, 3, 'air', 'Sofia L.', -1], [1, 8, 3, 'air', 'Ben & Ana', -1], [1, 11, 3, 'bkg', 'K. Ito', -1],
+    [2, 1, 2, 'air', 'L. Martin', -1], [2, 6, 2, 'bkg', 'New · 2 nights', -1], [2, 10, 3, 'dir', 'R. Okafor', -1],
+    [3, 0, 1, 'air', 'D. Smith', -1], [3, 4, 3, 'air', 'Weekend group', -1], [3, 12, 2, 'bkg', 'P. Weber', -1],
+    [4, 2, 5, 'dir', 'Corporate stay', -1], [4, 8, 2, 'air', 'S. Haddad', -1], [4, 10, 4, 'air', 'M. Rossi', -1],
+    // filled by the system
+    [0, 3, 2, 'dir', 'Returning guest', 1], [2, 3, 3, 'dir', 'Returning guest', 1], [4, 0, 2, 'dir', 'Repeat · direct', 1],
+    [3, 7, 4, 'dir', 'Campaign · 4 nights', 2], [1, 5, 3, 'dir', 'Midweek offer', 2], [0, 7, 2, 'dir', 'Last-minute', 2], [2, 8, 2, 'dir', 'Campaign', 2],
+    [3, 1, 3, 'dir', 'Midweek offer', 2],
+  ];
+  const RATES = [118, 118, 118, 118, 132, 132, 118, 118, 118, 118, 118, 132, 132, 118];
+  const RATES_FIX = [109, 112, 115, 119, 148, 156, 124, 104, 106, 110, 121, 151, 158, 126];
+  const MSGS = [
+    ['M', '#d0656a', 'Maria K.', 'What’s the wifi password?', '02:14', 'Answered · wifi + house guide'],
+    ['J', '#5578cf', 'James R.', 'Can we check in at 11?', '01:52', 'Answered · 12:00 offered'],
+    ['R', '#2f9a68', 'Rosa (cleaning)', 'Door code at Canal House?', '01:40', 'Code sent · turnover 11:00'],
+    ['S', '#8a6bd0', 'Sofia L.', 'Is there parking nearby?', '00:58', 'Answered · parking map sent'],
+  ];
+  const PAIN_TAGS = ['27 unread, some for hours', 'Commission on every OTA stay', '18 open nights, same price all week', '4 turnovers nobody has assigned'];
+  const FIX_TAGS = ['Inbox at zero, in your voice', 'Returning guests booked direct', 'Rates adjusted, gaps filled by campaigns', 'Every turnover assigned and confirmed'];
+
+  const head = document.getElementById('head'), rows = document.getElementById('rows'), rates = document.getElementById('rates');
+  const fmt = d => d.toLocaleDateString('en-GB', { weekday: 'short' });
+  head.innerHTML = '<div></div>' + DAYS.map((d, i) => `<div class="${d.getDay() % 6 === 0 ? 'we' : ''} ${i === 1 ? 'today' : ''}">${fmt(d)}<b>${d.getDate()}</b></div>`).join('');
+  const colW = () => (rows.clientWidth - 150) / 14;
+  UNITS.forEach((u, r) => {
+    const row = document.createElement('div'); row.className = 'row';
+    row.innerHTML = `<div class="u"><b>${u[0]}</b><span>${u[1]}</span></div>` + DAYS.map(d => `<div class="${d.getDay() % 6 === 0 ? 'we' : ''}"></div>`).join('') + '<div class="bars"></div>';
+    rows.appendChild(row);
+  });
+  rates.innerHTML = '<div>Nightly rate · avg</div>' + RATES.map(v => `<div>€${v}</div>`).join('');
+  const rateEls = [...rates.children].slice(1);
+
+  // bars
+  const barsEls = [...rows.querySelectorAll('.bars')];
+  const bars = B.map(([u, s, n, ch, g, fix]) => {
+    const el = document.createElement('div'); el.className = `bar ${ch}${fix >= 0 ? ' new' : ''}`;
+    el.style.left = `calc(${s} * (100% / 14) + 3px)`; el.style.width = `calc(${n} * (100% / 14) - 6px)`;
+    el.innerHTML = `${g}<small>${ch === 'air' ? 'Airbnb' : ch === 'bkg' ? 'Booking.com' : 'Direct'}</small><span class="fee">fee</span>`;
+    barsEls[u].appendChild(el);
+    return { u, s, n, ch, fix, el };
+  });
+  // open-night outlines (per unit, contiguous empty runs before any fixes)
+  const occAt = (u, c, step) => bars.some(b => b.u === u && c >= b.s && c < b.s + b.n && (b.fix < 0 || b.fix <= step));
+  const gaps = [];
+  UNITS.forEach((_, u) => {
+    let c = 0;
+    while (c < 14) {
+      if (occAt(u, c, -1)) { c++; continue; }
+      let e = c; while (e < 14 && !occAt(u, e, -1)) e++;
+      const el = document.createElement('div'); el.className = 'gap open';
+      el.style.left = `calc(${c} * (100% / 14) + 3px)`; el.style.width = `calc(${e - c} * (100% / 14) - 6px)`;
+      barsEls[u].appendChild(el); gaps.push({ u, s: c, e, el }); c = e;
+    }
+  });
+  // turnovers: a stay that ends where another starts
+  const turns = [];
+  bars.filter(b => b.fix < 0).forEach(a => bars.filter(b => b.fix < 0 && b.u === a.u && b.s === a.s + a.n).forEach(() => {
+    const el = document.createElement('div'); el.className = 'turn'; el.textContent = '!';
+    el.style.left = `calc(${a.s + a.n} * (100% / 14))`; barsEls[a.u].appendChild(el); turns.push(el);
+  }));
+
+  // inbox
+  const msgs = document.getElementById('msgs');
+  const msgEls = MSGS.map(m => {
+    const el = document.createElement('div'); el.className = 'msg';
+    el.innerHTML = `<div class="av" style="background:${m[1]}">${m[0]}</div><div class="nm">${m[2]}</div><div class="tm">${m[4]}<i></i></div><div class="pv">${m[3]}</div>`;
+    msgs.appendChild(el); return { el, pv: el.querySelector('.pv'), m };
+  });
+
+  const rig = document.getElementById('rig'), dash = document.getElementById('dash'), win = document.getElementById('win'), inbox = document.getElementById('inbox');
+  const unread = document.getElementById('unread'), occN = document.getElementById('occN'), occM = document.getElementById('occM');
+  const statV = document.getElementById('statV'), statB = document.getElementById('statB'), ntag = document.getElementById('ntag'), ntagT = document.getElementById('ntagT');
+
+  function fit() {
+    const wide = innerWidth > 900;
+    const s = Math.min(1.05, wide ? Math.min((innerWidth * .49) / 880, (innerHeight * .68) / 560) : (innerWidth * .95) / 880);
+    rig.style.setProperty('--ps', s.toFixed(3));
+    rig.style.setProperty('--px', wide ? '69%' : '50%');
+  }
+  addEventListener('resize', fit); fit();
+  let mx = 0, my = 0, mxs = 0, mys = 0;
+  addEventListener('pointermove', e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; });
+
+  const TAG_POS = [['calc(100% - 20px)', '58px'], ['44%', '84px'], ['40%', '268px'], ['22%', '178px']];
+  let last = '';
+  Story.on(s => {
+    const fixStep = s.ch === 2 ? (s.local > .15 ? s.step : s.step - 1) : s.ch === 3 ? 3 : -1;
+    const key = `${s.ch}:${s.step}:${fixStep}`;
+
+    // bars added by the system
+    bars.forEach(b => { if (b.fix >= 0) b.el.classList.toggle('in', b.fix <= fixStep); });
+    gaps.forEach(g => {
+      let open = false; for (let c = g.s; c < g.e; c++) if (!occAt(g.u, c, fixStep)) open = true;
+      g.el.classList.toggle('open', open);
+    });
+    turns.forEach(t => { const ok = fixStep >= 3; t.classList.toggle('ok', ok); t.textContent = ok ? '✓' : '!'; });
+    rateEls.forEach((el, i) => {
+      const fixed = fixStep >= 2; el.textContent = `€${fixed ? RATES_FIX[i] : RATES[i]}`;
+      el.className = fixed ? (RATES_FIX[i] > RATES[i] ? 'up' : 'down') : '';
+    });
+    msgEls.forEach(x => { const ok = fixStep >= 0; x.el.classList.toggle('done', ok); x.pv.textContent = ok ? '✓ ' + x.m[5] : x.m[3]; });
+
+    // unread count: piles up overnight, then hits zero
+    const u = fixStep >= 0 ? 0 : s.ch === 0 ? 14 + Math.min(9, Math.floor(s.t / 2.2)) : 27;
+    unread.textContent = u; unread.classList.toggle('zero', u === 0);
+
+    // occupancy
+    let n = 0; for (let un = 0; un < 5; un++) for (let c = 0; c < 14; c++) if (occAt(un, c, fixStep)) n++;
+    const pct = Math.round(n / 70 * 100);
+    occN.textContent = pct + '%'; occM.style.width = pct + '%'; statV.textContent = n; statB.style.width = pct + '%';
+
+    // pain highlighting
+    const pain = s.ch === 1 ? s.step : -1;
+    inbox.classList.toggle('pop', pain === 0 || (s.ch === 2 && s.step === 0));
+    win.classList.toggle('show-fees', pain === 1);
+    win.classList.toggle('show-gaps', pain === 2);
+    win.classList.toggle('show-rates', pain === 2);
+    win.classList.toggle('show-turns', pain === 3);
+    win.classList.toggle('dim', pain === 1);
+    bars.forEach(b => b.el.classList.toggle('focus', pain === 1 && b.ch !== 'dir'));
+
+    const showTag = s.ch === 1 || s.ch === 2;
+    ntag.classList.toggle('on', showTag); ntag.classList.toggle('good', s.ch === 2);
+    if (showTag) { ntagT.textContent = (s.ch === 1 ? PAIN_TAGS : FIX_TAGS)[s.step]; ntag.style.left = TAG_POS[s.step][0]; ntag.style.top = TAG_POS[s.step][1]; }
+
+    // the dashboard straightens up as the story resolves
+    mxs += (mx - mxs) * .06; mys += (my - mys) * .06;
+    const rx = [17, 11, 6, 3][s.ch] - mys * 6, ry = [-17, -11, -6, -3][s.ch] + mxs * 8, rz = [3, 1.5, .8, 0][s.ch];
+    dash.style.setProperty('--rx', rx.toFixed(2) + 'deg'); dash.style.setProperty('--ry', ry.toFixed(2) + 'deg'); dash.style.setProperty('--rz', rz + 'deg');
+  });
+})();
+</script>
+</body>
+</html>

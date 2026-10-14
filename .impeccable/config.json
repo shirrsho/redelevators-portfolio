@@ -1,0 +1,71 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "redesign-mockups/hero-1-core.html"
+        ],
+        "createdAt": "2026-10-13T12:23:08.874Z",
+        "reason": "Concept is a light field on black, derived from the owner's supplied sample heroes; glow is the lighting, not decoration"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "redesign-mockups/r3/**"
+        ],
+        "createdAt": "2026-10-13T18:41:31.986Z",
+        "reason": "Owner chose the Aurora direction on 14 Oct 2026; colored light is the point of it"
+      },
+      {
+        "rule": "radial-halo",
+        "value": "*",
+        "files": [
+          "redesign-mockups/r3/**"
+        ],
+        "createdAt": "2026-10-13T18:41:32.002Z",
+        "reason": "Owner chose the Aurora direction on 14 Oct 2026; light-source halos are part of it"
+      },
+      {
+        "rule": "numbered-section-labels",
+        "value": "*",
+        "files": [
+          "redesign-mockups/r3/**"
+        ],
+        "createdAt": "2026-10-13T18:41:32.023Z",
+        "reason": "Chapter labels carry the scroll story the owner asked for and approved"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "redesign-mockups/r3/**"
+        ],
+        "createdAt": "2026-10-13T18:41:32.038Z",
+        "reason": "Dots are functional: chat typing indicators and 'system running' status"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "redesign-mockups/r3/**"
+        ],
+        "createdAt": "2026-10-13T18:41:32.054Z",
+        "reason": "Deliberate clipping: sticky story stage and animation windows"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "redesign-mockups/r3/**"
+        ],
+        "createdAt": "2026-10-13T18:41:32.070Z",
+        "reason": "Flush edges are device/window chrome bars in phone and laptop mockups"
+      }
+    ]
+  }
+}

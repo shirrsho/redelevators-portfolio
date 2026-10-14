@@ -1,20 +1,18 @@
 import type { Metadata } from "next";
 
-// Single source of truth for site-wide SEO. Copy here is the STR-focused
-// positioning (see PRODUCT.md / Footer), not the older generic "marketing &
-// automation agency" line — titles and descriptions carry the keywords the
-// business actually ranks for: short-term rental, Airbnb, vacation rental,
-// direct bookings, guest messaging.
+// Single source of truth for site-wide SEO. Titles follow the redesign
+// (redesign-mockups/build-site.py → TITLES: "<Page> · Red Elevators");
+// descriptions carry the keywords the business ranks for: short-term rental,
+// Airbnb, vacation rental, direct bookings, guest messaging.
 export const SITE = {
   name: "Red Elevators",
   url: "https://redelevators.com",
   tagline: "Growth on Autopilot",
-  // Home <title> — keyword-led, brand kept short enough to survive Google's
-  // ~60-char truncation.
-  defaultTitle: "Red Elevators, Rental Automation & Marketing",
-  titleTemplate: "%s, Red Elevators",
+  // Home <title> (build-site.py TITLES.home).
+  defaultTitle: "Red Elevators · Automation & marketing for short-term rentals",
+  titleTemplate: "%s · Red Elevators",
   description:
-    "Marketing and AI automation for short-term rental hosts; guest messaging, direct bookings and listing content that run on autopilot. Book a free 30-minute call.",
+    "We build and run the automation and marketing behind short-term rentals: guest messaging, direct bookings and listings that run on autopilot. Book a free 30-minute call.",
   email: "contact@redelevators.com",
   locale: "en_US",
 } as const;
@@ -33,7 +31,7 @@ export const SITE_KEYWORDS = [
 ];
 
 type PageMetaInput = {
-  /** Page title fed through the "%s — Red Elevators" template. Omit for the
+  /** Page title fed through the "%s · Red Elevators" template. Omit for the
    *  home page, which uses SITE.defaultTitle. */
   title?: string;
   description: string;
@@ -44,10 +42,19 @@ type PageMetaInput = {
 
 /**
  * Builds a page's Metadata with a canonical URL plus matching Open Graph and
- * Twitter cards. The site-wide OG image (src/app/opengraph-image.tsx) is
- * attached automatically by Next's file convention, so we never set images
- * here — that keeps one branded share image across every route.
+ * Twitter cards, all pointing at the one site-wide share image
+ * (src/app/opengraph-image.tsx, twitter-image.tsx). Next only attaches that
+ * file to the root route: a page that sets its own `openGraph` replaces the
+ * root's wholesale (metadata merges shallowly), so the image is set here.
  */
+/** Matches src/app/opengraph-image.tsx (size, alt). */
+const SHARE_IMAGE = {
+  width: 1200,
+  height: 630,
+  type: "image/png",
+  alt: "Red Elevators · Automation & marketing for short-term rentals",
+} as const;
+
 export function pageMetadata({
   title,
   description,
@@ -55,10 +62,10 @@ export function pageMetadata({
   keywords,
 }: PageMetaInput): Metadata {
   const url = path === "/" ? SITE.url : `${SITE.url}${path}`;
-  const ogTitle = title ? `${title} — ${SITE.name}` : SITE.defaultTitle;
+  const ogTitle = title ? `${title} · ${SITE.name}` : SITE.defaultTitle;
 
   return {
-    title,
+    ...(title ? { title } : {}),
     description,
     ...(keywords ? { keywords } : {}),
     alternates: { canonical: path },
@@ -69,11 +76,13 @@ export function pageMetadata({
       description,
       url,
       locale: SITE.locale,
+      images: [{ url: "/opengraph-image", ...SHARE_IMAGE }],
     },
     twitter: {
       card: "summary_large_image",
       title: ogTitle,
       description,
+      images: [{ url: "/twitter-image", ...SHARE_IMAGE }],
     },
   };
 }
@@ -89,13 +98,14 @@ export const organizationLd = {
   legalName: SITE.name,
   slogan: SITE.tagline,
   description: SITE.description,
-  logo: `${SITE.url}/brand/red-elevators-logo-light.svg`,
+  logo: `${SITE.url}/brand/logo-lockup-light.svg`,
   email: SITE.email,
   contactPoint: {
     "@type": "ContactPoint",
     email: SITE.email,
     contactType: "sales",
     availableLanguage: ["English"],
+    areaServed: ["US", "AE"],
   },
   knowsAbout: [
     "Short-term rental automation",

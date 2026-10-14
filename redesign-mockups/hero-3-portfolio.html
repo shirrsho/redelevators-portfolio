@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hero 03 — Lit Portfolio · Red Elevators</title>
+<meta name="theme-color" content="#0a0706">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   HERO 03 — LIT PORTFOLIO
+   Grade: "Infrared". Warm blacks, amber window light, a deep ember red for
+   the core and for booked rooftops, steel only for turnovers. Hospitality
+   warmth with an editorial serif, still clearly a systems company.
+   The city is the client's portfolio; every lit building is a booked night.
+   Scroll and you ride up, and the city turns out to be a calendar.
+   ========================================================================== */
+:root{
+  --bg:#0a0706;
+  --ink:#f5eee7;
+  --sub:#b5a89e;
+  --dim:#94877e;
+  --hair:rgba(245,238,231,.13);
+  --red:#e8382b;
+  --amber:#ffb067;
+  --steel:#8fa3b5;
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Instrument Sans',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{font-family:var(--sans);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+canvas#gl{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:0}
+.grade{position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:
+    linear-gradient(0deg, rgba(10,7,6,.92) 0%, rgba(10,7,6,.55) 26%, transparent 50%),
+    linear-gradient(90deg, rgba(10,7,6,.7) 0%, rgba(10,7,6,.35) 35%, transparent 60%),
+    linear-gradient(180deg, rgba(10,7,6,.7) 0%, transparent 18%),
+    radial-gradient(130% 100% at 50% 40%, transparent 55%, rgba(5,3,2,.75) 100%)}
+.grade::after{content:"";position:absolute;inset:-50%;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1s steps(6) infinite}
+@keyframes grain{0%{translate:0 0}25%{translate:-3% 2%}50%{translate:2% -3%}75%{translate:-2% -1%}100%{translate:0 0}}
+
+/* ---- Nav ---------------------------------------------------------------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:10;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:24px clamp(20px,4vw,60px)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px;letter-spacing:-.01em}
+.brand svg{width:26px;height:26px}
+.links{display:flex;gap:6px;padding:5px;border-radius:999px;border:1px solid var(--hair);background:rgba(10,7,6,.5);backdrop-filter:blur(14px)}
+.links a{font-size:14px;color:var(--sub);padding:8px 15px;border-radius:999px;transition:background .3s,color .3s}
+.links a:hover{color:var(--ink);background:rgba(245,238,231,.07)}
+.nav-r{justify-self:end;display:flex;align-items:center;gap:16px}
+/* elevator floor display */
+.floor{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--amber);
+  padding:7px 11px;border-radius:8px;background:rgba(255,176,103,.07);border:1px solid rgba(255,176,103,.22)}
+.floor svg{width:9px;height:9px;transition:transform .3s}
+.floor b{font-weight:500;min-width:2ch;text-align:right}
+.book{font-size:14px;font-weight:500;padding:11px 18px;border-radius:999px;background:var(--ink);color:#140d0a;transition:background .3s}
+.book:hover{background:#fff}
+
+/* ---- Hero --------------------------------------------------------------- */
+.hero{position:relative;z-index:5;height:100vh;display:flex;align-items:flex-end;padding:0 clamp(20px,4vw,60px) clamp(36px,7vh,80px);pointer-events:none}
+.copy{max-width:760px;pointer-events:auto}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--sub);margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--amber)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(52px,7.6vw,124px);line-height:.92;letter-spacing:-.025em}
+h1 i{color:var(--amber)}
+h1 .r{color:var(--red)}
+.row{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-top:30px;flex-wrap:wrap}
+.sub{max-width:470px;font-size:17px;line-height:1.55;color:var(--sub)}
+.ctas{display:flex;gap:10px;flex-wrap:wrap}
+.cta{display:inline-flex;align-items:center;gap:12px;padding:16px 22px;border-radius:999px;background:#cf2c21;color:#fff;font-weight:500;font-size:15px;transition:background .3s,transform .3s}
+.cta:hover{background:#dc3427;transform:translateY(-1px)}
+.cta svg{width:15px;height:10px}
+.ghost{display:inline-flex;align-items:center;padding:16px 20px;border-radius:999px;border:1px solid var(--hair);font-size:15px;background:rgba(10,7,6,.45);backdrop-filter:blur(12px)}
+.ghost:hover{border-color:rgba(255,176,103,.45)}
+
+/* ---- HUD ---------------------------------------------------------------- */
+.hud{position:fixed;z-index:6;right:clamp(20px,4vw,60px);top:104px;width:250px;padding:16px 18px;border-radius:14px;
+  border:1px solid var(--hair);background:rgba(14,9,8,.6);backdrop-filter:blur(16px);transition:opacity .4s}
+.hud .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);display:flex;justify-content:space-between}
+.hud .big{font-family:var(--serif);font-size:54px;line-height:1;margin:10px 0 4px}
+.hud .big small{font-size:22px;color:var(--sub)}
+.hud .meter{height:4px;border-radius:4px;background:rgba(245,238,231,.08);overflow:hidden;margin:12px 0 12px}
+.hud .meter i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--amber));transition:width .6s}
+.legend{display:grid;gap:7px;font-size:12.5px;color:var(--sub)}
+.legend span{display:flex;align-items:center;gap:9px}
+.legend b{width:9px;height:9px;border-radius:2px}
+.hint{position:fixed;z-index:6;right:clamp(20px,4vw,60px);bottom:clamp(36px,7vh,80px);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);text-align:right;line-height:1.8;transition:opacity .4s}
+
+.tip{position:fixed;z-index:8;left:0;top:0;padding:12px 14px;border-radius:12px;background:rgba(14,9,8,.82);border:1px solid var(--hair);
+  backdrop-filter:blur(14px);pointer-events:none;opacity:0;transition:opacity .2s;min-width:200px}
+.tip.on{opacity:1}
+.tip .d{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.tip .s{font-size:15px;margin-top:4px}
+.tip .s.b{color:var(--amber)} .tip .s.o{color:var(--sub)}
+.tip .c{font-size:12.5px;color:var(--sub);margin-top:2px}
+
+/* ---- Section 2: the calendar reveal ------------------------------------- */
+.reveal{position:relative;z-index:5;height:220vh;pointer-events:none}
+.reveal-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;padding:0 clamp(20px,4vw,60px)}
+.rcopy{max-width:400px;opacity:0;pointer-events:auto}
+.rcopy .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:18px}
+.rcopy h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,4.4vw,64px);line-height:.98;letter-spacing:-.02em}
+.rcopy h2 i{color:var(--amber)}
+.rcopy p{font-size:16px;line-height:1.6;color:var(--sub);margin-top:20px}
+.days{position:fixed;inset:0;z-index:4;pointer-events:none}
+.days span{position:absolute;left:0;top:0;font-family:var(--mono);font-size:12px;color:rgba(245,238,231,.8);opacity:0;will-change:transform}
+.days span.wk{color:var(--dim);font-size:11px;letter-spacing:.14em}
+.days span.today{color:var(--amber)}
+.variant{position:fixed;left:50%;translate:-50% 0;bottom:14px;z-index:6;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+
+@media (max-width:900px){
+  .links,.floor{display:none}
+  .hud{display:none}
+  .hint{display:none}
+  .nav{grid-template-columns:1fr auto}
+}
+</style>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="grade" aria-hidden="true"></div>
+<div class="days" id="days" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="#">
+    <!-- Reworked mark: stacked floors, the top one lit. -->
+    <svg viewBox="0 0 28 28" aria-hidden="true">
+      <rect x="2" y="20" width="24" height="5" rx="1.6" fill="#f5eee7"/>
+      <rect x="6" y="12.5" width="16" height="5" rx="1.6" fill="#f5eee7" fill-opacity=".72"/>
+      <rect x="10" y="5" width="8" height="5" rx="1.6" fill="#e8382b"/>
+      <circle cx="22.5" cy="5" r="1.8" fill="#ffb067"/>
+    </svg>
+    Red Elevators
+  </a>
+  <nav class="links"><a href="#">Services</a><a href="#">Systems</a><a href="#">Approach</a><a href="#">Contact</a></nav>
+  <div class="nav-r">
+    <span class="floor" title="You're riding the elevator"><svg viewBox="0 0 10 10" id="floorArrow"><path d="M5 1 9 8H1z" fill="currentColor"/></svg><b id="floorN">01</b></span>
+    <a class="book" href="#">Book a call</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="copy" id="copy">
+    <div class="eyebrow"><i></i>Automation &amp; marketing for short-term rentals</div>
+    <h1>Every night <i>booked.</i><br>Every guest <span class="r">answered.</span></h1>
+    <div class="row">
+      <p class="sub">We build and run the systems behind rental businesses: direct bookings, guest messaging, pricing and ads. The calendar fills while you sleep.</p>
+      <div class="ctas">
+        <a class="cta" href="#">Book a free 30-min call
+          <svg viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 5.5H14.6M10.3 1.2L14.9 5.5L10.3 9.8"/></svg></a>
+        <a class="ghost" href="#reveal">See it from above</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal" id="reveal">
+  <div class="reveal-sticky">
+    <div class="rcopy" id="rcopy">
+      <div class="k">Your portfolio, from floor 32</div>
+      <h2>From the street, it's a city.<br><i>From above, it's your calendar.</i></h2>
+      <p>Every rooftop is a night. Lit means booked. A steel flash is a turnover, handled. The dark ones are where our ads go to work next.</p>
+    </div>
+  </div>
+</section>
+
+<div class="hud" id="hud">
+  <div class="k"><span>Simulated portfolio</span><span>Nov</span></div>
+  <div class="big"><span id="occ">0</span><small>% booked</small></div>
+  <div class="meter"><i id="occBar" style="width:0"></i></div>
+  <div class="legend">
+    <span><b style="background:var(--amber)"></b>Booked night</span>
+    <span><b style="background:var(--steel)"></b>Turnover handled</span>
+    <span><b style="background:#2a2220"></b>Open, ads targeting</span>
+  </div>
+</div>
+<div class="hint" id="hint">Hover a building<br>Click a dark one to book it</div>
+<div class="tip" id="tip"><div class="d" id="tipD"></div><div class="s" id="tipS"></div><div class="c" id="tipC"></div></div>
+<div class="variant">Hero variant 03 — Lit Portfolio</div>
+
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const canvas = document.getElementById('gl');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+const scene = new THREE.Scene();
+const BG = new THREE.Color(0x0a0706), FOG = new THREE.Color(0x120a08);
+scene.background = BG;
+const camera = new THREE.PerspectiveCamera(35, innerWidth / innerHeight, .1, 300);
+
+const RED = new THREE.Color(0xe8382b), AMBER = new THREE.Color(0xffb067), STEEL = new THREE.Color(0x8fa3b5);
+const rand = (a, b) => a + Math.random() * (b - a);
+
+// ---------------------------------------------------------------------------
+// The calendar: 7 × 5 cells, each one a building (a rental unit / a night)
+// ---------------------------------------------------------------------------
+const COLS = 7, ROWS = 5, PITCH = 2.8, CAL = COLS * ROWS;
+const cellPos = (c, r) => new THREE.Vector3((c - (COLS - 1) / 2) * PITCH, 0, (r - (ROWS - 1) / 2) * PITCH);
+
+const box = new THREE.BoxGeometry(1, 1, 1); box.translate(0, .5, 0);
+const bMat = new THREE.ShaderMaterial({
+  uniforms: { uAmber: { value: AMBER }, uRed: { value: RED }, uSteel: { value: STEEL }, uFog: { value: FOG },
+              uTime: { value: 0 }, uCam: { value: new THREE.Vector3() }, uFogNear: { value: 20 }, uFogFar: { value: 70 } },
+  vertexShader: `
+    attribute float aLit; attribute float aSeed; attribute float aCal; attribute float aFlash; attribute float aHover;
+    varying vec3 vN; varying vec3 vW; varying vec3 vC; varying float vLit; varying float vSeed; varying float vCal;
+    varying float vHalf; varying float vH; varying float vFlash; varying float vHover;
+    void main(){
+      vec4 w = modelMatrix * instanceMatrix * vec4(position,1.);
+      vW = w.xyz; vN = normalize(mat3(modelMatrix) * mat3(instanceMatrix) * normal);
+      vC = (modelMatrix * instanceMatrix * vec4(0.,0.,0.,1.)).xyz;
+      vHalf = length(instanceMatrix[0].xyz) * .5; vH = length(instanceMatrix[1].xyz);
+      vLit = aLit; vSeed = aSeed; vCal = aCal; vFlash = aFlash; vHover = aHover;
+      gl_Position = projectionMatrix * viewMatrix * w;
+    }`,
+  fragmentShader: `
+    uniform vec3 uAmber; uniform vec3 uRed; uniform vec3 uSteel; uniform vec3 uFog; uniform float uTime; uniform vec3 uCam;
+    uniform float uFogNear; uniform float uFogFar;
+    varying vec3 vN; varying vec3 vW; varying vec3 vC; varying float vLit; varying float vSeed; varying float vCal;
+    varying float vHalf; varying float vH; varying float vFlash; varying float vHover;
+    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }
+    void main(){
+      float diff = .35 + .65 * max(dot(vN, normalize(vec3(-.45,.8,.35))), 0.);
+      vec3 col = vec3(.05,.038,.034) * diff;
+      if (abs(vN.y) < .5) {
+        float u = abs(vN.x) > .5 ? vW.z : vW.x;
+        vec2 g = vec2(u * 2.4 + vSeed * 7., vW.y * 2.8);
+        vec2 id = floor(g), f = fract(g);
+        float win = step(.24,f.x) * step(f.x,.76) * step(.28,f.y) * step(f.y,.72);
+        win *= step(.4, vW.y) * step(vW.y, vH - .3);
+        float r = hash(id + vSeed * 31.);
+        float share = vCal > .5 ? (.06 + .82 * vLit) : .12;
+        float on = step(1. - share, r);
+        float flick = .88 + .12 * sin(uTime * (1. + r * 2.) + r * 40.);
+        vec3 wc = mix(uAmber, uAmber * vec3(1.,.72,.55), r);
+        float inten = vCal > .5 ? (.35 + 1.5 * vLit) : .28;
+        col += win * on * wc * inten * flick;
+        col += win * (1. - on) * vec3(.025,.022,.024);
+      } else if (vN.y > .5) {
+        vec2 d = abs(vW.xz - vC.xz);
+        float edge = smoothstep(vHalf - .16, vHalf - .05, max(d.x, d.y));
+        col += edge * uRed * 2.2 * vLit * vCal;
+        col += (uRed * .35 + uAmber * .08) * vLit * vCal;
+        col += edge * uAmber * .9 * vHover;
+      }
+      col += uSteel * vFlash * 1.1;
+      col += uAmber * vHover * .08;
+      float fog = smoothstep(uFogNear, uFogFar, length(vW - uCam));
+      col = mix(col, uFog, fog);
+      gl_FragColor = vec4(col, 1.);
+    }`,
+});
+
+function makeCity(list, isCal) {
+  const geo = box.clone();
+  const n = list.length;
+  const mesh = new THREE.InstancedMesh(geo, bMat, n);
+  const aLit = new Float32Array(n), aSeed = new Float32Array(n), aCal = new Float32Array(n).fill(isCal ? 1 : 0), aFlash = new Float32Array(n), aHover = new Float32Array(n);
+  const m = new THREE.Matrix4();
+  list.forEach((b, i) => {
+    m.compose(b.pos, new THREE.Quaternion(), new THREE.Vector3(b.w, b.h, b.d)); mesh.setMatrixAt(i, m);
+    aSeed[i] = Math.random();
+  });
+  geo.setAttribute('aLit', new THREE.InstancedBufferAttribute(aLit, 1));
+  geo.setAttribute('aSeed', new THREE.InstancedBufferAttribute(aSeed, 1));
+  geo.setAttribute('aCal', new THREE.InstancedBufferAttribute(aCal, 1));
+  geo.setAttribute('aFlash', new THREE.InstancedBufferAttribute(aFlash, 1));
+  geo.setAttribute('aHover', new THREE.InstancedBufferAttribute(aHover, 1));
+  scene.add(mesh);
+  return mesh;
+}
+
+// Calendar buildings
+const UNITS = ['Loft 2B', 'Harbour Studio', 'Garden Flat', 'Penthouse 9', 'Canal House', 'Studio 4A', 'The Annex', 'Rooftop Suite'];
+const CHANNELS = ['Direct', 'Direct', 'Airbnb', 'Booking.com', 'Direct', 'VRBO'];
+const calList = [], cells = [];
+for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+  const p = cellPos(c, r);
+  const dist = Math.hypot(c - 3, r - 2);
+  const h = rand(1.4, 3.2) + Math.max(0, 3 - dist) * rand(.8, 1.6);
+  calList.push({ pos: p, w: rand(1.55, 1.95), d: rand(1.55, 1.95), h });
+  cells.push({ c, r, p, h, lit: 0, target: 0, flash: 0, hover: 0, unit: UNITS[Math.floor(Math.random() * UNITS.length)], ch: '', nights: 0 });
+}
+const calMesh = makeCity(calList, true);
+
+// Filler city around it, fading into the fog
+const fillList = [];
+for (let gx = -16; gx <= 16; gx++) for (let gz = -14; gz <= 8; gz++) {
+  const x = gx * PITCH * .78, z = gz * PITCH * .78;
+  if (Math.abs(x) < COLS * PITCH / 2 + .6 && Math.abs(z) < ROWS * PITCH / 2 + .6) continue;
+  if (Math.random() < .18) continue;
+  const far = Math.hypot(x, z);
+  fillList.push({ pos: new THREE.Vector3(x + rand(-.3, .3), 0, z + rand(-.3, .3)), w: rand(1, 1.7), d: rand(1, 1.7), h: rand(.6, 2.6) + (far > 18 ? rand(0, 5) : 0) });
+}
+makeCity(fillList, false);
+
+// Calendar plates (the day cells, read from above)
+const plateMat = new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false,
+  uniforms: { uRed: { value: RED }, uAmber: { value: AMBER }, uShow: { value: 0 } },
+  vertexShader: `attribute float aLit; varying float vLit; varying vec2 vUv;
+    void main(){ vLit=aLit; vUv=uv; gl_Position=projectionMatrix*viewMatrix*modelMatrix*instanceMatrix*vec4(position,1.); }`,
+  fragmentShader: `uniform vec3 uRed; uniform vec3 uAmber; uniform float uShow; varying float vLit; varying vec2 vUv;
+    void main(){ vec2 d=abs(vUv-.5); float e=step(.47,max(d.x,d.y));
+      vec3 c = mix(vec3(.05,.035,.03), uRed*.22 + uAmber*.05, vLit) + e*mix(vec3(.12,.1,.09), uAmber*.5, vLit);
+      gl_FragColor=vec4(c, .55 + .45*uShow); }`,
+});
+const plateGeo = new THREE.PlaneGeometry(PITCH - .25, PITCH - .25); plateGeo.rotateX(-Math.PI / 2);
+const plates = new THREE.InstancedMesh(plateGeo, plateMat, CAL);
+const plateLit = new Float32Array(CAL);
+plateGeo.setAttribute('aLit', new THREE.InstancedBufferAttribute(plateLit, 1));
+cells.forEach((c, i) => { const m = new THREE.Matrix4().makeTranslation(c.p.x, .02, c.p.z); plates.setMatrixAt(i, m); });
+scene.add(plates);
+
+// Ground
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshBasicMaterial({ color: 0x0c0807 }));
+ground.rotation.x = -Math.PI / 2; ground.position.y = -.01; scene.add(ground);
+
+// ---------------------------------------------------------------------------
+// The core: an ember that sends bookings down as arcs of light
+// ---------------------------------------------------------------------------
+const glowTex = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
+  const gr = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+  gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(.2, 'rgba(255,255,255,.45)'); gr.addColorStop(.5, 'rgba(255,255,255,.08)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = gr; g.fillRect(0, 0, 256, 256); return new THREE.CanvasTexture(c);
+})();
+const core = new THREE.Group();
+const coreShell = new THREE.Mesh(new THREE.IcosahedronGeometry(.75, 6), new THREE.ShaderMaterial({
+  uniforms: { uT: { value: 0 }, uF: { value: 0 } },
+  vertexShader: `varying vec3 vN; varying vec3 vV; void main(){ vec4 mv=modelViewMatrix*vec4(position,1.); vN=normalize(normalMatrix*normal); vV=normalize(-mv.xyz); gl_Position=projectionMatrix*mv; }`,
+  fragmentShader: `uniform float uF; varying vec3 vN; varying vec3 vV;
+    void main(){ float f=pow(clamp(1.-dot(vN,vV),0.,1.),2.); vec3 c=mix(vec3(1.,.9,.78), vec3(.91,.22,.17)*1.8, f); gl_FragColor=vec4(c*(.9+f+uF),1.); }`,
+}));
+const coreHalo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: 0xff5a3c, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+coreHalo.scale.setScalar(4.5);
+const ringMat = new THREE.MeshBasicMaterial({ color: 0xff7a50, transparent: true, opacity: .5, blending: THREE.AdditiveBlending, depthWrite: false });
+const cr1 = new THREE.Mesh(new THREE.TorusGeometry(1.4, .01, 8, 160), ringMat); cr1.rotation.x = 1.35;
+const cr2 = new THREE.Mesh(new THREE.TorusGeometry(1.8, .006, 8, 160), ringMat.clone()); cr2.material.opacity = .25; cr2.rotation.set(1.1, .5, 0);
+core.add(coreHalo, coreShell, cr1, cr2);
+scene.add(core);
+let coreFlash = 0;
+
+// Arcs
+const arcs = [];
+const ARC_N = 72;
+function sendArc(cellIdx, kind = 'book') {
+  const cell = cells[cellIdx];
+  const end = cell.p.clone(); end.y = cell.h + .05;
+  const start = core.position.clone();
+  const mid = start.clone().lerp(end, .5); mid.y = Math.max(start.y, end.y) + 3.5;
+  const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
+  const g = new THREE.BufferGeometry().setFromPoints(curve.getPoints(ARC_N - 1));
+  const at = new Float32Array(ARC_N); for (let i = 0; i < ARC_N; i++) at[i] = i / (ARC_N - 1);
+  g.setAttribute('aT', new THREE.BufferAttribute(at, 1));
+  const mat = new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: { uHead: { value: 0 }, uC: { value: (kind === 'book' ? AMBER : STEEL).clone() } },
+    vertexShader: `attribute float aT; varying float vT; void main(){ vT=aT; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader: `uniform float uHead; uniform vec3 uC; varying float vT;
+      void main(){ float a = smoothstep(uHead-.45, uHead, vT) * step(vT, uHead); a += .05*step(vT,uHead); gl_FragColor=vec4(uC*a*1.6,1.); }`,
+  });
+  const line = new THREE.Line(g, mat); scene.add(line);
+  const head = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: kind === 'book' ? 0xffc080 : 0xa8c0d8, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+  head.scale.setScalar(1.1); scene.add(head);
+  arcs.push({ line, head, curve, t: 0, cellIdx, kind, done: false });
+  coreFlash = 1;
+}
+
+// ---------------------------------------------------------------------------
+// Booking simulation
+// ---------------------------------------------------------------------------
+cells.forEach((c, i) => { if (Math.random() < .42) { c.lit = c.target = 1; c.ch = CHANNELS[Math.floor(Math.random() * CHANNELS.length)]; c.nights = 1 + Math.floor(Math.random() * 5); } });
+const pending = new Set();
+function bookRandom() {
+  const open = cells.map((c, i) => i).filter(i => cells[i].target === 0 && !pending.has(i));
+  if (!open.length) return;
+  book(open[Math.floor(Math.random() * open.length)]);
+}
+function book(i) { if (cells[i].target === 1 || pending.has(i)) return; pending.add(i); sendArc(i, 'book'); }
+function checkout() {
+  const booked = cells.map((c, i) => i).filter(i => cells[i].target === 1);
+  if (booked.length < CAL * .62) return;
+  const i = booked[Math.floor(Math.random() * booked.length)];
+  cells[i].target = 0; cells[i].flash = 1.2;
+}
+
+// ---------------------------------------------------------------------------
+// Post
+// ---------------------------------------------------------------------------
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), .6, .45, .72);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+// ---------------------------------------------------------------------------
+// Day labels for the calendar reveal (Mon-first, 26 Oct → 29 Nov)
+// ---------------------------------------------------------------------------
+const daysEl = document.getElementById('days');
+const dayEls = cells.map((c, i) => {
+  const d = new Date(2026, 9, 26 + i); const s = document.createElement('span');
+  s.textContent = d.getDate() === 1 ? '1 Nov' : d.getDate(); if (d.getMonth() === 9) s.style.color = 'rgba(245,238,231,.4)';
+  daysEl.appendChild(s); return s;
+});
+const wkEls = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(t => { const s = document.createElement('span'); s.className = 'wk'; s.textContent = t; daysEl.appendChild(s); return s; });
+
+// ---------------------------------------------------------------------------
+// Input, scroll
+// ---------------------------------------------------------------------------
+const mouse = new THREE.Vector2(9, 9), mouseS = new THREE.Vector2();
+addEventListener('pointermove', e => mouse.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1));
+const ray = new THREE.Raycaster();
+let hoverIdx = -1;
+addEventListener('pointerdown', e => {
+  if (e.target.closest('a')) return;
+  if (hoverIdx >= 0) { if (cells[hoverIdx].target === 0) book(hoverIdx); else { cells[hoverIdx].flash = 1; } }
+});
+const reveal = document.getElementById('reveal');
+let sp = 0, spS = 0;
+function onScroll() { const r = reveal.getBoundingClientRect(); sp = THREE.MathUtils.clamp(-r.top / (r.height - innerHeight) * 1.25 + .0, 0, 1); }
+addEventListener('scroll', onScroll, { passive: true }); onScroll(); spS = sp;
+
+const hud = document.getElementById('hud'), copy = document.getElementById('copy'), rcopy = document.getElementById('rcopy'), hint = document.getElementById('hint');
+const occEl = document.getElementById('occ'), occBar = document.getElementById('occBar'), floorN = document.getElementById('floorN'), floorArrow = document.getElementById('floorArrow');
+const tip = document.getElementById('tip'), tipD = document.getElementById('tipD'), tipS = document.getElementById('tipS'), tipC = document.getElementById('tipC');
+
+// Camera path: street level → straight up the shaft → looking down on the calendar
+const POS0 = new THREE.Vector3(-4, 8.5, 31), LOOK0 = new THREE.Vector3(3, 2.2, -2);
+const POS1 = new THREE.Vector3(-6.2, 33, 5.5), LOOK1 = new THREE.Vector3(-6.2, 0, .4);
+const CORE0 = new THREE.Vector3(6.5, 9.2, -5), CORE1 = new THREE.Vector3(9, 16, -10);
+const pos = new THREE.Vector3(), look = new THREE.Vector3(), tmp = new THREE.Vector3();
+const clock = new THREE.Clock();
+let lastBook = 0, lastOut = 0, lastFloor = '';
+
+function frame() {
+  const dt = Math.min(clock.getDelta(), .05), time = clock.elapsedTime;
+  mouseS.lerp(mouse.x > 5 ? new THREE.Vector2() : mouse, .05);
+  spS += (sp - spS) * .07;
+  const p = spS * spS * (3 - 2 * spS);
+  const wide = innerWidth >= 900;
+
+  // Camera
+  // Final framing: grid hugs the right edge on desktop, centred on mobile
+  const topY = wide ? 44 : 60;
+  const visW = 2 * topY * Math.tan(THREE.MathUtils.degToRad(17.5)) * camera.aspect;
+  const lx = wide ? -Math.max(0, visW / 2 - COLS * PITCH / 2 - 2.5) : 0;
+  POS1.set(lx, topY, 7); LOOK1.set(lx, 0, .4);
+  pos.lerpVectors(POS0, POS1, p); look.lerpVectors(LOOK0, LOOK1, p);
+  if (!wide) { pos.z += 8 * (1 - p); }
+  pos.x += mouseS.x * 2.2 * (1 - p); pos.y += mouseS.y * 1.2 * (1 - p);
+  camera.position.copy(pos); camera.lookAt(look);
+  bMat.uniforms.uCam.value.copy(camera.position);
+  bMat.uniforms.uFogNear.value = 18 + p * 16; bMat.uniforms.uFogFar.value = 64 + p * 20;
+  plateMat.uniforms.uShow.value = p;
+
+  // Elevator floor counter, from camera height
+  const fl = String(Math.max(1, Math.round((camera.position.y - 8.5) / (topY - 8.5) * 31) + 1)).padStart(2, '0');
+  if (fl !== lastFloor) { floorN.textContent = fl; floorArrow.style.transform = `rotate(${sp < spS ? 180 : 0}deg)`; lastFloor = fl; }
+
+  // Core
+  core.position.lerpVectors(CORE0, CORE1, p);
+  core.position.y += Math.sin(time * .8) * .25;
+  coreFlash *= .93;
+  coreShell.material.uniforms.uF.value = coreFlash;
+  coreShell.scale.setScalar(1 + .05 * Math.sin(time * 2) + coreFlash * .15);
+  coreHalo.scale.setScalar(4.5 + coreFlash * 3);
+  cr1.rotation.z = time * .3; cr2.rotation.y = -time * .2;
+
+  // Simulation
+  if (time - lastBook > .9) { lastBook = time; bookRandom(); }
+  if (time - lastOut > 2.1) { lastOut = time; checkout(); }
+
+  // Arcs
+  for (let i = arcs.length - 1; i >= 0; i--) {
+    const a = arcs[i]; a.t += dt * .8;
+    a.line.material.uniforms.uHead.value = Math.min(a.t, 1.45);
+    a.curve.getPoint(Math.min(a.t, 1), a.head.position);
+    a.head.material.opacity = a.t < 1 ? 1 : Math.max(0, 1 - (a.t - 1) * 3);
+    if (a.t >= 1 && !a.done) {
+      a.done = true; const c = cells[a.cellIdx];
+      if (a.kind === 'book') { c.target = 1; c.ch = CHANNELS[Math.floor(Math.random() * CHANNELS.length)]; c.nights = 1 + Math.floor(Math.random() * 5); pending.delete(a.cellIdx); }
+    }
+    if (a.t > 1.6) { scene.remove(a.line, a.head); a.line.geometry.dispose(); arcs.splice(i, 1); }
+  }
+
+  // Hover
+  ray.setFromCamera(mouse, camera);
+  const hit = ray.intersectObject(calMesh, false)[0];
+  hoverIdx = hit ? hit.instanceId : -1;
+  document.body.style.cursor = hoverIdx >= 0 ? 'pointer' : '';
+
+  // Write per-cell state into the instanced attributes
+  const aLit = calMesh.geometry.attributes.aLit, aFl = calMesh.geometry.attributes.aFlash, aHv = calMesh.geometry.attributes.aHover;
+  let booked = 0;
+  cells.forEach((c, i) => {
+    c.lit += (c.target - c.lit) * .06; c.flash *= .95; c.hover += ((i === hoverIdx ? 1 : 0) - c.hover) * .2;
+    aLit.array[i] = c.lit; aFl.array[i] = c.flash; aHv.array[i] = c.hover; plateLit[i] = c.lit;
+    if (c.target === 1) booked++;
+  });
+  aLit.needsUpdate = aFl.needsUpdate = aHv.needsUpdate = true; plates.geometry.attributes.aLit.needsUpdate = true;
+  bMat.uniforms.uTime.value = time;
+
+  const occ = Math.round(booked / CAL * 100);
+  occEl.textContent = occ; occBar.style.width = occ + '%';
+
+  // Tooltip
+  if (hoverIdx >= 0) {
+    const c = cells[hoverIdx], d = new Date(2026, 9, 26 + hoverIdx);
+    tipD.textContent = d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) + ' · ' + c.unit;
+    if (c.target === 1) { tipS.textContent = 'Booked'; tipS.className = 's b'; tipC.textContent = `${c.ch} · ${c.nights} night${c.nights > 1 ? 's' : ''} · guest messaged`; }
+    else { tipS.textContent = 'Open night'; tipS.className = 's o'; tipC.textContent = 'Click to send demand to it'; }
+    tmp.copy(c.p); tmp.y = c.h + .4; tmp.project(camera);
+    const x = (tmp.x * .5 + .5) * innerWidth, y = (-tmp.y * .5 + .5) * innerHeight;
+    tip.style.transform = `translate(${Math.min(x + 18, innerWidth - 240)}px, ${y - 80}px)`; tip.classList.add('on');
+  } else tip.classList.remove('on');
+
+  // Calendar day labels
+  const dayShow = THREE.MathUtils.smoothstep(p, .6, .95);
+  cells.forEach((c, i) => {
+    tmp.set(c.p.x - PITCH / 2 + .35, c.h, c.p.z - PITCH / 2 + .45).project(camera);
+    dayEls[i].style.transform = `translate(${(tmp.x * .5 + .5) * innerWidth}px, ${(-tmp.y * .5 + .5) * innerHeight}px)`;
+    dayEls[i].style.opacity = dayShow;
+  });
+  wkEls.forEach((el, c) => {
+    tmp.copy(cellPos(c, 0)); tmp.z -= PITCH * .82; tmp.x -= .4; tmp.project(camera);
+    el.style.transform = `translate(${(tmp.x * .5 + .5) * innerWidth}px, ${(-tmp.y * .5 + .5) * innerHeight}px)`;
+    el.style.opacity = dayShow;
+  });
+
+  // DOM choreography
+  const out = THREE.MathUtils.smoothstep(spS, .02, .3);
+  copy.style.opacity = 1 - out; copy.style.transform = `translateY(${out * 40}px)`;
+  hint.style.opacity = 1 - out;
+  hud.style.opacity = 1 - THREE.MathUtils.smoothstep(spS, .3, .6);
+  const rin = THREE.MathUtils.smoothstep(spS, .6, .95);
+  rcopy.style.opacity = rin; rcopy.style.transform = `translateY(${(1 - rin) * 24}px)`;
+
+  composer.render();
+  requestAnimationFrame(frame);
+}
+window.__dbg = { renderer, scene, camera, tick: () => frame() };
+frame();
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight);
+});
+</script>
+</body>
+</html>

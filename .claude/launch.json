@@ -4,8 +4,95 @@
     {
       "name": "redelevators-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3000
+    },
+    {
+      "name": "redesign-mockups",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4173",
+        "--directory",
+        "redesign-mockups"
+      ],
+      "port": 4173
+    },
+    {
+      "name": "site-preview",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4174",
+        "--directory",
+        "redesign-mockups/site"
+      ],
+      "port": 4174
+    },
+    {
+      "name": "redelevators-dev-a",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "3001"
+      ],
+      "port": 3001
+    },
+    {
+      "name": "redelevators-dev-b",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "3002"
+      ],
+      "port": 3002
+    },
+    {
+      "name": "redelevators-dev-c",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "3003"
+      ],
+      "port": 3003
+    },
+    {
+      "name": "redelevators-dev-d",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "3004"
+      ],
+      "port": 3004
+    },
+    {
+      "name": "redelevators-dev-integration",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "3005"
+      ],
+      "port": 3005
     }
   ]
 }

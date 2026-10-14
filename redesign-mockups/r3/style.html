@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Style Tile · Red Elevators (Round 3)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css?v=35">
+<link rel="stylesheet" href="devices.css?v=35"><link rel="stylesheet" href="sections.css?v=35"><link rel="stylesheet" href="themes.css?v=35">
+<script src="theme.js?v=35"></script>
+<style>
+body{padding-bottom:100px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:28px var(--pad);border-bottom:1px solid var(--hair)}
+.top img{height:30px}
+.blk{padding:72px 0 0}
+.blk > .wrap > .mono{display:block;margin-bottom:10px}
+.blk h2{margin-bottom:30px}
+.panel{border:1px solid var(--hair);border-radius:20px;background:var(--surface);padding:26px}
+.rule{font-size:13.5px;color:var(--sub);margin-top:14px;display:flex;gap:8px;align-items:flex-start}
+.rule b{color:var(--ink);font-weight:500}
+
+/* colour arc */
+.arc{height:150px;border-radius:18px;border:1px solid var(--hair);background:linear-gradient(90deg,#0a0b14 0%,#0a0b14 18%,#1a140f 42%,#141312 60%,#141312 78%,#0a0b14 100%);position:relative;overflow:hidden}
+.arc .t{position:absolute;bottom:14px;font-family:var(--mono);font-size:12px;color:var(--sub);translate:-50% 0;text-align:center}
+.arc .t b{display:block;font-family:var(--sans);font-weight:500;color:var(--ink);font-size:13px;margin-bottom:2px}
+.arc .glow{position:absolute;left:32%;top:-30%;width:30%;height:120%;background:radial-gradient(closest-side,rgba(255,196,140,.14),transparent)}
+.sw{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.s{border:1px solid var(--hair);border-radius:16px;overflow:hidden;background:var(--surface)}
+.s .c{height:84px}
+.s .m{padding:12px 14px}
+.s .m b{display:block;font-size:14px;font-weight:600}
+.s .m span{font-family:var(--mono);font-size:12px;color:var(--dim)}
+.s .m p{font-size:12.5px;color:var(--sub);margin-top:6px}
+
+/* type */
+.type{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+.type .row{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--hair)}
+.type .row:last-child{border:0}
+
+/* icons */
+.icons{display:grid;grid-template-columns:repeat(10,1fr);gap:10px}
+.icons div{border:1px solid var(--hair);border-radius:14px;padding:16px 8px 10px;display:grid;justify-items:center;gap:10px;background:var(--surface)}
+.icons span{font-family:var(--mono);font-size:12px;color:var(--dim)}
+.logos{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+
+/* components */
+.comps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.comps .panel{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.ncard{position:relative;width:300px}
+.ncard .n{position:relative}
+
+/* devices */
+.devs{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center}
+.devs .phone{scale:.78;transform-origin:left top;margin-bottom:-136px;margin-right:-66px}
+.devs .laptop{scale:.78;transform-origin:left top;margin-bottom:-110px}
+.devs .stack .n{position:relative;margin-bottom:8px}
+
+/* motion */
+.motion{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.mo{border:1px solid var(--hair);border-radius:18px;background:var(--surface);overflow:hidden}
+.mo .stagebox{height:200px;position:relative;display:grid;place-items:center;border-bottom:1px solid var(--hair);background:radial-gradient(80% 80% at 50% 100%,rgba(255,255,255,.03),transparent)}
+.mo .info{padding:16px}
+.mo h4{font-size:15px;font-weight:600;margin-bottom:4px}
+.mo p{font-size:13px;color:var(--sub)}
+.mo .spec{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:8px}
+.demo-n{width:220px}
+.demo-n .n{position:relative;font-size:12px}
+.a-arrive .n{animation:arrive 3.2s var(--ease) infinite}
+@keyframes arrive{0%{opacity:0;transform:translateY(-26px) scale(.96)}18%,80%{opacity:1;transform:none}100%{opacity:0}}
+.a-lift .n{animation:liftk 3.6s var(--ease) infinite}
+@keyframes liftk{0%,15%{transform:none;box-shadow:0 0 0 1px rgba(255,255,255,.06) inset}45%,85%{transform:translate(-8px,-14px) scale(1.12);box-shadow:0 0 0 1.5px rgba(232,163,61,.85) inset,0 30px 50px -20px #000}100%{transform:none}}
+.a-res .n{animation:resbg 4s infinite}
+.a-res .n .p1,.a-res .n .p2{grid-column:2;transition:none}
+.a-res .n .p1{animation:fadeA 4s infinite}.a-res .n .p2{animation:fadeB 4s infinite;position:absolute;left:56px;top:11px;right:12px}
+@keyframes fadeA{0%,40%{opacity:1}50%,95%{opacity:0}100%{opacity:1}}
+@keyframes fadeB{0%,40%{opacity:0}50%,95%{opacity:1}100%{opacity:0}}
+@keyframes resbg{0%,40%{background:rgba(36,36,46,.68)}50%,95%{background:rgba(26,40,34,.85)}}
+.a-rise .ln{display:grid;gap:8px}
+.a-rise i{display:block;height:12px;border-radius:6px;background:rgba(255,255,255,.18);animation:rise2 3s var(--ease) infinite}
+.a-rise i:nth-child(1){width:170px;height:20px;background:rgba(255,255,255,.4)}.a-rise i:nth-child(2){width:200px;animation-delay:.1s}.a-rise i:nth-child(3){width:140px;animation-delay:.2s}
+@keyframes rise2{0%{opacity:0;transform:translateY(16px)}25%,85%{opacity:1;transform:none}100%{opacity:0}}
+
+.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.rules .panel h4{font-family:var(--display);font-size:20px;font-weight:500;letter-spacing:-.015em;margin:20px 0 8px}
+.rules .panel p{font-size:14px;color:var(--sub)}
+@media (max-width:900px){.sw,.motion,.rules,.comps{grid-template-columns:1fr 1fr}.type,.devs{grid-template-columns:1fr}.icons{grid-template-columns:repeat(5,1fr)}}
+</style>
+</head>
+<body>
+<div class="top"><img src="red-elevators-logo-dark.svg" alt="Red Elevators"><span class="mono">Style tile · Round 3 · mockup</span></div>
+
+<!-- principles -->
+<section class="blk"><div class="wrap">
+  <span class="mono">00 · Principles</span><h2 class="d2">Show it. Don't make them read it.</h2>
+  <div class="rules" id="rules"></div>
+</div></section>
+
+<!-- colour -->
+<section class="blk"><div class="wrap">
+  <span class="mono">01 · Colour</span><h2 class="d2">The page keeps the time of day.</h2>
+  <div class="arc"><div class="glow"></div>
+    <span class="t" style="left:9%"><b>Night</b>2:14 · hero, pains</span>
+    <span class="t" style="left:38%"><b>Dawn</b>the turn</span>
+    <span class="t" style="left:62%"><b>Day</b>chapters 4–8</span>
+    <span class="t" style="left:91%"><b>Night again</b>your calm 2am</span>
+  </div>
+  <div class="sw" id="sw"></div>
+</div></section>
+
+<!-- type -->
+<section class="blk"><div class="wrap">
+  <span class="mono">02 · Type</span><h2 class="d2">Inter Tight to speak. Inter to explain.</h2>
+  <div class="type">
+    <div class="panel">
+      <div class="row"><span class="mono">Display 1</span><span class="d1" style="font-size:64px">Running on <em>autopilot.</em></span></div>
+      <div class="row"><span class="mono">Display 2</span><span class="d2" style="font-size:42px">Eight systems. Two pillars.</span></div>
+      <div class="row"><span class="mono">Display 3</span><span class="d3">Turnovers schedule themselves.</span></div>
+      <div class="row"><span class="mono">Lead</span><span class="lead">We build and run the automation and marketing behind short-term rentals.</span></div>
+      <div class="row"><span class="mono">Body</span><span class="small">Each booking books the cleaner, sends the door code and updates every calendar.</span></div>
+      <div class="row"><span class="mono">Label</span><span class="mono">CHAPTER 04 · ONE BOOKING</span></div>
+    </div>
+    <div class="panel">
+      <p class="small"><b style="color:var(--ink)">Inter Tight</b>: headlines only, weight 500, tight tracking (−3.5%).</p>
+      <p class="small" style="margin-top:12px"><b style="color:var(--ink)">Inter</b>: body and UI, 14–17px, never below 13px for reading text.</p>
+      <p class="small" style="margin-top:12px"><b style="color:var(--ink)">JetBrains Mono</b>: labels, times and chapter numbers. It reads like a system log, which suits the brand.</p>
+      <div class="rule" style="margin-top:22px">↳ <span><b>Headlines ≤ 8 words.</b> One supporting line ≤ 15 words. Everything else lives in the visual or behind a click.</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- icons + logos -->
+<section class="blk"><div class="wrap">
+  <span class="mono">03 · Icons &amp; logos</span><h2 class="d2">One line icon family. Real tool logos.</h2>
+  <div class="icons" id="icons"></div>
+  <div class="logos" id="logos"></div>
+  <div class="rule">↳ <span><b>Tool logos are allowed proof:</b> they show what we build in without naming any client.</span></div>
+</div></section>
+
+<!-- components -->
+<section class="blk"><div class="wrap">
+  <span class="mono">04 · Components</span><h2 class="d2">Every state has one look.</h2>
+  <div class="comps">
+    <div class="panel">
+      <span class="mono">Buttons &amp; links</span>
+      <a class="btn primary" href="#">Book a free 30-min call <svg viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 5.5H14.6M10.3 1.2L14.9 5.5L10.3 9.8"/></svg></a>
+      <a class="btn quiet" href="#">See how it works</a>
+      <a class="link" href="#">Skip the story →</a>
+    </div>
+    <div class="panel">
+      <span class="mono">Chips &amp; tags</span>
+      <span class="chip problem"><i></i>2 guests waiting</span>
+      <span class="chip handled"><i></i>Answered in seconds</span>
+      <span class="chip brand"><i></i>Red Elevators</span>
+      <div style="display:flex;gap:8px"><span class="tag auto">AI Automation</span><span class="tag mkt">Marketing</span></div>
+    </div>
+    <div class="panel">
+      <span class="mono">Notification · problem → handled</span>
+      <div class="ncard" id="nc1"></div>
+      <div class="ncard" id="nc2"></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- devices -->
+<section class="blk"><div class="wrap">
+  <span class="mono">05 · Devices</span><h2 class="d2">Your phone. Our system.</h2>
+  <div class="devs">
+    <div class="phone" id="dPhone">
+      <div class="frame"></div><span class="side"></span><span class="side l"></span>
+      <div class="screen"><div class="wall"></div><div class="island"></div>
+        <div class="status"><span>2:14</span><span><span class="batt"></span></span></div>
+        <div class="clock"><div class="date">Tuesday, October 14</div><div class="time">2:14</div></div>
+        <div class="stack" id="dStack"></div><div class="lockicons"><b></b><b></b></div><div class="homebar"></div><div class="glare"></div></div>
+    </div>
+    <div>
+      <div class="laptop"><div class="lid"><span class="cam"></span><div class="lcd"><div class="con">
+        <div class="bar"><div class="dots"><i></i><i></i><i></i></div><b>Your system</b><span class="mono">run by Red Elevators</span><span class="ok"><i></i>All running</span></div>
+        <div class="side" id="dSide"></div>
+        <div class="main"><div class="view on"><h5>Inbox <span>all answered</span></h5>
+          <div class="card" style="display:flex;flex-direction:column;gap:8px">
+            <div class="bub in stg">Hi! What’s the wifi password? 🙂</div>
+            <div class="bub out stg">Welcome, Maria! Wifi is LoftGuest. Your house guide is here.<small>Your assistant · in your tone</small></div>
+          </div></div></div>
+      </div></div></div><div class="base"></div></div>
+      <div class="rule" style="margin-top:20px">↳ <span><b>The phone is the owner's world</b> (problems arrive). <b>The laptop is ours</b> (the system works). They only appear together at the turn.</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- motion -->
+<section class="blk"><div class="wrap">
+  <span class="mono">06 · Motion</span><h2 class="d2">Four moves. Nothing else.</h2>
+  <div class="motion">
+    <div class="mo"><div class="stagebox"><div class="demo-n a-arrive" id="m1"></div></div><div class="info"><h4>Arrive</h4><p>Problems drop in from above, with a small buzz.</p><div class="spec">600ms · expo-out · stagger 1.1s</div></div></div>
+    <div class="mo"><div class="stagebox"><div class="demo-n a-lift" id="m2"></div></div><div class="info"><h4>Lift</h4><p>The one that matters lifts toward you and enlarges.</p><div class="spec">800ms · expo-out · amber ring</div></div></div>
+    <div class="mo"><div class="stagebox"><div class="demo-n a-res" id="m3"></div></div><div class="info"><h4>Resolve</h4><p>A problem turns into “Handled for you”, then leaves.</p><div class="spec">500ms swap · 700ms exit</div></div></div>
+    <div class="mo"><div class="stagebox"><div class="a-rise"><div class="ln"><i></i><i></i><i></i></div></div></div><div class="info"><h4>Rise</h4><p>Copy and cards rise in once, as they enter the screen.</p><div class="spec">900ms · expo-out · 80ms stagger</div></div></div>
+  </div>
+  <div class="rule">↳ <span><b>Scroll drives the story, never a timer.</b> Everything respects “reduce motion” with a still version of each chapter.</span></div>
+</div></section>
+
+<script src="logos.js?v=35"></script>
+<script src="icons.js?v=35"></script>
+<script>
+const $ = s => document.querySelector(s);
+$('#rules').innerHTML = [
+  ['bolt', 'One headline, one visual', 'Each section says one thing in 8 words or fewer and shows the rest.'],
+  ['moon', 'Time of day, not themes', 'The background moves from night to dawn to day. It is the story’s clock.'],
+  ['alert', 'Colour means something', 'Red is brand and action. Amber is a problem. Green is handled. Nothing else is coloured.'],
+  ['check', 'Honest by default', 'Illustrative data is labelled. No client names or numbers until they’re cleared.'],
+].map(r => `<div class="panel"><div class="ico-tile">${ico(r[0])}</div><h4>${r[1]}</h4><p>${r[2]}</p></div>`).join('');
+$('#sw').innerHTML = [
+  ['#FF2D3B', 'Brand red', 'FF2D3B', 'Logo, emphasis, “ours”. Unchanged.'],
+  ['#E51E2B', 'Action red', 'E51E2B', 'Button fills. Passes AA with white.'],
+  ['#E8A33D', 'Amber', 'E8A33D', 'Problems only.'],
+  ['#8FD4B0', 'Handled green', '8FD4B0', 'Resolved states only.'],
+  ['#0a0b14', 'Night', '0A0B14', 'Hero, pains, the final chapter.'],
+  ['#1a140f', 'Dawn', '1A140F', 'The turn.'],
+  ['#141312', 'Day', '141312', 'Chapters 4–8.'],
+  ['#f4f4f5', 'Ink', 'F4F4F5 · A6A6B0 · 8D8D97', 'Text: primary, secondary, labels.'],
+].map(c => `<div class="s"><div class="c" style="background:${c[0]}"></div><div class="m"><b>${c[1]}</b><span>#${c[2]}</span><p>${c[3]}</p></div></div>`).join('');
+$('#icons').innerHTML = Object.keys(ICONS).map(k => `<div>${ico(k)}<span>${k}</span></div>`).join('');
+$('#logos').innerHTML = Object.keys(LOGOS).map(k => `<span class="logo-pill">${logo(k, 16)}${k}</span>`).join('');
+const nHTML = (bg, inner, app, ago, tt, bd, done) => `<div class="n${done ? ' done' : ''}"><div class="ic${done ? ' mark' : ''}" style="background:${bg}">${inner}</div><div class="hd"><span>${app}</span><span>${ago}</span></div><div class="tt">${tt}</div><div class="bd">${bd}</div></div>`;
+const air = ['#FF5A5F', logo('Airbnb', 20, true)];
+$('#nc1').innerHTML = nHTML(...air, 'Airbnb', 'now', 'Maria · Loft 2B', 'Hi! We just arrived. What’s the wifi password? 🙂').replace('class="n"', 'class="n focus"');
+$('#nc2').innerHTML = nHTML('#111', MARK, '✓ Handled for you', 'just now', 'Maria · Loft 2B', 'Sent wifi + house guide', true);
+$('#dStack').innerHTML = nHTML(...air, 'Airbnb', 'now', 'Maria · Loft 2B', 'Hi! We just arrived. What’s the wifi password?') + nHTML('#25D366', logo('WhatsApp', 20, true), 'WhatsApp', '14m ago', 'Rosa (cleaning)', 'Can’t get into Canal House.');
+$('#dSide').innerHTML = [['message', 'Inbox', 1], ['direct', 'Bookings'], ['price', 'Pricing & ads'], ['clean', 'Turnovers']].map(n => `<div class="nv${n[2] ? ' on' : ''}">${ico(n[0])}${n[1]}</div>`).join('') + '<div class="lbl">CONNECTED</div>' + ['Airbnb', 'Claude', 'Stripe', 'WhatsApp'].map((t, i) => `<div class="tl${i < 2 ? ' live' : ''}">${logo(t, 12)}${t}<i></i></div>`).join('');
+$('#m1').innerHTML = nHTML(...air, 'Airbnb', 'now', 'Maria · Loft 2B', 'What’s the wifi password?');
+$('#m2').innerHTML = nHTML('#003A9A', logo('Booking.com', 20, true), 'Booking.com', '31m ago', 'New reservation', 'Commission applies.');
+$('#m3').innerHTML = `<div class="n"><div class="ic" style="background:#25D366">${logo('WhatsApp', 20, true)}</div><div class="hd"><span>WhatsApp</span><span>14m</span></div><div class="p1"><div class="tt">Rosa (cleaning)</div><div class="bd">Code isn’t working.</div></div><div class="p2"><div class="tt" style="color:var(--green)">✓ Handled for you</div><div class="bd">New code sent · 11:00</div></div></div>`;
+</script>
+</body>
+</html>

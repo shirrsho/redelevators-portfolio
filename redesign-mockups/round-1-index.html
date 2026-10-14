@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rework · Round 1 · Red Elevators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Inter+Tight:wght@500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0909;--card:#121011;--ink:#f2eeeb;--sub:#a8a2a4;--dim:#8f898c;--hair:rgba(242,238,235,.1);
+  --sans:'Geist',system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;padding:56px clamp(16px,4vw,56px) 80px}
+a{color:inherit;text-decoration:none}
+header{max-width:1240px;margin:0 auto 48px;display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:end}
+.k{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+h1{font-size:clamp(36px,4.4vw,60px);font-weight:500;letter-spacing:-.04em;line-height:1;margin-top:14px}
+h1 span{color:var(--sub);font-weight:300}
+.brief{font-size:15px;line-height:1.6;color:var(--sub)}
+.brief b{color:var(--ink);font-weight:500}
+.grid{max-width:1240px;margin:0 auto;display:grid;gap:22px}
+.v{display:grid;grid-template-columns:1.35fr 1fr;border:1px solid var(--hair);border-radius:18px;overflow:hidden;background:var(--card)}
+.frame{position:relative;min-height:360px;overflow:hidden;background:#000;border-right:1px solid var(--hair)}
+.frame iframe{position:absolute;left:0;top:0;width:1440px;height:900px;border:0;transform-origin:0 0;pointer-events:none}
+.frame a{position:absolute;inset:0;z-index:2}
+.frame .open{position:absolute;right:14px;bottom:14px;z-index:3;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  padding:8px 12px;border-radius:999px;background:rgba(0,0,0,.6);border:1px solid var(--hair);backdrop-filter:blur(10px);pointer-events:none}
+.info{padding:28px 28px 26px;display:flex;flex-direction:column;gap:18px}
+.info h2{font-size:28px;font-weight:500;letter-spacing:-.03em}
+.info h2 small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:400;margin-bottom:8px}
+.info p{font-size:14.5px;line-height:1.6;color:var(--sub)}
+dl{display:grid;grid-template-columns:92px 1fr;gap:10px 14px;font-size:13.5px;border-top:1px solid var(--hair);padding-top:16px}
+dt{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding-top:2px}
+dd{color:var(--ink);line-height:1.5}
+.sw{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.sw i{width:22px;height:22px;border-radius:6px;border:1px solid rgba(255,255,255,.12)}
+.sw em{font-style:normal;font-family:var(--mono);font-size:11px;color:var(--dim);margin-left:4px}
+.mark{display:flex;align-items:center;gap:10px}
+.mark svg{width:26px;height:26px}
+.btn{align-self:flex-start;margin-top:auto;font-size:14px;font-weight:500;padding:11px 16px;border-radius:999px;border:1px solid var(--hair);transition:border-color .3s}
+.btn:hover{border-color:rgba(255,255,255,.4)}
+.notes{max-width:1240px;margin:48px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.note{border:1px solid var(--hair);border-radius:16px;padding:22px}
+.note h3{font-size:16px;font-weight:500;margin-bottom:10px}
+.note p,.note li{font-size:14px;line-height:1.6;color:var(--sub)}
+.note ul{padding-left:18px;display:grid;gap:4px}
+@media (max-width:980px){header,.v,.notes{grid-template-columns:1fr}.frame{border-right:0;border-bottom:1px solid var(--hair);min-height:0;aspect-ratio:16/10}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="k">Red Elevators · Rework · Round 1</div>
+    <h1>Three heroes.<br><span>One direction: A + C, dark-led.</span></h1>
+  </div>
+  <p class="brief">Every variant uses a <b>living 3D world</b> that carries on past the hero (A), plus an <b>inspectable system</b> (C). Each one also tries a different <b>colour grade, typeface and reworked mark</b>, and those parts can be mixed. Scroll inside each one: the second screen shows how the world carries into the next section.</p>
+</header>
+
+<div class="grid">
+  <article class="v">
+    <div class="frame"><iframe src="hero-1-core.html" loading="lazy" title="Hero 01 preview" tabindex="-1"></iframe><a href="hero-1-core.html" aria-label="Open hero 01"></a><span class="open">Open live ↗</span></div>
+    <div class="info">
+      <h2><small>Variant 01</small>The Core</h2>
+      <p>A light field of 760 strands. Demand (red) falls in, operations (steel) rise up, and both meet in one white-hot core under the CTA. Scroll down and the core splits into the two pillars, AI Automation and Marketing, with all eight services pinned to them.</p>
+      <dl>
+        <dt>Grade</dt><dd><div class="sw"><i style="background:#08070a"></i><i style="background:#2a0709"></i><i style="background:#8fa3bf"></i><i style="background:#f5372a"></i><i style="background:#f3efec"></i><em>Ember Noir</em></div></dd>
+        <dt>Type</dt><dd>Geist + Geist Mono</dd>
+        <dt>Mark</dt><dd class="mark"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="#f3efec" stroke-width="2"/><path d="M16 8.5 L23 19.5 H9 Z" fill="#f5372a"/><rect x="9" y="22" width="14" height="2" rx="1" fill="#f3efec" fill-opacity=".55"/></svg>Call button: a lit "up"</dd>
+        <dt>Interact</dt><dd>Strands bend away from the cursor · click sends a pulse wave · scroll splits the core</dd>
+        <dt>Feels like</dt><dd>Cinematic, brand-first, closest to your samples</dd>
+      </dl>
+      <a class="btn" href="hero-1-core.html">Open variant 01 →</a>
+    </div>
+  </article>
+
+  <article class="v">
+    <div class="frame"><iframe src="hero-2-machine.html" loading="lazy" title="Hero 02 preview" tabindex="-1"></iframe><a href="hero-2-machine.html" aria-label="Open hero 02"></a><span class="open">Open live ↗</span></div>
+    <div class="info">
+      <h2><small>Variant 02</small>The Machine</h2>
+      <p>The hero <em>is</em> the product: an isometric system with OTAs and ads flowing into the core, and the core driving replies, the PMS, pricing and CRM. A simulated live feed sends real-looking events through it. Scrolling walks through a single booking, one step at a time.</p>
+      <dl>
+        <dt>Grade</dt><dd><div class="sw"><i style="background:#06080b"></i><i style="background:#10131a"></i><i style="background:#7fb4d4"></i><i style="background:#ff3347"></i><i style="background:#edf1f5"></i><em>Carbon Signal</em></div></dd>
+        <dt>Type</dt><dd>Inter Tight + JetBrains Mono</dd>
+        <dt>Mark</dt><dd class="mark"><svg viewBox="0 0 30 32"><path d="M15 1 L19 5.5 H11 Z" fill="#ff3347"/><rect x="2.5" y="8" width="25" height="22.5" rx="3.5" fill="none" stroke="#edf1f5" stroke-width="2"/><rect x="6.5" y="12" width="7.6" height="14.5" rx="1" fill="#edf1f5" fill-opacity=".9"/><rect x="15.9" y="12" width="7.6" height="14.5" rx="1" fill="#edf1f5" fill-opacity=".9"/><rect x="14.25" y="12" width="1.5" height="14.5" fill="#ff3347"/></svg>Doors: light leaking through the gap</dd>
+        <dt>Interact</dt><dd>Hover any node to inspect it · click to trace its wiring · scroll for the five-step booking story</dd>
+        <dt>Feels like</dt><dd>A serious software product (Linear, Stripe). Explains the offer best.</dd>
+      </dl>
+      <a class="btn" href="hero-2-machine.html">Open variant 02 →</a>
+    </div>
+  </article>
+
+  <article class="v">
+    <div class="frame"><iframe src="hero-3-portfolio.html" loading="lazy" title="Hero 03 preview" tabindex="-1"></iframe><a href="hero-3-portfolio.html" aria-label="Open hero 03"></a><span class="open">Open live ↗</span></div>
+    <div class="info">
+      <h2><small>Variant 03</small>Lit Portfolio</h2>
+      <p>A night city that stands for the client's portfolio. The core sends bookings down as arcs of light and each unit lights up as it books. Scroll, and you ride the elevator (the nav shows the floor) up to floor 32, where the city turns out to be November's booking calendar.</p>
+      <dl>
+        <dt>Grade</dt><dd><div class="sw"><i style="background:#0a0706"></i><i style="background:#120a08"></i><i style="background:#ffb067"></i><i style="background:#e8382b"></i><i style="background:#8fa3b5"></i><em>Infrared</em></div></dd>
+        <dt>Type</dt><dd><span style="font-family:'Instrument Serif';font-size:17px">Instrument Serif</span> + Instrument Sans</dd>
+        <dt>Mark</dt><dd class="mark"><svg viewBox="0 0 28 28"><rect x="2" y="20" width="24" height="5" rx="1.6" fill="#f5eee7"/><rect x="6" y="12.5" width="16" height="5" rx="1.6" fill="#f5eee7" fill-opacity=".72"/><rect x="10" y="5" width="8" height="5" rx="1.6" fill="#e8382b"/><circle cx="22.5" cy="5" r="1.8" fill="#ffb067"/></svg>Stacked floors, top one lit</dd>
+        <dt>Interact</dt><dd>Hover a unit for its night · click a dark one to book it · the elevator ride turns the city into a calendar</dd>
+        <dt>Feels like</dt><dd>Warm, hospitality-led, the most memorable. Speaks to rentals most directly.</dd>
+      </dl>
+      <a class="btn" href="hero-3-portfolio.html">Open variant 03 →</a>
+    </div>
+  </article>
+</div>
+
+<div class="notes">
+  <div class="note"><h3>Mix and match</h3><p>Grade, type and mark are independent of the scene. For example: Variant 03's city with Variant 01's Ember Noir grade, or Variant 02's machine as the Systems section inside Variant 01's world (that's the A+C plan).</p></div>
+  <div class="note"><h3>Still placeholder</h3><ul><li>All feeds, occupancy numbers and unit names are simulated and labelled as such.</li><li>Copy is a first pass on your rentals positioning.</li><li>No performance work yet, as agreed.</li></ul></div>
+  <div class="note"><h3>Tell me</h3><ul><li>Which scene leads?</li><li>Which grade, type and mark?</li><li>Anything to steal from the others?</li></ul></div>
+</div>
+
+<script>
+// Scale each 1440×900 live preview to fit its frame
+function fit(){document.querySelectorAll('.frame').forEach(f=>{const i=f.querySelector('iframe');const s=f.clientWidth/1440;i.style.height=Math.max(900,f.clientHeight/s)+'px';i.style.transform=`scale(${s})`;});}
+addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

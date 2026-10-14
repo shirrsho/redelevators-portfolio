@@ -1,119 +1,144 @@
+// /contact (mockup: redesign-mockups/r3/contact.html). WhatsApp appears on this page only, as a
+// wa.me button (src/lib/site.ts → whatsappUrl); the number is never printed.
 import type { Metadata } from "next";
-import { ScrollProgress } from "@/components/ScrollProgress";
-import { Nav } from "@/components/Nav";
-import { PageHeader } from "@/components/PageHeader";
-import { EmailLink } from "@/components/EmailLink";
-import { Footer } from "@/components/Footer";
-import { JsonLd } from "@/components/JsonLd";
-import { pageMetadata, breadcrumbLd } from "@/lib/seo";
-import { steps, bookingUrl } from "@/lib/content";
+import { breadcrumbLd, pageMetadata } from "@/lib/seo";
+import { EMAIL, whatsappUrl } from "@/lib/site";
+import { EVENTS } from "@/lib/analytics";
+import { JsonLd } from "@/components/layout/JsonLd";
+import { PageBg } from "@/components/layout/PageBg";
+import { Lockup } from "@/components/layout/Logo";
+import { SectionHead } from "@/components/layout/Section";
+import { BookingStage } from "@/components/interactive/BookingStage";
+import { Button } from "@/components/ui/Button";
+import { Eyebrow } from "@/components/ui/Chip";
+import { EmailLink } from "@/components/ui/EmailLink";
+import { FAQ } from "@/components/ui/FAQ";
+import { Icon } from "@/components/ui/Icon";
+import { ToolLogo } from "@/components/ui/ToolLogo";
+import { DOC, FAQ_ITEMS, STEPS } from "./content";
+import styles from "./contact.module.css";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Contact",
-  path: "/contact",
+  title: "Book a call",
   description:
-    "Book a free 30-minute call with Red Elevators. We'll tell you exactly what to automate first in your rental business.",
+    "Book a free 30-minute call. We map your setup and show you what to automate first. No pitch deck, no commitment, and you keep the written summary.",
+  path: "/contact",
 });
-
-// Deliberately form-free. The design system has form controls (Form.tsx,
-// workstream D item 1), but a submitted form needs somewhere to go, and no
-// email API or form backend exists yet — owner's call, 12 Sep 2026: ship the
-// page on the two conversion paths that are real today (booking + email) and
-// add a form once a provider is chosen. An unwired form that silently drops
-// leads would be worse than no form.
-const EMAIL = "contact@redelevators.com";
 
 export default function ContactPage() {
   return (
     <>
-      <ScrollProgress />
-      <Nav />
+      <PageBg tone="night" />
       <JsonLd data={breadcrumbLd([{ name: "Contact", path: "/contact" }])} />
-      <main>
-        <PageHeader
-          label="Contact"
-          title="One call. Thirty minutes."
-          intro="Book a free 30-minute call and we'll tell you exactly what to automate first, or email us if that's easier."
-        />
+      <main id="main" className="page">
+        <section className={`wrap ${styles.intro}`}>
+          <div className="rv">
+            <Eyebrow center>Contact</Eyebrow>
+            <h1 className="d1" style={{ marginTop: 20 }}>
+              Book a free 30-minute call.
+            </h1>
+            <p className="lead">We map your setup and show you what to automate first. No pitch deck, no commitment, and you keep the written summary.</p>
+          </div>
+          <h2 className="sr-only">How the call works</h2>
+          <ol className={styles.steps}>
+            {STEPS.map(([icon, title, text], i) => (
+              <li key={title} className={`rv d${i + 1}x`}>
+                <div className="ico-tile">
+                  <Icon name={icon} />
+                </div>
+                <div>
+                  <b>0{i + 1}</b>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
 
-        {/* id="contact" is load-bearing: Nav's "Book a call" is a bare
-            `#contact` anchor, which every other page satisfies by rendering
-            <CTA/>. This page deliberately doesn't (a Book-a-call panel on the
-            Book-a-call page is noise), so it carries the id itself — the
-            anchor lands on the booking card, which is the right target. */}
-        <section id="contact" className="mx-auto max-w-6xl px-6 py-14">
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            <article className="flex flex-col rounded-3xl border border-line bg-white p-7 sm:p-9">
-              <span className="font-mono-label">The fastest route</span>
-              <h2 className="mt-4 text-xl font-semibold text-ink sm:text-2xl">
-                Book the call
-              </h2>
-              <p className="mt-3 text-[0.95rem] text-muted">
-                Thirty minutes, free, no deck. We walk your current process and
-                tell you which part is worth automating first, whether or not
-                you work with us.
-              </p>
-              <div className="mt-7">
-                <a
-                  href={bookingUrl}
-                  target="_blank"
-                  data-umami-event="Book a call"
-                  data-umami-event-location="contact"
-                  rel="noopener noreferrer"
-                  className="inline-block rounded-xl bg-red px-6 py-3.5 text-sm font-semibold text-white shadow-red transition-transform hover:scale-[1.03] active:scale-95"
-                >
-                  Book a free Call
-                </a>
-              </div>
-            </article>
+        <section className="wrap" data-night>
+          <BookingStage variant="contact" />
+        </section>
 
-            <article className="flex flex-col rounded-3xl border border-line bg-white p-7 sm:p-9">
-              <span className="font-mono-label">Prefer to write first</span>
-              <h2 className="mt-4 text-xl font-semibold text-ink sm:text-2xl">
-                Email us
+        <section className="wrap section" id="chat" style={{ paddingTop: 90 }}>
+          <div className="head" style={{ justifyContent: "center", textAlign: "center" }}>
+            <div className="left rv" style={{ maxWidth: "none" }}>
+              <Eyebrow center>Not ready to book?</Eyebrow>
+              <h2 className="d2" style={{ marginTop: 18 }}>
+                Ask us anything first.
               </h2>
-              <p className="mt-3 text-[0.95rem] text-muted">
-                Tell us what keeps getting done by hand. The more specific the
-                task, the more useful our first reply will be.
-              </p>
-              {/* pb-8 leaves room for EmailLink's "Copied to clipboard"
-                  tooltip, which renders below the address — same fix the
-                  footer needed on 12 Sep 2026. */}
-              <div className="mt-7 pb-8">
-                <EmailLink
-                  email={EMAIL}
-                  location="contact"
-                  className="text-lg font-medium text-ink underline underline-offset-4 transition-colors hover:text-red"
-                />
+            </div>
+          </div>
+          <div className={styles.ways}>
+            <div className={`${styles.way} ${styles.wa} rv`}>
+              <div className={styles.wi} style={{ background: "#25D366", color: "#06290f" }}>
+                <ToolLogo name="WhatsApp" size={26} mono />
               </div>
-            </article>
+              <div>
+                <h3>WhatsApp</h3>
+                <p>Quickest. A real person replies.</p>
+              </div>
+              <Button href={whatsappUrl()} variant="wa" event={EVENTS.whatsappClick} location="contact">
+                <ToolLogo name="WhatsApp" size={18} mono /> Chat on WhatsApp
+              </Button>
+            </div>
+            <div className={`${styles.way} rv d1x`}>
+              <div className={`${styles.wi} ico-tile`} style={{ width: 52, height: 52 }}>
+                <Icon name="mail" />
+              </div>
+              <div>
+                <h3>Email</h3>
+                <p>{EMAIL}</p>
+              </div>
+              <EmailLink location="contact" className="btn quiet">
+                Send an email
+              </EmailLink>
+            </div>
           </div>
         </section>
 
-        <section className="bg-cream py-16 sm:py-20">
-          <div className="mx-auto max-w-6xl px-6">
-            <span className="font-mono-label">What happens next</span>
-            <h2 className="mt-4 text-[clamp(1.9rem,4vw,3rem)] font-semibold tracking-tight">
-              The same four stages, every time.
-            </h2>
-            <ol className="mt-10 grid list-none grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {steps.map((s) => (
-                <li
-                  key={s.num}
-                  className="rounded-2xl border border-line bg-white p-6"
-                >
-                  <span className="font-mono-label text-muted">{s.num}</span>
-                  <h3 className="mt-2 text-lg font-semibold text-ink">
-                    {s.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted">{s.desc}</p>
-                </li>
-              ))}
-            </ol>
+        <section className="wrap section" style={{ paddingTop: 40 }}>
+          <div className={styles.take}>
+            <div className="rv">
+              <Eyebrow>What you take away</Eyebrow>
+              <h2 className="d2" style={{ marginTop: 18 }}>
+                A written plan, whether we work together or not.
+              </h2>
+              <p className="lead" style={{ marginTop: 16 }}>
+                Within a day of the call you get a one-page summary: what to fix first, what can wait, and what it would take.
+              </p>
+              <p className="mono" style={{ marginTop: 16 }}>
+                Example summary · illustrative
+              </p>
+            </div>
+            <div className={`${styles.doc} rv d2x`}>
+              <div className={styles.dh}>
+                <Lockup tone="light" height={22} />
+                <span>{DOC.stamp}</span>
+              </div>
+              <h3>{DOC.title}</h3>
+              <p className={styles.sub}>{DOC.sub}</p>
+              <ol>
+                {DOC.rows.map(([tone, badge, text, delay]) => (
+                  <li key={badge + text} style={{ "--dl": `${delay}s` } as React.CSSProperties}>
+                    <b className={styles[tone]}>{badge}</b>
+                    <span>{text}</span>
+                  </li>
+                ))}
+              </ol>
+              <div className={styles.sig}>
+                <span>{DOC.sig[0]}</span>
+                <span>{DOC.sig[1]}</span>
+              </div>
+            </div>
           </div>
+        </section>
+
+        <section className="wrap section" style={{ paddingTop: 20 }}>
+          <SectionHead eyebrow="Questions" title="About the call." />
+          <FAQ items={FAQ_ITEMS} className="rv" />
         </section>
       </main>
-      <Footer />
     </>
   );
 }

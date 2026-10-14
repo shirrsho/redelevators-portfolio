@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Component library · Red Elevators (design review)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css?v=35"><link rel="stylesheet" href="devices.css?v=35"><link rel="stylesheet" href="sections.css?v=35"><link rel="stylesheet" href="themes.css?v=35">
+<script src="theme.js?v=35"></script>
+<style>
+:root{--bg:#0a0b14}
+.dz-top{padding:110px 0 10px}
+.dz-tabs{display:flex;gap:6px;margin-top:26px}
+.dz-tabs a{font-size:13.5px;padding:8px 13px;border-radius:9px;border:1px solid var(--hair-2);color:var(--sub)}
+.dz-tabs a.on{background:var(--ink);color:#111;border-color:var(--ink)}
+.lib{display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px;align-items:start;padding:30px 0 120px}
+.lnav{position:sticky;top:96px;display:grid;gap:2px;max-height:calc(100vh - 120px);overflow:auto}
+.lnav .mono{margin:14px 0 6px}
+.lnav a{font-size:13.5px;color:var(--sub);padding:6px 10px;border-radius:8px}
+.lnav a:hover,.lnav a.on{color:var(--ink);background:var(--surface-2)}
+.grp{margin-bottom:56px}
+.grp > h2{font-family:var(--display);font-size:30px;font-weight:500;letter-spacing:-.02em;margin-bottom:18px;scroll-margin-top:90px}
+.cp{border:1px solid var(--hair);border-radius:22px;overflow:hidden;margin-bottom:18px;scroll-margin-top:90px}
+.cp .ch{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 20px;padding:16px 20px;border-bottom:1px solid var(--hair);background:rgba(255,255,255,.02)}
+.cp .ch h3{font-size:16px;font-weight:600;display:flex;align-items:center;gap:10px}
+.cp .ch h3 code{font-family:var(--mono);font-size:12px;font-weight:400;color:#c5cbff;background:rgba(139,147,255,.12);padding:2px 7px;border-radius:6px}
+.cp .ch p{font-size:13px;color:var(--sub);flex-basis:100%}
+.cp .ch .used{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.cp .cb{padding:28px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;position:relative}
+.cp .cb.col{display:block}
+.cp .cb.center{justify-content:center}
+.var{display:grid;gap:8px;justify-items:start}
+.var > span{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.sw2{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;width:100%}
+.sw2 div{border-radius:12px;overflow:hidden;border:1px solid var(--hair)}
+.sw2 i{display:block;height:56px}
+.sw2 b{display:block;font-size:12.5px;padding:8px 10px 0}
+.sw2 small{display:block;font-family:var(--mono);font-size:11px;color:var(--dim);padding:2px 10px 9px}
+.logos-cmp{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%}
+.logos-cmp > div{border:1px solid var(--hair);border-radius:16px;padding:22px;display:grid;gap:14px}
+.logos-cmp .bar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-radius:12px;background:rgba(11,11,13,.7);border:1px solid var(--hair)}
+.mini-nav{position:relative;width:100%;padding:18px;border-radius:16px;background:radial-gradient(120% 140% at 80% 0%,#1a1d3a,#0a0b14 60%)}
+.mini-nav .nav{position:relative;top:auto;left:auto;translate:none;width:100%}
+.scale{transform-origin:top left}
+.n-demo{position:relative;width:300px}
+.n-demo .n{position:relative}
+@media (max-width:900px){.cp .cb{overflow-x:auto}.cp .cb > div[style*='grid-template-columns:1fr 1fr']{grid-template-columns:1fr!important}.dz-tabs{flex-wrap:wrap}.lib{grid-template-columns:minmax(0,1fr)}.lnav{display:none}.sw2{grid-template-columns:repeat(3,1fr)}.logos-cmp{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-page="">
+<div id="site-nav"></div>
+<main class="page">
+  <section class="wrap dz-top">
+    <div class="eyebrow"><i></i>Design review · not part of the public site</div>
+    <h1 class="d1" style="margin-top:18px;font-size:clamp(40px,4.4vw,64px)">Component library</h1>
+    <p class="lead">Every building block on the site, live, with the name it gets in code and where it's used.</p>
+    <div class="dz-tabs"><a href="layouts.html">Sitemap &amp; layouts</a><a href="navhero.html">Nav &amp; hero</a><a href="logo.html">Logo</a><a href="fonts.html">Fonts</a><a class="on" href="components.html">Component library</a><a href="home.html">Open the site →</a></div>
+  </section>
+  <section class="wrap lib">
+    <nav class="lnav" id="lnav"></nav>
+    <div id="lib"></div>
+  </section>
+</main>
+<div id="site-foot"></div>
+<script src="logos.js?v=35"></script><script src="icons.js?v=35"></script><script src="site.js?v=35"></script>
+<script>
+const S = SITE, { $, $$ } = S;
+const ARW = '<svg viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 5.5H14.6M10.3 1.2L14.9 5.5L10.3 9.8"/></svg>';
+const nHTML = (bg, inner, app, ago, tt, bd, cls = '') => `<div class="n ${cls}"><div class="ic${cls.includes('done') ? ' mark' : ''}" style="background:${bg}">${inner}</div><div class="hd"><span>${app}</span><span>${ago}</span></div><div class="tt">${tt}</div><div class="bd">${bd}</div></div>`;
+const air = ['#FF5A5F', logo('Airbnb', 20, true)];
+
+// [group, id, title, code name, used on, note, html | fn(el), bodyClass]
+const C = [
+  ['Foundations', 'colors', 'Color tokens', 'tokens.css', 'Everywhere', 'Red = brand + action only. Amber = problem. Green = handled. Indigo/coral = the two pillars (Aurora).', () => `<div class="sw2">${[['#FF2D3B', 'Brand red', 'logo, emphasis'], ['#E51E2B', 'Action red', 'buttons'], ['#8b93ff', 'Automation', 'pillar 01'], ['#ff5a4e', 'Marketing', 'pillar 02'], ['#E8A33D', 'Amber', 'problems'], ['#8FD4B0', 'Green', 'handled'], ['#0a0b14', 'Night', 'story, heroes'], ['#1a140f', 'Dawn', 'the turn'], ['#141312', 'Day', 'sections'], ['#f5f2ec', 'Paper', 'long reading'], ['#f4f4f5', 'Ink', 'text'], ['#a6a6b0', 'Sub', 'secondary text']].map(c => `<div><i style="background:${c[0]}"></i><b>${c[1]}</b><small>${c[0]} · ${c[2]}</small></div>`).join('')}</div>`, 'col'],
+  ['Foundations', 'type', 'Type scale', 'Text', 'Everywhere', 'Inter Tight for headlines (≤ 8 words), Inter for body, JetBrains Mono for labels. Two alternatives on the Fonts page.', () => `<div style="display:grid;gap:14px"><span class="d1" style="font-size:64px">Running on <em>autopilot.</em></span><span class="d2" style="font-size:42px">Eight systems. Two pillars.</span><span class="d3">Turnovers schedule themselves.</span><p class="lead">We build and run the automation and marketing behind short-term rentals.</p><span class="mono">CHAPTER 04 · WHAT WE BUILD</span></div>`, 'col'],
+  ['Foundations', 'logo', 'Logo lockup', 'Logo · LogoMark', 'Nav, footer, avatars, icons', 'Rebuilt lockup: wordmark 1.25× on the bars’ baseline. Full mark at 32px+, bars-only below. Full sheet on the Logo page.', () => `<div class="logos-cmp"><div><span class="mono">LOCKUP · DARK</span><div class="bar"><img src="logo-lockup-dark.svg" alt="" style="height:32px"><span class="btn primary" style="padding:9px 14px;font-size:13px">Book a call</span></div><img src="logo-lockup-dark.svg" alt="" style="height:56px"></div><div><span class="mono">LOCKUP · LIGHT · MARKS</span><div class="bar" style="background:#f5f2ec"><img src="logo-lockup-light.svg" alt="" style="height:32px"></div><div style="display:flex;gap:18px;align-items:flex-end">${MARK_FULL.replace('<svg ', '<svg style="height:56px;width:auto" ')}${MARK.replace('<svg ', '<svg style="height:24px;width:auto" ')}${MARK.replace('<svg ', '<svg style="height:16px;width:auto" ')}</div></div></div><a class="link" href="logo.html" style="margin-top:14px">Open the logo sheet →</a>`, 'col'],
+  ['Foundations', 'icons', 'Icons', 'Icon', 'Everywhere', '1.6px line set on a 24px grid.', () => Object.keys(ICONS).map(k => `<div class="var" style="justify-items:center;width:74px"><div class="ico-tile">${ico(k)}</div><span>${k}</span></div>`).join('')],
+  ['Foundations', 'tools', 'Tool logos', 'ToolLogo · ToolMarquee', 'Home, Services, Systems', 'Official marks; near-black brands render light on dark.', el => { el.innerHTML = `<div class="marquee" style="width:100%"><div class="mq">${(() => { const r = Object.keys(LOGOS).map(t => `<span class="logo-pill">${logo(t, 16)}${t}</span>`).join(''); return r + r; })()}</div></div>`; }, 'col'],
+
+  ['Layout', 'nav', 'Nav', 'Nav · MobileSheet', 'Every page', 'Floating rounded bar, 14px from the top. Logo left, links centred, Book right. Current page: soft pill + red dot. Under 900px: logo, Book, menu button → full-screen sheet.', el => { el.innerHTML = `<div class="mini-nav"><header class="nav scrolled" style="position:relative">${$('#nav').innerHTML}</header></div><a class="link" href="navhero.html" style="margin-top:14px">All states and the mobile sheet →</a>`; }, 'col'],
+  ['Layout', 'hero', 'Page hero', 'PageHero', 'All inner pages', 'Split (copy + live visual) or short (copy, then the page’s tool). Homepage uses the story instead.', () => `<div style="display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;width:100%"><div><div class="eyebrow"><i></i>Services</div><h1 class="d1" style="margin-top:16px;font-size:52px">Eight systems.<br>Two pillars.</h1><p class="lead">AI Automation runs your operation. Marketing fills your calendar.</p><div class="ctas" style="display:flex;gap:10px;margin-top:22px"><a class="btn primary">Book a free 30-min call ${ARW}</a><a class="btn quiet">Browse the eight</a></div></div><div style="height:220px;border:1px dashed var(--hair-2);border-radius:20px;display:grid;place-items:center;color:var(--dim);font-family:var(--mono);font-size:12px">visual slot</div></div>`, 'col'],
+  ['Layout', 'band', 'CTA band', 'CTABand', 'End of every inner page', 'Title + one line + one button.', () => S.band('See what you can stop doing by hand.'), 'col'],
+  ['Layout', 'footer', 'Footer', 'Footer', 'Every page', 'Email, the eight services, company links, privacy.', el => { el.innerHTML = $('footer').outerHTML; }, 'col'],
+
+  ['UI', 'buttons', 'Buttons & links', 'Button', 'Everywhere', 'Primary (one per view), quiet, WhatsApp (Contact only), text link.', () => `<div class="var"><span>primary</span><a class="btn primary">Book a free 30-min call ${ARW}</a></div><div class="var"><span>quiet</span><a class="btn quiet">See how it works</a></div><div class="var"><span>whatsapp</span><a class="btn wa">${logo('WhatsApp', 18, true)} Chat on WhatsApp</a></div><div class="var"><span>link</span><a class="link">Skip the story →</a></div>`],
+  ['UI', 'chips', 'Chips & tags', 'Chip · Tag', 'Everywhere', 'Chips carry state; tags carry the pillar.', () => `<span class="chip problem"><i></i>2 guests waiting</span><span class="chip handled"><i></i>Answered in seconds</span><span class="chip brand"><i></i>Red Elevators</span><span class="tag auto">AI Automation</span><span class="tag mkt">Marketing</span>`],
+  ['UI', 'currency', 'Currency toggle', 'CurrencyToggle', 'Home, Pricing', 'USD default; AED and EUR. Remembered across pages.', () => S.curToggle()],
+  ['UI', 'faq', 'FAQ accordion', 'FAQ', 'Service, Approach, Pricing, Contact', 'First item open.', () => `<div class="faq" style="width:100%"><details open><summary>Is the call really free?<i>+</i></summary><p>Yes. Thirty minutes, no obligation, and you keep the written summary.</p></details><details><summary>Do I need new software?<i>+</i></summary><p>No. We build inside the tools you already use.</p></details></div>`, 'col'],
+
+  ['Cards', 'svc', 'Service card', 'ServiceCard', 'Home, Service (related)', 'Looping mini animation, icon, pillar tag, one line.', () => `<div class="grid8" style="grid-template-columns:repeat(3,1fr);width:100%">${S.SERVICES.slice(0, 3).map(s => `<a class="svc" data-p="${s.p}"><div class="viz"><div class="mv">${S.VIZ[s.viz]}</div></div><div class="body"><div class="row"><div class="ico-tile" style="width:38px;height:38px">${ico(s.icon)}</div><span class="tag ${s.p}">${s.p === 'auto' ? 'AI Automation' : 'Marketing'}</span></div><h4>${s.title}</h4><p>${s.short}</p></div></a>`).join('')}</div>`, 'col'],
+  ['Cards', 'srow', 'Service row', 'ServiceRow', 'Services', 'Animation · name · “instead of” · tools · arrow.', () => { const s = S.SERVICES[4]; return `<a class="srow" data-p="${s.p}" style="width:100%"><div class="viz"><div class="mv">${S.VIZ[s.viz]}</div></div><div><h3>${s.title}</h3><p>${s.short}</p></div><div class="was"><b>INSTEAD OF</b><span>${s.before[0]}.</span></div><span class="go">${ico('arrow')}</span></a>`; }, 'col'],
+  ['Cards', 'gets', 'Info cards', 'GetsCard · PromiseCard', 'Everywhere', 'Icon, title, one line.', () => `<div class="gets" style="width:100%">${S.SERVICES[0].gets.map(g => `<div><div class="ico-tile">${ico(g[0])}</div><h5>${g[1]}</h5><p>${g[2]}</p></div>`).join('')}</div>`, 'col'],
+
+  ['Devices', 'phone', 'Phone: story states', 'PhoneMockup · Notification', 'Home story, 404', 'A notification has four states: open, focus (problem, amber), lifted (it left the phone), handled.', () => `<div class="n-demo var"><span>open</span>${nHTML(...air, 'Airbnb', 'now', 'Maria · Loft 2B', 'What’s the wifi password?')}</div><div class="n-demo var"><span>focus</span>${nHTML(...air, 'Airbnb', 'now', 'Maria · Loft 2B', 'What’s the wifi password?', 'focus')}</div><div class="n-demo var"><span>lifted</span>${nHTML(...air, 'Airbnb', 'now', 'Maria · Loft 2B', 'What’s the wifi password?', 'lifted')}</div><div class="n-demo var"><span>handled</span>${nHTML('#111', MARK, '✓ Handled for you', 'just now', 'Maria · Loft 2B', 'Sent wifi + house guide', 'done')}</div>`],
+  ['Devices', 'alive', 'Alive phone', 'AlivePhone', 'Home (last chapter), Contact', 'Live Activity ticks; silent “handled” notifications; follows the booking; nudges after 12s on screen.', el => { el.innerHTML = '<div id="cAlive"></div><div style="max-width:320px"><p class="small">Try it: the phone below reacts to the booker in the next component.</p></div>'; window.__alive = S.mountCalmPhone($('#cAlive', el), { nudge: 'contact', idle: 8000 }); }, 'center'],
+  ['Devices', 'chat', 'Chat phone', 'ChatPhone', 'Service heroes (messaging)', 'Plays a scripted conversation, loops.', el => { el.innerHTML = S.phoneShell(`<div class="chatui"><div class="ch-h"><span class="av" style="background:#FF5A5F">M</span><div><b>Maria · Loft 2B</b><span>Airbnb · arriving today</span></div></div><div class="ch-b" id="cChat"></div><div class="ch-f"><div></div></div></div>`); S.playChat($('#cChat', el), [['in', 'Hi! What time is check-in?'], ['typing'], ['out', 'Hi Maria! Check-in is from 3pm. Your door code arrives the morning you arrive 🗝️']]); }, 'center'],
+  ['Devices', 'laptop', 'Laptop console', 'LaptopConsole', 'Home (the turn), Services hero, service heroes', 'Sidebar, connected tools, one view at a time.', () => `<div style="scale:.8;transform-origin:center">${S.laptopShell(`<div class="con"><div class="bar"><div class="dots"><i></i><i></i><i></i></div><b>Your system</b><span class="mono">run by Red Elevators</span><span class="ok"><i></i>All running</span></div><div class="side">${[['message', 'Inbox', 1], ['direct', 'Bookings'], ['price', 'Pricing & ads'], ['clean', 'Turnovers']].map(n => `<div class="nv${n[2] ? ' on' : ''}">${ico(n[0])}${n[1]}</div>`).join('')}<div class="lbl">CONNECTED</div>${['Airbnb', 'Claude', 'Stripe', 'WhatsApp'].map((t, i) => `<div class="tl${i < 2 ? ' live' : ''}">${logo(t, 12)}${t}<i></i></div>`).join('')}</div><div class="main"><div class="view on"><h5>Inbox <span>all answered</span></h5><div class="card" style="display:flex;flex-direction:column;gap:8px"><div class="bub in">Hi! What’s the wifi password? 🙂</div><div class="bub out">Welcome, Maria! Wifi is LoftGuest. Your house guide is here.<small>Your assistant · in your tone</small></div></div></div></div></div>`)}</div>`, 'center'],
+
+  ['Interactive', 'booker', 'Booker (Cal.com embed)', 'CalBooker', 'Home (last chapter), Contact', 'Free Cal.com plan: dark theme + brand color; “Cal.com” mark stays. Steps: pick time → details → confirmed. Emits day/time/booked to the phone above.', el => { const d = document.createElement('div'); el.appendChild(d); S.mountScheduler(d, (a, b) => __alive.booked(a, b), (st, a, b) => st === 'day' ? __alive.day(a) : st === 'time' ? __alive.time(a, b) : null); }, 'col'],
+  ['Interactive', 'calc', 'Savings calculator', 'SavingsCalculator', 'Home, Pricing', 'Six sliders → hours back, commission kept, replies, where to start.', el => { const d = document.createElement('div'); el.appendChild(d); S.mountCalc(d); }, 'col'],
+  ['Interactive', 'tiers', 'Pricing tiers', 'PricingTiers', 'Home (compact), Pricing (full)', 'Placeholder prices per currency.', el => { const d = document.createElement('div'); el.appendChild(d); S.mountPricing(d, true); }, 'col'],
+  ['Interactive', 'builder', 'Plan builder', 'PlanBuilder', 'Pricing', 'Tick systems → setup + monthly estimate; bundle saving from 3.', el => { const d = document.createElement('div'); el.appendChild(d); S.mountBuilder(d); }, 'col'],
+  ['Interactive', 'cal3', '3-week calendar', 'Calendar3Week', 'Home, Approach', 'Hover/tap a day: detail line, phase highlight, linked steps.', el => { const d = document.createElement('div'); el.appendChild(d); S.mountCal3(d); }, 'col'],
+  ['Interactive', 'pipe', 'Pipeline + log', 'Pipeline', 'Service detail, Systems', 'Plays trigger → steps → result, then loops.', el => { el.innerHTML = '<div class="pipe" id="cPipe" style="width:100%"></div><div class="log" id="cLog" style="width:100%"></div>'; S.mountPipe($('#cPipe', el), $('#cLog', el), S.SERVICES[0].chain); }, 'col'],
+  ['Interactive', 'try', 'Assistant demo', 'AssistantDemo', 'Guest Messaging, AI Guest Assistant', 'Scripted answers from a house guide; refunds/complaints hand over.', el => { const d = document.createElement('div'); el.appendChild(d); S.mountTry(d); }, 'col'],
+  ['Interactive', 'orbit', 'Tool orbit', 'ToolOrbit', 'Home (Chapter 08)', 'Two rings of official tool marks around the full Red Elevators mark. Slow rotation; hover pauses. Promise cards sit beside it on the page.', el => { const ring = (list, r, cls, dur) => `<div class="ring ${cls}" style="width:calc(${r * 2}px * var(--k));height:calc(${r * 2}px * var(--k));--dur:${dur}s">${list.map((l, i) => `<div class="lg" style="--a:${(360 / list.length) * i}deg;--r:calc(${r}px * var(--k))" title="${l}"><span>${logo(l, 24)}</span></div>`).join('')}</div>`; el.innerHTML = `<div class="orbit in">${ring(['Claude', 'n8n', 'Make', 'Zapier', 'HubSpot', 'MailChimp', 'Airtable', 'Notion', 'Google Sheets', 'Webflow'], 222, 'r2', 90)}${ring(['Airbnb', 'Booking.com', 'WhatsApp', 'Stripe', 'Meta', 'Google Ads'], 136, 'r1', 60)}<div class="core">${MARK_FULL}</div></div>`; }, 'center'],
+  ['Interactive', 'journey', 'Journey', 'Journey', 'Home, Systems', 'Seven steps; swipe or arrows; progress bar.', el => { const d = document.createElement('div'); el.appendChild(d); S.mountJourney(d); }, 'col'],
+];
+const groups = [...new Set(C.map(c => c[0]))];
+$('#lnav').innerHTML = groups.map(g => `<span class="mono">${g.toUpperCase()}</span>` + C.filter(c => c[0] === g).map(c => `<a href="#${c[1]}">${c[2]}</a>`).join('')).join('');
+$('#lib').innerHTML = groups.map(g => `<div class="grp"><h2 id="g-${g}">${g}</h2>${C.filter(c => c[0] === g).map(c => `<div class="cp" id="${c[1]}"><div class="ch"><h3>${c[2]} <code>&lt;${c[3].split(' ')[0]} /&gt;</code></h3><span class="used">Used on: ${c[4]}</span><p>${c[5]}</p></div><div class="cb ${c[7] || ''}" data-k="${c[1]}"></div></div>`).join('')}</div>`).join('');
+C.forEach(c => { const el = $(`.cb[data-k="${c[1]}"]`); const r = c[6](el); if (typeof r === 'string') el.innerHTML = r; });
+document.querySelectorAll('.cb a').forEach(a => a.removeAttribute('href'));
+</script>
+</body>
+</html>
