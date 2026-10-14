@@ -14,6 +14,10 @@ import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
 import { FAQ } from "@/components/ui/FAQ";
 import { Icon } from "@/components/ui/Icon";
 import type { IconName } from "@/lib/icons";
+import { FOUNDING, GUARANTEE_DAYS, INCLUDED_UNITS, RATES, UNIT_FEES, formatMoney, type Money } from "@/lib/pricing";
+
+/** "$1,000 (AED 3,500, €900)": a rate-card amount in all three currencies, for static copy. */
+const all3 = (m: Money) => `${formatMoney(m.usd, "usd")} (${formatMoney(m.aed, "aed")}, ${formatMoney(m.eur, "eur")})`;
 
 export const metadata: Metadata = pageMetadata({
   title: "Pricing",
@@ -27,15 +31,19 @@ const INCLUDED: readonly (readonly [IconName, string, string])[] = [
   ["lock", "You own everything", "Built in your accounts. Leave anytime, keep it all."],
   ["bolt", "No new software", "We work inside the tools you already use."],
   ["run", "We run it after launch", "Monitoring, fixes and a monthly summary."],
-  ["calendar", "Live in 2–3 weeks", "From first call to a running system."],
+  ["calendar", `Live in ${GUARANTEE_DAYS} days, guaranteed`, "Or your first month is free. The clock only pauses while we wait on you."],
 ];
 
 const PRICING_FAQ: readonly (readonly [string, string])[] = [
-  ["Which currency do you invoice in?", "US dollars, UAE dirhams or euros. Switch at the top of this page; you’re invoiced in the one you choose."],
-  ["Is ad spend included?", "No. Ad spend goes straight to Meta or Google from your own account. Our fee covers building and managing the campaigns."],
-  ["Is there a contract?", "Monthly, with 30 days’ notice. (Placeholder: set your real terms.)"],
-  ["Can I start with just one system?", "Yes. Most owners start with guest messaging or direct bookings and add more once it’s paying off."],
-  ["Why a setup fee?", "It covers the audit, the design and the build inside your tools. The monthly fee covers running, monitoring and improving it."],
+  ["Which currency do you invoice in?", "US dollars, UAE dirhams or euros. Switch at the top of this page; you’re invoiced in the one you choose, and it stays fixed."],
+  ["Do prices include tax?", "No. Prices exclude applicable taxes. We invoice from outside the UAE and EU, so VAT-registered businesses there account for VAT under the reverse charge."],
+  ["Do you charge per property?", `A plan covers up to ${INCLUDED_UNITS} units. Above that, plans with an AI Automation system add ${all3(UNIT_FEES.upTo30)} a unit each month up to 30 units, then ${all3(UNIT_FEES.above30)}. Marketing systems are flat.`],
+  ["Is ad spend included?", `No. Ad spend goes straight to Meta or Google from your own account. Our fee covers building and managing the campaigns. We ask for at least ${all3(RATES["paid-social"].adMin!)} a month so campaigns can learn.`],
+  ["Is there a contract?", "No lock-in. Monthly fees run month to month with 30 days’ notice. Ads are the one exception: they run for 3 months minimum, because campaigns need that long to learn."],
+  ["How does the launch guarantee work?", `If your system isn’t live within ${GUARANTEE_DAYS} days of kickoff, your first month is free. Kickoff is when the setup deposit, access and onboarding answers are in. If we’re waiting on you or a platform review, the clock pauses, and we tell you in writing. Websites and full-funnel campaigns get 30 days.`],
+  ["How do I pay?", "Half the setup fee when you sign, half at launch. The monthly fee starts on launch day, invoiced in advance."],
+  ["Why a setup fee?", "It covers the audit, the design and the build inside your tools. That’s why the monthly fee needs no lock-in: it covers running, monitoring and improving the system."],
+  ["Can I start with just one system?", "Yes. Most owners start with guest messaging or direct bookings and add more once it’s paying off. Three or more systems get a 10% bundle saving, five or more 15%."],
 ];
 
 export default function PricingPage() {
@@ -52,22 +60,24 @@ export default function PricingPage() {
             No surprises.
           </h1>
           <p className="lead">Start with one system or run the lot. These are starting points; the audit call gives you a fixed quote before any work begins.</p>
-          {/* Placeholder flag: keep it until the owner sets real prices (DECISIONS → still open, item 1). */}
-          <span
-            style={{
-              display: "inline-flex",
-              gap: 8,
-              alignItems: "center",
-              fontSize: 13,
-              color: "var(--amber)",
-              border: "1px dashed rgba(232,163,61,.45)",
-              borderRadius: 10,
-              padding: "8px 12px",
-              marginTop: 22,
-            }}
-          >
-            <Icon name="alert" style={{ width: 16, height: 16 }} className="ico" /> Placeholder prices for review. You set the real ones.
-          </span>
+          {FOUNDING.open ? (
+            <span
+              style={{
+                display: "inline-flex",
+                gap: 8,
+                alignItems: "center",
+                fontSize: 13,
+                color: "var(--green)",
+                border: "1px solid rgba(143,212,176,.4)",
+                borderRadius: 10,
+                padding: "8px 12px",
+                marginTop: 22,
+              }}
+            >
+              <Icon name="check" style={{ width: 16, height: 16 }} className="ico" /> Founding clients: {FOUNDING.setupOff * 100}% off setup for our first {FOUNDING.clients}, in
+              return for a case study.
+            </span>
+          ) : null}
           <div style={{ marginTop: 18 }}>
             <CurrencyToggle />
           </div>
@@ -76,6 +86,10 @@ export default function PricingPage() {
         <section className="wrap" style={{ paddingBottom: 40 }}>
           <h2 className="sr-only">Plans</h2>
           <PricingTiers />
+          <p className="mono" style={{ marginTop: 18 }}>
+            Prices exclude applicable taxes. Ad spend and your own software subscriptions are paid directly. Live in {GUARANTEE_DAYS} days or your
+            first month is free.
+          </p>
         </section>
 
         <section className="wrap section" style={{ paddingTop: 80 }}>

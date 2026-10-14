@@ -418,13 +418,13 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 
 /* pricing tiers */
 .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
-.tier{position:relative;border:1px solid var(--hair);border-radius:24px;background:var(--surface);padding:28px;display:flex;flex-direction:column;gap:12px}
+.tier{position:relative;container-type:inline-size;border:1px solid var(--hair);border-radius:24px;background:var(--surface);padding:28px;display:flex;flex-direction:column;gap:12px}
 .tier.pop{border-color:rgba(255,45,59,.5)}
 .tier .badge{position:absolute;top:-11px;left:28px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--red-btn);color:#fff}
 .tier h4{font-family:var(--display);font-size:26px;font-weight:500;letter-spacing:-.02em}
 .tier .ln{font-size:14.5px;color:var(--sub)}
-.tier .pr{display:flex;align-items:baseline;gap:6px;margin-top:8px}
-.tier .pr b{font-family:var(--display);font-size:52px;font-weight:500;letter-spacing:-.03em;line-height:1}
+.tier .pr{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 6px;margin-top:8px}
+.tier .pr b{font-family:var(--display);font-size:min(52px,17cqi);white-space:nowrap;font-weight:500;letter-spacing:-.03em;line-height:1}
 .tier .pr span{color:var(--sub);font-size:14px}
 .tier .setup{font-size:13.5px;color:var(--sub)}
 .tier ul{list-style:none;display:grid;gap:10px;margin:8px 0 6px;font-size:14px}
@@ -444,9 +444,13 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .pk:has(input:checked) .box{background:var(--red-btn);border-color:var(--red-btn);color:#fff}
 .est{border:1px solid var(--hair-2);border-radius:20px;padding:26px;display:grid;gap:14px;align-content:start;background:var(--surface)}
 .est .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.est b{display:block;font-family:var(--display);font-size:40px;font-weight:500;letter-spacing:-.03em}
+.est .row > div{container-type:inline-size}
+.est .row b{display:block;font-family:var(--display);font-size:min(40px,26cqi);white-space:nowrap;font-weight:500;letter-spacing:-.03em}
 .est small{font-size:13px;color:var(--sub)}
 .est .btn{justify-content:center}
+.tier .pr b:has(.cur){font-size:min(52px,14cqi)}
+.est .row b:has(.cur){font-size:min(40px,19cqi)}
+.tier .pr .cur,.est .cur{font-size:.42em;letter-spacing:0;margin-right:.3em;color:var(--sub)}
 
 /* try the assistant */
 .try{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center;border:1px solid var(--hair);border-radius:28px;background:var(--surface);padding:40px 56px}

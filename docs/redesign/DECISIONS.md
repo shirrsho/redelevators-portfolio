@@ -50,7 +50,7 @@ These are settled. Build them as they are; don't re-open them.
 - **WhatsApp:** only on the Contact page, as a button. **Never print the number.** Use a `wa.me` link with a prefilled message.
 - **Email:** `contact@redelevators.com`.
 - **Currency toggle:** **USD is the default**, plus AED and EUR. Each currency has its own prices (no live conversion). The choice is remembered per visitor.
-- **Prices are placeholders** (the owner sets real ones later). The UI flags them as placeholders.
+- **Prices:** real prices set 14 Oct 2026. See `docs/PRICING.md`; `src/lib/pricing.ts` is the source of truth.
 - **AI vendor:** name **Claude** in diagrams. The FAQ wording is "mostly Claude, OpenAI where it fits".
 
 ## URLs
@@ -75,7 +75,7 @@ New pages: `/pricing` and `/privacy`.
 - The **people/trust section is deferred** by the owner. Leave room for it, but don't build it.
 
 ## Still open (needs the owner, not code)
-1. **Real prices** in USD, AED and EUR.
+1. ~~**Real prices** in USD, AED and EUR.~~ Done 14 Oct 2026 (`docs/PRICING.md`).
 2. **Privacy policy legal details:**
    - Registered company name and address.
    - Email provider.

@@ -4,3 +4,8 @@
 .row{position:relative}
 .input{display:inline-block;position:absolute;left:14px;top:50%;width:1px;height:1px;margin:0;opacity:0;pointer-events:none}
 .row:has(.input:focus-visible){outline:2px solid var(--ink);outline-offset:3px}
+
+/* Founding-client line under the estimate. */
+.offer{display:flex;gap:8px;align-items:center;font-size:13.5px;color:var(--green)}
+.offer svg{width:16px;height:16px;flex:0 0 auto}
+.notes{display:grid;gap:6px}

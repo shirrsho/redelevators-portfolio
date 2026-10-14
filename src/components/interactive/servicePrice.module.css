@@ -1,0 +1,21 @@
+/* "What it costs" card on service pages. Same surface, type and figures as the plan builder's
+   estimate (sections.css .est); two columns on desktop, one under 900px. */
+.card{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"head head" "figs notes" "offers notes" "ctas notes" "tax tax";gap:18px 48px;align-items:start;border:1px solid var(--hair-2);border-radius:24px;padding:30px;background:var(--surface)}
+.head{grid-area:head;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.figs{grid-area:figs;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.figs > div{container-type:inline-size}
+.figs b{display:block;font-family:var(--display);font-size:min(44px,24cqi);font-weight:500;letter-spacing:-.03em;white-space:nowrap}
+.figs b:has(:global(.cur)){font-size:min(44px,19cqi)}
+.figs :global(.cur){font-size:.42em;letter-spacing:0;margin-right:.3em;color:var(--sub)}
+.figs small{font-size:13px;color:var(--sub)}
+.notes{grid-area:notes;list-style:none;display:grid;gap:12px;font-size:14.5px;color:var(--sub);line-height:1.55}
+.notes li{padding-left:16px;position:relative}
+.notes li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--hair-2)}
+.offers{grid-area:offers;display:grid;gap:8px;font-size:14px;color:var(--green)}
+.offers p{display:flex;gap:8px;align-items:center}
+.offers svg{width:16px;height:16px;flex:0 0 auto}
+.ctas{grid-area:ctas;display:flex;gap:10px;flex-wrap:wrap}
+.card > :global(.mono){grid-area:tax}
+@media (max-width:900px){
+  .card{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "figs" "notes" "offers" "ctas" "tax";padding:24px}
+}

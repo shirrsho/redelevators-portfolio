@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { EVENTS, track } from "@/lib/analytics";
 import { useCurrency } from "@/lib/currency";
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
-import { CALC_FIELDS, CALC_RECOMMEND, type CalcKey } from "@/lib/pricing";
+import { CALC_FIELDS, CALC_RECOMMEND, DIRECT_SHARE, NET_COMMISSION, quote, type CalcKey } from "@/lib/pricing";
 import { getService } from "@/lib/services";
 import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
 import { Icon } from "@/components/ui/Icon";
@@ -46,7 +47,8 @@ const DEFAULTS = Object.fromEntries(CALC_FIELDS.map((f) => [f[0], f[4]])) as Rec
  * Data: src/lib/pricing.ts (CALC_FIELDS, CALC_RECOMMEND, FX).
  */
 export function SavingsCalculator() {
-  const { money, fx } = useCurrency();
+  const { cur, money, fx } = useCurrency();
+  const onPricing = usePathname() === "/pricing";
   const [v, setV] = useState(DEFAULTS);
   const used = useRef(false);
 
@@ -58,10 +60,11 @@ export function SavingsCalculator() {
     setV((cur) => ({ ...cur, [key]: value }));
   };
 
-  // Formulas as in the mockup (hours of admin per month, commission kept, replies sent).
+  // Hours of admin per month and replies sent as in the mockup. Commission kept: the share of
+  // platform bookings moved direct × the net commission saved on each (src/lib/pricing.ts).
   const now = v.units * ((v.msgs * 4.33 * 4) / 60 + (v.turn * 25) / 60 + 3);
   const back = Math.round(now * 0.7);
-  const kept = Math.round(v.units * v.nights * v.rate * fx * (v.ota / 100) * 0.25 * 0.15);
+  const kept = Math.round(v.units * v.nights * v.rate * fx * (v.ota / 100) * DIRECT_SHARE * NET_COMMISSION);
   const replies = Math.round(v.units * v.msgs * 4.33 * 0.8);
   const afterPct = Math.max(6, ((now - back) / Math.max(now, 1)) * 100);
 
@@ -71,6 +74,7 @@ export function SavingsCalculator() {
     ...(v.nights <= 18 ? CALC_RECOMMEND.nights : []),
   ];
   const picks = [...new Set(rec.length ? rec : CALC_RECOMMEND.fallback)].slice(0, 3);
+  const plan = quote(picks, v.units, cur);
 
   return (
     <div className="calc">
@@ -135,6 +139,16 @@ export function SavingsCalculator() {
               );
             })}
           </div>
+          <p className="small" style={{ marginTop: 10 }}>
+            These {picks.length > 1 ? `${picks.length} systems` : "system"}: {money(plan.monthly)}/month + {money(plan.setup)} setup
+            {plan.adMin ? ", plus ad spend" : ""}.
+            {onPricing ? null : (
+              <>
+                {" "}
+                <Link href="/pricing">See pricing</Link>
+              </>
+            )}
+          </p>
         </div>
         <p className="mono" style={{ marginTop: 6 }}>
           Illustrative estimate. Your audit call gives real numbers.
