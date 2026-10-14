@@ -20,7 +20,7 @@ export function HomeServices() {
   return (
     <>
       <SectionHead
-        eyebrow="Chapter 05 · What we build"
+        eyebrow="What we build"
         title={
           <>
             Eight systems.

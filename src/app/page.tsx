@@ -38,7 +38,7 @@ export default function Home() {
           <div className="jpin">
             <div className="wrap">
               <SectionHead
-                eyebrow="Chapter 04 · One booking"
+                eyebrow="One booking"
                 title={
                   <>
                     Start to finish,
@@ -67,7 +67,7 @@ export default function Home() {
         <section className="section" id="calc">
           <div className="wrap">
             <SectionHead
-              eyebrow="Chapter 06 · Your numbers"
+              eyebrow="Your numbers"
               title={
                 <>
                   What you get back.
@@ -97,7 +97,7 @@ export default function Home() {
         <section className="section" id="how">
           <div className="wrap">
             <SectionHead
-              eyebrow="Chapter 07 · How we work"
+              eyebrow="How we work"
               title={
                 <>
                   Live in three weeks.
@@ -137,7 +137,7 @@ export default function Home() {
         <section className="section" id="tools">
           <div className="wrap tools">
             <div className="rv">
-              <Eyebrow>Chapter 08 · Your tools, our promises</Eyebrow>
+              <Eyebrow>Your tools, our promises</Eyebrow>
               <h2 className="d2" style={{ marginTop: 18 }}>
                 Built inside what
                 <br />
@@ -172,7 +172,7 @@ export default function Home() {
         <section className="section" id="calm">
           <div className="wrap">
             <div className="bhead rv">
-              <Eyebrow center>Chapter 09 · Your calm 2am</Eyebrow>
+              <Eyebrow center>Your calm 2am</Eyebrow>
               <h2 className="d2" style={{ marginTop: 18 }}>
                 It&apos;s 2:14am. <em>Nothing</em> needs you.
               </h2>
