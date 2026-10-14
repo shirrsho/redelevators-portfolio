@@ -123,7 +123,7 @@ const SERVICE_DATA: readonly ServiceData[] = [
     before: ["Ads get checked in Ads Manager whenever someone remembers","A tired ad keeps spending for days before anyone notices","Budget is the same on a quiet Tuesday as on a sold-out Saturday","Results are a weekly report pulled together by hand"],
     control: ["The system checks performance daily and recommends.","You approve every budget shift and every new creative before it runs."],
     gets: [["social","Campaigns built for bookings","Clicks to your booking page, not likes."],["calendar","Gap-night targeting","Budget follows the empty dates."],["price","Daily budget checks","Weak ads flagged, winners funded."],["run","One simple report","What you spent and what it booked."]],
-    faq: [["What budget do I need?","It depends on your market and gaps. You’ll get a recommended range after the audit, and you stay in control of every change."],["Do you make the ads?","Yes, together with our creative service, or from your existing photos."],["Instagram only?","Meta (Instagram and Facebook) first, plus Google where it makes sense."]],
+    faq: [["What budget do I need?","At least $1,000 a month (AED 3,500, €900), paid straight to Meta from your own ad account. You’ll get a recommended range for your market after the audit, and you stay in control of every change."],["Do you make the ads?","Yes, together with our creative service, or from your existing photos."],["Instagram only?","Meta (Instagram and Facebook) first, plus Google where it makes sense."]],
   },
   {
     slug: "photo-ad-creative",

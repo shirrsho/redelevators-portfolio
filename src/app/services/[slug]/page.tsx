@@ -4,12 +4,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { EVENTS } from "@/lib/analytics";
+import { RATES } from "@/lib/pricing";
 import { breadcrumbLd, pageMetadata } from "@/lib/seo";
 import { PILLAR_LABEL, SERVICES, SERVICE_SLUGS, getService } from "@/lib/services";
 import { ServiceCard } from "@/components/cards/ServiceCard";
 import { ServiceHero } from "@/components/devices/ServiceHero";
 import { AssistantDemo } from "@/components/interactive/AssistantDemo";
 import { BeforeAfter } from "@/components/interactive/BeforeAfter";
+import { ServicePrice } from "@/components/interactive/ServicePrice";
 import { SystemPlayer } from "@/components/interactive/SystemPlayer";
 import { CTABand } from "@/components/layout/CTABand";
 import { JsonLd } from "@/components/layout/JsonLd";
@@ -62,6 +64,20 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             serviceType: pillar,
             provider: { "@id": "https://redelevators.com/#organization" },
             areaServed: ["US", "AE"],
+            offers: {
+              "@type": "Offer",
+              priceCurrency: "USD",
+              priceSpecification: [
+                { "@type": "PriceSpecification", name: "One-time setup", price: RATES[s.slug].setup.usd, priceCurrency: "USD" },
+                {
+                  "@type": "UnitPriceSpecification",
+                  name: "Monthly",
+                  price: RATES[s.slug].monthly.usd,
+                  priceCurrency: "USD",
+                  referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
+                },
+              ],
+            },
           },
         ]}
       />
@@ -143,6 +159,13 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                 <p>{text}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className="wrap section" style={{ paddingTop: 20 }}>
+          <SectionHead eyebrow="What it costs" title="One setup fee. One monthly fee." note="Published prices. The audit call confirms a fixed quote before any work begins." noteMaxWidth={320} />
+          <div className="rv">
+            <ServicePrice slug={s.slug} />
           </div>
         </section>
 

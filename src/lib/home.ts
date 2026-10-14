@@ -27,7 +27,7 @@ export const ORBIT = {
 export const PROMISES: readonly (readonly [icon: IconName, title: string, text: string])[] = [
   ["lock", "Built in your accounts. You own it.", "Every workflow, login and line of data stays yours. Leave anytime, keep it all."],
   ["bolt", "Nothing new to learn", "Your team keeps the tools they already know."],
-  ["calendar", "Live in 2–3 weeks", "From first call to a running system."],
+  ["calendar", "Live in 21 days, guaranteed", "Or your first month is free. The clock only pauses while we wait on you."],
   ["run", "We run it after launch", "Monitoring, fixes and a monthly summary. Swap a tool anytime."],
 ];
 

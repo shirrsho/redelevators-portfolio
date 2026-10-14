@@ -13,7 +13,7 @@ export const LERP = 0.12;
 export const VISIBLE = { desktop: 3, phone: 2 } as const;
 
 export const RAIL = ["The night", "Sound familiar?", "The turn", "Morning"] as const;
-export const REASSURE = ["Live in 2–3 weeks", "Works with your tools", "We run it after launch"] as const;
+export const REASSURE = ["Live in 21 days, guaranteed", "Works with your tools", "We run it after launch"] as const;
 
 /** Chapter 02 lines: [headline, line]. */
 export const PAINS: readonly (readonly [string, string])[] = [
