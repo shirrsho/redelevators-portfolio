@@ -64,7 +64,9 @@ export function Journey({ pinned = false }: JourneyProps) {
       track.style.transform = `translateX(${-f * max}px)`;
       show(f);
     };
+    let sizedW = 0;
     const size = () => {
+      sizedW = innerWidth;
       const last = cards[cards.length - 1];
       max = Math.max(0, last.offsetLeft + last.offsetWidth - track.clientWidth);
       sec.style.height = `${innerHeight + max * 1.1 + innerHeight * 0.25}px`;
@@ -77,14 +79,17 @@ export function Journey({ pinned = false }: JourneyProps) {
       scrollTo({ top: sec.getBoundingClientRect().top + scrollY + (i / LAST) * travel(), behavior: "smooth" });
     };
     addEventListener("scroll", update, { passive: true });
-    addEventListener("resize", size);
+    // phone browsers resize the viewport when their toolbars slide in and out while you scroll;
+    // re-sizing the section then would jump the page, so only a width change counts
+    const onResize = () => innerWidth !== sizedW && size();
+    addEventListener("resize", onResize);
     root.addEventListener("click", onClick);
     size();
     const late = setTimeout(size, 600);
     return () => {
       clearTimeout(late);
       removeEventListener("scroll", update);
-      removeEventListener("resize", size);
+      removeEventListener("resize", onResize);
       root.removeEventListener("click", onClick);
       root.classList.remove("pinned");
       sec.classList.remove("jpinned");

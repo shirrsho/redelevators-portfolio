@@ -74,11 +74,16 @@ const mix = (a: readonly number[], b: readonly number[], t: number) => a.map((v,
 const { night: NIGHT, dawn: DAWN, day: DAY } = TIME_OF_DAY;
 const top = (el: Element) => el.getBoundingClientRect().top + scrollY;
 
+let painted = "";
+
 /**
- * Sets --bg on <html>: night through the story's first half, night → dawn through the turn,
- * dawn → day into chapter 04, day until the booking chapter, then back to night.
+ * Paints <html>'s background colour: night through the story's first half, night → dawn through
+ * the turn, dawn → day into chapter 04, day until the booking chapter, then back to night.
+ * Writes the colour directly instead of animating --bg: a custom property on <html> restyles
+ * the whole page on every scroll event. `fade` (the stage's readability gradient, drawn in
+ * currentColor) gets the same colour so it keeps blending into the page.
  */
-export function paintBg(story: HTMLElement) {
+export function paintBg(story: HTMLElement, fade?: HTMLElement | null) {
   const y = scrollY, H = innerHeight;
   const flow = document.getElementById("journey-sec"), calm = document.getElementById("calm");
   if (!flow || !calm) return;
@@ -92,6 +97,14 @@ export function paintBg(story: HTMLElement) {
   else if (y < calmTop - H * 0.9) c = DAY;
   else c = mix(DAY, NIGHT, clamp((y - (calmTop - H * 0.9)) / (H * 0.7)));
   const v = `rgb(${c})`;
-  const root = document.documentElement.style;
-  if (root.getPropertyValue("--bg") !== v) root.setProperty("--bg", v);
+  if (v === painted) return;
+  painted = v;
+  document.documentElement.style.backgroundColor = v;
+  if (fade) fade.style.color = v;
+}
+
+/** Other pages fix --bg with <PageBg>; don't leave the story's last colour behind. */
+export function clearBg() {
+  painted = "";
+  document.documentElement.style.removeProperty("background-color");
 }

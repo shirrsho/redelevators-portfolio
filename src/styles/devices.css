@@ -53,6 +53,8 @@
 .n.dim{opacity:.3!important}
 .n.lifted{opacity:1!important;background:rgba(232,163,61,.07)!important;outline:1.5px dashed rgba(232,163,61,.85);outline-offset:-1.5px;animation:ghost 1.8s ease-in-out infinite}
 .n.lifted > *{opacity:.22;transition:opacity .4s}
+.n > *{transition:opacity .4s}
+.n.peek > *{opacity:0}
 @keyframes ghost{50%{box-shadow:0 0 0 5px rgba(232,163,61,.12),0 0 30px rgba(232,163,61,.18)}}
 .n.done{background:rgba(26,40,34,.78);animation:landed .8s var(--ease)}
 @keyframes landed{0%{scale:.94;box-shadow:0 0 0 2px rgba(143,212,176,.9) inset,0 0 40px rgba(143,212,176,.45)}100%{scale:1}}

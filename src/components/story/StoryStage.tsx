@@ -9,7 +9,7 @@ import { GAP, LERP, LIFT, N, PAINS, RAIL, SEG, TURNS, VIEW_TOOLS, VISIBLE } from
 import { LaptopConsole } from "@/components/devices/LaptopConsole";
 import { PhoneMockup } from "@/components/devices/PhoneMockup";
 import { Chip, Tag } from "@/components/ui/Chip";
-import { HeroCopy, MorningCopy, paintBg } from "./StoryCopy";
+import { HeroCopy, MorningCopy, clearBg, paintBg } from "./StoryCopy";
 import { StoryStatic } from "./StoryStatic";
 import { MorningNote, StoryNote } from "./notes";
 import styles from "./story.module.css";
@@ -33,8 +33,8 @@ import styles from "./story.module.css";
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const fmt = (m: number) => `${Math.floor(m / 60)}:${String(Math.floor(m % 60)).padStart(2, "0")}`;
-/** A point inside the 1240 column, as a CSS length (home.js X()). */
-const X = (f: number) => `calc(var(--edge) + min(100%, var(--max)) * ${f})`;
+/** A point inside the 1240 column, as a CSS length in stage container units (home.js X()). */
+const X = (f: number) => `calc(var(--edge) + min(100cqw, var(--max)) * ${f})`;
 const MAX = 1240;
 /** The phrase highlighted on each lifted notification (home.js: N[L.n].hl = L.hl). */
 const HL: Record<number, string> = Object.fromEntries(LIFT.map((L) => [L.n, L.hl]));
@@ -230,7 +230,8 @@ function StoryAnimated() {
       S.my = e.clientY / innerHeight - 0.5;
     };
     // the time-of-day background follows the whole page, so it doesn't pause with the story
-    const bg = () => paintBg(story);
+    const fade = q("fade");
+    const bg = () => paintBg(story, fade);
     bg();
     addEventListener("scroll", measure, { passive: true });
     addEventListener("scroll", bg, { passive: true });
@@ -243,8 +244,7 @@ function StoryAnimated() {
       removeEventListener("resize", onResize);
       removeEventListener("resize", bg);
       removeEventListener("pointermove", onMove);
-      // other pages fix --bg with <PageBg>; don't leave the story's last colour behind
-      document.documentElement.style.removeProperty("--bg");
+      clearBg();
       dom.current = null;
     };
   }, []);
@@ -264,7 +264,8 @@ function StoryAnimated() {
       S.ps = S.p;
       S.lastKey = "";
     }
-    const VIS = innerWidth <= 760 ? VISIBLE.phone : VISIBLE.desktop;
+    // short phones (SE and smaller) fold to one card, or the stack runs into the copy
+    const VIS = innerWidth > 760 ? VISIBLE.desktop : innerHeight < 720 ? 1 : VISIBLE.phone;
     S.ps += (S.p - S.ps) * LERP;
     S.mxs += (S.mx - S.mxs) * 0.06;
     S.mys += (S.my - S.mys) * 0.06;
@@ -335,16 +336,16 @@ function StoryAnimated() {
       const pf = Math.min(1.05, (innerHeight * 0.78) / 620), lf = Math.min((col * 0.5) / 760, (innerHeight * 0.6) / 500);
       const tx = S.mxs * 8, ty = S.mys * 6;
       const P: Rig = [
-        { x: X(0.74), y: "53%", s: pf, ry: -14 + tx, rx: 5 - ty, rz: 1.2 },
-        { x: X(0.75), y: "53%", s: pf, ry: -8 + tx, rx: 3 - ty },
-        { x: X(0.5), y: "66%", s: pf * 0.62, ry: 12 + tx, rx: 3 - ty, rz: -2 },
-        { x: X(0.66), y: "53%", s: pf, ry: -6 + tx, rx: 2 - ty },
+        { x: X(0.74), y: "53cqh", s: pf, ry: -14 + tx, rx: 5 - ty, rz: 1.2 },
+        { x: X(0.75), y: "53cqh", s: pf, ry: -8 + tx, rx: 3 - ty },
+        { x: X(0.5), y: "66cqh", s: pf * 0.62, ry: 12 + tx, rx: 3 - ty, rz: -2 },
+        { x: X(0.66), y: "53cqh", s: pf, ry: -6 + tx, rx: 2 - ty },
       ][s.ch];
       const Lr: Rig = [
-        { x: X(1.18), y: "48%", s: lf, o: 0, ry: -24 },
-        { x: X(1.18), y: "48%", s: lf, o: 0, ry: -24 },
-        { x: X(0.69), y: "44%", s: lf, ry: -10 + tx * 0.6, rx: 4 - ty * 0.6 },
-        { x: X(0.79), y: "42%", s: lf * 0.82, o: 0.45, ry: -16, rx: 4 },
+        { x: X(1.18), y: "48cqh", s: lf, o: 0, ry: -24 },
+        { x: X(1.18), y: "48cqh", s: lf, o: 0, ry: -24 },
+        { x: X(0.69), y: "44cqh", s: lf, ry: -10 + tx * 0.6, rx: 4 - ty * 0.6 },
+        { x: X(0.79), y: "42cqh", s: lf * 0.82, o: 0.45, ry: -16, rx: 4 },
       ][s.ch];
       place(D.phoneRig, P);
       place(D.laptopRig, Lr);
@@ -398,7 +399,7 @@ function StoryAnimated() {
       if (st[i] === "hidden") {
         css(el, "opacity", "0");
         css(el, "transform", "translateY(-30px) scale(.96)");
-        el.classList.remove("lifted");
+        el.classList.remove("lifted", "peek");
         return;
       }
       if (st[i] === "gone") {
@@ -406,9 +407,11 @@ function StoryAnimated() {
         css(el, "transform", "translateY(-70px) scale(.9)");
         // also drop "lifted": .n.lifted forces opacity 1, and resuming off screen can jump from
         // "Sound familiar?" straight to the morning without a frame in between to clear it
-        el.classList.remove("focus", "dim", "lifted");
+        el.classList.remove("focus", "dim", "lifted", "peek");
         return;
       }
+      // folded cards show only their edge, like a real lock screen (their text bled through)
+      tog(el, "peek", idx >= VIS);
       if (idx < VIS) {
         css(el, "opacity", "1");
         css(el, "transform", `translateY(${idx * GAP}px)`);
@@ -535,13 +538,15 @@ function StoryAnimated() {
           <div className={styles.sunrise} data-s="sun" />
           <div className={styles.surface} />
         </div>
+        {/* keeps the copy readable: under the rigs on desktop, over the full-screen phone on mobile */}
+        <div className={styles.fade} data-s="fade" aria-hidden="true" />
 
         {/* owner's phone */}
         <div
           className={`${styles.rig} ${styles.phoneRig} ${styles.init}`}
           data-s="phoneRig"
           aria-hidden="true"
-          style={{ "--x": X(0.74), "--y": "53%", "--s": 0.9 } as CSSProperties}
+          style={{ "--x": X(0.74), "--y": "53cqh", "--s": 0.9 } as CSSProperties}
         >
           <div style={{ "--rx": "5deg", "--ry": "-14deg", "--rz": "1.2deg" } as CSSProperties}>
             <PhoneMockup time="2:14" statusTimeRef={stimeRef} timeRef={ptimeRef}>
@@ -559,7 +564,7 @@ function StoryAnimated() {
           className={`${styles.rig} ${styles.laptopRig} ${styles.init}`}
           data-s="laptopRig"
           aria-hidden="true"
-          style={{ "--x": X(1.18), "--y": "48%", "--s": 0.8, "--o": 0 } as CSSProperties}
+          style={{ "--x": X(1.18), "--y": "48cqh", "--s": 0.8, "--o": 0 } as CSSProperties}
         >
           <div style={{ "--ry": "-24deg" } as CSSProperties}>
             <LaptopConsole />

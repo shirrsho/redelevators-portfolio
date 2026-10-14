@@ -5,7 +5,7 @@ import { GAP, LIFT, N, PAINS, TURNS, VISIBLE } from "@/lib/story";
 import { LaptopConsole } from "@/components/devices/LaptopConsole";
 import { PhoneMockup } from "@/components/devices/PhoneMockup";
 import { Chip, Tag } from "@/components/ui/Chip";
-import { HeroCopy, MorningCopy, paintBg } from "./StoryCopy";
+import { HeroCopy, MorningCopy, clearBg, paintBg } from "./StoryCopy";
 import { MorningNote, StoryNote } from "./notes";
 import styles from "./story.module.css";
 
@@ -36,7 +36,7 @@ export function StoryStatic() {
     return () => {
       removeEventListener("scroll", bg);
       removeEventListener("resize", bg);
-      document.documentElement.style.removeProperty("--bg");
+      clearBg();
     };
   }, []);
 
@@ -57,7 +57,7 @@ export function StoryStatic() {
           <div className={styles.sPhone} aria-hidden="true">
             <PhoneMockup time="2:14">
               {N.map((n, i) => (
-                <StoryNote key={i} n={n} hl={HL[i]} style={nightStyle(i)} />
+                <StoryNote key={i} n={n} hl={HL[i]} style={nightStyle(i)} className={N.length - 1 - i >= VISIBLE.desktop ? "peek" : undefined} />
               ))}
               <div className="more" style={{ top: VISIBLE.desktop * GAP + 26 }}>
                 {hidden} more

@@ -12,7 +12,7 @@
   --night:#0a0b14;
   --dawn:#17130f;
   --day:#131211;
-  --bg:var(--night);            /* animated by JS along the page */
+  --bg:var(--night);            /* the homepage paints <html> over it by JS, along the page */
 
   --surface:rgba(255,255,255,.035);
   --surface-2:rgba(255,255,255,.06);

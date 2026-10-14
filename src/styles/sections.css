@@ -598,7 +598,7 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .jctl{display:flex;align-items:center;gap:14px}
 /* pinned journey (homepage): the section holds, scroll moves the cards */
 .jpinned{position:relative;padding:0!important}
-.jpinned .jpin{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:clip;padding-top:70px}
+.jpinned .jpin{position:sticky;top:0;height:100vh;height:100dvh;display:flex;flex-direction:column;justify-content:center;overflow:clip;padding-top:70px}
 .jpinned .jpin > .wrap{width:100%;min-width:0}
 .journey.pinned .jtrack{overflow:visible;scroll-snap-type:none;will-change:transform}
 .journey.pinned .fstep.cur{border-color:rgba(139,147,255,.5);box-shadow:0 30px 60px -30px rgba(0,0,0,.9),0 0 0 1px rgba(139,147,255,.25)}
