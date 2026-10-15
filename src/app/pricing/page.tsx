@@ -14,7 +14,19 @@ import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
 import { FAQ } from "@/components/ui/FAQ";
 import { Icon } from "@/components/ui/Icon";
 import type { IconName } from "@/lib/icons";
-import { FOUNDING, GUARANTEE_DAYS, GUARANTEE_DAYS_LONG, INCLUDED_UNITS, RATES, UNIT_FEES, formatMoney, type Money } from "@/lib/pricing";
+import {
+  FOUNDING,
+  GUARANTEE_DAYS,
+  GUARANTEE_DAYS_LONG,
+  INCLUDED_UNITS,
+  PORTFOLIO_FROM_UNITS,
+  PORTFOLIO_SERVICE,
+  RATES,
+  UNIT_FEES,
+  formatMoney,
+  replyTime,
+  type Money,
+} from "@/lib/pricing";
 
 /** "$1,000 (AED 3,500, €900)": a rate-card amount in all three currencies, for static copy. */
 const all3 = (m: Money) => `${formatMoney(m.usd, "usd")} (${formatMoney(m.aed, "aed")}, ${formatMoney(m.eur, "eur")})`;
@@ -43,7 +55,11 @@ const PRICING_FAQ: readonly (readonly [string, string])[] = [
   ["How does the launch guarantee work?", `If your system isn’t live within ${GUARANTEE_DAYS} days of kickoff, your first month is free. Kickoff is when the setup deposit, access and onboarding answers are in. If we’re waiting on you or a platform review, the clock pauses, and we tell you in writing. Websites and full-funnel campaigns get ${GUARANTEE_DAYS_LONG} days.`],
   ["How do I pay?", "Half the setup fee when you sign, half at launch. The monthly fee starts on launch day, invoiced in advance."],
   ["Why a setup fee?", "It covers the audit, the design and the build inside your tools. That’s why the monthly fee needs no lock-in: it covers running, monitoring and improving the system."],
-  ["Can I start with just one system?", "Yes. Most owners start with guest messaging or direct bookings and add more once it’s paying off. Three or more systems get a 10% bundle saving, five or more 15%."],
+  ["Can I start with just one system?", "Yes. Most owners start with guest messaging or direct bookings and add more once it’s paying off. Three or more systems get a 10% bundle saving, five or more 15%. Marketing systems count toward it too."],
+  [
+    "What does Portfolio add?",
+    `A dedicated build lead, training and documentation for your team, and support replies the ${replyTime("portfolio")}, for ${all3(PORTFOLIO_SERVICE)} a month on top of the systems you choose. It’s built for ${PORTFOLIO_FROM_UNITS}+ units, but it’s optional at any size: nothing jumps in price as you grow. Starter replies ${replyTime("starter")}, Growth ${replyTime("growth")}.`,
+  ],
 ];
 
 export default function PricingPage() {
@@ -59,7 +75,7 @@ export default function PricingPage() {
             <br />
             No surprises.
           </h1>
-          <p className="lead">Start with one system or run the lot. These are starting points; the audit call gives you a fixed quote before any work begins.</p>
+          <p className="lead">Start with one system or run the lot. Every price here is a plan you can buy, and the audit call fixes yours in writing before any work begins.</p>
           {FOUNDING.open ? (
             <span
               style={{
@@ -93,7 +109,7 @@ export default function PricingPage() {
         </section>
 
         <section className="wrap section" style={{ paddingTop: 80 }}>
-          <SectionHead eyebrow="Build your own" title="Pick the systems you want." note="Tick what you need and see a starting estimate instantly." noteMaxWidth={320} />
+          <SectionHead eyebrow="Build your own" title="Pick the systems you want." note="Tick what you need and see exactly how the price adds up." noteMaxWidth={320} />
           <div className="rv">
             <PlanBuilder />
           </div>
@@ -102,7 +118,7 @@ export default function PricingPage() {
         <section className="wrap section" style={{ paddingTop: 20 }}>
           <SectionHead eyebrow="Worth it?" title="What would you get back?" note="Move the sliders to match your business." noteMaxWidth={320} />
           <div className="rv">
-            <SavingsCalculator />
+            <SavingsCalculator currencyToggle={false} />
           </div>
         </section>
 

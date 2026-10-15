@@ -6,13 +6,16 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { EVENTS, track } from "@/lib/analytics";
 import { useCurrency } from "@/lib/currency";
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
-import { CALC_FIELDS, CALC_TIME, DIRECT_SHARE, DIRECT_SYSTEMS, NET_COMMISSION, calcPicks, quote, type CalcKey } from "@/lib/pricing";
+import { CALC_FIELDS, CALC_TIME, DIRECT_SHARE, DIRECT_SYSTEMS, NET_COMMISSION, PORTFOLIO_FROM_UNITS, calcPicks, quote, type CalcKey } from "@/lib/pricing";
 import { getService } from "@/lib/services";
 import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
 import { Icon } from "@/components/ui/Icon";
 
-/** No props: it reads the currency from context. */
-export type SavingsCalculatorProps = Record<string, never>;
+export type SavingsCalculatorProps = {
+  /** Show the currency switch in the YOUR BUSINESS header. Default true; /pricing has one switch
+   *  in its hero for the whole page, so it passes false. */
+  currencyToggle?: boolean;
+};
 
 /** Counts to `value` over 450ms (ease-out cubic) whenever it changes; jumps with reduced motion. */
 function Anim({ value, format = (n) => n.toLocaleString("en-US") }: { value: number; format?: (n: number) => string }) {
@@ -44,13 +47,13 @@ const times = (r: number) => (r >= 2 ? Math.round(r) : Math.round(r * 10) / 10) 
 
 /**
  * Six sliders → hours back each month, what that is worth (hours × your hourly value + commission
- * kept), and the recommended plan set against it. Has its own CurrencyToggle (YOUR BUSINESS
- * header) and follows useCurrency(). Fires "Calculator used" once on the first slider input.
+ * kept), and the recommended plan set against it (with the Portfolio service level from
+ * PORTFOLIO_FROM_UNITS). Follows useCurrency(); shows its own CurrencyToggle unless told not to. Fires "Calculator used" once on the first slider input.
  * Root element is `.calc`. Used by Home ch.06 (Track D) and /pricing.
  * Mockup: site.js → mountCalc, sections.css .calc. Data and rules: src/lib/pricing.ts
  * (CALC_FIELDS, CALC_TIME, calcPicks, quote, FX).
  */
-export function SavingsCalculator() {
+export function SavingsCalculator({ currencyToggle = true }: SavingsCalculatorProps) {
   const { cur, money, fx } = useCurrency();
   const onPricing = usePathname() === "/pricing";
   const [v, setV] = useState(DEFAULTS);
@@ -74,7 +77,8 @@ export function SavingsCalculator() {
   const afterPct = Math.max(6, ((now - back) / Math.max(now, 1)) * 100);
 
   const picks = calcPicks(v);
-  const plan = quote(picks, v.units, cur);
+  const portfolio = v.units >= PORTFOLIO_FROM_UNITS;
+  const plan = quote(picks, v.units, cur, portfolio);
   const direct = picks.some((p) => DIRECT_SYSTEMS.includes(p));
   const kept = direct ? Math.round(v.units * v.nights * v.rate * fx * (v.ota / 100) * DIRECT_SHARE * NET_COMMISSION) : 0;
   const worth = Math.round(back * v.hourly * fx + kept);
@@ -92,7 +96,7 @@ export function SavingsCalculator() {
       <div className="cin">
         <div className="chead">
           <span className="mono">YOUR BUSINESS</span>
-          <CurrencyToggle />
+          {currencyToggle ? <CurrencyToggle /> : null}
         </div>
         {CALC_FIELDS.map(([key, label, min, max, , unit]) => (
           <label key={key} className="sl">
@@ -153,7 +157,7 @@ export function SavingsCalculator() {
             })}
           </div>
           <p className="small" style={{ marginTop: 10 }}>
-            {plan.portfolioMin ? "Portfolio plan" : picks.length > 1 ? `These ${picks.length} systems` : "This system"}: {money(plan.monthly)}/month +{" "}
+            {portfolio ? "Portfolio plan" : picks.length > 1 ? `These ${picks.length} systems` : "This system"}: {money(plan.monthly)}/month +{" "}
             {money(plan.setup)} setup{plan.adMin ? ", plus ad spend" : ""}.
             {onPricing ? null : (
               <>

@@ -450,6 +450,8 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .tier li{display:flex;gap:10px;align-items:flex-start}
 .tier li svg{width:16px;height:16px;color:var(--green);flex:0 0 auto;margin-top:2px}
 .tier .btn{margin-top:auto;justify-content:center}
+.tier .tier-custom{align-self:center;font-size:13.5px;color:var(--sub);text-decoration:underline;text-decoration-color:var(--hair-2);text-underline-offset:4px;padding:2px 4px;transition:color .2s,text-decoration-color .2s}
+.tier .tier-custom:hover{color:var(--ink);text-decoration-color:currentColor}
 
 /* plan builder */
 .builder{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
