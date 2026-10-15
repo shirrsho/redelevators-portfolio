@@ -46,9 +46,11 @@ export type CalBookerProps = {
   onStart?: () => void;
   /** The booking was confirmed; `when` is null if Cal sent no usable time. */
   onBooked?: (when: BookedWhen | null) => void;
+  /** Prefills the booking form's "Additional notes" (the plan from /pricing). */
+  notes?: string;
 };
 
-export function CalBooker({ location, onStart, onBooked }: CalBookerProps) {
+export function CalBooker({ location, onStart, onBooked, notes }: CalBookerProps) {
   const frame = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
   const near = useInView(frame, { rootMargin: LOAD_MARGIN, once: true });
@@ -172,7 +174,7 @@ export function CalBooker({ location, onStart, onBooked }: CalBookerProps) {
         <Cal
           namespace={NS}
           calLink={CAL_LINK}
-          config={{ layout: "month_view", theme: "dark", useSlotsViewOnSmallScreen: "true" }}
+          config={{ layout: "month_view", theme: "dark", useSlotsViewOnSmallScreen: "true", ...(notes ? { notes } : {}) }}
           style={{ width: "100%" }}
           // keep a failed (404) booker out of the tab order behind the notice
           inert={failed}

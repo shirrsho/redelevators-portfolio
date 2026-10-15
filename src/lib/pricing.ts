@@ -1,4 +1,4 @@
-import { SERVICE_SLUGS, type ServiceSlug } from "./services";
+import { SERVICE_SLUGS, getService, type ServiceSlug } from "./services";
 
 // Currencies, the rate card, the quote rules, tiers and the calculator inputs.
 // Source of truth: docs/PRICING.md (the agency's Pricing Playbook, set 14 Oct 2026). Every price
@@ -70,10 +70,16 @@ export const UNIT_FEES: { upTo30: Money; above30: Money } = {
   upTo30: { usd: 15, aed: 55, eur: 14 },
   above30: { usd: 10, aed: 35, eur: 9 },
 };
-/** Portfolio (31+ units): the monthly minimum, which covers a dedicated build lead, agreed
- *  response times and team training. Above it, the rate card applies. */
+/** Where each tier is the best fit, by units. Guidance only: any plan works at any size, and the
+ *  unit fee is the only thing that grows with units, so there is no price jump between tiers. */
+export const GROWTH_FROM_UNITS = 10;
 export const PORTFOLIO_FROM_UNITS = 31;
-export const PORTFOLIO_MIN: Money = { usd: 2500, aed: 9000, eur: 2250 };
+/** Portfolio service level: a flat monthly fee on top of the rate card, never discounted. Covers a
+ *  dedicated build lead, team training and documentation, and same-business-day replies. Opt-in,
+ *  suggested from PORTFOLIO_FROM_UNITS. */
+export const PORTFOLIO_SERVICE: Money = { usd: 500, aed: 1850, eur: 450 };
+/** Support reply times, in business days, by service level (0 = same business day). */
+export const REPLY_DAYS: Readonly<Record<TierKey, number>> = { starter: 2, growth: 1, portfolio: 0 };
 
 /** Bundle saving on setup and monthly: 10% for 3–4 systems, 15% for 5+. */
 export const bundleDiscount = (systems: number) => (systems >= 5 ? 0.15 : systems >= 3 ? 0.1 : 0);
@@ -104,31 +110,35 @@ export type Quote = {
   discount: number;
   /** Extra-unit fee included in `monthly`, before the bundle saving. */
   units: number;
-  /** True when the Portfolio minimum set the monthly price. */
-  portfolioMin: boolean;
+  /** Rate-card totals before the bundle saving (systems + unit fee; no service level). */
+  rawSetup: number;
+  rawMonthly: number;
+  /** Portfolio service level included in `monthly` (0 when not chosen). */
+  service: number;
   /** Highest minimum ad spend among the systems, or 0. */
   adMin: number;
   /** Setup after the founding-client discount. */
   foundingSetup: number;
 };
 
-/** Quote formula (Pricing Playbook → Pricing rules 1–4). */
-export function quote(slugs: readonly ServiceSlug[], units: number, cur: Currency): Quote {
+/** Quote formula (Pricing Playbook → Pricing rules 1–4). `portfolio` adds the service level. */
+export function quote(slugs: readonly ServiceSlug[], units: number, cur: Currency, portfolio = false): Quote {
   const rates = slugs.map((s) => RATES[s]);
   const discount = bundleDiscount(rates.length);
   const extra = rates.some((r) => r.perUnit) ? unitFee(units, cur) : 0;
   const rawMonthly = rates.reduce((a, r) => a + r.monthly[cur], 0) + extra;
   const rawSetup = rates.reduce((a, r) => a + r.setup[cur], 0);
-  let monthly = discount ? roundMonthly(rawMonthly * (1 - discount), cur) : rawMonthly;
+  const service = portfolio && rates.length ? PORTFOLIO_SERVICE[cur] : 0;
+  const monthly = (discount ? roundMonthly(rawMonthly * (1 - discount), cur) : rawMonthly) + service;
   const setup = discount ? roundSetup(rawSetup * (1 - discount)) : rawSetup;
-  const portfolioMin = rates.length > 0 && units >= PORTFOLIO_FROM_UNITS && monthly < PORTFOLIO_MIN[cur];
-  if (portfolioMin) monthly = PORTFOLIO_MIN[cur];
   return {
     setup,
     monthly,
     discount,
     units: extra,
-    portfolioMin,
+    rawSetup,
+    rawMonthly,
+    service,
     adMin: Math.max(0, ...rates.map((r) => r.adMin?.[cur] ?? 0)),
     foundingSetup: roundSetup(setup * (1 - FOUNDING.setupOff)),
   };
@@ -140,24 +150,54 @@ function combos<T>(items: readonly T[], k: number): T[][] {
   return items.flatMap((x, i) => combos(items.slice(i + 1), k - 1).map((c) => [x, ...c]));
 }
 
-const AUTOMATION = SERVICE_SLUGS.filter((s) => RATES[s].perUnit);
+/** The AI Automation systems (priced per unit). Starter and Growth are built from these. */
+export const AUTOMATION: readonly ServiceSlug[] = SERVICE_SLUGS.filter((s) => RATES[s].perUnit);
+export const isAutomation = (s: ServiceSlug) => RATES[s].perUnit;
 
 export type TierKey = "starter" | "growth" | "portfolio";
 
-/** A tier's "from" prices: the lowest monthly and the lowest setup the tier allows, each a true
- *  minimum over its allowed plans (at INCLUDED_UNITS). Portfolio shows its monthly minimum only. */
-export function tierFrom(tier: TierKey, cur: Currency): { monthly: number; setup: number | null } {
-  if (tier === "portfolio") return { monthly: PORTFOLIO_MIN[cur], setup: null };
-  const plans = tier === "starter" ? AUTOMATION.map((s) => [s]) : combos(SERVICE_SLUGS, 3);
-  const qs = plans.map((p) => quote(p, INCLUDED_UNITS, cur));
-  return { monthly: Math.min(...qs.map((q) => q.monthly)), setup: Math.min(...qs.map((q) => q.setup)) };
+/** A tier as a real plan: the systems, units and service level a card's price is quoted for. */
+export type TierPlan = { slugs: readonly ServiceSlug[]; units: number; portfolio: boolean };
+
+/** Each tier's "from" plan: its cheapest real plan (lowest monthly, then lowest setup), so the
+ *  card's monthly and setup always belong to one plan you can buy. Starter = one AI Automation
+ *  system; Growth = three; Portfolio = three at PORTFOLIO_FROM_UNITS + the service level. Prices
+ *  are equal in every currency's order, so USD picks the plan. */
+export function tierPlan(tier: TierKey): TierPlan {
+  const portfolio = tier === "portfolio";
+  const units = portfolio ? PORTFOLIO_FROM_UNITS : INCLUDED_UNITS;
+  const plans = tier === "starter" ? AUTOMATION.map((s) => [s]) : combos(AUTOMATION, 3);
+  const best = plans
+    .map((slugs) => ({ slugs, q: quote(slugs, units, "usd", portfolio) }))
+    .reduce((a, b) => (b.q.monthly < a.q.monthly || (b.q.monthly === a.q.monthly && b.q.setup < a.q.setup) ? b : a));
+  return { slugs: best.slugs, units, portfolio };
 }
+
+/** A tier's "from" prices, quoted from tierPlan(). */
+export function tierFrom(tier: TierKey, cur: Currency): { monthly: number; setup: number } {
+  const p = tierPlan(tier);
+  const q = quote(p.slugs, p.units, cur, p.portfolio);
+  return { monthly: q.monthly, setup: q.setup };
+}
+
+/** Which tier a builder plan matches, or null for a custom mix. Marketing systems are add-ons to
+ *  any tier; the service level makes it Portfolio. */
+export function planTier(slugs: readonly ServiceSlug[], portfolio: boolean): TierKey | null {
+  const auto = slugs.filter(isAutomation).length;
+  if (portfolio) return slugs.length ? "portfolio" : null;
+  return auto === 1 ? "starter" : auto >= 3 ? "growth" : null;
+}
+
+/** "within 2 business days", "same business day". */
+export const replyTime = (tier: TierKey) =>
+  REPLY_DAYS[tier] === 0 ? "same business day" : `within ${REPLY_DAYS[tier]} business day${REPLY_DAYS[tier] > 1 ? "s" : ""}`;
 
 export type Tier = {
   key: TierKey;
   n: string;
   for: string;
   line: string;
+  /** `{unit}` = the 6–30 unit fee, `{service}` = PORTFOLIO_SERVICE, both in the page currency. */
   items: readonly string[];
   pop?: boolean;
 };
@@ -165,24 +205,39 @@ export const TIERS: readonly Tier[] = [
   {
     key: "starter",
     n: "Starter",
-    for: "1–5 units",
+    for: `Best for 1–${GROWTH_FROM_UNITS - 1} units`,
     line: "One AI system, set up and run for you.",
-    items: ["One AI Automation system of your choice", "Built inside your own tools", "Monthly tuning and summary", "Email and WhatsApp support"],
+    items: [
+      "One AI Automation system of your choice",
+      `${INCLUDED_UNITS} units included, then +{unit} a unit`,
+      "Monthly tuning and summary",
+      `Support replies ${replyTime("starter")}`,
+    ],
   },
   {
     key: "growth",
     n: "Growth",
-    for: "5–30 units",
-    line: "Three systems working together.",
+    for: `Best for ${GROWTH_FROM_UNITS}–${PORTFOLIO_FROM_UNITS - 1} units`,
+    line: "Three AI systems working together.",
     pop: true,
-    items: ["Any three systems, 10% bundle saving", "Mix automation and marketing", "+{unit} a month per unit above five", "Priority support"],
+    items: [
+      "Three AI systems, 10% bundle saving",
+      `${INCLUDED_UNITS} units included, then +{unit} a unit`,
+      "Add marketing systems anytime",
+      `Support replies ${replyTime("growth")}`,
+    ],
   },
   {
     key: "portfolio",
     n: "Portfolio",
-    for: "30+ units",
-    line: "Everything, for larger operators.",
-    items: ["Any of the eight systems", "A dedicated build lead", "Team training and documentation", "Agreed response times"],
+    for: `Best for ${PORTFOLIO_FROM_UNITS}+ units`,
+    line: "Your whole operation, with a dedicated lead.",
+    items: [
+      "Three or more systems at rate-card prices",
+      "Dedicated build lead, +{service} a month",
+      "Team training and documentation",
+      `Support replies the ${replyTime("portfolio")}`,
+    ],
   },
 ];
 
@@ -227,8 +282,8 @@ export const CALC_RECOMMEND: Readonly<Record<"msgs" | "ota" | "nights" | "fallba
 };
 
 /** How many systems to recommend, by portfolio size (matches the tiers: Starter = one system,
- *  Growth = three; 31+ units are quoted as Portfolio by quote()). */
-export const calcPickCount = (units: number) => (units <= INCLUDED_UNITS ? 1 : 3);
+ *  Growth = three; from PORTFOLIO_FROM_UNITS the calculator also adds the Portfolio service level). */
+export const calcPickCount = (units: number) => (units < GROWTH_FROM_UNITS ? 1 : 3);
 
 /** Calculator picks: the pains that apply, in priority order, cut to calcPickCount(units). */
 export function calcPicks(v: Readonly<Record<CalcKey, number>>): ServiceSlug[] {
@@ -238,4 +293,64 @@ export function calcPicks(v: Readonly<Record<CalcKey, number>>): ServiceSlug[] {
     ...(v.nights <= 18 ? CALC_RECOMMEND.nights : []),
   ];
   return [...new Set(rec.length ? rec : CALC_RECOMMEND.fallback)].slice(0, calcPickCount(v.units));
+}
+
+// ---- Plan links: the builder and the tier cards hand the visitor's plan to /contact --------------
+
+/** What a plan link carries. Prices are never in the URL: /contact quotes them again. */
+export type PlanLink = { tier?: TierKey; slugs?: readonly ServiceSlug[]; units?: number; portfolio?: boolean; cur?: Currency };
+
+const TIER_KEYS: readonly TierKey[] = ["starter", "growth", "portfolio"];
+
+/** `/contact?plan=…` (or another path) for a plan: `tier`, or `systems` + `units` (+ `portfolio`), and `cur`. */
+export function planHref(path: string, p: PlanLink): string {
+  const q = new URLSearchParams();
+  if (p.tier) q.set("tier", p.tier);
+  if (p.slugs?.length) q.set("systems", p.slugs.join(","));
+  if (p.units) q.set("units", String(p.units));
+  if (p.portfolio) q.set("portfolio", "1");
+  if (p.cur) q.set("cur", p.cur);
+  const s = q.toString();
+  return s ? `${path}?${s}` : path;
+}
+
+/** Reads a plan link back; unknown values are dropped. */
+export function parsePlan(search: string): PlanLink {
+  const q = new URLSearchParams(search);
+  const tier = q.get("tier");
+  const slugs = (q.get("systems") ?? "").split(",").filter((s): s is ServiceSlug => (SERVICE_SLUGS as readonly string[]).includes(s));
+  const units = Number(q.get("units"));
+  const cur = q.get("cur");
+  return {
+    tier: TIER_KEYS.includes(tier as TierKey) ? (tier as TierKey) : undefined,
+    slugs: slugs.length ? [...new Set(slugs)] : undefined,
+    units: Number.isInteger(units) && units >= 1 && units <= 500 ? units : undefined,
+    portfolio: q.get("portfolio") === "1" || undefined,
+    cur: isCurrency(cur) ? cur : undefined,
+  };
+}
+
+export const tierName = (t: TierKey) => TIERS.find((x) => x.key === t)!.n;
+
+/** A plan link in words, for /contact and the booking notes. Re-quoted here, never read from the
+ *  URL. Null when the link carries no plan. */
+export function planSummary(p: PlanLink, cur: Currency): { title: string; detail: string; notes: string } | null {
+  const money = (n: number) => formatMoney(n, cur);
+  if (p.slugs) {
+    const units = p.units ?? INCLUDED_UNITS;
+    const q = quote(p.slugs, units, cur, !!p.portfolio);
+    const tier = planTier(p.slugs, !!p.portfolio);
+    const title = tier ? `${tierName(tier)} plan` : "Custom plan";
+    const names = p.slugs.map((s) => getService(s)!.title).join(", ");
+    const price = `about ${money(q.monthly)}/month + ${money(q.setup)} setup`;
+    const detail = `${names} · ${units} unit${units > 1 ? "s" : ""}${p.portfolio ? " · Portfolio service level" : ""} · ${price}`;
+    return { title, detail, notes: `From the plan builder: ${title}. ${detail} (${cur.toUpperCase()}, excl. taxes).` };
+  }
+  if (p.tier) {
+    const from = tierFrom(p.tier, cur);
+    const title = `${tierName(p.tier)} plan`;
+    const detail = `from ${money(from.monthly)}/month + ${money(from.setup)} setup`;
+    return { title, detail, notes: `From the pricing page: interested in the ${title}, ${detail} (${cur.toUpperCase()}, excl. taxes).` };
+  }
+  return null;
 }
