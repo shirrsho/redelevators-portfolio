@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 import { EVENTS, track } from "@/lib/analytics";
 import { prefersReducedMotion } from "@/lib/hooks/useReducedMotion";
-import { PARTS, RUNS, type Part } from "@/lib/runs";
+import { RUNS } from "@/lib/runs";
 import { SERVICES, SHORT, servicesIn, type Pillar, type ServiceSlug } from "@/lib/services";
 import { Icon } from "@/components/ui/Icon";
 import { ToolLogo } from "@/components/ui/ToolLogo";
@@ -32,12 +32,15 @@ export function selectSystem(slug: string, source: Source = "control-room") {
   window.dispatchEvent(new CustomEvent(SELECT_EVENT, { detail: { slug, source } }));
 }
 
-const SEE_LABEL = { guest: "WHAT YOUR GUEST SEES", you: "WHAT YOU SEE" } as const;
+const SEE_LABEL = { guest: "What your guest sees", you: "What you see" } as const;
 const GROUPS: readonly [Pillar, string][] = [
   ["auto", "AI AUTOMATION"],
   ["mkt", "MARKETING"],
 ];
-const partLabel = (p: Part) => PARTS.find((x) => x[0] === p)![1];
+const RULE = "Your rule:";
+/** First step after 300ms, then one every 800ms: the whole run reads in under 3s. */
+const FIRST_MS = 300;
+const STEP_MS = 800;
 const indexOf = (slug: string) => SERVICES.findIndex((s) => s.slug === slug);
 
 /** The tool mark for a step node: "You" = the lock, a missing mark = the tool's first letter. */
@@ -55,28 +58,24 @@ const Replay = () => (
 );
 
 /**
- * "Watch one run": the device scene on the left (what the guest or owner sees), the steps on
- * the right with timecodes, tool logos and the four part labels, a legend, the result strip.
- * Plays when ≥35% visible (steps 1.3s then 1.5s), Replay; fixed min-height so switching never
- * jumps. Fires "System play" { system, source }.
- * Used by /systems (Track B: tabs + hash) and every /services/[slug] page (Track A: `service`).
- * Mockup: player.js → mountPlayer, sections.css (player). Data: src/lib/runs.ts.
+ * "Watch one run": the device scene on the left (what the guest or owner sees); on the right the
+ * title, the payoff (with the system, before) and four one-line steps with tool logos. Your
+ * checkpoint is the only step styled differently. Plays when the device is mostly in view, Replay.
+ * The panel height is set by the device, so switching systems never jumps. Fires
+ * "System play" { system, source }.
+ * Used by /systems (tabs + hash) and every /services/[slug] page (`service`). Data: src/lib/runs.ts.
  *
  * `RUNS[i].screen` is trusted static HTML (see runs.ts): rendered as is, then its `[data-at]`
- * children are switched `.on` / `.off` by step, as player.js → show() does.
+ * children are switched `.on` / `.off` by the stage the newest step shows.
  */
 export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlayerProps) {
   const uid = useId();
   const startAt = service ? Math.max(0, indexOf(service)) : 0;
   const [cur, setCur] = useState(startAt);
-  const [n, setN] = useState(-1); // the newest step shown (-1: none yet)
-  const [hl, setHl] = useState<Part | null>(null); // legend highlight
+  const [k, setK] = useState(-1); // the newest step shown (-1: none yet)
 
   const rootRef = useRef<HTMLDivElement>(null);
-  const plRef = useRef<HTMLDivElement>(null);
   const devRef = useRef<HTMLDivElement>(null);
-  const stepsRef = useRef<HTMLOListElement>(null);
-  const fillRef = useRef<HTMLSpanElement>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const scrollTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -88,27 +87,27 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
 
   const run = RUNS[cur];
   const svc = SERVICES[cur];
-  const last = run.steps.length - 1;
+  const stage = k < 0 ? -1 : run.steps[k][2]; // the scene stage the newest step shows
 
-  // ---- play: show nothing, then step 0 after 350ms, then 1.3s, then 1.5s per step
+  // ---- play: show nothing, then one step at a time
   const play = useCallback((i: number) => {
     clearTimeout(timer.current);
     seen.current = true;
     const total = RUNS[i].steps.length;
-    if (prefersReducedMotion()) return setN(total - 1); // final state, no movement
-    setN(-1);
-    const tick = (k: number) => {
-      setN(k);
-      if (k < total - 1) timer.current = setTimeout(() => tick(k + 1), k === 0 ? 1300 : 1500);
+    if (prefersReducedMotion()) return setK(total - 1); // final state, no movement
+    setK(-1);
+    const tick = (s: number) => {
+      setK(s);
+      if (s < total - 1) timer.current = setTimeout(() => tick(s + 1), STEP_MS);
     };
-    timer.current = setTimeout(() => tick(0), 350);
+    timer.current = setTimeout(() => tick(0), FIRST_MS);
   }, []);
 
   // ---- select: `go` = a visitor's choice (plays, keeps the hash, tells analytics)
   const select = useCallback(
     (i: number, go: boolean, src: Source = "tabs") => {
       setCur(i);
-      setN(-1);
+      setK(-1);
       if (go) {
         track(EVENTS.systemPlay, { system: SERVICES[i].slug, source: src });
         if (hash) history.replaceState(null, "", `#${SERVICES[i].slug}`);
@@ -164,19 +163,19 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
     return () => removeEventListener(SELECT_EVENT, onPick);
   }, [tabs, select]);
 
-  // ---- starts when the player comes into view, not on page load
+  // ---- starts when the device is mostly in view, not on page load (on phones the title sits above it)
   useEffect(() => {
-    const pl = plRef.current;
-    if (!pl) return;
+    const dev = devRef.current;
+    if (!dev) return;
     const io = new IntersectionObserver(
       ([e]) => {
         if (!e.isIntersecting || seen.current) return;
         play(curRef.current);
         if (!tabs) track(EVENTS.systemPlay, { system: SERVICES[curRef.current].slug, source: "service-page" });
       },
-      { threshold: 0.35 },
+      { threshold: 0.6 },
     );
-    io.observe(pl);
+    io.observe(dev);
     return () => {
       io.disconnect();
       clearTimeout(timer.current);
@@ -184,24 +183,23 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
     };
   }, [play, tabs]);
 
-  // ---- the screen: parts appear by step (data-at), hide at data-to; the run-7 calendar cells follow
+  // ---- the screen: parts appear by stage (data-at), hide at data-to; the run-7 calendar cells follow
   useLayoutEffect(() => {
     const dev = devRef.current;
     if (!dev) return;
     dev.querySelectorAll<HTMLElement>("[data-at]").forEach((el) => {
-      const at = Number(el.dataset.at);
       const to = el.dataset.to;
-      el.classList.toggle("on", n >= at);
-      el.classList.toggle("off", to !== undefined && n >= Number(to));
+      el.classList.toggle("on", stage >= Number(el.dataset.at));
+      el.classList.toggle("off", to !== undefined && stage >= Number(to));
     });
     dev.querySelectorAll<HTMLElement>(".cal .b").forEach((el) => {
-      const booked = n >= 1;
-      const struck = n >= 2;
+      const booked = stage >= 1;
+      const struck = stage >= 2;
       el.style.background = struck ? "rgba(255,255,255,.02)" : booked ? "rgba(232,163,61,.25)" : "";
       el.style.color = struck ? "var(--dim)" : "";
       el.style.textDecoration = struck ? "line-through" : "";
     });
-  }, [cur, n]);
+  }, [cur, stage]);
 
   // scroll only as far as the newest item needs, so earlier context stays visible
   useEffect(() => {
@@ -209,7 +207,7 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
     if (!body) return;
     clearTimeout(scrollTimer.current);
     scrollTimer.current = setTimeout(() => {
-      if (n < 0) {
+      if (stage < 0) {
         body.scrollTop = 0;
         return;
       }
@@ -220,21 +218,7 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
       const over = tail.offsetTop + tail.offsetHeight + 14 - (body.scrollTop + body.clientHeight);
       if (over > 0) body.scrollTo({ top: body.scrollTop + over, behavior: prefersReducedMotion() ? "auto" : "smooth" });
     }, 120);
-  }, [cur, n]);
-
-  // ---- the progress line down the steps follows the newest one
-  useLayoutEffect(() => {
-    const measure = () => {
-      // the fill spans the whole track (sections.css .steps .fill) and is scaled down to the newest step
-      const fill = fillRef.current;
-      const li = stepsRef.current?.querySelectorAll<HTMLElement>(".st")[Math.max(0, n)];
-      const track = fill?.offsetHeight;
-      if (fill && li && track) fill.style.transform = `scaleY(${n < 0 ? 0 : Math.min(1, (li.offsetTop + li.offsetHeight / 2 - 22) / track)})`;
-    };
-    measure();
-    addEventListener("resize", measure);
-    return () => removeEventListener("resize", measure);
-  }, [cur, n]);
+  }, [cur, stage]);
 
   // ---- tabs: click, arrow keys (wrap), Home / End; the selected tab is the one in the tab order
   const onTabKey = (e: KeyboardEvent) => {
@@ -254,8 +238,6 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
 
   const phoneApp = run.app;
   const panelId = `${uid}-panel`;
-  const stepAt = Math.max(0, n);
-  const capStep = run.steps[stepAt];
 
   return (
     <div ref={rootRef}>
@@ -289,10 +271,9 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
         </div>
       )}
 
-      <div ref={plRef} className="pl rv" id={panelId} {...(tabs ? { role: "tabpanel", "aria-labelledby": `${uid}-tab-${cur}` } : {})}>
-        <div className="pl-left">
-          <span className="mono see">{SEE_LABEL[run.see]}</span>
-          <div ref={devRef} className="devh">
+      <div className="pl rv" id={panelId} {...(tabs ? { role: "tabpanel", "aria-labelledby": `${uid}-tab-${cur}` } : {})}>
+        <div className="pl-dev">
+          <div ref={devRef}>
             {/* keyed so a new system gets fresh scene markup */}
             {run.dev === "phone" ? (
               <div key={cur} className="dv phone scene">
@@ -317,91 +298,52 @@ export function SystemPlayer({ service, tabs = false, hash = false }: SystemPlay
               </div>
             )}
           </div>
-          <div className="cap" aria-live="polite" data-part={capStep[1]}>
-            <b>
-              {stepAt + 1}/{run.steps.length} · {partLabel(capStep[1]).toUpperCase()}
-            </b>
-            <span>{capStep[3]}</span>
-          </div>
-          <span className="mono" style={{ justifySelf: "center", fontSize: 11 }}>
-            Illustrative example
-          </span>
+          <p className="mono pl-see">{SEE_LABEL[run.see]} · Illustrative example</p>
         </div>
 
-        <div className="pl-right">
-          <div className="pl-head">
-            {tabs && <span className={`tag ${svc.p}`}>{svc.title}</span>}
-            <h3>{run.title}</h3>
-            <p>{run.desc}</p>
-            <div className="pl-act">
-              <button type="button" className="btn quiet replay" onClick={() => play(cur)}>
-                <Replay />
-                Replay
-              </button>
-              {tabs ? (
-                <Link className="link ex" href={`/services/${svc.slug}`} data-umami-event={EVENTS.serviceClick} data-umami-event-location="systems-player">
-                  See the service →
-                </Link>
-              ) : (
-                <Link className="link ex" href="/systems" data-umami-event={EVENTS.viewAllSystems} data-umami-event-location="service-player">
-                  See all eight systems →
-                </Link>
-              )}
-            </div>
-          </div>
+        <h3 className="pl-title">{run.title}</h3>
 
-          {/* as player.js: hovering anywhere off a part button (the label, a gap) clears the highlight */}
-          <div
-            className="legend"
-            onPointerOver={(e) => setHl(((e.target as Element).closest<HTMLElement>("button")?.dataset.part as Part | undefined) ?? null)}
-            onPointerLeave={() => setHl(null)}
-            onBlur={() => setHl(null)}
-          >
-            <span className="mono">FOUR PARTS</span>
-            {PARTS.map(([part, label]) => (
-              <button key={part} type="button" data-part={part} className={hl === part ? "on" : undefined} onFocus={() => setHl(part)}>
-                <i />
-                {label}
-              </button>
-            ))}
-          </div>
+        <p className="pl-pay">
+          <b>{run.pay[0]}</b>
+          <span>
+            Before: <s>{run.pay[1]}</s>
+          </span>
+        </p>
 
-          <ol ref={stepsRef} className={`steps${hl ? " hl" : ""}`}>
-            <span ref={fillRef} className="fill" />
-            {run.steps.map(([time, part, toolName, text], k) => (
-              <li
-                key={`${cur}-${k}`}
-                className={`st${k === n ? " on" : ""}${k < n || (n === last && k === n) ? " done" : ""}${hl === part ? " hl" : ""}`}
-                data-part={part}
-              >
-                <span className="nd" aria-hidden="true">
-                  <StepTool name={toolName} />
-                </span>
-                <span className="tx">
-                  <small>
-                    {time} · {toolName}
-                  </small>
-                  {text}
-                </span>
-                <span className="pt">{partLabel(part).toUpperCase()}</span>
-              </li>
-            ))}
-          </ol>
+        <ol className="pl-steps">
+          {run.steps.map(([tool, text, , you], s) => (
+            <li key={`${cur}-${s}`} className={`pl-step${s <= k ? " on" : ""}${you ? " you" : ""}`}>
+              <span className="nd" aria-hidden="true">
+                <StepTool name={tool} />
+              </span>
+              <span>
+                {text.startsWith(RULE) ? (
+                  <>
+                    <b>{RULE}</b>
+                    {text.slice(RULE.length)}
+                  </>
+                ) : (
+                  text
+                )}
+              </span>
+            </li>
+          ))}
+        </ol>
 
-          <div className="pl-foot" style={{ opacity: n >= last ? 1 : 0.55 }}>
-            <div className="was">
-              <span className="mono">BY HAND</span>
-              <b>{run.was}</b>
-            </div>
-            <div className="now">
-              <span className="mono">WITH THE SYSTEM</span>
-              <b>{run.now}</b>
-            </div>
-            <div className="ctl">
-              <span className="mono">YOU STAY IN CONTROL</span>
-              <p>{run.ctl}</p>
-            </div>
-          </div>
+        <div className="pl-act">
+          <button type="button" className="btn quiet" onClick={() => play(cur)}>
+            <Replay />
+            Replay
+          </button>
+          {tabs ? (
+            <Link className="link ex" href={`/services/${svc.slug}`} data-umami-event={EVENTS.serviceClick} data-umami-event-location="systems-player">
+              See the service →
+            </Link>
+          ) : (
+            <Link className="link ex" href="/systems" data-umami-event={EVENTS.viewAllSystems} data-umami-event-location="service-player">
+              See all eight systems →
+            </Link>
+          )}
         </div>
       </div>
     </div>

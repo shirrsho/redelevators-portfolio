@@ -24,7 +24,7 @@ These are settled. Build them as they are; don't re-open them.
 - **Systems page:**
   - The hero has a live **control room** on the right.
   - The **"Watch one run" player** has named tabs.
-  - The **four parts** of a system are labelled on the player itself; there is no separate section for them.
+  - The player was simplified on 17 Oct 2026: the payoff first (with the system, then before), four one-line steps, and only your checkpoint styled differently. The four-part labels, timecodes and result cards were removed because visitors found the panel too busy.
   - The journey appears here too, as the swipe version.
 - **Service pages:** "How it runs" uses the **same player**, fixed to that service.
 - **Hero types:**

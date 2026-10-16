@@ -56,7 +56,7 @@ export default function SystemsPage() {
                 See exactly what happens.
               </>
             }
-            note="Left: what your guest (or you) sees. Right: what the system does, step by step. Every one has the same four parts."
+            note="What your guest (or you) sees, and what the system does behind it. Anything that matters still waits for you."
             noteMaxWidth={320}
           />
           <SystemPlayer tabs hash />

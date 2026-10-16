@@ -141,7 +141,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                 step by step.
               </>
             }
-            note="Left: what your guest (or you) sees. Right: what the system does. A simulated run; the real one works inside your own accounts."
+            note="A simulated run. The real one works inside your own accounts, and anything that matters still waits for you."
             noteMaxWidth={320}
           />
           <SystemPlayer service={s.slug} />
