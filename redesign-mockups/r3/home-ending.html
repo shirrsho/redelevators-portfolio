@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Homepage ending · design review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css?v=35"><link rel="stylesheet" href="sections.css?v=35"><link rel="stylesheet" href="themes.css?v=35">
+<script src="theme.js?v=35"></script>
+<style>
+:root{--bg:#0a0b14}
+body{background:var(--bg)}
+.rvw{padding:40px 0 60px}
+.rvw h1{font-family:var(--display);font-size:clamp(28px,4vw,40px);font-weight:600;letter-spacing:-.02em;margin-top:14px}
+.rvw .intro{color:var(--sub);max-width:720px;margin-top:10px;line-height:1.55}
+.bar{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;margin:28px 0 16px}
+.seg{display:inline-flex;gap:4px;padding:4px;border:1px solid var(--hair-2);border-radius:12px;background:var(--surface)}
+.seg button{font:inherit;font-size:14px;color:var(--sub);padding:8px 14px;border-radius:9px;border:0;background:none;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface-2);color:var(--ink)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:start}
+.stage{border:1px solid var(--hair-2);border-radius:16px;overflow:hidden;background:#05060c;position:relative}
+.stage .vp{position:relative;transform-origin:top left}
+.stage iframe{display:block;border:0;background:var(--bg)}
+.stage .fold-unused{position:absolute;left:0;right:0;border-top:1px dashed rgba(255,94,94,.75);pointer-events:none}
+.stage .fold-unused span{position:absolute;right:8px;top:-22px;font-family:var(--mono);font-size:11px;color:#ff8a8a;background:#05060c;padding:2px 6px;border-radius:6px}
+.meta{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:10px}
+.notes{position:sticky;top:20px;border:1px solid var(--hair-2);border-radius:16px;padding:20px;background:var(--surface)}
+.notes h2{font-family:var(--display);font-size:20px;font-weight:600;letter-spacing:-.01em}
+.notes .what{color:var(--sub);font-size:14px;line-height:1.5;margin-top:6px}
+.notes h3{font-family:var(--mono);font-size:11.5px;font-weight:400;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);margin:18px 0 8px}
+.notes ul{list-style:none;display:grid;gap:8px;padding:0}
+.notes li{font-size:13.5px;line-height:1.45;padding-left:18px;position:relative}
+.notes li::before{position:absolute;left:0;top:0}
+.notes .pro li::before{content:"+";color:#7ddca2}
+.notes .con li::before{content:"–";color:#ff8a8a}
+.notes .open{margin-top:16px;font-size:13px}
+.notes .open a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+@media (max-width:1000px){.cols{grid-template-columns:minmax(0,1fr)}.notes{position:static}}
+.stage iframe{display:block;border:0;background:var(--bg)}
+.jump{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.jump button{font:inherit;font-size:13px;color:var(--sub);padding:7px 12px;border-radius:9px;border:1px solid var(--hair-2);background:var(--surface);cursor:pointer}
+.jump button:hover{color:var(--ink)}
+.order{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:14px;line-height:1.6}
+</style>
+</head>
+<body>
+<main class="wrap rvw">
+  <div class="eyebrow"><i></i>Design review · not part of the public site</div>
+  <h1>Homepage: the last section</h1>
+  <p class="intro">The whole homepage in a real screen at that size. It opens at the last section (“It’s 2:14am. Nothing needs you.”); scroll inside the frame. On phones the animated phone is hidden, as on the live site, so the new row matters most there.</p>
+  <div class="bar">
+    <div class="seg" id="opts" role="group" aria-label="Version"></div>
+    <div class="seg" id="sizes" role="group" aria-label="Screen size"></div>
+  </div>
+  <div class="cols">
+    <div>
+      <div class="stage" id="stage"><div class="vp" id="vp"><iframe id="frame" title="Homepage preview"></iframe></div></div>
+      <div class="jump"><button type="button" data-to="calm">The last section</button><button type="button" data-to="top">Top of page</button></div>
+      <p class="meta" id="meta"></p>
+    </div>
+    <aside class="notes" id="notes"></aside>
+  </div>
+</main>
+<script>
+const OPTS = {
+  now: {
+    name: 'Now',
+    what: 'Today’s ending: the calendar with the animated phone beside it (desktop only). Under the calendar: “Times are shown in your time zone · other ways to reach us”.',
+    pro: ['The phone pays off the 2am story.'],
+    con: ['The only easy alternative to booking is a small grey link that leaves the page.', 'On phones the “Questions before you book?” nudge never appears, so there’s nothing but that link.', 'The phone shows a fixed date (Tuesday, October 14) beside a live calendar.'],
+  },
+  new: {
+    name: 'New',
+    what: 'Same section, three changes: a “Not ready for a call?” row under the calendar with Ask on WhatsApp and Email us; the line under the calendar becomes “Any day, any hour · times are shown in your time zone”; the phone shows today’s date (the 2:14 stays, it’s the story).',
+    pro: ['Not-ready visitors get a small next step without leaving the page.', 'Works the same on phones, where most LinkedIn and WhatsApp traffic lands.', 'The 24/7 line is true now and a selling point for US visitors.', 'Phone and calendar now agree on the date.'],
+    con: ['Some people will chat instead of booking (you said that’s fine). Clicks are tracked as WhatsApp click · location home.'],
+  },
+};
+const SIZES = { desktop: [1440, 900, 'Desktop 1440×900'], laptop: [1280, 720, 'Laptop 1280×720'], phone: [390, 844, 'Phone 390×844'] };
+const q = new URLSearchParams(location.search);
+let opt = OPTS[q.get('opt')] ? q.get('opt') : 'new', size = SIZES[q.get('size')] ? q.get('size') : 'desktop';
+const $ = s => document.querySelector(s);
+function seg(el, items, cur, onPick) {
+  el.innerHTML = Object.entries(items).map(([k, v]) => `<button type="button" data-k="${k}" aria-pressed="${k === cur}">${Array.isArray(v) ? v[2] : v.name}</button>`).join('');
+  el.onclick = e => { const b = e.target.closest('button'); if (b) onPick(b.dataset.k); };
+}
+function fit() {
+  const [w, h] = SIZES[size], frame = $('#frame'), stage = $('#stage'), vp = $('#vp');
+  const avail = stage.clientWidth, k = Math.min(1, avail / w);
+  frame.style.width = w + 'px'; frame.style.height = h + 'px';
+  vp.style.width = w + 'px'; vp.style.transform = `scale(${k})`;
+  stage.style.height = h * k + 'px';
+  vp.style.marginLeft = size === 'phone' ? Math.max(0, (avail - w * k) / 2) + 'px' : '0';
+  $('#meta').textContent = `${SIZES[size][2]} · shown at ${Math.round(k * 100)}% · scroll inside the frame`;
+}
+function jump(to) {
+  const win = $('#frame').contentWindow, d = $('#frame').contentDocument;
+  if (!win || !d) return;
+  if (to === 'top') return win.scrollTo({ top: 0, behavior: 'smooth' });
+  const el = d.getElementById(to);
+  if (el) win.scrollTo({ top: el.getBoundingClientRect().top + win.scrollY - 40, behavior: 'instant' });
+}
+document.querySelector('.jump').onclick = e => { const b = e.target.closest('button'); if (b) jump(b.dataset.to); };
+$('#frame').addEventListener('load', () => { setTimeout(() => jump('calm'), 900); setTimeout(() => jump('calm'), 2500); });
+function render() {
+  seg($('#opts'), OPTS, opt, k => { opt = k; render(); });
+  seg($('#sizes'), SIZES, size, k => { size = k; render(); });
+  const o = OPTS[opt];
+  $('#notes').innerHTML = `<h2>${o.name}</h2><p class="what">${o.what}</p><h3>Good</h3><ul class="pro">${o.pro.map(x => `<li>${x}</li>`).join('')}</ul><h3>Weaker</h3><ul class="con">${o.con.map(x => `<li>${x}</li>`).join('')}</ul><p class="open"><a href="home.html?end=${opt}#calm" target="_blank" rel="noopener">Open this version full size ↗</a></p>`;
+  const src = `home.html?end=${opt}`;
+  if ($('#frame').dataset.src !== src + size) { $('#frame').dataset.src = src + size; $('#frame').src = src; }
+  history.replaceState(null, '', `?opt=${opt}&size=${size}`);
+  fit();
+}
+addEventListener('resize', fit);
+render();
+</script>
+</body>
+</html>

@@ -176,6 +176,13 @@ export function AlivePhone({ stage, when, className }: AlivePhoneProps) {
   const cards = useRef(new Map<number, HTMLElement>());
   const stack = useRef<Stack | null>(null);
   const [snap, setSnap] = useState<Snap>(INITIAL);
+  // Today's date on the lock screen, so it matches the live booker beside it. Set after mount: the
+  // page is static, and the visitor's own date is only known in the browser.
+  const [today, setToday] = useState("");
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setToday(new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }));
+  }, []);
   // Quiet cards and the idle timer only run while the phone is actually on screen (it is
   // display:none under 1100px, so they never start there).
   const onScreen = useInView(holder, { threshold: 0.4 });
@@ -262,7 +269,7 @@ export function AlivePhone({ stage, when, className }: AlivePhoneProps) {
     <div ref={holder} className={`ph${className ? ` ${className}` : ""}`} role="group" aria-label="Example phone lock screen (illustrative)">
       <PhoneShell ref={phone} className="alive">
         <PhoneStatus time={ALIVE_PHONE.time} />
-        <PhoneClock date={ALIVE_PHONE.date} time={ALIVE_PHONE.time} />
+        <PhoneClock date={today} time={ALIVE_PHONE.time} />
         <div className="live">
           <div className="lh">
             <span className="lm">

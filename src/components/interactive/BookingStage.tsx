@@ -1,10 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
 import { useCurrency } from "@/lib/currency";
 import { parsePlan, planSummary } from "@/lib/pricing";
 import { Icon } from "@/components/ui/Icon";
+import { Button } from "@/components/ui/Button";
+import { EmailLink } from "@/components/ui/EmailLink";
+import { ToolLogo } from "@/components/ui/ToolLogo";
+import { EVENTS } from "@/lib/analytics";
+import { whatsappUrl } from "@/lib/site";
 import { AlivePhone, type AlivePhoneStage } from "@/components/devices/AlivePhone";
 import { CalBooker, type BookedWhen } from "./CalBooker";
 import { BOOKER_NOTE } from "@/lib/booking";
@@ -12,7 +16,8 @@ import styles from "./planNote.module.css";
 
 export type BookingStageProps = {
   /**
-   * home: Home ch.09; the alive phone sits beside the booker, and the note links "other ways to reach us".
+   * home: Home ch.09; the alive phone sits beside the booker, and a "Not ready for a call?" row under it
+   *   offers WhatsApp and email (tracked as location "home").
    * contact: /contact; the booker stands alone, centred, and the note says when calls can be booked.
    * (src/lib/booking.ts → BOOKER_NOTE.)
    */
@@ -31,7 +36,6 @@ export type BookingStageProps = {
 export function BookingStage({ variant }: BookingStageProps) {
   const [stage, setStage] = useState<AlivePhoneStage>("idle");
   const [when, setWhen] = useState<BookedWhen | null>(null);
-  const note = BOOKER_NOTE[variant];
   const { cur } = useCurrency();
   const [search, setSearch] = useState("");
   useEffect(() => {
@@ -59,17 +63,18 @@ export function BookingStage({ variant }: BookingStageProps) {
           </p>
         ) : null}
         <CalBooker location={variant} onStart={onStart} onBooked={onBooked} notes={plan?.notes} />
-        <p className="mono tz">
-          {note.text}
-          {note.link ? (
-            <>
-              {" "}
-              <Link className="link" href={note.link.href}>
-                {note.link.label}
-              </Link>
-            </>
-          ) : null}
-        </p>
+        <p className="mono tz">{BOOKER_NOTE}</p>
+        {variant === "home" ? (
+          <div className="bk-alt">
+            <span>Not ready for a call?</span>
+            <Button href={whatsappUrl()} variant="wa" event={EVENTS.whatsappClick} location="home">
+              <ToolLogo name="WhatsApp" size={16} mono /> Ask on WhatsApp
+            </Button>
+            <EmailLink location="home" className="btn quiet">
+              <Icon name="mail" /> Email us
+            </EmailLink>
+          </div>
+        ) : null}
       </div>
       {variant === "home" ? <AlivePhone className="rv d2x" stage={stage} when={when} /> : null}
     </div>
