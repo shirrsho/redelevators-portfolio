@@ -111,7 +111,7 @@ const VIZ = {
 };
 
 // ---- WhatsApp ----------------------------------------------------------------------------------------
-const WA_NUM = '8801521707826', WA_SHOW = '+880 1521-707826';
+const WA_NUM = '8801410047698', WA_SHOW = '+880 1410-047698';
 const WA = (msg = 'Hi Red Elevators! I’d like to talk about automating my rentals.') => `https://wa.me/${WA_NUM}?text=${encodeURIComponent(msg)}`;
 const WA_ICON = () => logo('WhatsApp', 20, true);
 
