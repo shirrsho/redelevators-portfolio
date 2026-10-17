@@ -355,7 +355,7 @@ const VIZ = {
   spark: `<div class="m-chat" style="width:76%"><div class="bub in">Can I bring my dog? 🐶</div><div style="display:flex;align-items:center;gap:8px;justify-content:flex-end"><span class="m-spark" style="width:18px;height:18px">${ico('assistant')}</span><div class="bub out" style="animation-delay:1.4s">Yes! Small dogs are welcome. Here's the pet guide.</div></div></div>`,
   cal: `<div class="m-cal">${Array.from({ length: 21 }, (_, i) => `<i style="animation-delay:${(i * 137 % 21) * .12}s"></i>`).join('')}</div>`,
   doc: `<div class="m-doc"><i></i><i></i><i></i><i></i><span class="chip handled"><i></i>Published</span></div>`,
-  ad: `<div class="m-ad"><div class="img"></div><div class="cta">Book now</div></div>`,
+  ad: `<div class="m-post"><div class="img"></div><div class="cta">Book now</div></div>`,
   frames: `<div class="m-frames"><i></i><i></i><i></i></div>`,
   web: `<div class="m-web"><span class="h"></span><span class="s"></span><span class="b"></span><svg class="cur" viewBox="0 0 10 14"><path d="M0 0v12l3-3 2 5 2-1-2-5h4z" fill="#fff"/></svg></div>`,
   fun: `<div class="m-fun"><i></i><i></i><i></i><i></i></div>`,

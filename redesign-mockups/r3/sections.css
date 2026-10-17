@@ -30,11 +30,11 @@
 @keyframes write{0%{transform:scaleX(0)}25%,85%{transform:scaleX(1)}100%{transform:scaleX(0)}}
 .m-doc i:nth-child(2){animation-delay:.3s;width:86%}.m-doc i:nth-child(3){animation-delay:.6s;width:92%}.m-doc i:nth-child(4){animation-delay:.9s;width:60%}
 .m-doc .chip{justify-self:start;font-size:12px;padding:3px 8px;margin-top:4px;animation:pop 6s infinite;animation-delay:1.4s;opacity:0}
-.m-ad{width:118px;border-radius:12px;border:1px solid var(--hair-2);background:#141419;overflow:hidden;animation:float 5s ease-in-out infinite}
-.m-ad .img{height:62px;background:linear-gradient(120deg,#3b2a2a,#6a3a33 40%,#2c2f45);position:relative;overflow:hidden}
-.m-ad .img::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.18) 50%,transparent 70%);animation:sheen 3s infinite}
+.m-post{width:118px;border-radius:12px;border:1px solid var(--hair-2);background:#141419;overflow:hidden;animation:float 5s ease-in-out infinite}
+.m-post .img{height:62px;background:linear-gradient(120deg,#3b2a2a,#6a3a33 40%,#2c2f45);position:relative;overflow:hidden}
+.m-post .img::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.18) 50%,transparent 70%);animation:sheen 3s infinite}
 @keyframes sheen{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
-.m-ad .cta{margin:7px;border-radius:6px;background:var(--red-btn);font-size:11px;text-align:center;padding:4px;color:#fff}
+.m-post .cta{margin:7px;border-radius:6px;background:var(--red-btn);font-size:11px;text-align:center;padding:4px;color:#fff}
 @keyframes float{50%{transform:translateY(-5px)}}
 .m-frames{display:flex;gap:8px;align-items:flex-end}
 .m-frames i{border:1.5px solid rgba(255,255,255,.35);border-radius:6px;background:linear-gradient(140deg,rgba(255,255,255,.08),transparent);animation:fr 4.5s infinite}

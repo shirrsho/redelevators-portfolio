@@ -3,7 +3,7 @@ import type { ServiceViz as VizKind } from "@/lib/services";
 
 /**
  * The looping mini demo on a service card / row (CSS-only animations in sections.css: .m-chat,
- * .m-cal, .m-doc, .m-ad, .m-frames, .m-web, .m-fun). Mockup: site.js → VIZ (home.js has the same
+ * .m-cal, .m-doc, .m-post, .m-frames, .m-web, .m-fun). Mockup: site.js → VIZ (home.js has the same
  * set; its "spark" reply is the longer one, selected with `long`).
  * Server component. Decorative: the card's text carries the meaning.
  */
@@ -50,7 +50,7 @@ export function ServiceViz({ kind, long = false }: { kind: VizKind; long?: boole
         </div>
       )}
       {kind === "ad" && (
-        <div className="m-ad">
+        <div className="m-post">
           <div className="img" />
           <div className="cta">Book now</div>
         </div>
