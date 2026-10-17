@@ -6,14 +6,11 @@ import { LockIcons, PhoneClock, PhoneShell, PhoneStatus } from "@/components/dev
 import { Notification } from "@/components/devices/Notification";
 import { MarkSolid } from "@/components/layout/Logo";
 import { Icon } from "@/components/ui/Icon";
-import { ToolLogo } from "@/components/ui/ToolLogo";
 import { useInView } from "@/lib/hooks/useInView";
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
-import { EVENTS } from "@/lib/analytics";
 import { ALIVE_PHONE, BOOKING_CARD, NUDGE, QUIET, QUIET_BODY } from "@/lib/booking";
-import { whatsappUrl } from "@/lib/site";
 
-// The calm phone: alive before booking, reacting while booking (Home ch.09 and /contact).
+// The calm phone: alive before booking, reacting while booking (Home ch.09).
 // Port of redesign-mockups/r3/site.js → mountCalmPhone. The notification stack is the mockup's
 // closure (createStack, below); the component only renders it and wires the timers.
 
@@ -24,16 +21,13 @@ export type AlivePhoneProps = {
   stage: AlivePhoneStage;
   /** The confirmed slot (stage "booked"); omit if unknown. */
   when?: { d: string; t: string } | null;
-  /** The idle nudge: "wa" = WhatsApp (Contact), "ask" = "Questions before you book?" → /contact#chat (Home). */
-  nudge: "wa" | "ask";
   /** Extra classes on the root `.ph` (BookingStage adds the reveal). */
   className?: string;
 };
 
 type Kind = "quiet" | "nudge" | "ghost" | "done";
-type Item = { id: number; kind: Kind; ask?: boolean; app: string; title: string; body: string; href?: string; shown: boolean; gone: boolean };
+type Item = { id: number; kind: Kind; app: string; title: string; body: string; href?: string; shown: boolean; gone: boolean };
 type Snap = { items: Item[]; answered: number; week: number };
-type NudgeCfg = { ask: boolean; app: string; title: string; body: string; href: string };
 
 const FADE_MS = 500; // the cards' opacity transition (sections.css), then they're removed
 const MAX_VISIBLE = 2;
@@ -118,12 +112,12 @@ function createStack(hooks: { change: (s: Snap) => void; buzz: () => void; pulse
       emit();
     },
     /** Start (or restart) the idle timer; once it fires the nudge is pinned on top. */
-    arm(cfg: NudgeCfg, ms: number) {
+    arm(ms: number) {
       clearTimeout(idle);
       if (booked || nudged) return;
       idle = setTimeout(() => {
         nudged = true;
-        push({ kind: "nudge", ask: cfg.ask, app: cfg.app, title: cfg.title, body: cfg.body, href: cfg.href }, true);
+        push({ kind: "nudge", app: NUDGE.app, title: NUDGE.tt, body: NUDGE.bd, href: NUDGE.href }, true);
         hooks.buzz();
       }, ms);
     },
@@ -175,7 +169,7 @@ function bookedCopy(when?: { d: string; t: string } | null) {
   return { title: BOOKING_CARD.booked.tt, body };
 }
 
-export function AlivePhone({ stage, when, nudge, className }: AlivePhoneProps) {
+export function AlivePhone({ stage, when, className }: AlivePhoneProps) {
   const router = useRouter();
   const holder = useRef<HTMLDivElement>(null);
   const phone = useRef<HTMLDivElement>(null);
@@ -232,11 +226,7 @@ export function AlivePhone({ stage, when, nudge, className }: AlivePhoneProps) {
       s.disarm();
       return;
     }
-    const cfg: NudgeCfg =
-      nudge === "wa"
-        ? { ask: false, app: NUDGE.wa.app, title: NUDGE.wa.tt, body: NUDGE.wa.bd, href: whatsappUrl() }
-        : { ask: true, app: NUDGE.contact.app, title: NUDGE.contact.tt, body: NUDGE.contact.bd, href: NUDGE.contact.href };
-    const arm = () => s.arm(cfg, ALIVE_PHONE.idleMs);
+    const arm = () => s.arm(ALIVE_PHONE.idleMs);
     arm();
     const scope = holder.current?.closest("section, main");
     const events = ["pointerdown", "keydown"] as const;
@@ -245,7 +235,7 @@ export function AlivePhone({ stage, when, nudge, className }: AlivePhoneProps) {
       events.forEach((ev) => scope?.removeEventListener(ev, arm));
       s.disarm();
     };
-  }, [onScreen, reduced, stage, nudge]);
+  }, [onScreen, reduced, stage]);
 
   // follow the booker
   useEffect(() => {
@@ -258,14 +248,13 @@ export function AlivePhone({ stage, when, nudge, className }: AlivePhoneProps) {
     }
   }, [stage, when]);
 
-  // The "ask" nudge is an in-site link: keep it client-side. (The WhatsApp one is tracked by its
-  // data-umami-event attributes, set in the ref below.)
+  // The nudge is an in-site link: keep it client-side.
   const onStackClick = (e: MouseEvent<HTMLDivElement>) => {
-    const a = (e.target as Element).closest<HTMLAnchorElement>("a.nudge.ask");
+    const a = (e.target as Element).closest<HTMLAnchorElement>("a.nudge");
     if (!a) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
-    router.push(NUDGE.contact.href);
+    router.push(NUDGE.href);
   };
 
   const a = ALIVE_PHONE.activity;
@@ -306,21 +295,13 @@ export function AlivePhone({ stage, when, nudge, className }: AlivePhoneProps) {
             <Notification
               key={it.id}
               ref={(el) => {
-                if (el) {
-                  cards.current.set(it.id, el);
-                  // Notification takes no data attributes: tag the WhatsApp nudge here, so Umami counts
-                  // "WhatsApp click" and the site's outbound-link tracker skips it.
-                  if (it.kind === "nudge" && !it.ask) {
-                    el.dataset.umamiEvent = EVENTS.whatsappClick;
-                    el.dataset.umamiEventLocation = "phone-nudge";
-                  }
-                }
+                if (el) cards.current.set(it.id, el);
                 else cards.current.delete(it.id);
               }}
-              className={`${it.kind}${it.ask ? " ask" : ""}${it.shown ? " in" : ""}`}
-              mark={it.kind === "quiet" || (it.kind === "nudge" && it.ask)}
-              icon={it.kind === "nudge" && !it.ask ? <ToolLogo name="WhatsApp" size={20} mono /> : <Icon name="calendar" />}
-              iconBg={it.kind === "nudge" && !it.ask ? "#25D366" : it.kind === "ghost" || it.kind === "done" ? "#fff" : undefined}
+              className={`${it.kind}${it.shown ? " in" : ""}`}
+              mark={it.kind === "quiet" || it.kind === "nudge"}
+              icon={<Icon name="calendar" />}
+              iconBg={it.kind === "ghost" || it.kind === "done" ? "#fff" : undefined}
               app={it.app}
               ago="now"
               title={it.title}

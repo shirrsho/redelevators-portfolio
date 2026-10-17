@@ -1,27 +1,21 @@
-// Copy that contact.html keeps inline (steps, summary doc, FAQ), unchanged.
+// Copy that contact.html keeps inline (steps, after-you-book timeline, FAQ).
 import type { IconName } from "@/lib/icons";
 
-/** [icon, title, text] */
-export const STEPS: readonly (readonly [IconName, string, string])[] = [
-  ["message", "You tell us how you run things", "Your units, your tools, where the hours go."],
-  ["audit", "We point out what to fix first", "Usually one or two systems pay off fastest."],
-  ["mail", "You get a written summary", "Yours to keep, whether we work together or not."],
+/** How the call goes, [icon, step]: one slim line under the heading. */
+export const STEPS: readonly (readonly [IconName, string])[] = [
+  ["message", "You tell us how you run things"],
+  ["audit", "We point out what to fix first"],
+  ["mail", "You get a written summary"],
 ];
 
-/** The example call summary: [badge class, badge, text, reveal delay (s)]. Illustrative. */
-export const DOC = {
-  stamp: "CALL SUMMARY · NOV 12",
-  title: "Harbor Rentals · 6 units",
-  sub: "Airbnb + Booking.com · Guesty · two cleaners on WhatsApp",
-  rows: [
-    ["f", "FIX FIRST", "Guest messaging: about 9 hours a week, mostly at night", 0.2],
-    ["t", "THEN", "Turnover hand-offs: codes and cleaner bookings by hand", 0.5],
-    ["t", "THEN", "Direct booking engine: 85% of stays pay a platform fee", 0.8],
-    ["l", "LATER", "Paid social: worth it once the direct site is live", 1.1],
-    ["g", "TIMELINE", "First system live in about 3 weeks", 1.4],
-  ],
-  sig: ["Prepared after a 30-min call", "Yours to keep"],
-} as const;
+/** What happens once someone books, [icon, when, title, text]. Steps 1–2 are the Cal.com invite and
+ *  the two reminder workflows (24 h and 1 h before); keep them in sync with the Cal.com event. */
+export const NEXT: readonly (readonly [IconName, string, string, string])[] = [
+  ["check", "Right away", "Your invite and Meet link", "Google Meet, straight to your inbox and calendar."],
+  ["clock", "24 hours and 1 hour before", "A short reminder", "By email, so the call doesn’t slip."],
+  ["message", "The call · 30 minutes", "We map your setup", "Your rentals, your tools, and where the hours go."],
+  ["mail", "Within a day", "Your written plan", "What to fix first, what can wait, and what it takes. Yours to keep."],
+];
 
 export const FAQ_ITEMS: readonly (readonly [string, string])[] = [
   ["Is the call really free?", "Yes. Thirty minutes, no obligation, and you keep the written summary."],

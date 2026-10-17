@@ -1,4 +1,4 @@
-// Booking stage copy: the booker's header and the alive phone next to it (Home ch.09, Contact).
+// Booking stage copy: the booker's header and the alive phone next to it (Home ch.09).
 // Ported unchanged from redesign-mockups/r3/site.js (mountScheduler, mountCalmPhone).
 // The booker itself becomes the real Cal.com embed (src/lib/site.ts → CAL_LINK).
 
@@ -14,7 +14,7 @@ export const CALL = {
 /** The "Times are shown in your time zone" line under the booker, per page. */
 export const BOOKER_NOTE = {
   home: { text: "Times are shown in your time zone ·", link: { href: "/contact#chat", label: "other ways to reach us" } },
-  contact: { text: "Times are shown in your time zone · US and UAE clients welcome", link: null },
+  contact: { text: "Any day, any hour · times are shown in your time zone", link: null },
 } as const;
 
 // ---- The alive phone ------------------------------------------------------------------------
@@ -51,11 +51,8 @@ export const QUIET: readonly (readonly [string, string])[] = [
 ];
 export const QUIET_BODY = "Handled by your system · nothing needed";
 
-/** Idle nudge: WhatsApp on Contact, "ask first" on Home. */
-export const NUDGE = {
-  wa: { app: "Red Elevators", tt: "Rather chat first?", bd: "Tap to message us on WhatsApp →" },
-  contact: { app: "Red Elevators", tt: "Questions before you book?", bd: "Message us · a real person replies →", href: "/contact#chat" },
-} as const;
+/** Idle nudge on the homepage phone: "ask first" → the Contact page's other ways to reach us. */
+export const NUDGE = { app: "Red Elevators", tt: "Questions before you book?", bd: "Message us · a real person replies →", href: "/contact#chat" } as const;
 
 /** Booking placeholder card while choosing, and the confirmed card. `{d}` day, `{t}` time. */
 export const BOOKING_CARD = {

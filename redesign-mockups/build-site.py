@@ -20,7 +20,7 @@ TITLES = {
     'services': 'Services · Red Elevators', 'systems': 'Systems · Red Elevators', 'approach': 'Approach · Red Elevators',
     'pricing': 'Pricing · Red Elevators', 'contact': 'Book a call · Red Elevators', '404': 'Page not found · Red Elevators',
     'privacy': 'Privacy · Red Elevators', '_design/components': 'Component library · design review', '_design/layouts': 'Sitemap & layouts · design review',
-    '_design/nav-hero': 'Nav & hero · design review', '_design/logo': 'Logo · design review', '_design/fonts': 'Fonts · design review',
+    '_design/nav-hero': 'Nav & hero · design review', '_design/contact': 'Contact options · design review', '_design/contact-summary': 'Contact summary section · design review', '_design/logo': 'Logo · design review', '_design/fonts': 'Fonts · design review',
 }
 ASSETS = ['base.css', 'devices.css', 'sections.css', 'themes.css', 'theme.js', 'site.js', 'player.js', 'home.js', 'logos.js', 'icons.js', 'red-elevators-logo-dark.svg', 'red-elevators-logo-dark-notag.svg',
           'logo-lockup-dark.svg', 'logo-lockup-light.svg', 'logo-mark.svg', 'logo-mark-solid.svg']
@@ -28,7 +28,7 @@ SVGS = [a for a in ASSETS if a.endswith('.svg')]
 PAGES = {'home.html': '', 'services.html': 'services', 'systems.html': 'systems', 'approach.html': 'approach',
          'pricing.html': 'pricing', 'contact.html': 'contact', 'privacy.html': 'privacy',
          'components.html': '_design/components', 'layouts.html': '_design/layouts',
-         'navhero.html': '_design/nav-hero', 'logo.html': '_design/logo', 'fonts.html': '_design/fonts'}
+         'navhero.html': '_design/nav-hero', 'contact-review.html': '_design/contact', 'contact-summary.html': '_design/contact-summary', 'logo.html': '_design/logo', 'fonts.html': '_design/fonts'}
 
 
 def links(text: str) -> str:
@@ -39,7 +39,7 @@ def links(text: str) -> str:
     for f, path in [('home.html', '/'), ('services.html', '/services/'), ('systems.html', '/systems/'), ('approach.html', '/approach/'),
                     ('pricing.html', '/pricing/'), ('contact.html', '/contact/'), ('privacy.html', '/privacy/'), ('404.html', '/404.html'),
                     ('components.html', '/_design/components/'), ('layouts.html', '/_design/layouts/'),
-                    ('navhero.html', '/_design/nav-hero/'), ('logo.html', '/_design/logo/'), ('fonts.html', '/_design/fonts/')]:
+                    ('navhero.html', '/_design/nav-hero/'), ('contact-review.html', '/_design/contact/'), ('contact-summary.html', '/_design/contact-summary/'), ('logo.html', '/_design/logo/'), ('fonts.html', '/_design/fonts/')]:
         text = re.sub(rf'(?<![\w/.-]){re.escape(f)}', path, text)
     return text
 

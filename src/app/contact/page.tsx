@@ -6,7 +6,6 @@ import { EMAIL, whatsappUrl } from "@/lib/site";
 import { EVENTS } from "@/lib/analytics";
 import { JsonLd } from "@/components/layout/JsonLd";
 import { PageBg } from "@/components/layout/PageBg";
-import { Lockup } from "@/components/layout/Logo";
 import { SectionHead } from "@/components/layout/Section";
 import { BookingStage } from "@/components/interactive/BookingStage";
 import { Button } from "@/components/ui/Button";
@@ -15,7 +14,7 @@ import { EmailLink } from "@/components/ui/EmailLink";
 import { FAQ } from "@/components/ui/FAQ";
 import { Icon } from "@/components/ui/Icon";
 import { ToolLogo } from "@/components/ui/ToolLogo";
-import { DOC, FAQ_ITEMS, STEPS } from "./content";
+import { FAQ_ITEMS, NEXT, STEPS } from "./content";
 import styles from "./contact.module.css";
 
 export const metadata: Metadata = pageMetadata({
@@ -40,17 +39,11 @@ export default function ContactPage() {
             <p className="lead">We map your setup and show you what to automate first. No pitch deck, no commitment, and you keep the written summary.</p>
           </div>
           <h2 className="sr-only">How the call works</h2>
-          <ol className={styles.steps}>
-            {STEPS.map(([icon, title, text], i) => (
-              <li key={title} className={`rv d${i + 1}x`}>
-                <div className="ico-tile">
-                  <Icon name={icon} />
-                </div>
-                <div>
-                  <b>0{i + 1}</b>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </div>
+          <ol className={`${styles.steps} rv d1x`}>
+            {STEPS.map(([icon, title]) => (
+              <li key={title}>
+                <Icon name={icon} />
+                {title}
               </li>
             ))}
           </ol>
@@ -60,7 +53,28 @@ export default function ContactPage() {
           <BookingStage variant="contact" />
         </section>
 
-        <section className="wrap section" id="chat" style={{ paddingTop: 90 }}>
+        <section className="wrap section" id="next" style={{ paddingTop: 110 }}>
+          <div className={`${styles.nextHead} rv`}>
+            <Eyebrow center>After you book</Eyebrow>
+            <h2>What happens next.</h2>
+          </div>
+          <ol className={styles.next}>
+            {NEXT.map(([icon, when, title, text], i) => (
+              <li key={title} className={`rv d${i + 1}x`}>
+                <div className="ico-tile">
+                  <Icon name={icon} />
+                </div>
+                <div>
+                  <span className={styles.when}>{when}</span>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="wrap section" id="chat" style={{ paddingTop: 40 }}>
           <div className="head" style={{ justifyContent: "center", textAlign: "center" }}>
             <div className="left rv" style={{ maxWidth: "none" }}>
               <Eyebrow center>Not ready to book?</Eyebrow>
@@ -93,43 +107,6 @@ export default function ContactPage() {
               <EmailLink location="contact" className="btn quiet">
                 Send an email
               </EmailLink>
-            </div>
-          </div>
-        </section>
-
-        <section className="wrap section" style={{ paddingTop: 40 }}>
-          <div className={styles.take}>
-            <div className="rv">
-              <Eyebrow>What you take away</Eyebrow>
-              <h2 className="d2" style={{ marginTop: 18 }}>
-                A written plan, whether we work together or not.
-              </h2>
-              <p className="lead" style={{ marginTop: 16 }}>
-                Within a day of the call you get a one-page summary: what to fix first, what can wait, and what it would take.
-              </p>
-              <p className="mono" style={{ marginTop: 16 }}>
-                Example summary · illustrative
-              </p>
-            </div>
-            <div className={`${styles.doc} rv d2x`}>
-              <div className={styles.dh}>
-                <Lockup tone="light" height={22} />
-                <span>{DOC.stamp}</span>
-              </div>
-              <h3>{DOC.title}</h3>
-              <p className={styles.sub}>{DOC.sub}</p>
-              <ol>
-                {DOC.rows.map(([tone, badge, text, delay]) => (
-                  <li key={badge + text} style={{ "--dl": `${delay}s` } as React.CSSProperties}>
-                    <b className={styles[tone]}>{badge}</b>
-                    <span>{text}</span>
-                  </li>
-                ))}
-              </ol>
-              <div className={styles.sig}>
-                <span>{DOC.sig[0]}</span>
-                <span>{DOC.sig[1]}</span>
-              </div>
             </div>
           </div>
         </section>
