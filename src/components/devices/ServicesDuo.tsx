@@ -227,7 +227,7 @@ export function ServicesDuo() {
               <div className="card feed">
                 <Icon name="sun" />
                 <span>
-                  Today: <b data-c="m">6</b> messages · <b data-c="b">1</b> direct bookings · <b data-c="t">1</b> turnover
+                  Today: <b data-c="m">6</b> messages · <b data-c="b">1</b> booked direct · <b data-c="t">1</b> turnover done
                 </span>
               </div>
             </div>

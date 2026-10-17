@@ -40,6 +40,7 @@ export const EVENTS = {
   storySkip: "Story skip",
   calculatorUsed: "Calculator used", // first slider interaction
   planBuilderUsed: "Plan builder used", // first tick
+  servicePicker: "Service picker", // /services problem picker: { problem }
 } as const;
 
 export function track(name: string, data?: EventData, attempt = 0) {

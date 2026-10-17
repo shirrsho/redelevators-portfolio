@@ -361,7 +361,7 @@ const VIZ = {
   fun: `<div class="m-fun"><i></i><i></i><i></i><i></i></div>`,
 };
 const SVC = [
-  ['auto', 'message', 'chat', 'Guest Messaging & CRM', 'Every message answered, every guest remembered.'],
+  ['auto', 'message', 'chat', 'Guest Messaging & CRM', 'Every message answered, every checkout handed off.'],
   ['auto', 'assistant', 'spark', 'AI Guest Assistant', 'Trained on your house rules. Replies around the clock.'],
   ['auto', 'direct', 'cal', 'Direct Booking Engine', 'Brings past guests back to book direct.'],
   ['auto', 'content', 'doc', 'Listing & Content Engine', 'Fresh listings and guides, published on schedule.'],

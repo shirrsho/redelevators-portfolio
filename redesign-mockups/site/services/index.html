@@ -9,6 +9,13 @@
 <link rel="stylesheet" href="/assets/base.css?v=35"><link rel="stylesheet" href="/assets/devices.css?v=35"><link rel="stylesheet" href="/assets/sections.css?v=35"><link rel="stylesheet" href="/assets/themes.css?v=35">
 <script src="/assets/theme.js?v=35"></script>
 <style>
+/* ==========================================================================
+   /services, reworked (Oct 2026 review). A page that helps someone decide:
+   hero (outcome + promises) → "what's costing you most?" picker → all eight
+   with prices → the 3-week path + guarantee → better together → FAQ → CTA.
+   The hero scene is the same ad → booking → system loop as today.
+   ========================================================================== */
+/* ---- hero scene (unchanged from /services/) ---- */
 :root{--bg:#141312}
 .duo{position:relative;width:100%;height:540px}
 .duo .lap{position:absolute;left:0;top:30px;scale:var(--ls,.72);transform-origin:left top;animation:floatA 9s ease-in-out infinite}
@@ -84,34 +91,193 @@
   .duo .lap{position:relative;left:auto;top:auto;order:4;width:100%;animation:none}
   .duo svg.dwire{display:none}
 }
+
+::selection{background:rgba(255,45,59,.35);color:#fff}
+
+/* ---- hero ---- */
+.phero h1{text-wrap:balance}
+.phero .proof{list-style:none;display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:28px;font-size:14px;color:var(--sub)}
+.phero .proof li{display:flex;align-items:center;gap:7px}
+.phero .proof .ico{width:16px;height:16px;color:var(--green)}
+
+/* ---- the picker: problem → where to start ---- */
+.pick{padding-top:20px}
+.pick-grid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:64px;align-items:start}
+.pick-q .d2{max-width:12ch;text-wrap:balance}
+.pick-q > p{margin-top:18px;max-width:40ch;font-size:16px}
+.probs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:34px}
+.prob{display:flex;align-items:center;gap:12px;text-align:left;padding:15px 16px;border-radius:14px;border:1px solid var(--hair);background:var(--surface);
+  font-size:15px;line-height:1.3;color:var(--sub);transition:border-color .25s,background .25s,color .25s,transform .25s var(--ease)}
+.prob .ico{width:20px;height:20px;flex:none;color:var(--dim);transition:color .25s}
+.prob:hover{border-color:var(--hair-2);color:var(--ink)}
+.prob:active{transform:scale(.98)}
+.prob[aria-pressed="true"]{border-color:rgba(232,163,61,.6);background:rgba(232,163,61,.08);color:var(--ink)}
+.prob[aria-pressed="true"] .ico{color:var(--amber)}
+:is(.prob,.ent,.btn,.link,.curtoggle button,.faq summary):focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:12px}
+
+.ans{position:sticky;top:110px;border-radius:26px;padding:34px;--card:#17161c;border:1px solid transparent;
+  background:radial-gradient(70% 60% at 100% 0%,rgba(139,147,255,.10),transparent 70%) padding-box,linear-gradient(var(--card),var(--card)) padding-box,
+    linear-gradient(140deg,rgba(139,147,255,.7),rgba(255,255,255,.08) 34%,rgba(255,255,255,.05) 62%,rgba(255,90,78,.65)) border-box;
+  box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
+.ans-in{transition:opacity .35s var(--ease),filter .35s var(--ease),transform .45s var(--ease)}
+.ans.swap .ans-in{opacity:0;filter:blur(6px);transform:translateY(8px)}
+.ans .lbl{font-size:14px;color:var(--sub);display:flex;align-items:center;gap:10px}
+.ans .lbl .tag{font-size:11px}
+.ans h3{margin-top:14px;font-size:clamp(28px,2.6vw,38px);font-weight:600;letter-spacing:-.025em;text-wrap:balance}
+.ans .out{margin-top:8px;font-size:16px;color:var(--sub)}
+.shift{list-style:none;display:grid;gap:0;margin-top:26px;border-top:1px solid var(--hair)}
+.shift li{display:grid;grid-template-columns:84px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--hair);font-size:15px;line-height:1.5}
+.shift li span{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);padding-top:2px}
+.shift li span::before{content:"";width:7px;height:7px;border-radius:50%;flex:none}
+.shift .was{color:var(--sub)}
+.shift .was span::before{background:var(--amber)}
+.shift .now span::before{background:var(--green)}
+.ans-foot{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-top:24px}
+.price{font-size:14px;color:var(--sub)}
+.price b{font-family:var(--display);font-size:26px;font-weight:600;color:var(--ink);letter-spacing:-.02em}
+.price small{display:block;font-size:13px;color:var(--dim);margin-top:2px}
+.ans .pair{margin-top:22px;padding-top:18px;border-top:1px dashed var(--hair-2);font-size:14px;color:var(--sub)}
+.ans .pair a{color:var(--ink);border-bottom:1px solid var(--hair-2)}
+.ans .pair a:hover{border-color:var(--ink)}
+.btn.quiet svg{width:15px;height:10px}
+
+/* ---- all eight, as a price list: name, one line, price ---- */
+.cat-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:36px}
+.cat-head .d2{text-wrap:balance}
+.cat-head p{margin-top:14px;max-width:46ch}
+.cat{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.pcol{position:relative;border-radius:24px;padding:26px 28px 10px;border:1px solid var(--hair);background:#16151b;overflow:hidden;isolation:isolate}
+.pcol::before{content:"";position:absolute;inset:0 0 auto;height:200px;z-index:-1;background:radial-gradient(80% 100% at 15% 0%,var(--glow),transparent 72%)}
+.pcol[data-p="auto"]{--glow:rgba(139,147,255,.16)}
+.pcol[data-p="mkt"]{--glow:rgba(255,90,78,.13)}
+.pcol > header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-bottom:18px;border-bottom:1px solid var(--hair)}
+.pcol > header .d3{font-weight:600;font-size:clamp(22px,1.9vw,26px)}
+.ent{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;padding:18px 0;border-bottom:1px solid var(--hair)}
+.ent:last-child{border-bottom:0}
+.ent h3{font-family:var(--display);font-size:19px;font-weight:500;letter-spacing:-.015em;line-height:1.25;display:flex;align-items:center;gap:8px;transition:color .25s}
+.ent h3 .ico{width:15px;height:15px;opacity:0;transform:translateX(-6px);transition:opacity .25s,transform .35s var(--ease)}
+.ent:hover h3 .ico,.ent:focus-visible h3 .ico{opacity:1;transform:none}
+.ent .o{font-size:14px;color:var(--sub);margin-top:3px}
+.ent .pr{text-align:right;white-space:nowrap;font-size:13px;color:var(--dim)}
+.ent .pr b{font-family:var(--display);font-size:20px;font-weight:600;color:var(--ink);letter-spacing:-.02em}
+.ent .pr small{display:block;font-size:12.5px;color:var(--dim);margin-top:1px}
+.ent:hover h3{color:#fff}
+.cat-foot{display:flex;justify-content:space-between;align-items:center;gap:20px 32px;flex-wrap:wrap;margin-top:22px;padding:18px 24px;border-radius:18px;border:1px dashed var(--hair-2)}
+.cat-foot .save{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--sub)}
+.cat-foot .save b{color:var(--ink);font-weight:600}
+.cat-foot .save .ico{width:18px;height:18px;color:var(--green)}
+.cat-note{margin-top:14px;font-size:13px;color:var(--dim);line-height:1.6}
+.cat-note a{color:var(--sub);border-bottom:1px solid var(--hair-2)}
+
+/* ---- the 3-week path + guarantee ---- */
+.how-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:64px;align-items:center}
+.how-grid .d2{text-wrap:balance;max-width:14ch}
+.how-grid .lead{margin-top:20px;max-width:46ch}
+.terms{list-style:none;display:grid;gap:12px;margin-top:28px;font-size:15px;color:var(--sub)}
+.terms li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+.terms li .ico{width:18px;height:18px;color:var(--green);margin-top:2px}
+.terms li b{color:var(--ink);font-weight:550}
+.how-grid .link{margin-top:28px}
+
+/* ---- FAQ ---- */
+.faq-grid{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:64px;align-items:start}
+.faq-grid .d2{max-width:10ch}
+.faq-grid > div > p{margin-top:16px;max-width:34ch}
+
+@media (max-width:1060px){
+  .pick-grid,.how-grid,.faq-grid{grid-template-columns:1fr;gap:40px}
+  .ans{position:relative;top:auto}
+  .cat{grid-template-columns:1fr}
+}
+@media (max-width:900px){
+  .phero{min-height:auto;padding-top:110px}
+  .pick{padding-top:40px}
+  .cat-head{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:560px){
+  .probs{grid-template-columns:1fr;gap:8px}
+  .prob{padding:13px 14px}
+  .ans{padding:24px 20px;border-radius:22px}
+  .shift li{grid-template-columns:1fr;gap:4px}
+  .pcol{padding:20px 18px 4px;border-radius:22px}
+  .pcol > header{flex-direction:column-reverse;align-items:flex-start;gap:10px}
+  .ent{gap:14px;padding:16px 0}
+  .ent h3{font-size:17.5px}
+  .ent h3 .ico{display:none}
+  .ent .pr b{font-size:18px}
+  .cat-foot{padding:16px 18px}
+}
 </style>
 </head>
 <body data-page="services">
 <div id="site-nav"></div>
 <main class="page">
+
+  <!-- 1 · Hero: what the visitor gets, plus the three promises that lower the risk -->
   <section class="wrap phero">
     <div class="rv">
-      <div class="eyebrow"><i></i>Services</div>
-      <h1 class="d1" style="margin-top:22px">Eight systems.<br>Two pillars.</h1>
-      <p class="lead">AI Automation runs your operation. Marketing fills your calendar. Start with one, or let them work together.</p>
-      <div class="ctas"><a class="btn primary" href="/contact/">Book a free 30-min call <svg viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 5.5H14.6M10.3 1.2L14.9 5.5L10.3 9.8"/></svg></a><a class="btn quiet" href="#p1">Browse the eight</a></div>
+      <h1 class="d1">Less time in the inbox. More nights booked.</h1>
+      <p class="lead">Eight done-for-you systems for short-term rentals. AI Automation takes the busy work off your plate. Marketing fills the empty nights. Start with one.</p>
+      <div class="ctas">
+        <a class="btn primary" href="/contact/">Book a free 30-min call <svg viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 5.5H14.6M10.3 1.2L14.9 5.5L10.3 9.8"/></svg></a>
+        <a class="btn quiet" href="#start">Find where to start</a>
+      </div>
+      <ul class="proof" id="proof"></ul>
     </div>
     <div class="visual rv d2x"><div class="duo" id="duo"></div></div>
   </section>
 
-  <section class="wrap section" id="p1" style="padding-top:60px">
-    <div class="pillar-head rv"><span class="num">01</span><div><span class="tag auto">AI Automation</span><h2 class="d2" style="margin-top:12px">The busy work, gone.</h2></div><span class="mono">4 systems</span></div>
-    <div id="rows-auto"></div>
+  <!-- 2 · Picker: start from the problem, get one clear answer -->
+  <section class="wrap section pick" id="start">
+    <div class="pick-grid">
+      <div class="pick-q rv">
+        <h2 class="d2">What’s costing you the most right now?</h2>
+        <p class="small">Pick the one that hurts most. We’ll show you where to start and what it costs.</p>
+        <div class="probs" id="probs" role="group" aria-label="Pick a problem"></div>
+      </div>
+      <div class="ans rv d1x" id="ans" aria-live="polite"><div class="ans-in"></div></div>
+    </div>
   </section>
 
-  <section class="wrap section" id="p2" style="padding-top:20px">
-    <div class="pillar-head rv"><span class="num">02</span><div><span class="tag mkt">Marketing</span><h2 class="d2" style="margin-top:12px">Calendars that fill.</h2></div><span class="mono">4 systems</span></div>
-    <div id="rows-mkt"></div>
+  <!-- 3 · All eight, priced: name, one line, price -->
+  <section class="wrap section" id="all" style="padding-top:100px;padding-bottom:20px">
+    <div class="cat-head rv">
+      <div>
+        <h2 class="d2">All eight, with prices.</h2>
+        <p class="small">A one-time setup fee, then a monthly fee to run it.</p>
+      </div>
+      <div class="curtoggle" role="group" aria-label="Currency" id="cur"></div>
+    </div>
+    <div class="cat">
+      <div class="pcol rv" data-p="auto"><header><h3 class="d3">The busy work, gone.</h3><span class="tag auto">AI Automation</span></header><div id="ents-auto"></div></div>
+      <div class="pcol rv d1x" data-p="mkt"><header><h3 class="d3">Calendars that fill.</h3><span class="tag mkt">Marketing</span></header><div id="ents-mkt"></div></div>
+    </div>
+    <div class="cat-foot rv">
+      <p class="save"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"></svg><span><b>Better together:</b> 10% off with 3 systems, 15% off with 5 or more.</span></p>
+      <a class="link" href="/pricing/#builder">Build your plan</a>
+    </div>
+    <p class="cat-note rv" id="cat-note"></p>
   </section>
 
-  <section class="wrap section" style="padding-top:40px">
-    <div class="head"><div class="left rv"><div class="eyebrow"><i></i>Better together</div><h2 class="d2" style="margin-top:18px">One guest, both pillars.</h2></div><p class="small rv" style="max-width:320px">Marketing brings the guest in. Automation looks after them. They come back direct.</p></div>
-    <div class="loop rv" id="loop"></div>
+  <!-- 4 · The same 3-week path for every system, and the guarantee -->
+  <section class="wrap section" id="how" style="padding-top:120px">
+    <div class="how-grid">
+      <div class="rv">
+        <h2 class="d2">Live in three weeks, or the first month is free.</h2>
+        <p class="lead">Same path for every system: a call, a plan, a build in your own tools, then we run it. We need you three times.</p>
+        <ul class="terms" id="terms"></ul>
+        <a class="link" href="/approach/">See the full process</a>
+      </div>
+      <div class="rv d1x" id="cal3"></div>
+    </div>
+  </section>
+
+  <!-- 5 · FAQ -->
+  <section class="wrap section" style="padding-top:20px">
+    <div class="faq-grid">
+      <div class="rv"><h2 class="d2">Asked on most calls.</h2><p class="small">Anything else, ask us on the call. It’s free and takes 30 minutes.</p></div>
+      <div class="faq rv d1x" id="faq"></div>
+    </div>
   </section>
 
   <section class="wrap" style="padding-bottom:120px" id="cta"></section>
@@ -120,7 +286,9 @@
 
 <script src="/assets/logos.js?v=35"></script><script src="/assets/icons.js?v=35"></script><script src="/assets/site.js?v=35"></script>
 <script>
-const { SERVICES, VIZ, toolMark, band, phoneShell, laptopShell, reveal, $ } = SITE;
+const { SERVICES, toolPill, band, phoneShell, laptopShell, reveal, mountCal3, $, $$ } = SITE;
+const bySlug = Object.fromEntries(SERVICES.map(s => [s.slug, s]));
+
 // hero: Marketing (phone ad) brings a guest in → AI Automation (laptop) looks after them. Loops.
 const AUTO = SERVICES.filter(s => s.p === 'auto');
 const CREATIVES = [['Midweek escape.<br>Book direct, save 10%.', 'linear-gradient(160deg,#3d2c2a 0%,#7b4636 45%,#2b2e46 100%)'],
@@ -134,7 +302,7 @@ $('#duo').innerHTML = `
   <span class="chip hero-chip a"><i style="background:#b9c3ff"></i>AI Automation runs here</span>
   <div class="lap">${laptopShell(`<div class="con" style="grid-template-columns:1fr"><div class="bar"><div class="dots"><i></i><i></i><i></i></div><b>Your system</b><span class="ok"><i></i>All running</span></div>
     <div class="modules">${AUTO.map((s, i) => `<div class="card" data-m="${i}">${ico(s.icon)}<span>${s.title}</span><em>running</em></div>`).join('')}
-    <div class="card feed">${ico('sun')}<span>Today: <b data-c="m">6</b> messages · <b data-c="b">1</b> direct bookings · <b data-c="t">1</b> turnover</span></div></div></div>`)}</div>
+    <div class="card feed">${ico('sun')}<span>Today: <b data-c="m">6</b> messages · <b data-c="b">1</b> booked direct · <b data-c="t">1</b> turnover done</span></div></div></div>`)}</div>
   <div class="ph">${phoneShell(`<div class="adwrap"><div class="stories">${CREATIVES.map(() => '<i></i>').join('')}</div>
     <div class="adcard"><div class="h"><i></i><div><b>Harbor Studio</b><small>Sponsored</small></div></div>
       <div class="img">${CREATIVES.map(c => `<div class="cr" style="--g:${c[1]}"><b>${c[0]}</b></div>`).join('')}</div>
@@ -206,16 +374,96 @@ $('#duo').innerHTML = `
   }, { threshold: .25 }).observe(duo);
 })();
 
-const row = s => `<a class="srow rv" data-p="${s.p}" href="/services/${s.slug}/">
-  <div class="viz"><div class="mv">${VIZ[s.viz]}</div></div>
-  <div><h3>${s.title}</h3><p>${s.short}</p></div>
-  <div class="was"><b>INSTEAD OF</b><span>${s.before[0]}.</span><div class="tools-row">${[...new Set(s.chain[2].map(n => n[2]))].map(t => `<span class="logo-pill" style="padding:6px 9px">${toolMark(t, 14)}</span>`).join('')}</div></div>
-  <span class="go">${ico('arrow')}</span></a>`;
-$('#rows-auto').innerHTML = SERVICES.filter(s => s.p === 'auto').map(row).join('');
-$('#rows-mkt').innerHTML = SERVICES.filter(s => s.p === 'mkt').map(row).join('');
-$('#loop').innerHTML = [['social', 'Marketing', 'Ads and your own site bring the guest in.'], ['assistant', 'AI Automation', 'Every message, payment and turnover handled.'], ['direct', 'Direct, next time', 'They come back without the platform’s cut.']]
-  .map((n, i) => `${i ? '<span class="arr"></span>' : ''}<div class="node"><div class="ico-tile">${ico(n[0])}</div><h4>${n[1]}</h4><p>${n[2]}</p></div>`).join('');
-$('#cta').innerHTML = band('Not sure where to start?', 'Most owners start with guest messaging or direct bookings. On the call we’ll tell you which one pays off first for you.');
+// ---- prices: the live rate card (src/lib/pricing.ts → RATES), set per currency ----
+const RATES = {
+  'guest-messaging':        { s: [900, 3300, 800],   m: [190, 690, 169] },
+  'ai-guest-assistant':     { s: [1200, 4400, 1050], m: [240, 890, 209] },
+  'direct-booking-engine':  { s: [900, 3300, 800],   m: [190, 690, 169] },
+  'listing-content-engine': { s: [600, 2200, 550],   m: [190, 690, 169] },
+  'paid-social':            { s: [750, 2750, 650],   m: [750, 2750, 650] },
+  'photo-ad-creative':      { s: [450, 1650, 400],   m: [390, 1450, 349] },
+  'direct-booking-website': { s: [1900, 6950, 1700], m: [99, 360, 89] },
+  'booking-campaigns':      { s: [1500, 5500, 1350], m: [1800, 6590, 1590] },
+};
+const CURS = [['usd', '$ USD', '$'], ['aed', 'AED', 'AED '], ['eur', '€ EUR', '€']];
+let cur = 0;
+try { cur = Math.max(0, CURS.findIndex(c => c[0] === localStorage.getItem('re-cur'))); } catch (e) {}
+const money = n => CURS[cur][2] + n.toLocaleString('en-US');
+const UNIT = [[15, 55, 14], [10, 35, 9]], ADMIN = { 'paid-social': [1000, 3500, 900], 'booking-campaigns': [2500, 9000, 2250] };
+const FROM = s => s.p === 'auto';                         // monthly covers 5 units, then per unit
+const setupNote = slug => slug === 'photo-ad-creative' ? 'setup per property' : 'setup';
+const priceHTML = slug => { const r = RATES[slug], s = bySlug[slug];
+  return `${FROM(s) ? 'from ' : ''}<b>${money(r.m[cur])}</b>/mo<small>+ ${money(r.s[cur])} ${setupNote(slug)}</small>`; };
+
+// ---- 2 · picker ----
+// [icon, problem, start-with slug, what it's like today, what changes, pairs-with slug, why it pairs]
+const PROBS = [
+  ['message', 'Guest messages eat my day', 'guest-messaging', 'Airbnb, Booking.com and WhatsApp each get checked separately, all day.', 'Replies go out in minutes, in your voice, from one inbox. Only the unusual ones reach you.', 'ai-guest-assistant', 'it answers the 2am questions too'],
+  ['moon', 'Questions at 2am', 'ai-guest-assistant', 'Guests message at midnight about wifi, parking and checkout.', 'The assistant answers from your house guide, day and night, and offers late checkout while it’s at it.', 'guest-messaging', 'every channel lands in one inbox'],
+  ['clean', 'Turnovers slip through the cracks', 'guest-messaging', 'Checkout times, cleaner schedules and the next check-in live in three different chats.', 'Each checkout sends the cleaner the job and the next guest their arrival details. You see it done.', 'ai-guest-assistant', 'guests get answers while the place is being turned'],
+  ['price', 'Platforms take a cut of repeat guests', 'direct-booking-engine', 'Repeat guests rebook on the platform, and the commission is paid again.', 'Past guests get a personal offer to book direct. The booking lands in your calendar with no fee.', 'direct-booking-website', 'it gives them somewhere of your own to book'],
+  ['calendar', 'Empty midweek nights', 'paid-social', 'Budget is the same on a quiet Tuesday as on a sold-out Saturday.', 'Ads follow your empty dates. Budget shifts daily to whatever is actually booking.', 'photo-ad-creative', 'one shoot gives the ads something worth stopping for'],
+  ['content', 'My listings look tired', 'listing-content-engine', 'Listing descriptions were written once and never touched again.', 'Listings, guides and posts are refreshed on schedule, in your voice, and checked before they go out.', 'photo-ad-creative', 'new photos make fresh copy land'],
+];
+let pick = 0;
+$('#probs').innerHTML = PROBS.map((p, i) => `<button class="prob" type="button" aria-pressed="${i === pick}" data-i="${i}">${ico(p[0])}<span>${p[1]}</span></button>`).join('');
+const ansHTML = i => { const [, , slug, was, now, pair, why] = PROBS[i], s = bySlug[slug], ps = bySlug[pair];
+  return `<p class="lbl">Start with <span class="tag ${s.p}">${s.p === 'auto' ? 'AI Automation' : 'Marketing'}</span></p>
+    <h3 class="d3">${s.title}</h3><p class="out">${s.outcome}</p>
+    <ol class="shift"><li class="was"><span>Today</span>${was}</li><li class="now"><span>With it</span>${now}</li></ol>
+    <div class="ans-foot"><div class="price">${priceHTML(slug)}</div>
+      <a class="btn quiet" href="/services/${slug}/">See how it works <svg viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 5.5H14.6M10.3 1.2L14.9 5.5L10.3 9.8"/></svg></a></div>
+    <p class="pair">Pairs well with <a href="/services/${pair}/">${ps.title}</a>: ${why}.</p>`; };
+const ansIn = $('#ans .ans-in');
+const renderAns = (animate) => {
+  if (!animate || matchMedia('(prefers-reduced-motion: reduce)').matches) { ansIn.innerHTML = ansHTML(pick); return; }
+  $('#ans').classList.add('swap');
+  setTimeout(() => { ansIn.innerHTML = ansHTML(pick); $('#ans').classList.remove('swap'); }, 220);
+};
+$$('.prob').forEach(b => b.addEventListener('click', () => {
+  pick = +b.dataset.i;
+  $$('.prob').forEach(x => x.setAttribute('aria-pressed', x === b));
+  renderAns(true);
+}));
+renderAns(false);
+
+// ---- 3 · the price list ----
+const ent = s => `<a class="ent" id="e-${s.slug}" href="/services/${s.slug}/">
+  <div><h3>${s.title}${ico('arrow')}</h3><p class="o">${s.short}</p></div>
+  <div class="pr" data-slug="${s.slug}">${priceHTML(s.slug)}</div></a>`;
+const catNote = () => `Prices exclude applicable taxes. Automation fees cover up to 5 units, then ${money(UNIT[0][cur])} per extra unit. Ad spend goes straight to Meta or Google from your own account (from ${money(ADMIN['paid-social'][cur])}/mo). <a href="/pricing/">Full pricing</a>`;
+$('#ents-auto').innerHTML = SERVICES.filter(s => s.p === 'auto').map(ent).join('');
+$('#ents-mkt').innerHTML = SERVICES.filter(s => s.p === 'mkt').map(ent).join('');
+$('#cat-note').innerHTML = catNote();
+$('.cat-foot .save .ico').outerHTML = ico('check');
+$('#cur').innerHTML = CURS.map((c, i) => `<button type="button" data-i="${i}" class="${i === cur ? 'on' : ''}" aria-pressed="${i === cur}">${c[1]}</button>`).join('');
+$$('#cur button').forEach(b => b.addEventListener('click', () => {
+  cur = +b.dataset.i; try { localStorage.setItem('re-cur', CURS[cur][0]); } catch (e) {}
+  $$('#cur button').forEach(x => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b); });
+  $$('.pr[data-slug]').forEach(el => { el.innerHTML = priceHTML(el.dataset.slug); });
+  $('#cat-note').innerHTML = catNote();
+  ansIn.innerHTML = ansHTML(pick);
+}));
+$('#proof').innerHTML = ['Live in 21 days', 'No lock-in', 'You approve the rules'].map(t => `<li>${ico('check')}${t}</li>`).join('');
+
+// ---- 4 · path + guarantee ----
+$('#terms').innerHTML = [
+  ['30 days', ' for websites and full-funnel campaigns.'],
+  ['No lock-in:', ' month to month, 30 days’ notice. Ads run 3 months minimum.'],
+  ['Founding clients:', ' 50% off setup for our first 5, for a case study.'],
+].map(t => `<li>${ico('check')}<span><b>${t[0]}</b>${t[1]}</span></li>`).join('');
+mountCal3($('#cal3'));
+
+// ---- 6 · FAQ ----
+$('#faq').innerHTML = [
+  ['Do I need a PMS?', 'It helps. We build on what you already use, such as Guesty or Hostaway. No PMS yet? We’ll recommend one on the call.'],
+  ['Will guests know it’s automated?', 'Replies are written in your voice from your own answers. Anything the system isn’t sure about, like refunds or complaints, comes to you before it’s sent.'],
+  ['How many properties do I need?', 'Any number. Monthly fees cover up to 5 units, and only the per-unit fee grows after that. The systems are designed around managers with 10 to 50 units, and smaller hosts are welcome.'],
+  ['Which AI do you use?', 'Mostly Anthropic’s Claude for guest-facing writing, and OpenAI where it fits a task better. You’re never locked to one.'],
+  ['Who owns the work?', 'You do: the accounts, the site, the content and every guest record live in your own tools.'],
+].map(([q, a]) => `<details><summary>${q}<i>+</i></summary><p>${a}</p></details>`).join('');
+
+$('#cta').innerHTML = band('Still not sure where to start?', 'Tell us what’s eating your week. We’ll point to the one system that pays off first, and send a fixed quote.');
 reveal();
 </script>
 </body>

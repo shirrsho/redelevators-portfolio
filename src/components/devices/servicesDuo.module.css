@@ -72,3 +72,7 @@
   .duo :global(.lap){position:relative;left:auto;top:auto;order:4;width:100%;animation:none}
   .duo :global(svg.dwire){display:none}
 }
+@media (max-width:560px){
+  /* Phones: the ad and its "booked" card tell the story; the system card waits for the page below */
+  .duo :global(.lap),.duo :global(.hero-chip.a){display:none}
+}

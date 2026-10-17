@@ -56,18 +56,24 @@ adding a unit never adds more than its unit fee.
 
 ## Savings calculator
 
-The calculator counts only work our systems take over:
+The calculator counts only work the recommended systems take over (`calcHours()`):
 
-- **Hours back** = 70% × (guest messages × 4 min + 3 h inbox admin per unit), per month.
+- **Hours back** = 70% × the work the picks cover, per month:
+  - guest messages × 4 min + 3 h inbox admin per unit, when a messaging system (Guest Messaging
+    or AI Guest Assistant) is recommended;
+  - turnovers × 25 min, when Guest Messaging & CRM is recommended (turnover hand-offs are in its
+    scope since 17 Oct 2026; default 6 turnovers per unit a month ≈ 18 nights at a 3-night stay).
+  - With no messaging system in the picks (e.g. under 12 messages a week and mostly OTA bookings),
+    hours back is 0 and the result is commission kept only. Before 17 Oct the inbox hours were
+    counted whatever the picks, which overstated those cases.
 - **Worth to you** = hours back × the visitor's hourly value + commission kept.
 - **The verdict** compares "worth" with the recommended plan's monthly fee:
   - 1.15× or more: "Pays for itself about N×", plus setup payback in months.
   - 0.9–1.15×: "Roughly pays for itself".
   - Below 0.9×: "Covers about N% of the monthly fee".
 
+Defaults (4 units, 18 messages, 6 turnovers, $25/h): 30 hours back, $750 a month, about 4× the
+$190 fee, setup paid back in about 2 months.
+
 The full method, assumptions and examples are in the Pricing Playbook, section "Savings
 calculator".
-
-**Open:** turnover hours are not counted, because no service includes turnover coordination in its
-scope yet. If it is added to Guest Messaging & CRM, bring back a turnovers input and count it in
-`CALC_TIME`.

@@ -243,10 +243,12 @@ export const TIERS: readonly Tier[] = [
 
 /** Savings calculator sliders: [key, label, min, max, default, unit ("" | "%" | "cur")]. "cur" values
  *  are entered in dollars and shown ×FX. */
-export type CalcKey = "units" | "msgs" | "ota" | "rate" | "nights" | "hourly";
+export type CalcKey = "units" | "msgs" | "turns" | "ota" | "rate" | "nights" | "hourly";
 export const CALC_FIELDS: readonly (readonly [key: CalcKey, label: string, min: number, max: number, value: number, unit: "" | "%" | "cur"])[] = [
   ["units","Units you run",1,60,4,""],
   ["msgs","Guest messages per unit, per week",5,60,18,""],
+  // Default 6 ≈ 18 booked nights a month at a ~3-night average stay.
+  ["turns","Turnovers per unit, per month",1,20,6,""],
   ["ota","Bookings through Airbnb / Booking.com",0,100,85,"%"],
   ["rate","Average nightly rate",40,400,120,"cur"],
   ["nights","Nights booked per unit, per month",5,30,18,""],
@@ -254,12 +256,17 @@ export const CALC_FIELDS: readonly (readonly [key: CalcKey, label: string, min: 
   ["hourly","Your time is worth, per hour",10,100,25,"cur"],
 ];
 
-/** Calculator time model: only work our systems take over (guest messages + inbox admin). */
+/** Calculator time model: only work our systems take over. Guest messages and inbox admin count
+ *  when a messaging system is recommended (MESSAGING_SYSTEMS); turnover coordination counts when
+ *  Guest Messaging & CRM is, because turnover hand-offs are part of its scope. */
 export const CALC_TIME = {
   /** Minutes per guest message: read, look up the booking, reply. */
   minutesPerMessage: 4,
   /** Inbox and guest-record admin per unit per month, in hours. */
   adminHoursPerUnit: 3,
+  /** Minutes per turnover: tell the cleaner, confirm, send the next guest their arrival details,
+   *  chase a clean that isn’t done. */
+  minutesPerTurnover: 25,
   /** Share of that time the system takes over. */
   saved: 0.7,
   /** Share of messages answered without you. */
@@ -272,6 +279,23 @@ export const CALC_TIME = {
 export const DIRECT_SHARE = 0.15;
 export const NET_COMMISSION = 0.12;
 export const DIRECT_SYSTEMS: readonly ServiceSlug[] = ["direct-booking-engine", "direct-booking-website"];
+/** Systems that take over guest messages and inbox admin in the calculator. */
+export const MESSAGING_SYSTEMS: readonly ServiceSlug[] = ["guest-messaging", "ai-guest-assistant"];
+/** The system that takes over turnover hand-offs. */
+export const TURNOVER_SYSTEM: ServiceSlug = "guest-messaging";
+
+/** Calculator hours for a set of picks: admin hours now, and the hours the picks take over. */
+export function calcHours(v: Readonly<Record<CalcKey, number>>, picks: readonly ServiceSlug[]) {
+  const msgsPerMonth = v.units * v.msgs * 4.33;
+  const inbox = (msgsPerMonth * CALC_TIME.minutesPerMessage) / 60 + v.units * CALC_TIME.adminHoursPerUnit;
+  const turnovers = (v.units * v.turns * CALC_TIME.minutesPerTurnover) / 60;
+  const messaging = picks.some((p) => MESSAGING_SYSTEMS.includes(p));
+  const turnover = picks.includes(TURNOVER_SYSTEM);
+  const now = inbox + turnovers;
+  const back = Math.round(((messaging ? inbox : 0) + (turnover ? turnovers : 0)) * CALC_TIME.saved);
+  const replies = messaging ? Math.round(msgsPerMonth * CALC_TIME.autoReplies) : 0;
+  return { now, back, replies };
+}
 
 /** Calculator "Start with": the systems that answer each pain, in priority order. */
 export const CALC_RECOMMEND: Readonly<Record<"msgs" | "ota" | "nights" | "fallback", readonly ServiceSlug[]>> = {

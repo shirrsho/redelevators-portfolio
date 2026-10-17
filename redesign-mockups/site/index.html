@@ -157,6 +157,16 @@ body[data-h="a"] .vb, body[data-h="b"] .va{display:none}
   .fgrid{grid-template-columns:1fr 1fr}
   .slot{grid-template-columns:1fr}
 }
+/* ---- Ending (review: home-ending.html). ?end=new (default) | now ----
+   new: "Not ready for a call?" row with WhatsApp + email under the booker, the 24/7 line, today's date on the phone */
+.bk-alt{display:none}
+body.end-new .bk-alt{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 12px;margin-top:22px}
+.bk-alt span{font-size:15px;color:var(--sub);margin-right:4px}
+.bk-alt .btn{padding:11px 16px;font-size:14px;gap:8px}
+.bk-alt .btn.wa{background:#25D366;color:#06290f;font-weight:600}
+.bk-alt .btn.wa:hover{background:#2ee072}
+.bk-alt .btn svg{width:16px;height:16px}
+@media (max-width:560px){.bk-alt span{width:100%;text-align:center;margin:0}.bk-alt .btn{flex:1 1 0;justify-content:center}}
 </style>
 </head>
 <body data-h="a" data-page="home">
@@ -298,7 +308,8 @@ body[data-h="a"] .vb, body[data-h="b"] .va{display:none}
       <p class="lead">Book a free 30-minute call. We'll map your setup and show you what to automate first.</p>
     </div>
     <div class="bstage">
-      <div class="rv"><div id="sched"></div><p class="mono tz">Times are shown in your time zone · <a class="link" href="/contact/#chat">other ways to reach us</a></p></div>
+      <div class="rv"><div id="sched"></div><p class="mono tz" id="homeTz">Times are shown in your time zone · <a class="link" href="/contact/#chat">other ways to reach us</a></p>
+        <div class="bk-alt"><span>Not ready for a call?</span><a class="btn wa" id="altWa" target="_blank" rel="noopener">Ask on WhatsApp</a><a class="btn quiet" id="altMail" href="mailto:contact@redelevators.com">Email us</a></div></div>
       <div class="ph rv d2x" id="calmHold"></div>
     </div>
   </div>
@@ -311,5 +322,26 @@ body[data-h="a"] .vb, body[data-h="b"] .va{display:none}
 <script src="/assets/icons.js?v=35"></script>
 <script src="/assets/site.js?v=35"></script>
 <script src="/assets/home.js?v=35"></script>
+<script>
+// ---- Ending (review: home-ending.html): ?end=new (default) | now
+(() => {
+  const END = new URLSearchParams(location.search).get('end') === 'now' ? 'now' : 'new';
+  document.body.classList.add(`end-${END}`);
+  // ?reveal: show everything at once (screenshots; automated browsers don't fire the scroll reveal)
+  if (new URLSearchParams(location.search).has('reveal')) document.querySelectorAll('.rv, .weeks, .wk').forEach(el => el.classList.add('in'));
+  // ?only=calm: hide every other section so the last one sits at the top (screenshots)
+  if (new URLSearchParams(location.search).get('only') === 'calm') document.querySelectorAll('section:not(#calm), header.hero, .hero, #site-foot').forEach(el => { if (!el.closest('#calm')) el.style.display = 'none'; });
+  if (END !== 'new') return;
+  document.getElementById('homeTz').textContent = 'Any day, any hour · times are shown in your time zone';
+  const wa = document.getElementById('altWa');
+  wa.href = SITE.WA();
+  wa.innerHTML = `${logo('WhatsApp', 16, true)} Ask on WhatsApp`;
+  document.getElementById('altMail').insertAdjacentHTML('afterbegin', ico('mail'));
+  // the phone shows today's date, so it matches the live calendar beside it (the 2:14 stays: it's the story)
+  const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  const setDate = () => document.querySelectorAll('#calmHold .clock .date').forEach(d => d.textContent = today);
+  setDate(); setTimeout(setDate, 0);
+})();
+</script>
 </body>
 </html>
