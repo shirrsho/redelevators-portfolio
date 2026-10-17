@@ -639,6 +639,12 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .bstage .ph .phone{scale:.86;transform-origin:top center;margin-bottom:-86px}
 .bstage .ph .ex-label{margin-top:4px}
 .bstage .tz{text-align:center;margin-top:16px}
+/* Home ch.09: "Not ready for a call?" WhatsApp + email under the booker */
+.bk-alt{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 12px;margin-top:22px}
+.bk-alt>span{font-size:15px;color:var(--sub);margin-right:4px}
+.bk-alt .btn{padding:11px 16px;font-size:14px;gap:8px}
+.bk-alt .btn svg{width:16px;height:16px}
+@media (max-width:560px){.bk-alt>span{width:100%;text-align:center;margin:0}.bk-alt .btn{flex:1 1 0;justify-content:center}}
 .cost-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:56px 0 18px;flex-wrap:wrap}
 .cost-head .cost-r{display:flex;gap:16px;align-items:center}
 @media (max-width:1100px){.bstage{grid-template-columns:minmax(0,1fr)}.bstage .ph{display:none}}

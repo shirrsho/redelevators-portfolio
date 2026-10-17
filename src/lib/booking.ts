@@ -11,16 +11,13 @@ export const CALL = {
   blurb: "We map your setup and show you what to automate first. No commitment.",
 } as const;
 
-/** The "Times are shown in your time zone" line under the booker, per page. */
-export const BOOKER_NOTE = {
-  home: { text: "Times are shown in your time zone ·", link: { href: "/contact#chat", label: "other ways to reach us" } },
-  contact: { text: "Any day, any hour · times are shown in your time zone", link: null },
-} as const;
+/** The line under the booker (Home and Contact). Home also gets the "Not ready for a call?" row: BookingStage. */
+export const BOOKER_NOTE = "Any day, any hour · times are shown in your time zone";
 
 // ---- The alive phone ------------------------------------------------------------------------
 export const ALIVE_PHONE = {
   time: "2:14",
-  date: "Tuesday, October 14",
+  /** The lock screen shows today's date (set on the client), so it matches the live calendar beside it. */
   activity: {
     title: "Red Elevators",
     status: "Tonight · running",
