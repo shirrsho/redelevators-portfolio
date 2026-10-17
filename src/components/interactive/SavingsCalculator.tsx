@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { EVENTS, track } from "@/lib/analytics";
 import { useCurrency } from "@/lib/currency";
 import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
-import { CALC_FIELDS, CALC_TIME, DIRECT_SHARE, DIRECT_SYSTEMS, NET_COMMISSION, PORTFOLIO_FROM_UNITS, calcPicks, quote, type CalcKey } from "@/lib/pricing";
+import { CALC_FIELDS, DIRECT_SHARE, DIRECT_SYSTEMS, NET_COMMISSION, PORTFOLIO_FROM_UNITS, calcHours, calcPicks, quote, type CalcKey } from "@/lib/pricing";
 import { getService } from "@/lib/services";
 import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
 import { Icon } from "@/components/ui/Icon";
@@ -46,12 +46,12 @@ const DEFAULTS = Object.fromEntries(CALC_FIELDS.map((f) => [f[0], f[4]])) as Rec
 const times = (r: number) => (r >= 2 ? Math.round(r) : Math.round(r * 10) / 10) + "×";
 
 /**
- * Six sliders → hours back each month, what that is worth (hours × your hourly value + commission
+ * Seven sliders → hours back each month, what that is worth (hours × your hourly value + commission
  * kept), and the recommended plan set against it (with the Portfolio service level from
  * PORTFOLIO_FROM_UNITS). Follows useCurrency(); shows its own CurrencyToggle unless told not to. Fires "Calculator used" once on the first slider input.
  * Root element is `.calc`. Used by Home ch.06 (Track D) and /pricing.
  * Mockup: site.js → mountCalc, sections.css .calc. Data and rules: src/lib/pricing.ts
- * (CALC_FIELDS, CALC_TIME, calcPicks, quote, FX).
+ * (CALC_FIELDS, CALC_TIME, calcHours, calcPicks, quote, FX).
  */
 export function SavingsCalculator({ currencyToggle = true }: SavingsCalculatorProps) {
   const { cur, money, fx } = useCurrency();
@@ -67,16 +67,14 @@ export function SavingsCalculator({ currencyToggle = true }: SavingsCalculatorPr
     setV((cur) => ({ ...cur, [key]: value }));
   };
 
-  // Only time our systems take over: guest messages and inbox admin (CALC_TIME). Commission
-  // kept counts only when a direct-booking system is recommended.
-  const msgsPerMonth = v.units * v.msgs * 4.33;
-  const now = (msgsPerMonth * CALC_TIME.minutesPerMessage) / 60 + v.units * CALC_TIME.adminHoursPerUnit;
-  const back = Math.round(now * CALC_TIME.saved);
+  // Only time the recommended systems take over (calcHours): messages and inbox admin with a
+  // messaging system, turnovers with Guest Messaging. Commission kept counts only when a
+  // direct-booking system is recommended.
+  const picks = calcPicks(v);
+  const { now, back, replies } = calcHours(v, picks);
   const days = Math.max(1, Math.round(back / 8));
-  const replies = Math.round(msgsPerMonth * CALC_TIME.autoReplies);
   const afterPct = Math.max(6, ((now - back) / Math.max(now, 1)) * 100);
 
-  const picks = calcPicks(v);
   const portfolio = v.units >= PORTFOLIO_FROM_UNITS;
   const plan = quote(picks, v.units, cur, portfolio);
   const direct = picks.some((p) => DIRECT_SYSTEMS.includes(p));
@@ -115,7 +113,9 @@ export function SavingsCalculator({ currencyToggle = true }: SavingsCalculatorPr
             <Anim value={back} />
           </b>
           <small>
-            about {days} working day{days > 1 ? "s" : ""} · {replies.toLocaleString("en-US")} replies sent for you
+            {back
+              ? `about ${days} working day${days > 1 ? "s" : ""}${replies ? ` · ${replies.toLocaleString("en-US")} replies sent for you` : ""}`
+              : "these picks save money, not inbox time"}
           </small>
         </div>
         <div className="two2">
