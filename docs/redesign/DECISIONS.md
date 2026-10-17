@@ -85,5 +85,5 @@ New pages: `/pricing` and `/privacy`.
    - (a) drop the Pixel and the recorder; or
    - (b) keep them, rewrite the privacy page, add a consent banner for EU/UK visitors, and add a "Do Not Sell or Share" notice for California.
 4. **Cal.com account:** the owner creates it (free plan) and gives the event link.
-5. **WhatsApp number:** a +880 number is set in the mockup. Confirm whether to use a US or UAE WhatsApp Business number instead, since it becomes visible once someone taps the button.
+5. **WhatsApp number:** decided 17 Oct 2026: keep a +880 number for now. The site uses the agency's WhatsApp Business number, +880 1410-047698.
 6. **Whether to keep or archive the old mockup rounds** in `redesign-mockups/`.
