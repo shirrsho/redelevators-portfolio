@@ -544,12 +544,11 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .phone.alive .stack .n.done{background:rgba(255,255,255,.9);color:#16151a}
 .phone.alive .stack .n.done .hd{color:#2f9a6a}.phone.alive .stack .n.done .bd{color:#3a3940}
 .phone.alive .stack .n.done .ic svg{stroke:#1a73e8}
-.phone.alive .stack .n.nudge{box-shadow:0 0 0 1.5px rgba(37,211,102,.7) inset;cursor:pointer}
+.phone.alive .stack .n.nudge{box-shadow:0 0 0 1.5px rgba(255,255,255,.45) inset;cursor:pointer}
 .phone.alive .stack .n.nudge .hd span:first-child{color:#7ddca2}
 
 .phone.alive .lockicons{display:none}
 .ex-label{text-align:center;margin-top:14px}
-.phone.alive .stack .n.ask{box-shadow:0 0 0 1.5px rgba(255,255,255,.45) inset;cursor:pointer}
 
 /* interactive 3-week calendar */
 .cal3.interactive .d{border:0;cursor:pointer;transition:opacity .3s,transform .3s var(--ease),outline-color .3s;outline:2px solid transparent;outline-offset:2px}
@@ -633,6 +632,8 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
 .cost-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:56px 0 18px;flex-wrap:wrap}
 .cost-head .cost-r{display:flex;gap:16px;align-items:center}
 @media (max-width:1100px){.bstage{grid-template-columns:minmax(0,1fr)}.bstage .ph{display:none}}
+/* Contact: the booker alone, centred (no phone) */
+.bstage.solo{grid-template-columns:minmax(0,760px);padding-top:32px}
 
 /* =========================================================================
    System player (Systems page + every service page): device scene + steps

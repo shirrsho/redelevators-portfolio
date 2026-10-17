@@ -1,12 +1,7 @@
 // Copy that contact.html keeps inline (steps, summary doc, FAQ), unchanged.
-import type { IconName } from "@/lib/icons";
 
-/** [icon, title, text] */
-export const STEPS: readonly (readonly [IconName, string, string])[] = [
-  ["message", "You tell us how you run things", "Your units, your tools, where the hours go."],
-  ["audit", "We point out what to fix first", "Usually one or two systems pay off fastest."],
-  ["mail", "You get a written summary", "Yours to keep, whether we work together or not."],
-];
+/** How the call goes: one slim line under the heading. */
+export const STEPS: readonly string[] = ["You tell us how you run things", "We point out what to fix first", "You get a written summary"];
 
 /** The example call summary: [badge class, badge, text, reveal delay (s)]. Illustrative. */
 export const DOC = {

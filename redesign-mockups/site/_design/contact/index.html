@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact options · design review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base.css?v=35"><link rel="stylesheet" href="/assets/sections.css?v=35"><link rel="stylesheet" href="/assets/themes.css?v=35">
+<script src="/assets/theme.js?v=35"></script>
+<style>
+:root{--bg:#0a0b14}
+body{background:var(--bg)}
+.rvw{padding:40px 0 60px}
+.rvw h1{font-family:var(--display);font-size:clamp(28px,4vw,40px);font-weight:600;letter-spacing:-.02em;margin-top:14px}
+.rvw .intro{color:var(--sub);max-width:720px;margin-top:10px;line-height:1.55}
+.bar{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;margin:28px 0 16px}
+.seg{display:inline-flex;gap:4px;padding:4px;border:1px solid var(--hair-2);border-radius:12px;background:var(--surface)}
+.seg button{font:inherit;font-size:14px;color:var(--sub);padding:8px 14px;border-radius:9px;border:0;background:none;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface-2);color:var(--ink)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:start}
+.stage{border:1px solid var(--hair-2);border-radius:16px;overflow:hidden;background:#05060c;position:relative}
+.stage .vp{position:relative;transform-origin:top left}
+.stage iframe{display:block;border:0;background:var(--bg)}
+.stage .fold{position:absolute;left:0;right:0;border-top:1px dashed rgba(255,94,94,.75);pointer-events:none}
+.stage .fold span{position:absolute;right:8px;top:-22px;font-family:var(--mono);font-size:11px;color:#ff8a8a;background:#05060c;padding:2px 6px;border-radius:6px}
+.meta{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:10px}
+.notes{position:sticky;top:20px;border:1px solid var(--hair-2);border-radius:16px;padding:20px;background:var(--surface)}
+.notes h2{font-family:var(--display);font-size:20px;font-weight:600;letter-spacing:-.01em}
+.notes .what{color:var(--sub);font-size:14px;line-height:1.5;margin-top:6px}
+.notes h3{font-family:var(--mono);font-size:11.5px;font-weight:400;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);margin:18px 0 8px}
+.notes ul{list-style:none;display:grid;gap:8px;padding:0}
+.notes li{font-size:13.5px;line-height:1.45;padding-left:18px;position:relative}
+.notes li::before{position:absolute;left:0;top:0}
+.notes .pro li::before{content:"+";color:#7ddca2}
+.notes .con li::before{content:"–";color:#ff8a8a}
+.notes .open{margin-top:16px;font-size:13px}
+.notes .open a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+@media (max-width:1000px){.cols{grid-template-columns:minmax(0,1fr)}.notes{position:static}}
+</style>
+</head>
+<body>
+<main class="wrap rvw">
+  <div class="eyebrow"><i></i>Design review · not part of the public site</div>
+  <h1>Contact page: what goes beside the booker?</h1>
+  <p class="intro">The same page in four versions. The red dashed line is the bottom of the first screen at that size, so you can see how much of the booker shows before any scrolling. Click a date and time inside the frame to try the booker.</p>
+
+  <div class="bar">
+    <div class="seg" id="opts" role="group" aria-label="Option"></div>
+    <div class="seg" id="sizes" role="group" aria-label="Screen size"></div>
+  </div>
+
+  <div class="cols">
+    <div>
+      <div class="stage" id="stage"><div class="vp" id="vp"><iframe id="frame" title="Contact page preview" scrolling="no"></iframe><div class="fold" id="fold"><span>end of first screen</span></div></div></div>
+      <p class="meta" id="meta"></p>
+    </div>
+    <aside class="notes" id="notes"></aside>
+  </div>
+</main>
+<script>
+const OPTS = {
+  current: {
+    name: 'Now: the phone',
+    what: 'What is live today. A heading with three step cards, then the booker with the animated phone beside it. The written-summary section is further down the page.',
+    pro: ['Feels alive, and it matches the last section of the homepage.'],
+    con: ['It shows what the product does when the visitor wants to know if the call is worth it.', 'Moves every 5 seconds next to the calendar, and nudges to WhatsApp after 12 seconds.', 'The phone shows a fixed date and time beside a real calendar.', 'Hidden on phones and tablets.', 'The booker starts low: the step cards take the first screen.'],
+  },
+  a: {
+    name: 'A: steps + summary beside the booker',
+    what: 'The heading gets shorter, so the booker moves up. Beside it: how the call works (3 short steps), then the example written summary. The separate summary section further down goes.',
+    pro: ['Answers “what happens, and what do I get?” right where they decide.', 'Nothing moves after the summary appears once.', 'The booker shows on the first screen on desktop.', 'On phones it all stacks under the booker, so phones see it too (the phone mockup never showed there).'],
+    con: ['The side column is busy: two small headings and a lot of text in 300px.', 'The summary is smaller than it is today.'],
+  },
+  b: {
+    name: 'B: summary only beside the booker',
+    what: 'The three steps become one slim line under the heading. The side column holds only the written summary, with its headline “A written plan, whether we work together or not.”',
+    pro: ['One clear message beside the booker: you get this plan even if you don’t hire us.', 'Calmer than A, and the summary is the hero.', 'The booker starts as high as in A.'],
+    con: ['The steps are a single line, so they say less.', 'The headline in the column repeats the promise in the page heading a little.'],
+  },
+  c: {
+    name: 'C: calendar only',
+    what: 'Only the heading, the three steps as one slim line, and the calendar centred on its own. Nothing beside it, nothing moving. Below it: other ways to reach us, the written summary, then the FAQ, as today.',
+    pro: ['The cleanest version: one thing to do on the first screen.', 'The calendar shows on the first screen on desktop and starts high on phones.', 'Nothing moves while people pick a time.', 'Easiest to build and keep working.'],
+    con: ['The written summary is one scroll away instead of beside the calendar.', 'Relies on the calendar’s own left column to say what the call is, so the Cal.com event needs a proper title and description.', 'Empty space either side of the calendar on wide screens.'],
+  },
+};
+const SIZES = { desktop: [1440, 900, 'Desktop 1440×900'], laptop: [1280, 720, 'Laptop 1280×720'], phone: [390, 844, 'Phone 390×844'] };
+const q = new URLSearchParams(location.search);
+let opt = OPTS[q.get('opt')] ? q.get('opt') : 'c', size = SIZES[q.get('size')] ? q.get('size') : 'desktop';
+const $ = s => document.querySelector(s);
+const contactUrl = '/contact/';
+
+function seg(el, items, cur, onPick) {
+  el.innerHTML = Object.entries(items).map(([k, v]) => `<button type="button" data-k="${k}" aria-pressed="${k === cur}">${Array.isArray(v) ? v[2] : v.name.split(':')[0]}</button>`).join('');
+  el.onclick = e => { const b = e.target.closest('button'); if (b) onPick(b.dataset.k); };
+}
+function fit() {
+  const [w, h] = SIZES[size], frame = $('#frame'), stage = $('#stage'), vp = $('#vp');
+  const avail = stage.clientWidth, k = Math.min(1, avail / w);
+  const tall = size === 'phone' ? h * 2.2 : h * 1.6; // show past the fold
+  frame.style.width = w + 'px'; frame.style.height = tall + 'px';
+  vp.style.width = w + 'px'; vp.style.transform = `scale(${k})`;
+  stage.style.height = tall * k + 'px';
+  if (size === 'phone') { vp.style.marginLeft = Math.max(0, (avail - w * k) / 2) + 'px'; } else vp.style.marginLeft = '0';
+  $('#fold').style.top = h + 'px';
+  $('#meta').textContent = `${SIZES[size][2]} · shown at ${Math.round(k * 100)}%`;
+}
+function render() {
+  seg($('#opts'), OPTS, opt, k => { opt = k; render(); });
+  seg($('#sizes'), SIZES, size, k => { size = k; render(); });
+  const o = OPTS[opt];
+  $('#notes').innerHTML = `<h2>${o.name}</h2><p class="what">${o.what}</p><h3>Good</h3><ul class="pro">${o.pro.map(x => `<li>${x}</li>`).join('')}</ul><h3>Weaker</h3><ul class="con">${o.con.map(x => `<li>${x}</li>`).join('')}</ul><p class="open"><a href="${contactUrl}?opt=${opt}" target="_blank" rel="noopener">Open this version full size ↗</a></p>`;
+  const src = `${contactUrl}?opt=${opt}`;
+  if ($('#frame').dataset.src !== src) { $('#frame').dataset.src = src; $('#frame').src = src; }
+  history.replaceState(null, '', `?opt=${opt}&size=${size}`);
+  fit();
+}
+addEventListener('resize', fit);
+render();
+</script>
+</body>
+</html>

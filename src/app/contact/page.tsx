@@ -40,17 +40,11 @@ export default function ContactPage() {
             <p className="lead">We map your setup and show you what to automate first. No pitch deck, no commitment, and you keep the written summary.</p>
           </div>
           <h2 className="sr-only">How the call works</h2>
-          <ol className={styles.steps}>
-            {STEPS.map(([icon, title, text], i) => (
-              <li key={title} className={`rv d${i + 1}x`}>
-                <div className="ico-tile">
-                  <Icon name={icon} />
-                </div>
-                <div>
-                  <b>0{i + 1}</b>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </div>
+          <ol className={`${styles.steps} rv d1x`}>
+            {STEPS.map((title, i) => (
+              <li key={title}>
+                <b>0{i + 1}</b>
+                {title}
               </li>
             ))}
           </ol>
