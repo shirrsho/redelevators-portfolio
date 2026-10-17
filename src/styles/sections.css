@@ -96,8 +96,14 @@
 .wk .ico-tile{color:var(--dim);transition:color .4s var(--at),box-shadow .5s var(--at),border-color .3s,opacity .3s}
 .wk.in .ico-tile{color:var(--ink)}
 .wk .mono{display:block;margin:20px 0 8px}
-.wk h4{font-family:var(--display);font-size:24px;font-weight:500;letter-spacing:-.02em;margin-bottom:8px}
+.wk :is(h3,h4){font-family:var(--display);font-size:24px;font-weight:500;letter-spacing:-.02em;margin-bottom:8px}
 .wk p{font-size:14.5px;color:var(--sub);margin-bottom:16px;max-width:260px}
+/* .weeks.mid: the same timeline centred under a centred heading (Contact); lines join icon centre to icon centre */
+.weeks.mid{max-width:1120px;margin:0 auto}
+.weeks.mid .wk{text-align:center}
+.weeks.mid .wk .ico-tile{margin:0 auto}
+.weeks.mid .wk p{margin-left:auto;margin-right:auto;margin-bottom:0}
+.weeks.mid .wk:not(:last-child)::before,.weeks.mid .wk:not(:last-child)::after{left:calc(50% + 22px)}
 
 /* =========================================================================
    CHAPTER 8 · promises (+ reserved testimonial slot)
@@ -157,6 +163,10 @@ footer{border-top:1px solid var(--hair);padding:64px 0 40px}
   .wk .mono{margin:3px 0 6px}
   .wk .chip{justify-self:start}
   .wk:not(:last-child)::before,.wk:not(:last-child)::after{left:21px;top:44px;width:2px;height:calc(100% - 44px + var(--gap))}
+  .weeks.mid .wk{text-align:left}
+  .weeks.mid .wk .ico-tile{margin:0}
+  .weeks.mid .wk p{margin-left:0}
+  .weeks.mid .wk:not(:last-child)::before,.weeks.mid .wk:not(:last-child)::after{left:21px}
   .wk::before{transform:scaleY(0);transform-origin:top}
   .sched{grid-template-columns:1fr}.sched .foot{grid-column:1}
   .fgrid{grid-template-columns:1fr 1fr}

@@ -112,7 +112,7 @@ body.menu-open .msheet nav a,body.menu-open .msheet .ms-foot{opacity:1;transform
 
 /* ---- Icons (1.6px line set) ----------------------------------------------- */
 .ico{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.ico-tile{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--surface-2);border:1px solid var(--hair);color:var(--ink)}
+.ico-tile{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--surface-2);border:1px solid var(--hair);color:var(--ink)}
 
 /* ---- Tool logos ------------------------------------------------------------- */
 .logo-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:1px solid var(--hair);background:var(--surface);font-size:13px;color:var(--sub)}

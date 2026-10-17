@@ -58,17 +58,16 @@ export default function ContactPage() {
             <Eyebrow center>After you book</Eyebrow>
             <h2>What happens next.</h2>
           </div>
-          <ol className={styles.next}>
+          {/* the homepage's timeline (sections.css .weeks), centred to sit under the centred heading */}
+          <ol className="weeks mid">
             {NEXT.map(([icon, when, title, text], i) => (
-              <li key={title} className={`rv d${i + 1}x`}>
+              <li key={title} className={`wk rv d${i + 1}x`}>
                 <div className="ico-tile">
                   <Icon name={icon} />
                 </div>
-                <div>
-                  <span className={styles.when}>{when}</span>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </div>
+                <span className="mono">{when}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
               </li>
             ))}
           </ol>
