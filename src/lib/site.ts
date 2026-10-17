@@ -17,9 +17,9 @@ export const CONTACT_PATH = "/contact";
 export const bookHref = (pathname: string) => (pathname === "/" ? HOME_BOOK_HASH : CONTACT_PATH);
 
 // ---- WhatsApp: Contact page only, as a wa.me link. NEVER print the number. -------------------
-// The number is the mockup's +880 one; the owner may swap it for a US/UAE business number
-// (DECISIONS → still open, item 5).
-const WHATSAPP_NUMBER = "8801521707826";
+// The agency's WhatsApp Business number (Oct 2026). The owner chose to keep a +880 number for now
+// rather than a US/UAE one (DECISIONS → item 5).
+const WHATSAPP_NUMBER = "8801410047698";
 export const WHATSAPP_MESSAGE = "Hi Red Elevators! I’d like to talk about automating my rentals.";
 export const whatsappUrl = (msg: string = WHATSAPP_MESSAGE) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
