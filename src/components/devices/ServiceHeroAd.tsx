@@ -28,7 +28,7 @@ export function ServiceHeroAd() {
   return (
     <>
       <PhoneShell ref={ref}>
-        <div className="adcard">
+        <div className="postcard">
           <div className="h">
             <i />
             <div>

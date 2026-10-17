@@ -29,24 +29,24 @@
 .duo .hero-chip.hot i{animation:pulse 1.2s ease-in-out infinite}
 @keyframes pulse{50%{box-shadow:0 0 0 5px rgba(255,255,255,.12)}}
 /* phone: story-style ad → tap → booked direct */
-.adwrap{position:absolute;inset:0;z-index:6}
+.feedwrap{position:absolute;inset:0;z-index:6}
 .stories{position:absolute;left:14px;right:14px;top:56px;display:flex;gap:4px;z-index:8}
 .stories i{flex:1;height:2.5px;border-radius:2px;background:rgba(255,255,255,.22);overflow:hidden;position:relative}
 .stories i::after{content:"";position:absolute;inset:0;background:#fff;transform:scaleX(var(--f,0));transform-origin:left}
-.adcard{position:absolute;left:12px;right:12px;top:130px;z-index:7;border-radius:18px;overflow:hidden;background:#15151b;border:1px solid var(--hair-2);transition:opacity .45s,transform .6s var(--ease)}
-.adcard .h{display:flex;align-items:center;gap:8px;padding:10px 12px;font-size:12px}
-.adcard .h i{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#ff2d3b,#ff8a6b)}
-.adcard .h small{display:block;color:var(--dim);font-size:10.5px}
-.adcard .img{height:220px;position:relative;overflow:hidden}
-.adcard .img .cr{position:absolute;inset:0;opacity:0;transition:opacity .7s;background:var(--g)}
-.adcard .img .cr::before{content:"";position:absolute;inset:-10%;background:radial-gradient(60% 50% at 70% 30%,rgba(255,220,180,.35),transparent 70%);animation:kb 6s ease-in-out infinite alternate}
+.postcard{position:absolute;left:12px;right:12px;top:130px;z-index:7;border-radius:18px;overflow:hidden;background:#15151b;border:1px solid var(--hair-2);transition:opacity .45s,transform .6s var(--ease)}
+.postcard .h{display:flex;align-items:center;gap:8px;padding:10px 12px;font-size:12px}
+.postcard .h i{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#ff2d3b,#ff8a6b)}
+.postcard .h small{display:block;color:var(--dim);font-size:10.5px}
+.postcard .img{height:220px;position:relative;overflow:hidden}
+.postcard .img .cr{position:absolute;inset:0;opacity:0;transition:opacity .7s;background:var(--g)}
+.postcard .img .cr::before{content:"";position:absolute;inset:-10%;background:radial-gradient(60% 50% at 70% 30%,rgba(255,220,180,.35),transparent 70%);animation:kb 6s ease-in-out infinite alternate}
 @keyframes kb{to{transform:translate(-6%,4%) scale(1.08)}}
-.adcard .img .cr.on{opacity:1}
-.adcard .img .cr b{position:absolute;left:14px;bottom:14px;font-family:var(--display);font-size:24px;font-weight:600;line-height:1.05;letter-spacing:-.02em;transform:translateY(10px);opacity:0;transition:transform .7s var(--ease) .15s,opacity .6s .15s}
-.adcard .img .cr.on b{transform:none;opacity:1}
-.adcard .cta{display:flex;justify-content:space-between;align-items:center;padding:12px;font-size:12.5px;color:var(--sub)}
-.adcard .cta span{position:relative;padding:7px 12px;border-radius:8px;background:var(--red-btn);color:#fff;font-weight:600;transition:transform .15s}
-.adcard .cta span.press{transform:scale(.92)}
+.postcard .img .cr.on{opacity:1}
+.postcard .img .cr b{position:absolute;left:14px;bottom:14px;font-family:var(--display);font-size:24px;font-weight:600;line-height:1.05;letter-spacing:-.02em;transform:translateY(10px);opacity:0;transition:transform .7s var(--ease) .15s,opacity .6s .15s}
+.postcard .img .cr.on b{transform:none;opacity:1}
+.postcard .cta{display:flex;justify-content:space-between;align-items:center;padding:12px;font-size:12.5px;color:var(--sub)}
+.postcard .cta span{position:relative;padding:7px 12px;border-radius:8px;background:var(--red-btn);color:#fff;font-weight:600;transition:transform .15s}
+.postcard .cta span.press{transform:scale(.92)}
 .tap{position:absolute;z-index:9;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(255,255,255,.35);opacity:0;pointer-events:none}
 .tap.go{animation:tap .7s ease-out}
 @keyframes tap{0%{opacity:.9;transform:scale(.3)}100%{opacity:0;transform:scale(1.6)}}
@@ -57,7 +57,7 @@
 .booked .r b{color:var(--ink);font-weight:600}
 .booked .tagz{display:flex;gap:6px;flex-wrap:wrap}
 .booked .tagz span{font-size:11px;padding:4px 8px;border-radius:99px;background:rgba(143,212,176,.1);color:var(--green)}
-.ph.is-booked .adcard{opacity:0;transform:translateY(-20px) scale(.96)}
+.ph.is-booked .postcard{opacity:0;transform:translateY(-20px) scale(.96)}
 .ph.is-booked .booked{opacity:1;transform:none}
 .ph.is-booked .stories{opacity:0}
 /* laptop: the system picks the booking up, one row at a time */
@@ -303,8 +303,8 @@ $('#duo').innerHTML = `
   <div class="lap">${laptopShell(`<div class="con" style="grid-template-columns:1fr"><div class="bar"><div class="dots"><i></i><i></i><i></i></div><b>Your system</b><span class="ok"><i></i>All running</span></div>
     <div class="modules">${AUTO.map((s, i) => `<div class="card" data-m="${i}">${ico(s.icon)}<span>${s.title}</span><em>running</em></div>`).join('')}
     <div class="card feed">${ico('sun')}<span>Today: <b data-c="m">6</b> messages · <b data-c="b">1</b> booked direct · <b data-c="t">1</b> turnover done</span></div></div></div>`)}</div>
-  <div class="ph">${phoneShell(`<div class="adwrap"><div class="stories">${CREATIVES.map(() => '<i></i>').join('')}</div>
-    <div class="adcard"><div class="h"><i></i><div><b>Harbor Studio</b><small>Sponsored</small></div></div>
+  <div class="ph">${phoneShell(`<div class="feedwrap"><div class="stories">${CREATIVES.map(() => '<i></i>').join('')}</div>
+    <div class="postcard"><div class="h"><i></i><div><b>Harbor Studio</b><small>Sponsored</small></div></div>
       <div class="img">${CREATIVES.map(c => `<div class="cr" style="--g:${c[1]}"><b>${c[0]}</b></div>`).join('')}</div>
       <div class="cta"><span style="background:none;color:var(--sub);padding:0;font-weight:400">harborstudio.com</span><span class="bn">Book now</span></div></div>
     <div class="booked"><div class="ok">✓</div><h6>You’re booked, Sofia.</h6>
@@ -352,7 +352,7 @@ $('#duo').innerHTML = `
       requestAnimationFrame(() => { bars[i].style.transition = 'transform 1.7s linear'; bars[i].style.setProperty('--f', 1); });
     }));
     // 2 · a guest taps "Book now"
-    at(4900, () => { const aw = $('.adwrap', duo), r = rel(bn), pr = rel(aw), k = aw.offsetWidth / pr.w; tap.style.left = ((r.x - pr.x + r.w / 2) * k) + 'px'; tap.style.top = ((r.y - pr.y + r.h / 2) * k) + 'px'; tap.classList.remove('go'); void tap.offsetWidth; tap.classList.add('go'); bn.classList.add('press'); });
+    at(4900, () => { const aw = $('.feedwrap', duo), r = rel(bn), pr = rel(aw), k = aw.offsetWidth / pr.w; tap.style.left = ((r.x - pr.x + r.w / 2) * k) + 'px'; tap.style.top = ((r.y - pr.y + r.h / 2) * k) + 'px'; tap.classList.remove('go'); void tap.offsetWidth; tap.classList.add('go'); bn.classList.add('press'); });
     at(5150, () => bn.classList.remove('press'));
     // 3 · the booking travels to the system
     at(5300, () => { travel(900); chipB.classList.remove('hot'); });

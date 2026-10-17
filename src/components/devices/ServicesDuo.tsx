@@ -51,7 +51,7 @@ export function ServicesDuo() {
     const path = one<SVGPathElement>(".dwire path");
     const dot = one<SVGCircleElement>(".dwire circle");
     const mods = one<HTMLElement>(".modules");
-    const adwrap = one<HTMLElement>(".adwrap");
+    const feedwrap = one<HTMLElement>(".feedwrap");
     const C = { ...START };
 
     const bump = (k: keyof typeof C, by = 1) => {
@@ -101,6 +101,7 @@ export function ServicesDuo() {
     // A pulse from the phone's button to the laptop's booking row.
     const travel = (ms: number) => {
       const a = rel(bn), b = rel(rows[2]);
+      if (!a.w || !b.w) return; // an end isn't rendered (hidden or display:none): skip the wire rather than draw it from (0,0)
       const ax = a.x, ay = a.y + a.h / 2, bx = b.x + b.w * 0.55, by = b.y + b.h / 2;
       path.setAttribute("d", `M${ax} ${ay} C ${ax - 90} ${ay - 10}, ${bx + 60} ${by + 120}, ${bx} ${by}`);
       const len = path.getTotalLength(), t0 = performance.now();
@@ -147,7 +148,7 @@ export function ServicesDuo() {
       );
       // 2 · a guest taps "Book now"
       at(4900, () => {
-        const r = rel(bn), pr = rel(adwrap), k = adwrap.offsetWidth / pr.w;
+        const r = rel(bn), pr = rel(feedwrap), k = feedwrap.offsetWidth / pr.w;
         tap.style.left = (r.x - pr.x + r.w / 2) * k + "px";
         tap.style.top = (r.y - pr.y + r.h / 2) * k + "px";
         tap.classList.remove("go");
@@ -236,13 +237,13 @@ export function ServicesDuo() {
       </div>
       <div className="ph">
         <PhoneShell>
-          <div className="adwrap">
+          <div className="feedwrap">
             <div className="stories">
               {CREATIVES.map((c) => (
                 <i key={c[1]} />
               ))}
             </div>
-            <div className="adcard">
+            <div className="postcard">
               <div className="h">
                 <i />
                 <div>
