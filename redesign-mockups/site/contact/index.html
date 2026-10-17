@@ -79,7 +79,7 @@ body.opt-c .bstage .ph{display:none}
 /* B and C: the three steps as one slim line under the heading */
 body.opt-b .c-strip,body.opt-c .c-strip{display:flex;justify-content:center;gap:10px 28px;flex-wrap:wrap;margin:28px auto 0;max-width:900px;font-size:14px;color:var(--sub)}
 .c-strip span{display:flex;align-items:center;gap:8px}
-.c-strip b{font-family:var(--mono);font-weight:400;font-size:12px;color:var(--dim)}
+.c-strip svg{width:16px;height:16px;flex:none;color:var(--dim)}
 .c-strip i{width:18px;height:1px;background:var(--hair-2);display:inline-block;margin-left:20px}
 @media (max-width:1100px){
   body.opt-a .bstage,body.opt-b .bstage{grid-template-columns:minmax(0,1fr);gap:44px}
@@ -89,6 +89,111 @@ body.opt-b .c-strip,body.opt-c .c-strip{display:flex;justify-content:center;gap:
   body.opt-b .c-strip,body.opt-c .c-strip{flex-direction:column;align-items:flex-start;width:max-content;max-width:100%;gap:8px}
   .c-strip i{display:none}
 }
+/* ---- Summary section ideas (review: /_design/contact-summary/). ?take=now | plan | next | faq ---- */
+.tk-head{text-align:center;max-width:820px;margin:0 auto 44px}
+.tk-head h2{font-family:var(--display);font-weight:600;font-size:clamp(30px,3vw,44px);line-height:1.08;letter-spacing:-.025em;margin-top:16px}
+.tk-head .lead{margin:14px auto 0;max-width:520px}
+.tk-ex{text-align:center;margin-top:22px}
+.doc li{position:relative}
+.doc .eff{font-style:normal;font-family:var(--mono);font-size:11px;color:#6e6b76;white-space:nowrap}
+.take-plan .doc li{grid-template-columns:86px 1fr auto}
+.doc .mk{position:absolute;left:-46px;top:50%;translate:0 -50%;width:24px;height:24px;border-radius:50%;background:var(--red,#e51e2b);color:#fff;font:600 12px/24px var(--mono);text-align:center;font-style:normal;box-shadow:0 0 0 4px #f6f3ee}
+.doc .mk.r{left:auto;right:-46px}
+.doc .sig{position:relative}
+/* plan: annotated summary */
+.pl-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px) minmax(0,1fr);gap:56px;align-items:center}
+.pl-grid .doc{max-width:none;justify-self:stretch}
+.pl-grid .tk-ex{grid-column:1/-1;margin-top:-30px}
+.pl-notes{display:grid;gap:44px}
+.pl-note{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+.pl-note i{width:24px;height:24px;border-radius:50%;background:var(--red,#e51e2b);color:#fff;font:600 12px/24px var(--mono);text-align:center;font-style:normal;margin-top:2px}
+.pl-note h4{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:-.01em;line-height:1.3}
+.pl-note p{font-size:14px;color:var(--sub);line-height:1.5;margin-top:4px}
+/* next: what happens after you book */
+.nx-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,520px);gap:64px;align-items:center;max-width:1100px;margin:0 auto}
+.nx{list-style:none;padding:0;display:grid;gap:0;position:relative}
+.nx li{display:grid;grid-template-columns:44px 1fr;gap:18px;position:relative;padding-bottom:30px}
+.nx li:last-child{padding-bottom:0}
+.nx li:not(:last-child)::before{content:"";position:absolute;left:21px;top:48px;bottom:4px;width:1px;background:linear-gradient(var(--hair-2),transparent)}
+.nx .when{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em}
+.nx h4{font-family:var(--display);font-size:19px;font-weight:600;letter-spacing:-.015em;margin-top:3px}
+.nx p{font-size:14.5px;color:var(--sub);margin-top:3px;line-height:1.5}
+.nx li.last .ico-tile{border-color:rgba(229,30,43,.55);color:#ff6b74}
+/* faq: summary and questions together */
+.fq-grid{display:grid;grid-template-columns:minmax(0,500px) minmax(0,1fr);gap:64px;align-items:start}
+.fq-grid .doc{max-width:none;position:sticky;top:110px}
+.fq-grid .faq summary{font-size:18px;padding:18px 0}
+@media (max-width:1100px){.pl-grid{grid-template-columns:minmax(0,1fr) minmax(0,480px) minmax(0,1fr);gap:32px}}
+@media (max-width:900px){
+  .pl-grid,.nx-grid,.fq-grid{grid-template-columns:minmax(0,1fr);gap:36px}
+  .pl-grid .doc{order:-1}
+  .pl-notes{gap:22px}
+  .doc .mk{left:-34px;width:22px;height:22px;line-height:22px;font-size:11px}
+  .doc .mk.r{left:auto;right:-34px}
+  .take-plan .doc{padding:20px 34px}
+  .take-plan .doc .mk{left:-29px}
+  .take-plan .doc .mk.r{left:auto;right:-29px}
+  .pl-grid .tk-ex{margin-top:-24px}
+  .doc .dh>span{font-size:10px;white-space:nowrap}
+  .pl-notes{display:contents}
+  .pl-note{order:var(--n)}
+  .fq-grid .doc{position:static}
+  .nx-grid .doc{order:2}
+}
+@media (max-width:520px){.take-plan .doc li{grid-template-columns:72px 1fr}.take-plan .doc .eff{grid-column:2}.doc li{grid-template-columns:72px 1fr}}
+/* ---- Summary card style (review: /_design/contact-summary/). &card=paper | dark | mail ---- */
+.doc.dk{--card:#17161c;color:var(--ink);border:1px solid transparent;transform:none;
+  background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(140deg,rgba(139,147,255,.75),rgba(255,255,255,.08) 34%,rgba(255,255,255,.05) 62%,rgba(255,90,78,.7)) border-box;
+  box-shadow:0 40px 90px -40px rgba(0,0,0,.95),0 -20px 60px -40px rgba(124,134,255,.35)}
+.doc.dk .dh,.doc.dk .sig{border-color:var(--hair)}
+.doc.dk .dh>span,.doc.dk .sub,.doc.dk .sig,.doc.dk .eff{color:var(--dim)}
+.doc.dk li span{color:#d9d9de}
+.doc.dk li b{border:1px solid;white-space:nowrap;letter-spacing:.04em}
+.doc.dk li{grid-template-columns:92px 1fr}
+.take-plan .doc.dk li{grid-template-columns:92px 1fr auto}
+@media (max-width:520px){.doc.dk li,.take-plan .doc.dk li{grid-template-columns:78px 1fr}.doc.dk li b{font-size:10px;padding:2px 4px}}
+.doc.dk li b.f{color:#ff8a80;border-color:rgba(255,90,78,.5);background:rgba(255,90,78,.12)}
+.doc.dk li b.t{color:#bfc3ff;border-color:rgba(139,147,255,.42);background:rgba(139,147,255,.1)}
+.doc.dk li b.l{color:var(--sub);border-color:var(--hair-2);background:transparent}
+.doc.dk li b.g{color:#9fe0bf;border-color:rgba(143,212,176,.42);background:rgba(143,212,176,.1)}
+.doc.dk .mk{box-shadow:0 0 0 4px #17161c}
+/* mail: the same plan as the email it arrives in */
+.doc.mail .dh,.doc.mail h4{display:none}
+.doc .mw{display:flex;align-items:center;gap:6px;padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid var(--hair)}
+.doc .mw i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.14)}
+.doc .mw span{margin-left:8px;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.04em}
+.doc .mh{display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center}
+.doc .mh .av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid var(--hair-2)}
+.doc .mh .av svg{width:17px;height:16px}
+.doc .mh b{display:block;font-size:14px;font-weight:600}
+.doc .mh small{font-size:12.5px;color:var(--dim)}
+.doc .mh time{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.doc .subj{font-family:var(--display);font-size:21px;font-weight:500;letter-spacing:-.02em;margin:16px 0 4px;color:var(--ink)}
+@media (max-width:520px){.doc .subj{font-size:18px}.doc .mh time{display:none}}
+/* ---- No card: the section without the example summary (&card=none) ---- */
+.pl-four{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.pt{padding:24px;border-radius:20px;border:1px solid transparent;
+  background:linear-gradient(#17161c,#17161c) padding-box,linear-gradient(140deg,rgba(139,147,255,.55),rgba(255,255,255,.07) 38%,rgba(255,255,255,.05) 62%,rgba(255,90,78,.5)) border-box}
+.pt .ico-tile{margin-bottom:22px}
+.pt h4{font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:-.015em;line-height:1.25}
+.pt p{font-size:14px;color:var(--sub);line-height:1.5;margin-top:6px}
+.nx.row{grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;max-width:1120px;margin:0 auto}
+.nx.row li{grid-template-columns:minmax(0,1fr);gap:18px;padding-bottom:0;align-content:start}
+.nx.row li:not(:last-child)::before{left:62px;right:-14px;top:22px;bottom:auto;width:auto;height:1px;background:linear-gradient(90deg,var(--hair-2),rgba(255,255,255,.03))}
+.fq-pts{list-style:none;padding:0;display:grid;gap:22px;position:sticky;top:110px}
+.fq-pts li{display:grid;grid-template-columns:44px 1fr;gap:16px}
+.fq-pts h4{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:-.01em;line-height:1.3}
+.fq-pts p{font-size:14px;color:var(--sub);line-height:1.5;margin-top:3px}
+.fq-pts .lbl{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em;margin-bottom:4px;display:block}
+@media (max-width:1000px){.pl-four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .nx.row{grid-template-columns:minmax(0,1fr);gap:0;max-width:520px}
+  .nx.row li{grid-template-columns:44px 1fr;gap:18px;padding-bottom:30px}
+  .nx.row li:last-child{padding-bottom:0}
+  .nx.row li:not(:last-child)::before{left:21px;right:auto;top:48px;bottom:4px;width:1px;height:auto;background:linear-gradient(var(--hair-2),transparent)}
+  .fq-pts{position:static}
+}
+@media (max-width:560px){.pl-four{grid-template-columns:minmax(0,1fr)}.pt{display:grid;grid-template-columns:44px 1fr;gap:0 16px;padding:20px}.pt .ico-tile{margin:0;grid-row:span 2}}
 </style>
 </head>
 <body data-page="contact">
@@ -144,7 +249,7 @@ body.opt-b .c-strip,body.opt-c .c-strip{display:flex;justify-content:center;gap:
     </div>
   </section>
 
-  <section class="wrap section" style="padding-top:20px">
+  <section class="wrap section" style="padding-top:20px" id="faqSec">
     <div class="head"><div class="left rv"><div class="eyebrow"><i></i>Questions</div><h2 class="d2" style="margin-top:18px">About the call.</h2></div></div>
     <div class="faq rv" id="faq"></div>
   </section>
@@ -158,7 +263,7 @@ const OPT = ['current', 'a', 'b', 'c'].includes(new URLSearchParams(location.sea
 document.body.classList.add(`opt-${OPT}`);
 const STEPS = [['message', 'You tell us how you run things', 'Your units, your tools, where the hours go.'], ['audit', 'We point out what to fix first', 'Usually one or two systems pay off fastest.'], ['mail', 'You get a written summary', 'Yours to keep, whether we work together or not.']];
 if (OPT !== 'current') $('#tz').textContent = 'Any day, any hour · times are shown in your time zone';
-if (OPT === 'b' || OPT === 'c') $('#strip').innerHTML = STEPS.map((s, i) => `<span><b>0${i + 1}</b>${s[1]}${i < 2 ? '<i></i>' : ''}</span>`).join('');
+if (OPT === 'b' || OPT === 'c') $('#strip').innerHTML = STEPS.map((s, i) => `<span>${ico(s[0])}${s[1]}${i < 2 ? '<i></i>' : ''}</span>`).join('');
 if (OPT === 'a' || OPT === 'b') {
   // the summary moves beside the booker; the phone and the 'take away' section go
   const doc = $('#doc'); doc.classList.add('sm'); doc.classList.remove('rv', 'd2x');
@@ -184,6 +289,86 @@ $('#docMark').innerHTML = '<img src="/assets/logo-lockup-light.svg" alt="Red Ele
 new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { $('#doc').classList.add('in'); o.disconnect(); } }), { threshold: .4 }).observe($('#doc'));
 $('#faq').innerHTML = [['Is the call really free?', 'Yes. Thirty minutes, no obligation, and you keep the written summary.'], ['I only have one or two properties. Is this for me?', 'Yes. Most systems start small and grow with you. Two units or two hundred, it’s the same system.'], ['Do you work with clients in the US and the UAE?', 'Yes. Calls are booked in your own time zone, and pricing is available in US dollars or UAE dirhams.'], ['What should I bring?', 'Nothing formal. It helps to know which tools you use, like your PMS and booking platforms.']]
   .map((f, i) => `<details${i === 0 ? ' open' : ''}><summary>${f[0]}<i>+</i></summary><p>${f[1]}</p></details>`).join('');
+// ---- Summary section ideas (review: /_design/contact-summary/). ?take=now | none | plan | next | faq
+// Chosen 17 Oct 2026: next (the "What happens next" timeline) with &card=none; the rest stay for reference.
+const TAKE = (t => ['now', 'none', 'plan', 'next', 'faq'].includes(t) ? t : 'next')(new URLSearchParams(location.search).get('take'));
+document.body.classList.add(`take-${TAKE}`);
+if (TAKE === 'none') {
+  // no summary section: the plan's details move into the FAQ
+  $('#take').remove();
+  $('#chat').style.paddingTop = '110px';
+  $('#faq').insertAdjacentHTML('beforeend', '<details><summary>What do I get from the call?<i>+</i></summary><p>A clear picture of what to automate first. Within a day you get a one-page written plan: what to fix first, what can wait, and what each step takes. It’s yours to keep, whether we work together or not.</p></details><details><summary>What happens after I book?<i>+</i></summary><p>You get an invite with a Google Meet link right away, and a reminder 24 hours and 1 hour before the call.</p></details>');
+} else if (TAKE !== 'now') {
+  const take = $('#take'), doc = $('#doc'), chat = $('#chat');
+  chat.before(take); // the reason to book comes before the easy way out
+  take.style.paddingTop = '110px';
+  chat.style.paddingTop = '40px';
+  doc.classList.remove('d2x');
+  const ex = '<p class="mono tk-ex">Example summary · illustrative</p>';
+  if (TAKE === 'plan') {
+    ['2–3 wks', '~1 wk', '~4 wks', 'after the site', ''].forEach((e, i) => e && doc.querySelectorAll('li')[i].insertAdjacentHTML('beforeend', `<em class="eff">${e}</em>`));
+    // left edge: 1 (fix first), 3 (later) · right edge: 2 (setup times), 4 (yours to keep)
+    [[0, 1, ''], [1, 2, ' r'], [3, 3, '']].forEach(([row, n, side]) => doc.querySelectorAll('li')[row].insertAdjacentHTML('afterbegin', `<i class="mk${side}">${n}</i>`));
+    $('.sig', doc).insertAdjacentHTML('afterbegin', '<i class="mk r">4</i>');
+    const note = (n, h, t, d) => `<div class="pl-note rv d${d}x" style="--n:${n}"><i>${n}</i><div><h4>${h}</h4><p>${t}</p></div></div>`;
+    take.innerHTML = `<div class="tk-head rv"><div class="eyebrow" style="justify-content:center"><i></i>What you get</div><h2>Your plan, within a day of the call.</h2><p class="lead">One page, written for your rentals: what to fix first, what can wait, and what each step takes.</p></div>
+      <div class="pl-grid"><div class="pl-notes">${note(1, 'Ranked by the hours you get back', 'We start where most of your time goes. For most hosts, that’s guest messages at night.', 1)}${note(3, 'What can wait, and why', 'Nothing gets pushed on you before it pays off.', 3)}</div>
+      <div class="pl-doc"></div>
+      <div class="pl-notes">${note(2, 'What each step takes', 'Setup time for every item, so you can plan around your busy season.', 2)}${note(4, 'Yours to keep', 'Act on it with us, with someone else, or on your own.', 4)}</div>${ex}</div>`;
+    $('.pl-doc', take).replaceWith(doc);
+  } else if (TAKE === 'next') {
+    const step = ([icon, when, h, t], i, all) => `<li class="rv d${i + 1}x${i === all.length - 1 ? ' last' : ''}"><div class="ico-tile">${ico(icon)}</div><div><span class="when">${when}</span><h4>${h}</h4><p>${t}</p></div></li>`;
+    take.innerHTML = `<div class="tk-head rv"><div class="eyebrow" style="justify-content:center"><i></i>After you book</div><h2>What happens next.</h2></div>
+      <div class="nx-grid"><ol class="nx">${[['check', 'Right away', 'Your invite and Meet link', 'Google Meet, straight to your inbox and calendar.'],
+        ['clock', '24 hours and 1 hour before', 'A short reminder', 'By email, so the call doesn’t slip.'],
+        ['message', 'The call · 30 minutes', 'We map your setup', 'Your rentals, your tools, and where the hours go.'],
+        ['mail', 'Within a day', 'Your written plan', 'What to fix first, what can wait, and what it takes. Yours to keep.']].map(step).join('')}</ol>
+      <div><div class="nx-doc"></div>${ex}</div></div>`;
+    $('.nx-doc', take).replaceWith(doc);
+  } else {
+    const faq = $('#faq');
+    faq.insertAdjacentHTML('beforeend', '<details><summary>What happens after I book?<i>+</i></summary><p>You get an invite with a Google Meet link right away, and a reminder 24 hours and 1 hour before the call. Your written plan arrives within a day of it.</p></details>');
+    take.innerHTML = `<div class="tk-head rv"><div class="eyebrow" style="justify-content:center"><i></i>Before you book</div><h2>What you get, and what people ask.</h2></div>
+      <div class="fq-grid"><div><div class="fq-doc"></div>${ex}</div><div class="fq-faq rv d1x"></div></div>`;
+    $('.fq-doc', take).replaceWith(doc);
+    $('.fq-faq', take).replaceWith(faq);
+    $('#faqSec').remove();
+  }
+}
+// ---- Summary card style: &card=paper | dark | mail | none
+const CARD = (c => ['paper', 'dark', 'mail', 'none'].includes(c) ? c : 'none')(new URLSearchParams(location.search).get('card'));
+if (CARD === 'none' && ['plan', 'next', 'faq'].includes(TAKE)) {
+  // the same section without the example summary card
+  const take = $('#take');
+  const PTS = [['audit', 'Ranked by the hours you get back', 'We start where most of your time goes. For most hosts, that’s guest messages at night.'],
+    ['clock', 'What each step takes', 'Setup time for every item, so you can plan around your busy season.'],
+    ['arrow', 'What can wait, and why', 'Nothing gets pushed on you before it pays off.'],
+    ['key', 'Yours to keep', 'Act on it with us, with someone else, or on your own.']];
+  if (TAKE === 'plan') {
+    take.innerHTML = `<div class="tk-head rv"><div class="eyebrow" style="justify-content:center"><i></i>What you get</div><h2>Your plan, within a day of the call.</h2><p class="lead">One page, written for your rentals. Here’s what’s in it.</p></div>
+      <div class="pl-four">${PTS.map(([i, h, t], n) => `<div class="pt rv d${n + 1}x"><div class="ico-tile">${ico(i)}</div><h4>${h}</h4><p>${t}</p></div>`).join('')}</div>`;
+  } else if (TAKE === 'next') {
+    $('.nx', take).classList.add('row');
+    $('.nx-grid', take).replaceWith($('.nx', take));
+  } else {
+    const faq = $('#faq');
+    take.querySelector('.fq-grid').innerHTML = `<div class="rv"><span class="lbl" style="font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em">In your written plan</span><ul class="fq-pts" style="margin-top:18px">${PTS.map(([i, h, t]) => `<li><div class="ico-tile">${ico(i)}</div><div><h4>${h}</h4><p>${t}</p></div></li>`).join('')}</ul></div>`;
+    take.querySelector('.fq-grid').append(faq);
+  }
+}
+if ((CARD === 'dark' || CARD === 'mail') && $('#doc')) {
+  const doc = $('#doc');
+  doc.classList.add('dk');
+  $('#docMark').innerHTML = '<img src="/assets/logo-lockup-dark.svg" alt="Red Elevators" style="height:22px">';
+  if (CARD === 'mail') {
+    doc.classList.add('mail');
+    doc.insertAdjacentHTML('afterbegin', `<div class="mw"><i></i><i></i><i></i><span>Inbox</span></div>
+      <div class="mh"><span class="av">${MARK}</span><div><b>Red Elevators</b><small>to you · the day after your call</small></div><time>Nov 12 · 9:12 AM</time></div>
+      <p class="subj">Your plan: Harbor Rentals · 6 units</p>`);
+    const sig = $('.sig', doc).querySelectorAll('span');
+    sig[0].textContent = 'Reply with any questions';
+  }
+}
 reveal();
 </script>
 </body>

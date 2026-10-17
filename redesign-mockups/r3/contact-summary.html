@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact summary section · design review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&family=Hanken+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css?v=35"><link rel="stylesheet" href="sections.css?v=35"><link rel="stylesheet" href="themes.css?v=35">
+<script src="theme.js?v=35"></script>
+<style>
+:root{--bg:#0a0b14}
+body{background:var(--bg)}
+.rvw{padding:40px 0 60px}
+.rvw h1{font-family:var(--display);font-size:clamp(28px,4vw,40px);font-weight:600;letter-spacing:-.02em;margin-top:14px}
+.rvw .intro{color:var(--sub);max-width:720px;margin-top:10px;line-height:1.55}
+.bar{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;margin:28px 0 16px}
+.seg{display:inline-flex;gap:4px;padding:4px;border:1px solid var(--hair-2);border-radius:12px;background:var(--surface)}
+.seg button{font:inherit;font-size:14px;color:var(--sub);padding:8px 14px;border-radius:9px;border:0;background:none;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface-2);color:var(--ink)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:start}
+.stage{border:1px solid var(--hair-2);border-radius:16px;overflow:hidden;background:#05060c;position:relative}
+.stage .vp{position:relative;transform-origin:top left}
+.stage iframe{display:block;border:0;background:var(--bg)}
+.stage .fold-unused{position:absolute;left:0;right:0;border-top:1px dashed rgba(255,94,94,.75);pointer-events:none}
+.stage .fold-unused span{position:absolute;right:8px;top:-22px;font-family:var(--mono);font-size:11px;color:#ff8a8a;background:#05060c;padding:2px 6px;border-radius:6px}
+.meta{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:10px}
+.notes{position:sticky;top:20px;border:1px solid var(--hair-2);border-radius:16px;padding:20px;background:var(--surface)}
+.notes h2{font-family:var(--display);font-size:20px;font-weight:600;letter-spacing:-.01em}
+.notes .what{color:var(--sub);font-size:14px;line-height:1.5;margin-top:6px}
+.notes h3{font-family:var(--mono);font-size:11.5px;font-weight:400;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);margin:18px 0 8px}
+.notes ul{list-style:none;display:grid;gap:8px;padding:0}
+.notes li{font-size:13.5px;line-height:1.45;padding-left:18px;position:relative}
+.notes li::before{position:absolute;left:0;top:0}
+.notes .pro li::before{content:"+";color:#7ddca2}
+.notes .con li::before{content:"–";color:#ff8a8a}
+.notes .open{margin-top:16px;font-size:13px}
+.notes .open a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+@media (max-width:1000px){.cols{grid-template-columns:minmax(0,1fr)}.notes{position:static}}
+.stage iframe{display:block;border:0;background:var(--bg)}
+.jump{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.jump button{font:inherit;font-size:13px;color:var(--sub);padding:7px 12px;border-radius:9px;border:1px solid var(--hair-2);background:var(--surface);cursor:pointer}
+.jump button:hover{color:var(--ink)}
+.order{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:14px;line-height:1.6}
+</style>
+</head>
+<body>
+<main class="wrap rvw">
+  <div class="eyebrow"><i></i>Design review · not part of the public site</div>
+  <h1>Contact page: the section under the calendar</h1>
+  <p class="intro">Each version is the whole Contact page in the chosen layout (calendar on its own). The frame is a real screen at that size, so scroll inside it. It opens at the section being compared; use the buttons under it to jump around.</p>
+
+  <div class="bar">
+    <div class="seg" id="opts" role="group" aria-label="Version"></div>
+    <div class="seg" id="sizes" role="group" aria-label="Screen size"></div>
+  </div>
+  <div class="bar" style="margin-top:0"><div class="seg" id="cards" role="group" aria-label="Card style"></div></div>
+
+  <div class="cols">
+    <div>
+      <div class="stage" id="stage"><div class="vp" id="vp"><iframe id="frame" title="Contact page preview"></iframe></div></div>
+      <div class="jump"><button type="button" data-to="top">Top of page</button><button type="button" data-to="take">The section</button><button type="button" data-to="chat">Ask us anything first</button></div>
+      <p class="meta" id="meta"></p>
+    </div>
+    <aside class="notes" id="notes"></aside>
+  </div>
+</main>
+<script>
+const OPTS = {
+  now: {
+    name: 'Now: as it is today',
+    order: 'Calendar → Ask us anything first → What you take away → Questions',
+    what: 'The current section: a large headline on the left, the example summary on the right, placed after the WhatsApp and email options.',
+    pro: ['Already built.', 'The summary card itself looks good.'],
+    con: ['Says “you keep the written summary” for the fifth time on the page.', 'The text promises “what it would take”; the card doesn’t show it.', 'Its headline is as loud as the page title.', 'Argues for booking after offering the easy way out.'],
+  },
+  none: {
+    name: 'No section',
+    order: 'Calendar → Ask us anything first → Questions',
+    what: 'The summary section is gone. The page is the heading, the three steps, the calendar, the other ways to reach us, and the FAQ. What the plan contains moves into two new questions: “What do I get from the call?” and “What happens after I book?”',
+    pro: ['The cleanest page: nothing competes with the calendar.', 'The written-plan promise is still made three times (heading line, step 3, Cal description) and explained in the FAQ.', 'Hesitant visitors reach WhatsApp and email straight after the calendar.', 'Nothing illustrative or made-up on the page.', 'Least to build and maintain.'],
+    con: ['Shorter page: about two screens on desktop.', 'No picture of the plan: visitors imagine it from the words.'],
+  },
+  plan: {
+    name: '1 · Annotated plan',
+    order: 'Calendar → Your plan, within a day → Ask us anything first → Questions',
+    what: 'The summary card in the middle, with four numbered notes around it explaining what each part is for. Each row now shows how long it takes to set up.',
+    pro: ['Explains the deliverable instead of repeating the promise.', 'Shows “what it takes” on the card, so text and card match.', 'Calm: the notes appear once, then everything stays still.', 'Reason to book comes before the WhatsApp option.'],
+    con: ['The most text of the three ideas.', 'Setup times on the card are examples; real calls will vary (it stays labelled illustrative).'],
+  },
+  next: {
+    name: '2 · After you book',
+    order: 'Calendar → What happens next → Ask us anything first → Questions',
+    what: 'A short timeline of what happens once someone books: invite and Meet link, reminders, the call, then the written plan, with the summary card beside it.',
+    pro: ['Answers the nervous question: “what happens after I click confirm?”', 'Every step is true today (the Cal.com setup sends the invite and both reminders).', 'Good for a 24/7 calendar booked by strangers.'],
+    con: ['Overlaps the three steps under the page heading.', 'The summary card becomes a supporting picture, not the hero.'],
+  },
+  faq: {
+    name: '3 · Plan + questions',
+    order: 'Calendar → What you get, and what people ask → Ask us anything first',
+    what: 'The summary card and the FAQ side by side as one section, with one new question: “What happens after I book?” The separate Questions section goes.',
+    pro: ['Shortest page: two weak sections become one.', 'Questions sit right next to the proof of what you get.'],
+    con: ['Less to look at: the card is static and the questions are text.', 'On phones it’s a long stack (card, then questions).'],
+  },
+};
+const CARDS = {
+  none: { label: 'No card', name: 'Card: none', note: 'The section without the example summary. Versions 1–3 keep their content in the site’s own cards, timeline or list, with nothing made-up on the page. (“Now” keeps its card.)' },
+  paper: { label: 'Card: paper (now)', name: 'Card: paper (now)', note: 'The current cream “printed page”. The brightest thing on the page, and a look nothing else on the site uses.' },
+  dark: { label: 'Dark', name: 'Card: dark', note: 'Same content in the site’s own card style: dark glass, the indigo-to-coral gradient border, tags in the pillar colours. Sits with the rest of the page instead of on top of it.' },
+  mail: { label: 'Email', name: 'Card: email', note: 'The same plan shown as the email it arrives in: sender, subject, time. Ties to “within a day” and feels like something real you receive, still in the dark style.' },
+};
+const SIZES = { desktop: [1440, 900, 'Desktop 1440×900'], laptop: [1280, 720, 'Laptop 1280×720'], phone: [390, 844, 'Phone 390×844'] };
+const q = new URLSearchParams(location.search);
+let card = CARDS[q.get('card')] ? q.get('card') : 'none';
+let opt = OPTS[q.get('opt')] ? q.get('opt') : 'plan', size = SIZES[q.get('size')] ? q.get('size') : 'desktop';
+const $ = s => document.querySelector(s);
+
+function seg(el, items, cur, onPick) {
+  el.innerHTML = Object.entries(items).map(([k, v]) => `<button type="button" data-k="${k}" aria-pressed="${k === cur}">${Array.isArray(v) ? v[2] : v.label ? v.label : v.name.split(':')[0].split(' · ')[0] === v.name ? v.name : v.name.split(':')[0]}</button>`).join('');
+  el.onclick = e => { const b = e.target.closest('button'); if (b) onPick(b.dataset.k); };
+}
+function fit() {
+  const [w, h] = SIZES[size], frame = $('#frame'), stage = $('#stage'), vp = $('#vp');
+  const avail = stage.clientWidth, k = Math.min(1, avail / w);
+  frame.style.width = w + 'px'; frame.style.height = h + 'px';
+  vp.style.width = w + 'px'; vp.style.transform = `scale(${k})`;
+  stage.style.height = h * k + 'px';
+  vp.style.marginLeft = size === 'phone' ? Math.max(0, (avail - w * k) / 2) + 'px' : '0';
+  $('#meta').textContent = `${SIZES[size][2]} · shown at ${Math.round(k * 100)}% · scroll inside the frame`;
+}
+function jump(to) {
+  const win = $('#frame').contentWindow, d = $('#frame').contentDocument;
+  if (!win || !d) return;
+  if (to === 'top') return win.scrollTo({ top: 0, behavior: 'smooth' });
+  const el = d.getElementById(to) || (to === 'take' ? d.getElementById('chat') : null);
+  if (el) win.scrollTo({ top: el.getBoundingClientRect().top + win.scrollY - 60, behavior: 'smooth' });
+}
+document.querySelector('.jump').onclick = e => { const b = e.target.closest('button'); if (b) jump(b.dataset.to); };
+$('#frame').addEventListener('load', () => setTimeout(() => jump('take'), 600));
+function render() {
+  seg($('#opts'), OPTS, opt, k => { opt = k; render(); });
+  seg($('#sizes'), SIZES, size, k => { size = k; render(); });
+  seg($('#cards'), CARDS, card, k => { card = k; render(); });
+  const o = OPTS[opt];
+  $('#notes').innerHTML = `<h2>${o.name}</h2><p class="what">${o.what}</p><p class="order">Page order: ${o.order}</p><h3>${CARDS[card].name}</h3><p class="what" style="margin-top:0">${CARDS[card].note}</p><h3>Good</h3><ul class="pro">${o.pro.map(x => `<li>${x}</li>`).join('')}</ul><h3>Weaker</h3><ul class="con">${o.con.map(x => `<li>${x}</li>`).join('')}</ul><p class="open"><a href="contact.html?opt=c&take=${opt}&card=${card}#take" target="_blank" rel="noopener">Open this version full size ↗</a></p>`;
+  const src = `contact.html?opt=c&take=${opt}&card=${card}`;
+  if ($('#frame').dataset.src !== src + size) { $('#frame').dataset.src = src + size; $('#frame').src = src; }
+  history.replaceState(null, '', `?opt=${opt}&size=${size}&card=${card}`);
+  fit();
+}
+addEventListener('resize', fit);
+render();
+</script>
+</body>
+</html>
