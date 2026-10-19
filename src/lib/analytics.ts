@@ -50,6 +50,7 @@ export const EVENTS = {
   assistantHandoff: "Assistant hand-off", // the assistant passed the visitor to the team (lead saved)
   assistantFeedback: "Assistant feedback", // { rating: up | down }
   assistantEmailPlan: "Assistant email plan",
+  assistantWide: "Assistant size", // desktop bigger-chat toggle: { wide }
 } as const;
 
 export function track(name: string, data?: EventData, attempt = 0) {

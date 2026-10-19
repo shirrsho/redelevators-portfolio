@@ -18,6 +18,8 @@ const PATHS = {
   down: '<path d="M7 13V4H4.5A1.5 1.5 0 0 0 3 5.5v6A1.5 1.5 0 0 0 4.5 13z"/><path d="M7 13l4 7.5a2 2 0 0 0 3.4-1.9L13.5 15H19a2 2 0 0 0 2-2.3l-1.2-7A2 2 0 0 0 17.8 4H7"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
   refresh: '<path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4h-4"/>',
+  expand: '<path d="M14 4h6v6M20 4l-6.5 6.5M10 20H4v-6M4 20l6.5-6.5"/>',
+  shrink: '<path d="M20 4l-6 6M14 5v5h5M4 20l6-6M10 19v-5H5"/>',
 } as const;
 export type ReaIconName = keyof typeof PATHS;
 

@@ -44,6 +44,8 @@ export type State = {
   open: boolean;
   /** Phones: the sheet drops to half height so the page shows ("Show me"). */
   half: boolean;
+  /** Desktop: the bigger panel. A per-browser preference (localStorage), not part of the chat. */
+  wide: boolean;
   /** Where the panel was opened from (analytics). */
   source: string;
   config: Config | null;
@@ -68,6 +70,7 @@ const INITIAL: State = {
   booked: false,
   open: false,
   half: false,
+  wide: false,
   source: "",
   config: null,
   configError: false,
@@ -123,8 +126,10 @@ function persist() {
 export function hydrate(opts: { reopen: boolean }) {
   if (state.hydrated) return;
   let saved: Partial<State> = {};
+  let wide = false;
   try {
     saved = JSON.parse(sessionStorage.getItem(KEY) ?? "{}") ?? {};
+    wide = localStorage.getItem(WIDE_KEY) === "1";
   } catch {}
   set({
     hydrated: true,
@@ -135,6 +140,7 @@ export function hydrate(opts: { reopen: boolean }) {
     ended: saved.ended === true,
     emailSent: saved.emailSent === true,
     booked: saved.booked === true,
+    wide,
   });
   if (opts.reopen && saved.open) open("restore");
 }
@@ -166,6 +172,16 @@ export function close() {
 }
 export const toggle = (source?: string) => (state.open ? close() : open(source));
 export const setHalf = (half: boolean) => set({ half });
+
+const WIDE_KEY = "rea:wide";
+/** The bigger chat on desktop; remembered in this browser. */
+export function setWide(wide: boolean) {
+  set({ wide });
+  try {
+    localStorage.setItem(WIDE_KEY, wide ? "1" : "0");
+  } catch {}
+  track(EVENTS.assistantWide, { wide });
+}
 export const setDraft = (draft: string) => set({ draft });
 
 /** The sales-link page sets who sent the visitor (stored with a new conversation). */

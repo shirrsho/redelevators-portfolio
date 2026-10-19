@@ -113,6 +113,18 @@ html.rea-open .rea-dock,body.menu-open .rea-dock{transform:translateY(calc(100% 
 .rea-root.open .rea-panel{opacity:1;transform:none;visibility:visible;transition:opacity .28s var(--ease),transform .38s var(--ease)}
 .rea-panel button:disabled{cursor:default}
 
+/* Bigger chat (desktop): a wider panel, with the conversation kept to a readable column. Phones already get a
+   near-full-height sheet, so the toggle only exists above 900px. */
+.rea-icon-btn.rea-size{display:none}
+@media (min-width:901px){
+  .rea-icon-btn.rea-size{display:grid}
+  .rea-root.wide .rea-panel{width:clamp(420px,52vw,880px)}
+  .rea-root.wide .rea-log{padding-inline:max(16px,calc((100% - 700px) / 2))}
+  .rea-root.wide .rea-plan{margin-inline:max(12px,calc((100% - 724px) / 2))}
+  .rea-root.wide .rea-cmp{padding-inline:max(12px,calc((100% - 724px) / 2))}
+  .rea-root.wide .rea-msg{font-size:15.5px}
+}
+
 /* header */
 .rea-hd{display:flex;align-items:center;gap:11px;padding:13px 12px 12px 14px;border-bottom:1px solid var(--hair)}
 .rea-hd-txt{flex:1;min-width:0}

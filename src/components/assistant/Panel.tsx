@@ -7,7 +7,7 @@ import { Mark, ReaIcon } from "./icons";
 import { Markdown } from "./Markdown";
 import { MessageView, openBooking } from "./Message";
 import { clearSpotlight } from "./spotlight";
-import { close, ensureWelcome, newChat, retry, send, setDraft, setHalf, talkToPerson, useAssistant, type Plan } from "./store";
+import { close, ensureWelcome, newChat, retry, send, setDraft, setHalf, setWide, talkToPerson, useAssistant, type Plan } from "./store";
 import { mountTurnstile, unmountTurnstile } from "./turnstile";
 
 // The panel: a side panel on desktop, a bottom sheet on phones (decided 18 Oct), or `inline` inside the
@@ -94,7 +94,7 @@ export default function Panel({ inline = false }: { inline?: boolean }) {
   const latestAi = [...s.messages].reverse().find((m) => m.role === "ai")?.id;
 
   return (
-    <div className={`rea-root${shown ? " open" : ""}${s.half ? " half" : ""}${inline ? " inline" : ""}`}>
+    <div className={`rea-root${shown ? " open" : ""}${s.half ? " half" : ""}${s.wide && !inline ? " wide" : ""}${inline ? " inline" : ""}`}>
       {inline ? null : <div className="rea-backdrop" onClick={close} />}
       <section className="rea-panel" id="rea-panel" role={inline ? "region" : "dialog"} aria-label="Red Elevators assistant" aria-hidden={!shown} inert={!shown}>
         {inline ? null : <button type="button" className="rea-grab" aria-label={s.half ? "Expand the assistant" : "Shrink the assistant"} onClick={() => setHalf(!s.half)} />}
@@ -117,6 +117,18 @@ export default function Panel({ inline = false }: { inline?: boolean }) {
             <ReaIcon name="person" />
             <span className="rea-lbl">Talk to a person</span>
           </button>
+          {inline ? null : (
+            <button
+              type="button"
+              className="rea-icon-btn rea-size"
+              aria-pressed={s.wide}
+              aria-label={s.wide ? "Make the chat smaller" : "Make the chat bigger"}
+              title={s.wide ? "Smaller chat" : "Bigger chat"}
+              onClick={() => setWide(!s.wide)}
+            >
+              <ReaIcon name={s.wide ? "shrink" : "expand"} />
+            </button>
+          )}
           {inline ? null : (
             <button type="button" className="rea-icon-btn rea-close" aria-label="Close assistant" onClick={close}>
               <ReaIcon name="close" />
