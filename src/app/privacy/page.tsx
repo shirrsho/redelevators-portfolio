@@ -31,6 +31,7 @@ const SUMMARY: readonly (readonly [IconName, string, string])[] = [
 const SECTIONS = [
   ["who", "Who we are"],
   ["collect", "What we collect, and why"],
+  ["chat", "The website chat"],
   ["share", "Who else sees it"],
   ["keep", "How long we keep it"],
   ["rights", "Your rights"],
@@ -58,7 +59,7 @@ export default function PrivacyPage() {
             <h1 className="d1" style={{ marginTop: 20 }}>
               Your data, in plain English.
             </h1>
-            <p className="lead">What we collect, why, who sees it and how to get it deleted. Last updated October 14, 2026.</p>
+            <p className="lead">What we collect, why, who sees it and how to get it deleted. Last updated October 20, 2026.</p>
             <div className="draft">
               <Icon name="alert" />
               <span>Draft for review. This is a plain-English starting point, not legal advice. Have it checked before launch and fill in the highlighted items.</span>
@@ -111,15 +112,30 @@ export default function PrivacyPage() {
                     <td>To see which pages help, using Umami analytics</td>
                   </tr>
                   <tr>
-                    <td>You try the assistant demo</td>
-                    <td>Nothing. The demo runs in your browser</td>
-                    <td>
-                      So you can try it safely <Todo>confirm if a live AI is used</Todo>
-                    </td>
+                    <td>You chat with our assistant</td>
+                    <td>What you write in the chat, the page you started on and your country. Your name, email and phone only if you ask the team to contact you</td>
+                    <td>To answer you, to follow up when you ask us to, and to improve our answers</td>
+                  </tr>
+                  <tr>
+                    <td>You try the demo on a service page</td>
+                    <td>Nothing. The demo is scripted and runs in your browser</td>
+                    <td>So you can try it safely</td>
                   </tr>
                 </tbody>
               </table>
               <p style={{ marginTop: 14 }}>We don’t buy data, we don’t run advertising trackers on this site, and we don’t sell or rent your information to anyone.</p>
+
+              <h2 id="chat">The website chat</h2>
+              <ul>
+                <li>The chat is with an <b>AI assistant</b>, not a person. It runs on Anthropic’s Claude and answers from what we’ve written about our services, prices and process.</li>
+                <li>We save each conversation so the team can follow up on your requests and improve the answers. We also save the page you started on and your country. We don’t store your IP address.</li>
+                <li>Your name, email, phone (if you give one) and a short summary of what you need are saved and emailed to the team <b>only after you agree</b> to be contacted.</li>
+                <li>When you start a chat, Cloudflare Turnstile checks that you’re not a bot.</li>
+                <li>
+                  Conversations are deleted automatically <b>12 months</b> after your last message. To have yours deleted sooner, email <Mail /> and we’ll delete it within 30 days.
+                </li>
+                <li>Please don’t share passwords, payment card numbers or other sensitive details in the chat.</li>
+              </ul>
 
               <h2 id="share">Who else sees it</h2>
               <p>Only the services that make the above work:</p>
@@ -139,12 +155,27 @@ export default function PrivacyPage() {
                 <li>
                   <b>Umami</b> counts anonymous page views.
                 </li>
+                <li>
+                  <b>Anthropic</b> processes chat messages so the assistant (Claude) can reply.
+                </li>
+                <li>
+                  <b>Cloudflare</b> runs the assistant and its bot check.
+                </li>
+                <li>
+                  <b>Neon</b> stores chat conversations, on servers in the United States.
+                </li>
+                <li>
+                  <b>Resend</b> sends the team the email when you ask to be contacted.
+                </li>
               </ul>
               <p>Each of these processes data under its own privacy policy. Some are based outside your country, including the United States.</p>
 
               <h2 id="keep">How long we keep it</h2>
               <p>
                 Booking details and messages are kept for up to <b>24 months</b> after we last spoke, then deleted, unless you become a client, in which case they’re kept for as long as we work together and as the law requires for records. <Todo>confirm retention period</Todo>
+              </p>
+              <p>
+                Website chat conversations are kept for <b>12 months</b> after your last message, then deleted automatically. Contact details you share in the chat are deleted with them after 12 months, unless you become a client.
               </p>
 
               <h2 id="rights">Your rights</h2>
