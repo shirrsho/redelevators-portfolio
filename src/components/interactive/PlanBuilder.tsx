@@ -32,7 +32,12 @@ const PLAN_EVENT = "re:builder-plan";
 
 /** Load a tier's "from" plan into the builder on this page and scroll to it (PricingTiers). */
 export function loadBuilderPlan(tier: TierKey) {
-  window.dispatchEvent(new CustomEvent<TierKey>(PLAN_EVENT, { detail: tier }));
+  window.dispatchEvent(new CustomEvent<TierKey | TierPlan>(PLAN_EVENT, { detail: tier }));
+}
+
+/** Load any plan into the builder on this page and scroll to it (the assistant's "Show me"). */
+export function loadBuilderSystems(plan: TierPlan) {
+  window.dispatchEvent(new CustomEvent<TierKey | TierPlan>(PLAN_EVENT, { detail: plan }));
 }
 
 /** The two pillars, as groups of checkboxes. */
@@ -88,7 +93,8 @@ export function PlanBuilder() {
       requestAnimationFrame(show);
     }
     const onPlan = (e: Event) => {
-      load(tierPlan((e as CustomEvent<TierKey>).detail));
+      const d = (e as CustomEvent<TierKey | TierPlan>).detail;
+      load(typeof d === "string" ? tierPlan(d) : d);
       show();
     };
     window.addEventListener(PLAN_EVENT, onPlan);

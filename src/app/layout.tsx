@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, JetBrains_Mono, Schibsted_Grotesk } from "next/font/google";
 import Script from "next/script";
+import { AssistantRoot } from "@/components/assistant/AssistantRoot";
 import { Analytics } from "@/components/layout/Analytics";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/layout/JsonLd";
@@ -95,6 +96,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Nav />
           {children}
           <Footer />
+          {/* The website assistant: renders nothing unless NEXT_PUBLIC_ASSISTANT_URL is set at build time. */}
+          <AssistantRoot />
         </CurrencyProvider>
         <SiteEffects />
         <Analytics />

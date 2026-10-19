@@ -41,6 +41,15 @@ export const EVENTS = {
   calculatorUsed: "Calculator used", // first slider interaction
   planBuilderUsed: "Plan builder used", // first tick
   servicePicker: "Service picker", // /services problem picker: { problem }
+  // the website assistant (src/components/assistant)
+  assistantOpen: "Assistant open", // { location: nav | dock | menu | pricing | service | contact | home-ending | shortcut | ask… }
+  assistantMessage: "Assistant message", // { n: visitor messages so far in this chat }
+  assistantBook: "Assistant booking", // booker opened in the chat: { from: quote | link }
+  assistantShowMe: "Assistant show me", // { target }
+  assistantPerson: "Assistant talk to a person",
+  assistantHandoff: "Assistant hand-off", // the assistant passed the visitor to the team (lead saved)
+  assistantFeedback: "Assistant feedback", // { rating: up | down }
+  assistantEmailPlan: "Assistant email plan",
 } as const;
 
 export function track(name: string, data?: EventData, attempt = 0) {

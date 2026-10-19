@@ -7,6 +7,7 @@ import { PageBg } from "@/components/layout/PageBg";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionHead } from "@/components/layout/Section";
 import { PlanBuilder } from "@/components/interactive/PlanBuilder";
+import { AskBar } from "@/components/assistant/Entry";
 import { PricingTiers } from "@/components/interactive/PricingTiers";
 import { SavingsCalculator } from "@/components/interactive/SavingsCalculator";
 import { Eyebrow } from "@/components/ui/Chip";
@@ -113,11 +114,18 @@ export default function PricingPage() {
           <div className="rv">
             <PlanBuilder />
           </div>
+          <AskBar
+            location="pricing"
+            title="Not sure what to pick?"
+            sub="Tell our assistant about your rentals. It suggests a starting plan with real prices."
+            placeholder="e.g. 14 units in Dubai on Hostaway"
+            starters={["What would it cost for 14 units?", "Do you work with Hostaway?", "Can I pay in AED?"]}
+          />
         </section>
 
         <section className="wrap section" style={{ paddingTop: 20 }}>
           <SectionHead eyebrow="Worth it?" title="What would you get back?" note="Move the sliders to match your business." noteMaxWidth={320} />
-          <div className="rv">
+          <div className="rv" id="calculator">
             <SavingsCalculator currencyToggle={false} />
           </div>
         </section>

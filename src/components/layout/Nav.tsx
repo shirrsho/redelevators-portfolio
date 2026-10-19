@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { NavAsk } from "@/components/assistant/Entry";
 import { EVENTS } from "@/lib/analytics";
 import { NAV_LINKS, bookHref, isCurrentPath as isCurrent } from "@/lib/site";
 import { Lockup } from "./Logo";
@@ -59,6 +60,7 @@ export function Nav() {
           })}
         </nav>
         <div className="nav-r">
+          <NavAsk />
           <a className="book" href={book} data-umami-event={EVENTS.bookCall} data-umami-event-location="nav-desktop">
             Book a call
           </a>

@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
 import { EmailLink } from "@/components/ui/EmailLink";
 import { ToolLogo } from "@/components/ui/ToolLogo";
+import { HomeAsk } from "@/components/assistant/Entry";
 import { EVENTS } from "@/lib/analytics";
 import { whatsappUrl } from "@/lib/site";
 import { AlivePhone, type AlivePhoneStage } from "@/components/devices/AlivePhone";
@@ -73,6 +74,7 @@ export function BookingStage({ variant }: BookingStageProps) {
             <EmailLink location="home" className="btn quiet">
               <Icon name="mail" /> Email us
             </EmailLink>
+            <HomeAsk />
           </div>
         ) : null}
       </div>

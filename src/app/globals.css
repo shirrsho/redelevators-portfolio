@@ -17,6 +17,9 @@
 @import "../styles/devices.css" layer(components);
 @import "../styles/sections.css" layer(components);
 @import "../styles/aurora.css" layer(components);
+/* The website assistant. Unlayered, like the CSS Modules, so it can sit on top of shared components
+   (e.g. the Cal booker inside the chat). Every selector is prefixed .rea- (ad-blocker safe). */
+@import "../styles/assistant.css";
 
 /* ---- Tokens as Tailwind utilities (bg-night, text-sub, border-hair, font-display…) ---------
    `inline` so utilities follow the live CSS variables (e.g. inside a .light section). */
