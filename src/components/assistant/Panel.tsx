@@ -94,7 +94,9 @@ export default function Panel({ inline = false }: { inline?: boolean }) {
   const latestAi = [...s.messages].reverse().find((m) => m.role === "ai")?.id;
 
   return (
-    <div className={`rea-root${shown ? " open" : ""}${s.half ? " half" : ""}${s.wide && !inline ? " wide" : ""}${inline ? " inline" : ""}`}>
+    // rr-block: Umami's recorder (rrweb) records this panel as an empty box, so chats and typed contact details never
+    // end up in session replays.
+    <div className={`rea-root rr-block${shown ? " open" : ""}${s.half ? " half" : ""}${s.wide && !inline ? " wide" : ""}${inline ? " inline" : ""}`}>
       {inline ? null : <div className="rea-backdrop" onClick={close} />}
       <section className="rea-panel" id="rea-panel" role={inline ? "region" : "dialog"} aria-label="Red Elevators assistant" aria-hidden={!shown} inert={!shown}>
         {inline ? null : <button type="button" className="rea-grab" aria-label={s.half ? "Expand the assistant" : "Shrink the assistant"} onClick={() => setHalf(!s.half)} />}

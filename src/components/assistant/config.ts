@@ -32,6 +32,10 @@ export const FOOT = "Answers come from what we’ve published.";
  */
 export const SALES_TEAM: Readonly<Record<string, string>> = {};
 
+/** A listed team member's display name, or null. Own keys only, so `?from=constructor` can't match a built-in. */
+export const salesSender = (key: string | null | undefined): string | null =>
+  key && Object.hasOwn(SALES_TEAM, key) ? SALES_TEAM[key] : null;
+
 /** Starter questions per page. No prices here: the assistant quotes from the site's own pricing code. */
 const STARTERS: Readonly<Record<string, readonly string[]>> = {
   "/": ["Do you work with Hostaway?", "What would it cost for 10 units?", "How does the 21-day guarantee work?", "Is this for me with 2 properties?"],

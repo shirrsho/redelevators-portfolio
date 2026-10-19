@@ -20,6 +20,10 @@ import "./globals.css";
 // report); `data-exclude-hash` stops /#contact and / counting as two pages.
 // Custom events live in src/lib/analytics.ts and components/layout/Analytics.tsx.
 //
+// Privacy (20 Oct 2026): the chat panel carries `rr-block`, so replays show it as an empty box; the Pixel runs with
+// autoConfig off, so it doesn't collect form fields or button text (also switch off Automatic Advanced Matching in
+// Events Manager).
+//
 // recorder.js and the Meta Pixel stay until the owner decides on tracking vs
 // the privacy page (docs/redesign/DECISIONS.md → still open, item 3). Don't
 // remove them silently, and don't launch with them unless the privacy copy matches.
@@ -120,6 +124,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('set', 'autoConfig', false, '${META_PIXEL_ID}');
             fbq('init', '${META_PIXEL_ID}');
             fbq('track', 'PageView');
           `}

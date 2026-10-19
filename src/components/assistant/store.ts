@@ -89,6 +89,17 @@ let state = INITIAL;
 const listeners = new Set<() => void>();
 const KEY = "rea:chat:v1";
 
+/** Drops this tab's chat (saved copy included) and starts from scratch. Used when the panel crashes. */
+export function forgetChat() {
+  try {
+    sessionStorage.removeItem(KEY);
+  } catch {
+    // Storage blocked: nothing saved to forget.
+  }
+  state = { ...INITIAL };
+  listeners.forEach((l) => l());
+}
+
 function set(patch: Partial<State> | ((s: State) => Partial<State>)) {
   state = { ...state, ...(typeof patch === "function" ? patch(state) : patch) };
   listeners.forEach((l) => l());
@@ -251,6 +262,8 @@ export async function send(raw: string): Promise<boolean> {
 
   let pendingId: string | null = null;
   let finished = false;
+  /** The server accepted the turn and began answering (it may save it even if the connection then drops). */
+  let started = false;
   try {
     await chat(
       {
@@ -263,6 +276,7 @@ export async function send(raw: string): Promise<boolean> {
       (e: StreamEvent) => {
         switch (e.event) {
           case "start":
+            started = true;
             pendingId = e.data.conversation_id;
             break;
           case "status":
@@ -299,7 +313,8 @@ export async function send(raw: string): Promise<boolean> {
     if (!finished) fail("The connection dropped before the answer finished.");
   } catch (err) {
     if (err instanceof Refused) refused(err, text, meId, aiId);
-    else fail("Connection lost. Your message is kept; nothing was sent.");
+    // Once the answer had started, the server may still finish and save the turn: don't promise nothing was sent.
+    else fail(started ? "The connection dropped while the answer was coming in. Your message may have reached us; reload the page to see the latest." : "Connection lost. Your message is kept; nothing was sent.");
   } finally {
     // Tokens are single-use, whatever happened.
     if (isNew) resetTurnstile();
@@ -354,7 +369,7 @@ export function retry() {
 
 export function newChat() {
   if (state.busy) return;
-  set({ conversationId: null, messages: [], plan: {}, failed: null, ended: false, emailSent: false, booked: false, half: false });
+  set({ conversationId: null, messages: [], plan: {}, failed: null, ended: false, emailSent: false, booked: false, half: false, referrer: null });
   ensureWelcome();
 }
 

@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Eyebrow } from "@/components/ui/Chip";
 import { GUARANTEE_DAYS } from "@/lib/pricing";
 import { ReaIcon } from "./icons";
+import { PanelBoundary } from "./PanelBoundary";
 import { hydrate, open, setReferrer } from "./store";
 
 const Panel = dynamic(() => import("./Panel"), { ssr: false, loading: () => <div className="rea-inline-wait" /> });
@@ -49,7 +50,9 @@ export function AskPage({ referrer, sender }: { referrer: string | null; sender:
         </ul>
       </div>
       <div className="rea-askpage-r">
-        <Panel inline />
+        <PanelBoundary>
+          <Panel inline />
+        </PanelBoundary>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ASSISTANT_ON } from "./config";
 import { Mark, ReaIcon } from "./icons";
+import { PanelBoundary } from "./PanelBoundary";
 import { close, getState, hydrate, open, useAssistant } from "./store";
 
 // Mounted once in src/app/layout.tsx when the assistant is on. Renders the phone ask bar, the "/"
@@ -49,7 +50,11 @@ export function AssistantRoot() {
   return (
     <>
       <Dock />
-      {mounted ? <Panel /> : null}
+      {mounted ? (
+        <PanelBoundary>
+          <Panel />
+        </PanelBoundary>
+      ) : null}
     </>
   );
 }

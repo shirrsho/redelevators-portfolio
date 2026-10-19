@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { EVENTS, track } from "@/lib/analytics";
 import { CardView } from "./Cards";
-import { SALES_TEAM, WELCOME, pageName, startersFor, visibleSources } from "./config";
+import { WELCOME, pageName, salesSender, startersFor, visibleSources } from "./config";
 import { Mark, ReaIcon } from "./icons";
 import { Markdown } from "./Markdown";
 import { addLocal, close, rateReply, send, talkToPerson, useAssistant, type AiMsg, type Msg } from "./store";
@@ -134,7 +134,7 @@ function Welcome({ inline, latest }: { inline?: boolean; latest: boolean }) {
   const path = usePathname();
   const referrer = useAssistant((s) => s.referrer);
   const busy = useAssistant((s) => s.busy);
-  const sender = referrer ? SALES_TEAM[referrer] : undefined;
+  const sender = salesSender(referrer) ?? undefined;
   const ask = path === "/ask";
   return (
     <>

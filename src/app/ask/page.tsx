@@ -4,7 +4,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AskPage } from "@/components/assistant/AskPage";
-import { ASSISTANT_ON, SALES_TEAM } from "@/components/assistant/config";
+import { ASSISTANT_ON, salesSender } from "@/components/assistant/config";
 import { PageBg } from "@/components/layout/PageBg";
 
 export const metadata: Metadata = {
@@ -18,13 +18,13 @@ export default async function Ask({ searchParams }: { searchParams: Promise<Reco
   if (!ASSISTANT_ON) notFound();
   const raw = (await searchParams).from;
   const from = typeof raw === "string" ? raw.trim().toLowerCase() : "";
-  // Any first name is passed on (it goes in the lead email); only listed team members are shown by name.
-  const referrer = /^[a-z]{2,20}$/.test(from) ? from : null;
+  // Only listed team members are credited (it goes in the lead email) and shown by name.
+  const referrer = /^[a-z]{2,20}$/.test(from) && salesSender(from) ? from : null;
   return (
     <>
       <PageBg tone="night" />
       <main id="main" className="page">
-        <AskPage referrer={referrer} sender={referrer ? (SALES_TEAM[referrer] ?? null) : null} />
+        <AskPage referrer={referrer} sender={salesSender(referrer)} />
       </main>
     </>
   );

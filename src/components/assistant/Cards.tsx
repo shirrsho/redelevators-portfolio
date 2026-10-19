@@ -328,7 +328,7 @@ function PersonView({ handedOff, replyTime }: { handedOff?: boolean; replyTime?:
         </div>
       </div>
       <div className="rea-card-acts">
-        <a className="rea-btn wa" href={whatsappUrl(personMessage())} target="_blank" rel="noopener noreferrer" onClick={() => track(EVENTS.whatsappClick, { location: "assistant" })}>
+        <a className="rea-btn wa" data-umami-event="assistant-whatsapp" href={whatsappUrl(personMessage())} target="_blank" rel="noopener noreferrer" onClick={() => track(EVENTS.whatsappClick, { location: "assistant" })}>
           <ToolLogo name="WhatsApp" size={16} mono />
           {handedOff ? "WhatsApp instead" : "Continue on WhatsApp"}
         </a>
@@ -406,6 +406,8 @@ function ShowMe({ href, label, target }: { href: string; label: string; target: 
     const cur = chat.currency ?? chat.quote?.currency;
     if (cur) setCur(cur);
     const url = new URL(href, location.origin);
+    // Server-built links only ever point at our own pages; refuse anything else (e.g. a "//host" path).
+    if (url.origin !== location.origin || !url.pathname.startsWith("/") || url.pathname.startsWith("//")) return;
     const plan = parsePlan(url.search);
     const phone = isPhone();
     if (phone) setHalf(true);
