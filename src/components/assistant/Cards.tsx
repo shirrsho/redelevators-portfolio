@@ -100,7 +100,10 @@ function QuoteView({ card }: { card: QuoteCard }) {
       {p.ad_min ? <p className="rea-perk">Plus ad spend of at least {p.ad_min} a month, paid to Meta or Google directly.</p> : null}
       <div className="rea-perk">
         <ReaIcon name="shield" />
-        <span>Live in {card.guarantee_days} days or your first month is free. No lock-in: month to month, 30 days’ notice.</span>
+        <span>
+          Live in {card.guarantee_days} days or your first month is free.{" "}
+          {p.ad_min ? "Month to month with 30 days’ notice; ads run for 3 months minimum." : "No lock-in: month to month, 30 days’ notice."}
+        </span>
       </div>
       <div className="rea-card-acts">
         <button

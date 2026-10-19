@@ -38,7 +38,7 @@ export const salesSender = (key: string | null | undefined): string | null =>
 
 /** Starter questions per page. No prices here: the assistant quotes from the site's own pricing code. */
 const STARTERS: Readonly<Record<string, readonly string[]>> = {
-  "/": ["Do you work with Hostaway?", "What would it cost for 10 units?", "How does the 21-day guarantee work?", "Is this for me with 2 properties?"],
+  "/": ["Do you work with Hostaway?", "What would it cost for 10 units?", "How does the launch guarantee work?", "Is this for me with 2 properties?"],
   "/pricing": ["Do you work with Hostaway?", "What would it cost for 14 units?", "Why is there a setup fee?", "Can I pay in AED?"],
   "/contact": ["What happens on the call?", "Do you work with clients in the UAE?", "What should I bring?", "Do you work with Hostaway?"],
   "/ask": ["Do you work with Hostaway?", "What would it cost for my units?", "How fast can we go live?", "What happens on the call?"],

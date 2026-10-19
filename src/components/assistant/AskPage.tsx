@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { Eyebrow } from "@/components/ui/Chip";
-import { GUARANTEE_DAYS } from "@/lib/pricing";
+import { GUARANTEE_DAYS, GUARANTEE_DAYS_LONG } from "@/lib/pricing";
 import { ReaIcon } from "./icons";
 import { PanelBoundary } from "./PanelBoundary";
 import { hydrate, open, setReferrer } from "./store";
@@ -37,7 +37,7 @@ export function AskPage({ referrer, sender }: { referrer: string | null; sender:
         <ul className="rea-promises">
           <li>
             <ReaIcon name="check" />
-            Live in {GUARANTEE_DAYS} days, or your first month is free
+            Live in {GUARANTEE_DAYS} days ({GUARANTEE_DAYS_LONG} for websites and campaigns), or your first month is free
           </li>
           <li>
             <ReaIcon name="check" />
@@ -45,7 +45,7 @@ export function AskPage({ referrer, sender }: { referrer: string | null; sender:
           </li>
           <li>
             <ReaIcon name="check" />
-            No lock-in: month to month
+            No lock-in: month to month (ads run 3 months minimum)
           </li>
         </ul>
       </div>
