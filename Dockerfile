@@ -18,6 +18,10 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # Disable Next.js telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED=1
+# The website assistant's address (src/components/assistant/config.ts). Next.js inlines NEXT_PUBLIC_ values at
+# build time, so it's a build argument. Empty (the default) = the assistant is off: no chat button, /ask is a 404.
+ARG NEXT_PUBLIC_ASSISTANT_URL=""
+ENV NEXT_PUBLIC_ASSISTANT_URL=$NEXT_PUBLIC_ASSISTANT_URL
 RUN npm run build
 
 # ---- Runtime ---------------------------------------------------------

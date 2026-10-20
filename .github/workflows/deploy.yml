@@ -40,6 +40,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Same as the Docker build below, so this check builds what ships.
+          NEXT_PUBLIC_ASSISTANT_URL: ${{ vars.NEXT_PUBLIC_ASSISTANT_URL }}
 
   # ---------------------------------------------------------------------
   # 2. Build the production Docker image and push it to Docker Hub.
@@ -63,6 +66,10 @@ jobs:
         with:
           context: .
           push: true
+          # The website assistant: set the repository variable NEXT_PUBLIC_ASSISTANT_URL (Settings → Secrets and
+          # variables → Actions → Variables) to switch it on. Unset or empty = off. Changing it needs a new deploy.
+          build-args: |
+            NEXT_PUBLIC_ASSISTANT_URL=${{ vars.NEXT_PUBLIC_ASSISTANT_URL }}
           tags: |
             ${{ env.IMAGE_NAME }}:latest
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
