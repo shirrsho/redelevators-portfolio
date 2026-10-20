@@ -26,7 +26,7 @@ export const PAINS: readonly (readonly [string, string])[] = [
 /** Chapter 03 lines: [headline, line, pillar, pillar label]. */
 export const TURNS: readonly (readonly [string, string, "auto" | "mkt" | "both", string])[] = [
   ["Every guest, answered in your voice.","In seconds, any hour, any language.","auto","AI Automation"],
-  ["Guests book direct. No commission.","Past guests come back to your own site.","mkt","Marketing"],
+  ["Guests book direct. No commission.","Direct guests come back to your own site.","mkt","Marketing"],
   ["Prices move. Quiet nights fill.","Rates follow demand; campaigns target the gaps.","both","Automation + Marketing"],
   ["Turnovers schedule themselves.","Cleaner booked, code sent, calendars synced.","auto","AI Automation"],
 ];
@@ -51,7 +51,7 @@ export type StoryNotification = {
 export const N: readonly StoryNotification[] = [
   {"tile":{"bg":"#3a3a46","icon":"calendar"},"app":"Calendar","tt":"Tue–Thu still open","bd":"3 nights unbooked at Canal House this week.","ago":"1h ago","pain":2,"fix":2,"done":"Rate adjusted, campaign live, 2 of 3 booked"},
   {"tile":{"bg":"#FF5A5F","logo":"Airbnb"},"app":"Airbnb","tt":"Response rate","bd":"2 messages waiting. Reply within 24h to keep your rate.","ago":"40m ago","pain":0,"fix":0,"done":"All messages answered"},
-  {"tile":{"bg":"#003A9A","logo":"Booking.com"},"app":"Booking.com","tt":"New reservation · 2 nights","bd":"Harbor Studio, Oct 18–20. Commission applies.","ago":"31m ago","pain":1,"fix":1,"done":"Returning guest re-booked direct"},
+  {"tile":{"bg":"#003A9A","logo":"Booking.com"},"app":"Booking.com","tt":"New reservation · 2 nights","bd":"Harbor Studio, Oct 18–20. Commission applies.","ago":"31m ago","pain":1,"fix":1,"done":"Direct site live: next stays book commission-free"},
   {"tile":{"bg":"#25D366","logo":"WhatsApp"},"app":"WhatsApp","tt":"Rosa (cleaning)","bd":"Can’t get into Canal House. The code isn’t working.","ago":"14m ago","pain":3,"fix":3,"done":"New code sent, clean set for 11:00"},
   {"tile":{"bg":"#FF5A5F","logo":"Airbnb"},"app":"Airbnb","tt":"James · Garden Suite","bd":"Any chance we can check in at 11 instead of 3?","ago":"6m ago","pain":0,"fix":0,"done":"Offered 12:00, cleaner confirmed"},
   {"tile":{"bg":"#FF5A5F","logo":"Airbnb"},"app":"Airbnb","tt":"Maria · Loft 2B","bd":"Hi! We just arrived. What’s the wifi password? 🙂","ago":"now","pain":0,"fix":0,"done":"Sent wifi + house guide"},
