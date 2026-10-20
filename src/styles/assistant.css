@@ -110,6 +110,7 @@ html.rea-open .rea-dock,body.menu-open .rea-dock{transform:translateY(calc(100% 
   border-radius:20px;border:1px solid transparent;background:linear-gradient(var(--rea-panel),var(--rea-panel)) padding-box,var(--rea-edge) border-box;
   box-shadow:var(--rea-shadow);font-family:var(--sans);color:var(--ink);overflow:hidden;
   opacity:0;transform:translateX(18px);visibility:hidden;transition:opacity .28s var(--ease),transform .38s var(--ease),visibility 0s .38s}
+.rea-panel:focus{outline:none}
 .rea-root.open .rea-panel{opacity:1;transform:none;visibility:visible;transition:opacity .28s var(--ease),transform .38s var(--ease)}
 .rea-panel button:disabled{cursor:default}
 
@@ -351,6 +352,7 @@ html.rea-open .rea-dock,body.menu-open .rea-dock{transform:translateY(calc(100% 
   .rea-msg.ai>.rea-mark{display:none}
   .rea-cmp{padding:8px 10px calc(10px + env(safe-area-inset-bottom))}
   .rea-box textarea{font-size:16px}
+  .rea-field{font-size:16px}
   .rea-foot .rea-foot-txt{display:none}
   .rea-askbar{padding:16px 14px 14px}
   .rea-spot{border-radius:16px}

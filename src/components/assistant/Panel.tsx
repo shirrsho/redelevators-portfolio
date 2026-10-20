@@ -21,7 +21,19 @@ export default function Panel({ inline = false }: { inline?: boolean }) {
   const log = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLTextAreaElement>(null);
   const ts = useRef<HTMLDivElement>(null);
+  const panel = useRef<HTMLElement>(null);
+  /** What had focus before the panel opened: focus goes back there when it closes. */
+  const opener = useRef<HTMLElement | null>(null);
   const shown = inline || s.open;
+  // Phones show a full-height sheet over the page (a modal); desktop shows a side panel next to it.
+  const [phone, setPhone] = useState(false);
+  useEffect(() => {
+    const mq = matchMedia("(max-width:700px)");
+    const on = () => setPhone(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
 
   useEffect(() => {
     if (shown) ensureWelcome();
@@ -36,10 +48,24 @@ export default function Panel({ inline = false }: { inline?: boolean }) {
     return () => unmountTurnstile(el);
   }, [sitekey, shown]);
 
-  // Focus the composer when the panel opens on a desktop (phones: don't pop the keyboard over the sheet).
+  // Opening: desktop focuses the composer; phones focus the sheet itself (no keyboard popping over it), so keyboard
+  // and screen-reader users land inside. Closing: focus goes back to whatever opened the panel.
   useEffect(() => {
-    if (s.open && !inline && !matchMedia("(max-width:700px)").matches) setTimeout(() => input.current?.focus({ preventScroll: true }), 320);
-    if (!s.open) clearSpotlight();
+    if (inline) return;
+    if (s.open) {
+      const was = document.activeElement;
+      opener.current = was instanceof HTMLElement && was !== document.body && !panel.current?.contains(was) ? was : null;
+      const t = setTimeout(() => {
+        if (matchMedia("(max-width:700px)").matches) panel.current?.focus({ preventScroll: true });
+        else input.current?.focus({ preventScroll: true });
+      }, 320);
+      return () => clearTimeout(t);
+    }
+    clearSpotlight();
+    const back = opener.current;
+    opener.current = null;
+    const now = document.activeElement;
+    if (back?.isConnected && (!now || now === document.body || panel.current?.contains(now))) back.focus({ preventScroll: true });
   }, [s.open, inline]);
 
   // Phones: lock the page under the full sheet (not the half sheet, which shows the page).
@@ -98,7 +124,17 @@ export default function Panel({ inline = false }: { inline?: boolean }) {
     // end up in session replays.
     <div className={`rea-root rr-block${shown ? " open" : ""}${s.half ? " half" : ""}${s.wide && !inline ? " wide" : ""}${inline ? " inline" : ""}`}>
       {inline ? null : <div className="rea-backdrop" onClick={close} />}
-      <section className="rea-panel" id="rea-panel" role={inline ? "region" : "dialog"} aria-label="Red Elevators assistant" aria-hidden={!shown} inert={!shown}>
+      <section
+        className="rea-panel"
+        id="rea-panel"
+        ref={panel}
+        tabIndex={-1}
+        role={inline ? "region" : "dialog"}
+        aria-modal={!inline && phone && !s.half ? true : undefined}
+        aria-label="Red Elevators assistant"
+        aria-hidden={!shown}
+        inert={!shown}
+      >
         {inline ? null : <button type="button" className="rea-grab" aria-label={s.half ? "Expand the assistant" : "Shrink the assistant"} onClick={() => setHalf(!s.half)} />}
         <header className="rea-hd">
           <Mark />

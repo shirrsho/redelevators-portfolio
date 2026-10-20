@@ -241,7 +241,9 @@ const newestBooking = (s: ReturnType<typeof getState>) =>
 function BookingView({ notes, msgId }: { notes: string; msgId: string }) {
   const booked = useAssistant((s) => s.booked);
   const newest = useAssistant(newestBooking) === msgId;
-  const [extra] = useState(() => bookingNotes(notes));
+  // Claude draws cards before its words, so the calendar waits for the reply to be saved: by then a new chat has its
+  // id, which goes into the booking notes and links the booking to the chat.
+  const streaming = useAssistant((s) => s.messages.some((m) => m.id === msgId && m.role === "ai" && m.streaming));
   const q = useAssistant((s) => s.plan.quote);
   const cur = useAssistant((s) => s.plan.currency) ?? q?.currency;
   return (
@@ -258,14 +260,24 @@ function BookingView({ notes, msgId }: { notes: string; msgId: string }) {
           <ReaIcon name="check" />
           Booked. The details are below and in your email.
         </p>
+      ) : newest && streaming ? (
+        <p className="rea-small">Opening the calendar…</p>
       ) : newest ? (
-        <div className="rea-cal-frame">
-          <CalBooker location="assistant" namespace={`assistant-${msgId}`} notes={extra} onBooked={bookedInChat} />
-        </div>
+        <BookerFrame notes={notes} msgId={msgId} />
       ) : (
         <p className="rea-small">The calendar is open further down the chat.</p>
       )}
       <p className="rea-fine">Times are shown in your time zone. You get an email invite and reminders.</p>
+    </div>
+  );
+}
+
+/** The Cal booker. Its notes are read once, when it mounts (after the reply is saved). */
+function BookerFrame({ notes, msgId }: { notes: string; msgId: string }) {
+  const [extra] = useState(() => bookingNotes(notes));
+  return (
+    <div className="rea-cal-frame">
+      <CalBooker location="assistant" namespace={`assistant-${msgId}`} notes={extra} onBooked={bookedInChat} />
     </div>
   );
 }

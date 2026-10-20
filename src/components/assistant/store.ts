@@ -24,6 +24,8 @@ export type AiMsg = {
   sources: string[];
   /** The reply's message seq on the server: what 👍/👎 rates. */
   seq?: number | null;
+  /** The conversation the reply belongs to (a later chat in this tab gets a new id). */
+  conv?: string | null;
   streaming?: boolean;
   rating?: "up" | "down";
   /** The welcome message (drawn with the page's starter questions). */
@@ -254,7 +256,7 @@ export async function send(raw: string): Promise<boolean> {
   if (isNew) {
     token = (await turnstileToken()) ?? undefined;
     if (!token) {
-      fail("We couldn’t verify your browser. Check your connection, then try again.");
+      fail("Our bot check didn’t load. An ad or privacy blocker can stop it: allow challenges.cloudflare.com and try again, or book a call at redelevators.com/contact or email contact@redelevators.com.");
       set({ busy: false });
       return true;
     }
@@ -270,7 +272,8 @@ export async function send(raw: string): Promise<boolean> {
         message: text,
         conversation_id: state.conversationId ?? undefined,
         turnstile_token: token,
-        page: location.href,
+        // The page only: no query string or hash (they can carry tracking ids or personal details).
+        page: location.origin + location.pathname,
         ref: isNew ? (state.referrer ?? undefined) : undefined,
       },
       (e: StreamEvent) => {
@@ -297,9 +300,9 @@ export async function send(raw: string): Promise<boolean> {
             break;
           case "done":
             finished = true;
-            updateAi(aiId, () => ({ streaming: false, status: undefined, seq: e.data.reply_seq }));
             // A new conversation exists only once its first turn is saved.
             if (isNew && e.data.saved && pendingId) set({ conversationId: pendingId });
+            updateAi(aiId, () => ({ streaming: false, status: undefined, seq: e.data.reply_seq, conv: state.conversationId }));
             break;
           case "error":
             finished = true;
@@ -379,6 +382,9 @@ export function newChat() {
 export function addLocal(card: Card, text = "") {
   open();
   ensureWelcome();
+  // A repeated tap ("Talk to a person", "Book with this plan") shows the card that's already at the bottom.
+  const last = state.messages[state.messages.length - 1];
+  if ((card.kind === "person" || card.kind === "booking") && last?.role === "ai" && !last.streaming && last.cards.some((c) => c.kind === card.kind)) return;
   set((s) => ({ half: false, messages: [...s.messages, { id: uid(), role: "ai", text, cards: [card], sources: [] }] }));
 }
 
@@ -404,11 +410,13 @@ export function submitDetails(d: { units?: number; market?: Market; tools?: stri
 
 export async function rateReply(id: string, rating: "up" | "down") {
   const m = state.messages.find((x) => x.id === id);
-  if (!m || m.role !== "ai" || m.seq == null || !state.conversationId) return;
+  // Replies saved before `conv` existed belong to the current chat.
+  const conv = m?.role === "ai" ? (m.conv ?? state.conversationId) : null;
+  if (!m || m.role !== "ai" || m.seq == null || !conv) return;
   updateAi(id, () => ({ rating }));
   track(EVENTS.assistantFeedback, { rating });
   try {
-    await rate(state.conversationId, m.seq, rating);
+    await rate(conv, m.seq, rating);
   } catch {
     // The rating is a nice-to-have; keep the visitor's tap shown.
   }

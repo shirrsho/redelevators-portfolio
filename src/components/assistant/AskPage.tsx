@@ -6,7 +6,7 @@ import { Eyebrow } from "@/components/ui/Chip";
 import { GUARANTEE_DAYS, GUARANTEE_DAYS_LONG } from "@/lib/pricing";
 import { ReaIcon } from "./icons";
 import { PanelBoundary } from "./PanelBoundary";
-import { hydrate, open, setReferrer } from "./store";
+import { close, hydrate, open, setReferrer } from "./store";
 
 const Panel = dynamic(() => import("./Panel"), { ssr: false, loading: () => <div className="rea-inline-wait" /> });
 
@@ -16,6 +16,8 @@ export function AskPage({ referrer, sender }: { referrer: string | null; sender:
     hydrate({ reopen: false });
     setReferrer(referrer);
     open(referrer ? `ask:${referrer}` : "ask");
+    // The chat is inline here; leaving the page mustn't open it as a panel (a full sheet on phones) on the next one.
+    return () => close();
   }, [referrer]);
 
   return (

@@ -77,9 +77,9 @@ function AiView({ m, latest, inline }: { m: AiMsg; latest: boolean; inline?: boo
           </div>
         ) : null}
         {m.cards.map((c, i) => (c.kind === "replies" ? null : <CardView key={i} card={c} active={latest} msgId={m.id} />))}
-        {sources.length ? (
+        {sources.length || (!m.streaming && m.seq != null) ? (
           <div className="rea-src">
-            <span>From</span>
+            {sources.length ? <span>From</span> : null}
             {sources.map((s) =>
               s.href ? (
                 <Link key={s.title} href={s.href} onClick={onNavigate}>

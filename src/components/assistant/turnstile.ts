@@ -33,6 +33,8 @@ function load(): Promise<Api> {
 }
 
 let widget: { id: string; el: HTMLElement } | null = null;
+/** The last mount request, so a retry can mount again after the script was blocked. */
+let lastMount: { el: HTMLElement; sitekey: string } | null = null;
 let token: string | null = null;
 let failed = false;
 const waiting = new Set<(t: string | null) => void>();
@@ -43,6 +45,7 @@ const settle = (t: string | null) => {
 
 /** Renders the widget into `el` (the panel's slot). Safe to call again with the same element. */
 export async function mountTurnstile(el: HTMLElement, sitekey: string): Promise<void> {
+  lastMount = { el, sitekey };
   if (widget?.el === el) return;
   const api = await load().catch(() => null);
   if (!api) {
@@ -74,6 +77,7 @@ export async function mountTurnstile(el: HTMLElement, sitekey: string): Promise<
 }
 
 export function unmountTurnstile(el: HTMLElement) {
+  if (lastMount?.el === el) lastMount = null;
   if (widget?.el !== el) return;
   window.turnstile?.remove(widget.id);
   widget = null;
@@ -81,9 +85,16 @@ export function unmountTurnstile(el: HTMLElement) {
 }
 
 /** A fresh token for a new conversation, waiting up to `ms` for Cloudflare. Null if it never came. */
-export function turnstileToken(ms = 20000): Promise<string | null> {
-  if (token) return Promise.resolve(token);
-  if (failed && !widget) return Promise.resolve(null);
+export async function turnstileToken(ms = 20000): Promise<string | null> {
+  if (token) return token;
+  if (failed) {
+    // A blocked script or a failed challenge: try once more, since the visitor may have allowed it meanwhile.
+    failed = false;
+    if (widget) window.turnstile?.reset(widget.id);
+    else if (lastMount) await mountTurnstile(lastMount.el, lastMount.sitekey);
+    if (token) return token;
+    if (failed) return null;
+  }
   return new Promise((resolve) => {
     const done = (t: string | null) => {
       clearTimeout(timer);
