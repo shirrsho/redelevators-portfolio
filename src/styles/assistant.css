@@ -1,0 +1,394 @@
+/* ==========================================================================
+   The website assistant (src/components/assistant). Ported from the approved mockup
+   (redesign-mockups/assistant/assistant.css in the assistant-mockups worktree, 18 Oct 2026).
+   Uses the site's tokens (--ink, --sub, --dim, --hair, --display, --sans, --mono, --auto, --ease…).
+   Class prefix rea- everywhere: ad-blocker safe (never adwrap/adcard/m-ad style names).
+   Colour roles: indigo = the AI · red = booking only · green = a person · amber = a problem.
+   ========================================================================== */
+:root{
+  --rea-ai:#8b93ff;
+  --rea-ai-ink:#d9dcff;
+  --rea-ai-soft:rgba(139,147,255,.10);
+  --rea-ai-line:rgba(139,147,255,.38);
+  --rea-person:#25D366;
+  --rea-panel:#111016;
+  --rea-card:#17161c;
+  --rea-edge:linear-gradient(150deg,rgba(139,147,255,.62),rgba(255,255,255,.08) 32%,rgba(255,255,255,.05) 66%,rgba(255,90,78,.48));
+  --rea-shadow:0 40px 100px -30px rgba(0,0,0,.92),0 12px 30px -16px rgba(0,0,0,.7);
+}
+
+/* ---- Shared bits ------------------------------------------------------------ */
+.rea-ico{width:16px;height:16px;flex:none;display:block}
+.rea-mark{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+  background:linear-gradient(145deg,rgba(139,147,255,.24),rgba(255,90,78,.10));box-shadow:inset 0 0 0 1px rgba(139,147,255,.42)}
+.rea-mark svg{width:15px;height:14px}
+.rea-mark.sm{width:24px;height:24px;border-radius:7px}
+.rea-mark.sm svg{width:12px;height:11px}
+.rea-kbd{font-family:var(--mono);font-size:11px;line-height:1;padding:3px 6px;border-radius:5px;border:1px solid var(--hair-2);color:var(--sub)}
+.rea-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.rea-dim{color:var(--dim)}
+.rea-small{font-size:13.5px;color:var(--sub);margin-top:4px;line-height:1.5}
+
+/* ---- Entry: nav button ------------------------------------------------------ */
+.nav .rea-ask{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 10px 0 12px;border-radius:11px;
+  border:1px solid var(--hair-2);background:rgba(255,255,255,.03);font-size:14px;font-weight:500;color:var(--ink);
+  transition:border-color .25s,background .25s}
+.nav .rea-ask .rea-ico{color:var(--rea-ai)}
+.nav .rea-ask:hover{border-color:var(--rea-ai-line);background:var(--rea-ai-soft)}
+.nav .rea-ask[aria-expanded="true"]{border-color:rgba(139,147,255,.6);background:rgba(139,147,255,.16)}
+.nav .rea-ask:focus-visible,.rea-panel :focus-visible:not(textarea),.rea-entry :focus-visible,.rea-dock:focus-visible,.rea-menu-ask:focus-visible,.rea-entry-btn:focus-visible{outline:2px solid var(--rea-ai);outline-offset:2px}
+/* Phones (under 900px the bar is logo · Book · menu): no Ask button in the nav; the bottom ask bar
+   and the menu field are the ways in. Decided 18 Oct. */
+@media (max-width:900px){.nav .rea-ask{display:none}}
+
+/* Phone: bottom ask bar */
+.rea-dock{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:55;display:none;align-items:center;gap:11px;
+  height:56px;padding:0 8px;border-radius:17px;border:1px solid transparent;text-align:left;font-size:15px;color:var(--sub);
+  background:linear-gradient(rgba(19,18,25,.94),rgba(19,18,25,.94)) padding-box,var(--rea-edge) border-box;
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 20px 44px -14px rgba(0,0,0,.9);
+  transform:translateY(calc(100% + 28px));opacity:0;pointer-events:none;transition:transform .45s var(--ease),opacity .3s}
+.rea-dock .rea-dock-t{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rea-dock .rea-send-dot{width:40px;height:40px;border-radius:12px}
+.rea-dock.show{transform:none;opacity:1;pointer-events:auto}
+html.rea-open .rea-dock,body.menu-open .rea-dock{transform:translateY(calc(100% + 28px));opacity:0;pointer-events:none}
+@media (max-width:900px){.rea-dock{display:flex}}
+
+/* Phone menu: ask field above the links */
+.rea-menu-ask{display:none}
+@media (max-width:900px){
+  .rea-menu-ask{display:flex;align-items:center;gap:12px;width:100%;text-align:left;margin:0 0 10px;padding:14px;border-radius:16px;border:1px solid transparent;
+    background:linear-gradient(var(--rea-card),var(--rea-card)) padding-box,var(--rea-edge) border-box}
+  .rea-menu-ask>span:not(.rea-mark){flex:1;display:grid;gap:2px}
+  .rea-menu-ask b{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:-.01em;color:var(--ink)}
+  .rea-menu-ask small{font-size:13.5px;color:var(--sub)}
+  .rea-menu-ask>.rea-ico{color:var(--rea-ai);width:20px;height:20px}
+}
+
+/* ---- Entry: in-page ---------------------------------------------------------- */
+.rea-entry{font-family:var(--sans)}
+/* home ending row: a third button beside WhatsApp and email */
+.bk-alt .rea-entry-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:12px;font-size:14px;font-weight:500;
+  border:1px solid var(--rea-ai-line);background:var(--rea-ai-soft);color:var(--rea-ai-ink);transition:background .25s,border-color .25s}
+.bk-alt .rea-entry-btn:hover{background:rgba(139,147,255,.18);border-color:rgba(139,147,255,.6)}
+.bk-alt .rea-entry-btn .rea-ico{color:var(--rea-ai)}
+@media (max-width:560px){.bk-alt .rea-entry-btn{flex:1 1 100%;justify-content:center}}
+
+/* pricing + service: a slim "ask bar" that looks like an input */
+.rea-askbar{margin:28px auto 0;max-width:820px;border-radius:18px;padding:18px 18px 16px;
+  background:linear-gradient(var(--rea-card),var(--rea-card)) padding-box,var(--rea-edge) border-box;border:1px solid transparent}
+.rea-askbar-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.rea-askbar-top h3{font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:-.01em}
+.rea-askbar-top p{font-size:13.5px;color:var(--sub);margin-top:2px}
+.rea-fake-input{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border-radius:13px;border:1px solid var(--hair-2);
+  background:rgba(255,255,255,.035);padding:12px 8px 12px 16px;color:var(--dim);font-size:15px;transition:border-color .25s}
+.rea-fake-input:hover{border-color:var(--rea-ai-line)}
+.rea-fake-input>span:not(.rea-send-dot){flex:1}
+.rea-fake-input>.rea-ico{color:var(--rea-ai)}
+.rea-send-dot{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--rea-ai);color:#0d0e1f}
+.rea-starters{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+
+/* contact: a third way beside WhatsApp and email */
+.rea-way{position:relative;grid-column:1/-1}
+.rea-way .rea-way-ico{background:linear-gradient(145deg,#8b93ff,#6c74f2);color:#0d0e1f;width:52px;height:52px}
+.rea-way .rea-way-ico .rea-ico{width:26px;height:26px}
+.rea-way .rea-way-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;font-size:14.5px;font-weight:500;
+  background:var(--rea-ai);color:#0d0e1f;white-space:nowrap;justify-self:start}
+.rea-way .rea-way-btn:hover{background:#a3a9ff}
+
+/* ---- Chips ------------------------------------------------------------------- */
+.rea-chip{display:inline-flex;align-items:center;gap:7px;font-size:13px;line-height:1.2;padding:8px 12px;border-radius:999px;text-align:left;
+  border:1px solid var(--rea-ai-line);background:var(--rea-ai-soft);color:var(--rea-ai-ink);transition:background .2s,border-color .2s}
+.rea-chip:hover{background:rgba(139,147,255,.2);border-color:rgba(139,147,255,.62)}
+.rea-chip.person{border-color:rgba(37,211,102,.38);background:rgba(37,211,102,.07);color:#c9f5da}
+.rea-chip.person:hover{background:rgba(37,211,102,.14)}
+.rea-chip .rea-ico{width:14px;height:14px}
+
+/* ---- Panel -------------------------------------------------------------------- */
+.rea-root{position:fixed;inset:0;z-index:70;pointer-events:none}
+.rea-backdrop{position:absolute;inset:0;background:rgba(5,5,10,.56);opacity:0;transition:opacity .3s var(--ease)}
+.rea-panel{position:absolute;top:84px;right:12px;bottom:12px;width:420px;display:flex;flex-direction:column;pointer-events:auto;
+  border-radius:20px;border:1px solid transparent;background:linear-gradient(var(--rea-panel),var(--rea-panel)) padding-box,var(--rea-edge) border-box;
+  box-shadow:var(--rea-shadow);font-family:var(--sans);color:var(--ink);overflow:hidden;
+  opacity:0;transform:translateX(18px);visibility:hidden;transition:opacity .28s var(--ease),transform .38s var(--ease),visibility 0s .38s}
+.rea-panel:focus{outline:none}
+.rea-root.open .rea-panel{opacity:1;transform:none;visibility:visible;transition:opacity .28s var(--ease),transform .38s var(--ease)}
+.rea-panel button:disabled{cursor:default}
+
+/* Bigger chat (desktop): a wider panel, with the conversation kept to a readable column. Phones already get a
+   near-full-height sheet, so the toggle only exists above 900px. */
+.rea-icon-btn.rea-size{display:none}
+@media (min-width:901px){
+  .rea-icon-btn.rea-size{display:grid}
+  .rea-root.wide .rea-panel{width:clamp(420px,52vw,880px)}
+  .rea-root.wide .rea-log{padding-inline:max(16px,calc((100% - 700px) / 2))}
+  .rea-root.wide .rea-plan{margin-inline:max(12px,calc((100% - 724px) / 2))}
+  .rea-root.wide .rea-cmp{padding-inline:max(12px,calc((100% - 724px) / 2))}
+  .rea-root.wide .rea-msg{font-size:15.5px}
+}
+
+/* header */
+.rea-hd{display:flex;align-items:center;gap:11px;padding:13px 12px 12px 14px;border-bottom:1px solid var(--hair)}
+.rea-hd-txt{flex:1;min-width:0}
+.rea-name{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
+.rea-badge{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.08em;padding:3px 6px 2px;border-radius:5px;color:var(--rea-ai-ink);
+  background:rgba(139,147,255,.14);border:1px solid rgba(139,147,255,.32)}
+.rea-sub{font-size:12.5px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rea-sub .rea-badge{margin-left:7px;font-size:10px;padding:2px 5px 1px}
+.rea-badge.demo{color:#f6d7a6;background:rgba(232,163,61,.1);border-color:rgba(232,163,61,.35)}
+.rea-hd-btn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 11px;border-radius:10px;font-size:13px;font-weight:500;
+  border:1px solid rgba(37,211,102,.32);color:#c9f5da;background:rgba(37,211,102,.06);transition:background .2s,border-color .2s;white-space:nowrap}
+.rea-hd-btn:hover{background:rgba(37,211,102,.12);border-color:rgba(37,211,102,.5)}
+.rea-icon-btn{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--sub);transition:background .2s,color .2s}
+.rea-icon-btn:hover{background:rgba(255,255,255,.06);color:var(--ink)}
+@media (max-width:360px){.rea-hd-btn .rea-lbl{display:none}.rea-hd-btn{width:34px;padding:0;justify-content:center}}
+
+/* "Your plan" */
+.rea-plan{margin:12px 12px 0;border-radius:14px;border:1px solid var(--hair);background:rgba(255,255,255,.025)}
+.rea-plan-hd{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px 11px 14px;text-align:left}
+.rea-plan-hd .t{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--sub);white-space:nowrap}
+.rea-plan-hd .s{flex:1;min-width:0;font-size:13px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rea-plan-hd .s.empty{color:var(--dim)}
+.rea-steps{display:flex;gap:3px}
+.rea-steps i{width:12px;height:4px;border-radius:2px;background:rgba(255,255,255,.12)}
+.rea-steps i.on{background:linear-gradient(90deg,var(--auto),#a3a9ff)}
+.rea-plan-hd .rea-chev{transition:transform .3s var(--ease);color:var(--dim)}
+.rea-plan.expanded .rea-chev{transform:rotate(180deg)}
+.rea-plan-body{padding:2px 14px 14px}
+.rea-plan dl{display:grid;grid-template-columns:96px 1fr;gap:7px 12px;font-size:13px}
+.rea-plan-row{display:contents}
+.rea-plan dt{color:var(--dim)}
+.rea-plan dd{color:var(--ink);margin:0}
+.rea-plan dd.empty{color:var(--dim)}
+.rea-plan-acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+
+/* buttons */
+.rea-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;padding:0 14px;border-radius:10px;font-size:13.5px;font-weight:500;white-space:nowrap;transition:background .2s,border-color .2s,transform .2s}
+.rea-btn.book{background:linear-gradient(135deg,#dc1a2b,#b80e28);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.16)}
+.rea-btn.book:hover{transform:translateY(-1px)}
+.rea-btn.quiet{border:1px solid var(--hair-2);color:var(--ink)}
+.rea-btn.quiet:hover{border-color:rgba(255,255,255,.3)}
+.rea-btn.ai{background:var(--rea-ai);color:#0d0e1f}
+.rea-btn.ai:hover{background:#a3a9ff}
+.rea-btn.ai:disabled{opacity:.55}
+.rea-btn.wa{background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.4);color:#c9f5da}
+.rea-btn.wa:hover{background:rgba(37,211,102,.2)}
+.rea-btn.full{width:100%}
+
+/* conversation */
+.rea-log{position:relative;flex:1;overflow-y:auto;overscroll-behavior:contain;padding:18px 16px 10px;display:flex;flex-direction:column;gap:18px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.14) transparent}
+.rea-msg{font-size:14.5px;line-height:1.6;animation:rea-in .42s var(--ease) both;overflow-wrap:anywhere}
+@keyframes rea-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.rea-msg.ai{display:grid;grid-template-columns:24px minmax(0,1fr);gap:11px;align-items:start}
+.rea-body>p+p,.rea-md>*+*{margin-top:9px}
+.rea-md ul,.rea-md ol{padding-left:20px;display:grid;gap:4px}
+.rea-md ul{list-style:disc}
+.rea-md ol{list-style:decimal}
+.rea-md li::marker{color:var(--dim)}
+.rea-msg b{font-weight:600}
+.rea-link{color:var(--rea-ai-ink);text-decoration:underline;text-decoration-color:rgba(139,147,255,.5);text-underline-offset:3px;font:inherit;padding:0}
+.rea-link:hover{text-decoration-color:var(--rea-ai)}
+.rea-caret{display:inline-block;width:7px;height:15px;margin-left:3px;vertical-align:-2px;border-radius:2px;background:var(--rea-ai);animation:rea-blink 1s steps(2) infinite}
+@keyframes rea-blink{50%{opacity:0}}
+.rea-msg.me{align-self:flex-end;max-width:84%;padding:9px 14px;border-radius:16px 16px 5px 16px;background:rgba(255,255,255,.075);border:1px solid var(--hair);white-space:pre-wrap}
+.rea-msg.me.failed{border-color:rgba(232,163,61,.45)}
+.rea-failed-note{align-self:flex-end;margin-top:-12px;font-size:12px;color:var(--amber);display:flex;gap:6px;align-items:center}
+.rea-failed-note .rea-ico{width:13px;height:13px}
+.rea-ctx{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--dim)}
+.rea-ctx i{width:6px;height:6px;border-radius:50%;background:var(--rea-ai)}
+
+/* notices (paused, limits, refusals): from the widget, not the assistant */
+.rea-note{font-size:13.5px;line-height:1.55;color:var(--sub);padding:11px 13px;border-radius:12px;border:1px solid var(--hair);background:rgba(255,255,255,.025);animation:rea-in .42s var(--ease) both}
+.rea-note.warn{border-color:rgba(232,163,61,.35);background:rgba(232,163,61,.06);color:#f6d7a6}
+.rea-note p+p{margin-top:6px}
+
+/* thinking: names what it is doing */
+.rea-think{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--sub);padding-top:3px}
+.rea-md+.rea-think{margin-top:10px}
+.rea-think b{font-weight:500;color:var(--ink);animation:rea-pulse 1.6s ease-in-out infinite}
+@keyframes rea-pulse{50%{opacity:.55}}
+.rea-dots{display:flex;gap:4px}
+.rea-dots i{width:5px;height:5px;border-radius:50%;background:var(--rea-ai);animation:rea-dot 1.2s ease-in-out infinite}
+.rea-dots i:nth-child(2){animation-delay:.15s}.rea-dots i:nth-child(3){animation-delay:.3s}
+@keyframes rea-dot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-2px)}}
+
+/* sources + feedback */
+.rea-src{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:11px}
+.rea-src>span:first-child{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-right:2px}
+.rea-src a,.rea-src-plain{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--sub);padding:4px 9px 4px 7px;border-radius:7px;border:1px solid var(--hair-2);transition:color .2s,border-color .2s}
+.rea-src a:hover{color:var(--ink);border-color:rgba(255,255,255,.3)}
+.rea-src .rea-ico{width:13px;height:13px;color:var(--dim)}
+.rea-fb{margin-left:auto;display:inline-flex;gap:2px}
+.rea-fb button{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:var(--dim);transition:background .2s,color .2s}
+.rea-fb button:hover{background:rgba(255,255,255,.06);color:var(--ink)}
+.rea-fb button.on{color:var(--rea-ai);background:var(--rea-ai-soft)}
+.rea-fb .rea-ico{width:15px;height:15px}
+.rea-fb-note{font-size:12.5px;color:var(--sub);margin-top:8px}
+.rea-follow{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+
+/* cards inside replies */
+.rea-card{margin-top:12px;border-radius:14px;padding:14px;border:1px solid transparent;
+  background:linear-gradient(var(--rea-card),var(--rea-card)) padding-box,var(--rea-edge) border-box}
+.rea-card.plain{background:rgba(255,255,255,.03);border:1px solid var(--hair)}
+.rea-card-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim)}
+.rea-card h4{font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:-.01em;line-height:1.25}
+.rea-card .rea-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rea-card fieldset{border:0;margin:0;padding:0;min-width:0;display:grid;gap:14px}
+.rea-card fieldset:disabled{opacity:.6}
+
+/* price card */
+.rea-cur{display:inline-flex;padding:3px;border-radius:9px;border:1px solid var(--hair-2);background:rgba(255,255,255,.03)}
+.rea-cur button{font-size:11.5px;font-weight:500;padding:4px 8px;border-radius:6px;color:var(--sub)}
+.rea-cur button.on{background:rgba(255,255,255,.1);color:var(--ink)}
+.rea-price{display:flex;align-items:baseline;gap:6px;margin-top:12px}
+.rea-price strong{font-family:var(--display);font-size:30px;font-weight:600;letter-spacing:-.02em;line-height:1}
+.rea-price span{font-size:13.5px;color:var(--sub)}
+.rea-setup{font-size:13.5px;color:var(--ink);margin-top:6px}
+.rea-breakdown{margin-top:12px;padding-top:12px;border-top:1px dashed var(--hair-2);display:grid;gap:5px;font-size:12.5px;color:var(--sub)}
+.rea-breakdown div{display:flex;justify-content:space-between;gap:12px}
+.rea-breakdown div span:last-child{color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rea-perk{display:flex;gap:9px;align-items:flex-start;margin-top:12px;font-size:12.5px;color:var(--sub);line-height:1.45}
+.rea-perk .rea-ico{width:14px;height:14px;margin-top:2px;color:var(--green)}
+.rea-card-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.rea-card-acts .rea-btn{flex:1 1 auto}
+.rea-fine{font-size:11.5px;color:var(--dim);margin-top:10px;line-height:1.45}
+.rea-fine a{text-decoration:underline;text-underline-offset:2px}
+.rea-warn{color:#f6d7a6}
+.rea-done{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13.5px;color:var(--green)}
+
+/* show me */
+.rea-showme{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;font-weight:500;color:var(--rea-ai-ink);
+  padding:8px 12px;border-radius:10px;border:1px dashed rgba(139,147,255,.5);transition:background .2s}
+.rea-showme:hover{background:var(--rea-ai-soft)}
+.rea-spot{position:absolute;z-index:65;pointer-events:none;border-radius:20px;
+  box-shadow:0 0 0 2px var(--rea-ai),0 0 0 7px rgba(139,147,255,.18),0 0 0 100vmax rgba(6,6,12,.6);
+  opacity:0;transition:opacity .5s var(--ease)}
+.rea-spot.on{opacity:1}
+.rea-spot-tag{position:absolute;left:18px;top:-17px;display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;
+  background:#16151d;border:1px solid rgba(139,147,255,.55);font-family:var(--sans);font-size:13px;color:var(--ink);box-shadow:0 12px 30px -12px rgba(0,0,0,.8);white-space:nowrap}
+
+/* details card */
+.rea-q .lbl{display:block;font-size:12.5px;color:var(--sub);margin-bottom:8px}
+.rea-opts{display:flex;flex-wrap:wrap;gap:6px}
+.rea-opt{font-size:13px;padding:7px 11px;border-radius:9px;border:1px solid var(--hair-2);color:var(--ink);transition:all .2s;display:inline-flex;gap:6px;align-items:center}
+.rea-opt:hover{border-color:rgba(255,255,255,.3)}
+.rea-opt.on{border-color:rgba(139,147,255,.7);background:rgba(139,147,255,.16);color:#fff}
+.rea-opt .rea-ico{display:none;width:13px;height:13px;color:var(--rea-ai)}
+.rea-opt.on .rea-ico{display:block}
+.rea-stepper{display:inline-flex;align-items:center;border:1px solid var(--hair-2);border-radius:10px;overflow:hidden}
+.rea-stepper button{width:36px;height:36px;color:var(--sub);font-size:18px}
+.rea-stepper button:hover{background:rgba(255,255,255,.06);color:var(--ink)}
+.rea-stepper input{width:54px;height:36px;border:0;background:none;text-align:center;font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums;outline:none}
+.rea-units{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.rea-units small{font-size:12px;color:var(--dim)}
+
+/* booking: the real Cal.com booker inside the card */
+.rea-attached{margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(139,147,255,.07);border:1px solid rgba(139,147,255,.22);font-size:12.5px;color:var(--sub);line-height:1.5}
+.rea-attached b{color:var(--ink);font-weight:500}
+.rea-cal-frame{margin:12px -14px 0}
+.rea-cal-frame .calbk{margin-inline:0;min-height:520px;border-radius:0;border-left:0;border-right:0}
+.rea-fields{display:grid;gap:8px;margin-top:12px}
+.rea-field{display:block;width:100%;height:40px;border-radius:10px;border:1px solid var(--hair-2);background:rgba(255,255,255,.03);padding:0 12px;font:inherit;font-size:14px;color:var(--ink)}
+.rea-field::placeholder{color:var(--dim)}
+.rea-field:focus{outline:none;border-color:rgba(139,147,255,.6)}
+
+/* booked */
+.rea-ok{display:flex;gap:12px;align-items:flex-start;min-width:0}
+.rea-ok>div{min-width:0}
+.rea-ok-ico{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(143,212,176,.14);color:var(--green);flex:none}
+.rea-next{margin-top:14px;display:grid;gap:0;padding:0}
+.rea-next li{list-style:none;display:grid;grid-template-columns:14px 1fr;gap:12px;font-size:13px;color:var(--sub);padding-bottom:12px;position:relative}
+.rea-next li::before{content:"";width:8px;height:8px;border-radius:50%;margin-top:6px;background:var(--rea-ai);box-shadow:0 0 0 3px rgba(139,147,255,.18)}
+.rea-next li::after{content:"";position:absolute;left:3.5px;top:18px;bottom:2px;width:1px;background:var(--hair-2)}
+.rea-next li:last-child::after{display:none}
+.rea-next b{color:var(--ink);font-weight:500;display:block}
+
+/* a person: green */
+.rea-card.person{background:linear-gradient(var(--rea-card),var(--rea-card)) padding-box,linear-gradient(150deg,rgba(37,211,102,.55),rgba(255,255,255,.07) 40%,rgba(255,255,255,.05) 70%,rgba(37,211,102,.25)) border-box}
+.rea-person-ico{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(37,211,102,.14);color:var(--rea-person);flex:none}
+.rea-status{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#8fe3b0}
+.rea-status i{width:6px;height:6px;border-radius:50%;background:var(--rea-person);box-shadow:0 0 0 3px rgba(37,211,102,.2)}
+
+/* connection lost: amber */
+.rea-err{margin:0 12px 8px;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;font-size:13px;
+  background:rgba(232,163,61,.08);border:1px solid rgba(232,163,61,.35);color:#f6d7a6}
+.rea-err .rea-ico{color:var(--amber)}
+.rea-err span{flex:1}
+.rea-err button{font-weight:500;color:#fff;padding:6px 10px;border-radius:8px;border:1px solid rgba(232,163,61,.5);white-space:nowrap}
+
+/* Turnstile: invisible unless Cloudflare needs a click */
+.rea-ts{display:flex;justify-content:center}
+.rea-ts:has(iframe){padding:0 12px 8px}
+
+/* composer */
+.rea-cmp{padding:10px 12px 12px;border-top:1px solid var(--hair)}
+.rea-box{display:flex;align-items:flex-end;gap:8px;border-radius:14px;border:1px solid var(--hair-2);background:rgba(255,255,255,.035);padding:7px 7px 7px 14px;transition:border-color .2s,box-shadow .2s}
+.rea-box:focus-within{border-color:rgba(139,147,255,.6);box-shadow:0 0 0 4px rgba(139,147,255,.12)}
+.rea-box textarea{flex:1;resize:none;border:0;background:none;outline:none;font:inherit;font-size:14.5px;line-height:1.45;color:var(--ink);padding:7px 0;max-height:120px;min-height:22px}
+.rea-box textarea::placeholder{color:var(--dim)}
+.rea-send{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--rea-ai);color:#0d0e1f;flex:none;transition:background .2s,opacity .2s}
+.rea-send:hover{background:#a3a9ff}
+.rea-send:disabled{opacity:.35}
+.rea-foot{display:flex;justify-content:space-between;gap:10px;margin-top:9px;font-size:11.5px;color:var(--dim);line-height:1.4}
+.rea-foot a{color:var(--sub);text-decoration:underline;text-underline-offset:2px;text-decoration-color:rgba(255,255,255,.2)}
+.rea-foot a:hover,.rea-foot button:hover{color:var(--ink)}
+.rea-foot button{color:var(--sub);font-size:11.5px}
+
+/* ---- Phone: bottom sheet --------------------------------------------------------- */
+.rea-grab{display:none}
+@media (max-width:700px){
+  html.rea-lock,html.rea-lock body{overflow:hidden}
+  .rea-root:not(.inline) .rea-panel{top:auto;left:0;right:0;bottom:0;width:auto;height:calc(100dvh - 12px);border-radius:22px 22px 0 0;
+    transform:translateY(40px);border-bottom:0}
+  .rea-root:not(.inline).open .rea-panel{transform:none}
+  .rea-root:not(.inline).half .rea-panel{height:58dvh}
+  .rea-root:not(.inline).open:not(.half) .rea-backdrop{opacity:1;pointer-events:auto}
+  .rea-grab{display:block;width:100%;height:18px;margin-bottom:-6px;position:relative}
+  .rea-grab::after{content:"";position:absolute;left:50%;top:8px;width:40px;height:4px;margin-left:-20px;border-radius:2px;background:rgba(255,255,255,.24)}
+  .rea-hd{padding:12px 10px 11px 14px}
+  .rea-root:not(.inline) .rea-backdrop{background:rgba(5,5,10,.72)}
+  .rea-log{padding:16px 14px 10px}
+  .rea-msg{font-size:15px}
+  .rea-msg.ai{grid-template-columns:minmax(0,1fr)}
+  .rea-msg.ai>.rea-mark{display:none}
+  .rea-cmp{padding:8px 10px calc(10px + env(safe-area-inset-bottom))}
+  .rea-box textarea{font-size:16px}
+  .rea-field{font-size:16px}
+  .rea-foot .rea-foot-txt{display:none}
+  .rea-askbar{padding:16px 14px 14px}
+  .rea-spot{border-radius:16px}
+  /* welcome starters: a tidy list on phones */
+  .rea-follow.starters{flex-direction:column;gap:0;border:1px solid var(--hair-2);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.02)}
+  .rea-follow.starters .rea-chip{width:100%;justify-content:space-between;border:0;border-radius:0;background:none;color:var(--ink);padding:14px 14px 14px 15px;font-size:15px}
+  .rea-follow.starters .rea-chip+.rea-chip{border-top:1px solid var(--hair)}
+  .rea-follow.starters .rea-chip:active{background:rgba(255,255,255,.04)}
+}
+.rea-follow.starters .rea-chip>.rea-ico{display:none}
+@media (max-width:700px){.rea-follow.starters .rea-chip>.rea-ico{display:block;width:16px;height:16px;color:var(--rea-ai)}}
+
+/* ---- Sales link page (/ask) ------------------------------------------------------ */
+.rea-askpage{max-width:var(--max);margin:0 auto;padding:132px var(--pad) 110px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:56px;align-items:start}
+.rea-askpage-l{position:sticky;top:120px}
+.rea-askpage-l .d2{margin-top:18px}
+.rea-askpage-l .lead{margin-top:18px}
+.rea-sender{display:flex;align-items:center;gap:12px;margin-top:28px;padding:12px 14px;border-radius:14px;border:1px solid var(--hair);background:rgba(255,255,255,.025);max-width:440px}
+.rea-avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:14px;
+  background:linear-gradient(145deg,#2a2840,#1d1c26);border:1px solid var(--hair-2);flex:none}
+.rea-sender p{font-size:13.5px;color:var(--sub);line-height:1.45}
+.rea-sender b{color:var(--ink);font-weight:500}
+.rea-promises{display:grid;gap:10px;margin-top:26px;max-width:440px;padding:0}
+.rea-promises li{list-style:none;display:flex;gap:10px;align-items:center;font-size:14px;color:var(--sub)}
+.rea-promises .rea-ico{color:var(--green)}
+.rea-inline-wait{height:min(720px,calc(100dvh - 230px));min-height:520px;border-radius:20px;border:1px solid var(--hair);background:var(--rea-panel)}
+.rea-root.inline{position:relative;inset:auto;z-index:auto;pointer-events:auto}
+.rea-root.inline .rea-panel{position:relative;inset:auto;width:auto;height:min(720px,calc(100dvh - 230px));min-height:520px;opacity:1;transform:none;visibility:visible}
+@media (max-width:900px){
+  .rea-askpage{grid-template-columns:1fr;gap:28px;padding-top:110px}
+  .rea-askpage-l{position:static}
+  .rea-root.inline .rea-panel,.rea-inline-wait{height:78dvh}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .rea-panel,.rea-msg,.rea-note,.rea-spot,.rea-dock{transition:none!important;animation:none!important}
+  .rea-think b,.rea-dots i,.rea-caret{animation:none}
+}
+@media (max-width:700px){.rea-way .rea-way-btn{justify-self:stretch;justify-content:center;padding:14px 16px}}

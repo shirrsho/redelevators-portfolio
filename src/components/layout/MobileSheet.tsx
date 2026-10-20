@@ -5,6 +5,7 @@ import { useEffect, useRef, type CSSProperties } from "react";
 import { EVENTS } from "@/lib/analytics";
 import { NAV_LINKS, bookHref, isCurrentPath as isCurrent } from "@/lib/site";
 import { EmailLink } from "@/components/ui/EmailLink";
+import { MenuAsk } from "@/components/assistant/Entry";
 
 /**
  * Full-screen menu under 900px: 34px links with a one-line hint each (staggered in), then
@@ -46,6 +47,7 @@ export function MobileSheet({ open, onClose, pathname }: { open: boolean; onClos
         if ((e.target as Element).closest("a")) onClose();
       }}
     >
+      <MenuAsk onPick={onClose} />
       <nav aria-label="Mobile">
         {NAV_LINKS.map((l, i) => {
           const on = isCurrent(pathname, l.href);

@@ -6,6 +6,19 @@ const nextConfig: NextConfig = {
   // production Docker image doesn't need to ship node_modules.
   output: "standalone",
 
+  // Only our own pages may frame the site (stops clickjacking on booking and "Send my plan" in the chat).
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "Content-Security-Policy", value: "frame-ancestors 'self'" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+        ],
+      },
+    ];
+  },
+
   // Old service slugs → the redesign's (DECISIONS → URLs). `permanent: true`
   // sends 308, which search engines treat like 301.
   async redirects() {

@@ -22,7 +22,8 @@ import styles from "./CalBooker.module.css";
 /** The confirmed slot in the visitor's own time zone, e.g. { d: "Thu, Nov 12", t: "3:30 PM" }. */
 export type BookedWhen = { d: string; t: string };
 
-const NS = "booking";
+/** Cal's embed namespace: one per booker on a page (the assistant's booker can sit beside Contact's). */
+const DEFAULT_NS = "booking";
 /** No word from the embed after this long (on screen) → assume it's blocked and show the email fallback. */
 const NO_LOAD_MS = 15000;
 /** Load the embed (~40 requests, ~1MB from app.cal.com) only once the booker is this close to the
@@ -48,9 +49,11 @@ export type CalBookerProps = {
   onBooked?: (when: BookedWhen | null) => void;
   /** Prefills the booking form's "Additional notes" (the plan from /pricing). */
   notes?: string;
+  /** Cal embed namespace; give a second booker on the same page its own. */
+  namespace?: string;
 };
 
-export function CalBooker({ location, onStart, onBooked, notes }: CalBookerProps) {
+export function CalBooker({ location, onStart, onBooked, notes, namespace: NS = DEFAULT_NS }: CalBookerProps) {
   const frame = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
   const near = useInView(frame, { rootMargin: LOAD_MARGIN, once: true });
@@ -166,7 +169,7 @@ export function CalBooker({ location, onStart, onBooked, notes }: CalBookerProps
       document.removeEventListener("visibilitychange", onVisible);
       off?.();
     };
-  }, [location, near]);
+  }, [location, near, NS]);
 
   return (
     <div ref={frame} className={`calbk ${styles.frame}`}>

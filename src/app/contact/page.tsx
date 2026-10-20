@@ -14,6 +14,7 @@ import { EmailLink } from "@/components/ui/EmailLink";
 import { FAQ } from "@/components/ui/FAQ";
 import { Icon } from "@/components/ui/Icon";
 import { ToolLogo } from "@/components/ui/ToolLogo";
+import { ContactWay } from "@/components/assistant/Entry";
 import { FAQ_ITEMS, NEXT, STEPS } from "./content";
 import styles from "./contact.module.css";
 
@@ -107,6 +108,7 @@ export default function ContactPage() {
                 Send an email
               </EmailLink>
             </div>
+            <ContactWay className={`${styles.way} rv d2x`} iconClassName={`${styles.wi} ico-tile`} />
           </div>
         </section>
 

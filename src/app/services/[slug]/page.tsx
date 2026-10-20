@@ -21,6 +21,8 @@ import { SectionHead } from "@/components/layout/Section";
 import { Button } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Chip";
 import { FAQ } from "@/components/ui/FAQ";
+import { AskBar } from "@/components/assistant/Entry";
+import { startersFor } from "@/components/assistant/config";
 import { Icon } from "@/components/ui/Icon";
 import { ToolPill } from "@/components/ui/ToolLogo";
 import styles from "./service.module.css";
@@ -172,6 +174,13 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         <section className="wrap section" style={{ paddingTop: 20 }}>
           <SectionHead eyebrow="Questions" title="Asked on most calls." />
           <FAQ className="rv" items={s.faq} />
+          <AskBar
+            location="service"
+            title="Still have a question?"
+            sub={`Ask our assistant about ${s.title}. A person is one tap away.`}
+            placeholder="Ask anything about this system…"
+            starters={startersFor(`/services/${s.slug}`).slice(0, 3)}
+          />
         </section>
 
         <section className="wrap section" style={{ paddingTop: 20 }}>
