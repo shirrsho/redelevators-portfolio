@@ -42,7 +42,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 USER nextjs
 
 # The app listens on 3000 inside the container; the host maps this to
-# 6000 (see docker-compose.prod.yml).
+# 127.0.0.1:6001 (see docker-compose.prod.yml).
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 EXPOSE 3000

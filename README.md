@@ -29,9 +29,35 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Production runs on the Advergo VPS as the Hostinger Docker Manager project
+**`redelevators-portfolio`**, in `/docker/redelevators-portfolio/`: `docker-compose.yml` (this
+repo's `docker-compose.prod.yml`) and `.env` (the panel's Environment box). Visitors reach it only
+through the Red Elevators Cloudflare Tunnel (`redelevators.com`, `www.redelevators.com`,
+`dev.redelevators.com` → `http://web:3000`), run by the project's own `tunnel` service.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# redelevators-portfolio
+Every push to `main` (or a manual run) of `.github/workflows/deploy.yml` lints and builds the app,
+builds the image with the `NEXT_PUBLIC_ASSISTANT_URL` repository variable baked in, pushes
+`itzwasik/redelevators-portfolio:sha-<commit>` (and `:latest`) to Docker Hub, copies
+`docker-compose.prod.yml` to the server as `docker-compose.yml` with the image pinned to that
+build, and runs `ops/deploy.sh` there (restart, wait until healthy, check `http://127.0.0.1:6001/`
+on the VPS). Deploys never write `.env`. **A push to `main` deploys production.**
+
+| Production setting (panel Environment) | Purpose |
+|---|---|
+| `CLOUDFLARE_TUNNEL_TOKEN` | The Red Elevators tunnel's token |
+
+The app reads no other settings at runtime. A new one must be added to both the panel's Environment
+box and `docker-compose.prod.yml`: the panel rejects `env_file`, so each one is listed there
+explicitly.
+
+Build-time repository variable (Settings → Secrets and variables → Actions → Variables), inlined
+into the image: `NEXT_PUBLIC_ASSISTANT_URL` (the website assistant; unset or empty = off).
+Changing it takes effect at the next deploy.
+
+GitHub secrets: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`, `VPS_HOST`, `VPS_SSH_PORT`,
+`VPS_SSH_USER` (`root`) and `VPS_SSH_KEY`.
+
+Rolling back: in the panel, set the `image:` tag in the YAML editor to the previous `sha-…` and
+press Deploy (the previous file is also kept on the server as `backups/docker-compose.previous.yml`).
