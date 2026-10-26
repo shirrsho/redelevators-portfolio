@@ -1,44 +1,55 @@
-# Production / deployment compose file, used on the VPS.
+# Production. Runs on the Advergo VPS as the Hostinger Docker Manager project
+# "redelevators-portfolio", in /docker/redelevators-portfolio/ as docker-compose.yml next to its
+# .env. Local development uses docker-compose.dev.yml.
 #
-# Deployed by .github/workflows/deploy.yml, which:
-#   1. builds & pushes the image to Docker Hub,
-#   2. copies this file to /home/<user>/redelevators/redelevators-portfolio/
-#      on the VPS,
-#   3. writes .env there from the ENV_FILE + CLOUDFLARE_TUNNEL_TOKEN secrets,
-#   4. runs `docker compose -f docker-compose.prod.yml pull && up -d`.
+# Who owns what:
+#   - This file belongs to the repo. Every deploy (.github/workflows/deploy.yml) copies it to the
+#     server as docker-compose.yml with the image pinned to the exact build (sha-<commit>), so
+#     lasting changes go here, not in the panel's YAML editor. Changing the tag there for an
+#     emergency rollback is fine.
+#   - Settings belong to the panel's Environment box (the server's .env). Deploys never write it.
+#     The panel rejects `env_file`, and only fills in the ${...} values below, so every setting
+#     is listed here explicitly. Add a setting in both places. The app itself reads none at
+#     runtime; the only one is the tunnel token.
 #
-# Public traffic reaches the app through a Cloudflare Tunnel, not through an
-# open port: the `cloudflared` sidecar dials out to Cloudflare and forwards
-# requests to `web` over the compose network. The tunnel is remotely managed,
-# so its ingress rules live in the Cloudflare Zero Trust dashboard and must
-# point redelevators.com at `http://web:3000`.
+# Traffic reaches the app only through the Red Elevators Cloudflare Tunnel (the `tunnel`
+# service): redelevators.com, www.redelevators.com and dev.redelevators.com -> http://web:3000.
+# The loopback port exists only so the deploy can health-check the app from the VPS itself.
+#
+# The image is built by CI with NEXT_PUBLIC_ASSISTANT_URL baked in (see the workflow's build
+# step) and pushed to Docker Hub; nothing is built on the server.
 services:
   web:
     image: itzwasik/redelevators-portfolio:latest
     restart: unless-stopped
-    expose:
-      # Reachable as http://web:3000 from other services on this network.
-      # Not published to the host: the tunnel is the only ingress path.
-      - "3000"
-    ports:
-      # Loopback-only, for debugging over an SSH tunnel. Port 6000 is in the
-      # range browsers refuse to connect to (ERR_UNSAFE_PORT), so this is
-      # deliberately 6001.
-      - "127.0.0.1:6001:3000"
-    env_file:
-      - .env
     environment:
-      - PORT=3000
-      - HOSTNAME=0.0.0.0
+      PORT: "3000"
+      HOSTNAME: 0.0.0.0
+    ports:
+      # Loopback-only, for the deploy's health check (and debugging over SSH). Port 6000 is in
+      # the range browsers refuse to connect to (ERR_UNSAFE_PORT), so this is deliberately 6001.
+      - "127.0.0.1:6001:3000"
+    # busybox wget ships in the node:alpine runtime image. `docker compose up --wait` in
+    # ops/deploy.sh waits for this.
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/"]
+      interval: 15s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
 
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    restart: unless-stopped
-    # TUNNEL_TOKEN comes from .env (written by the deploy workflow from the
-    # CLOUDFLARE_TUNNEL_TOKEN secret). It identifies the tunnel *and* is its
-    # credential, so it never belongs in this file.
-    command: tunnel --no-autoupdate run
-    env_file:
-      - .env
+  tunnel:
+    # The existing Red Elevators tunnel (Cloudflare Zero Trust -> Networks -> Tunnels); its
+    # token identifies the tunnel and is its credential, so it only lives in the panel.
+    image: cloudflare/cloudflared:2026.9.3
+    command: ["tunnel", "--no-autoupdate", "run"]
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?set CLOUDFLARE_TUNNEL_TOKEN in the panel Environment}
+    # Started, not healthy: the tunnel is the only way in, so it must never be held back by a
+    # slow health check. If the app is briefly unhealthy, visitors get Cloudflare's error page
+    # for a moment instead of no route at all; ops/deploy.sh still waits for health and fails
+    # the deploy if it never comes.
     depends_on:
-      - web
+      web:
+        condition: service_started
+    restart: unless-stopped
